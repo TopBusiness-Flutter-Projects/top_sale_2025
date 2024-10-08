@@ -17,25 +17,27 @@ class _MainScreenState extends State<MainScreen> {
     return BlocBuilder<MainCubit, MainState>(
       builder: (context, state) {
         return Scaffold(
-            backgroundColor: AppColors.bink,
+            appBar: AppBar(),
+            backgroundColor: AppColors.white,
             body: SingleChildScrollView(
-              child: Column(children: [
-                TextButton(
-                    onPressed: () {
-                      //! Push with Navigator.pushNamed(context, Routes.mainRoute);
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                        onPressed: () {
+                          //! Push with Navigator.pushNamed(context, Routes.mainRoute);
 
-                      //! set here Main orders (sanaa)
-                    },
-                    child: const Text('Orders')),
-                const SizedBox(height: 200),
-                
-                TextButton(
-                    onPressed: () {
-                      //! Push with Navigator.pushNamed(context, Routes.mainRoute);
-                      //! set here Main orders (nehal)
-                    },
-                    child: const Text('Order details')),
-              ]),
+                          //! set here Main orders (sanaa)
+                        },
+                        child: const Text('Orders')),
+                    TextButton(
+                        onPressed: () {
+                          //! Push with Navigator.pushNamed(context, Routes.mainRoute);
+                          //! set here Main orders (nehal)
+                        },
+                        child: const Text('Order details')),
+                  ]),
             ));
       },
     );
