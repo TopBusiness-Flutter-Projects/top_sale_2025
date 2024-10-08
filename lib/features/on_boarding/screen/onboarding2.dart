@@ -40,7 +40,7 @@ class OnBoarding3 extends StatelessWidget {
                 child: Text(
                   'مبيعاتك أسهل وأكثر كفاءة',
                   style: TextStyle(
-                      fontFamily: 'Tajawal',
+                      fontFamily: 'cairo',
                       fontWeight: FontWeight.bold,
                       fontSize: getSize(context) / 18),
                 ),
@@ -52,7 +52,7 @@ class OnBoarding3 extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontWeight: FontWeight.w600,
-                      fontFamily: 'Tajawal',
+                      fontFamily: 'cairo',
                       fontSize: getSize(context) / 22),
                 ),
               ),

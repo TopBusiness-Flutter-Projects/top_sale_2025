@@ -43,7 +43,7 @@ class ShipmentCardWidget extends StatelessWidget {
                     AutoSizeText(
                       "shipment_number".tr(),
                       style: TextStyle(
-                        fontFamily: "Tajawal",
+                        fontFamily: "cairo",
                         color: AppColors.blue,
                         fontSize: getSize(context) / 25,
                       ),
@@ -55,7 +55,7 @@ class ShipmentCardWidget extends StatelessWidget {
                         maxLines: 1,
                         style: TextStyle(
                           overflow: TextOverflow.ellipsis,
-                          fontFamily: "Tajawal",
+                          fontFamily: "cairo",
                           color: AppColors.black,
                           fontSize: getSize(context) / 28,
                         ),
@@ -97,7 +97,7 @@ class ShipmentCardWidget extends StatelessWidget {
                   AutoSizeText(
                     DateFormat('dd/MM/yyyy').format(currentBackPressTime),
                     style: TextStyle(
-                      fontFamily: "Tajawal",
+                      fontFamily: "cairo",
                       color: AppColors.black,
                       fontSize: getSize(context) / 28,
                     ),
@@ -109,7 +109,7 @@ class ShipmentCardWidget extends StatelessWidget {
                   AutoSizeText(
                     "total".tr(),
                     style: TextStyle(
-                      fontFamily: "Tajawal",
+                      fontFamily: "cairo",
                       color: AppColors.blue,
                       fontSize: getSize(context) / 25,
                     ),
@@ -118,7 +118,7 @@ class ShipmentCardWidget extends StatelessWidget {
                   AutoSizeText(
                     "40 \$",
                     style: TextStyle(
-                      fontFamily: "Tajawal",
+                      fontFamily: "cairo",
                       color: AppColors.black,
                       fontSize: getSize(context) / 28,
                     ),
@@ -152,7 +152,7 @@ class ShipmentCardWidget extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       "01000000000/01000000000 ",
                       style: TextStyle(
-                        fontFamily: "Tajawal",
+                        fontFamily: "cairo",
                         color: AppColors.black.withOpacity(0.8),
                         fontSize: getSize(context) / 28,
                       ),

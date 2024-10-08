@@ -18,11 +18,11 @@ class SharedAppBarApp extends StatelessWidget {
               : Icon(Icons.arrow_back, color: AppColors.primary),
           SizedBox(width: getSize(context) / 50),
           Padding(
-            padding:  EdgeInsets.only(top: getSize(context)/55),
+            padding: EdgeInsets.only(top: getSize(context) / 55),
             child: Text(
               title,
               style: TextStyle(
-                  fontFamily: "Tajawal",
+                  fontFamily: "cairo",
                   color: AppColors.primary,
                   fontSize: getSize(context) / 21,
                   fontWeight: FontWeight.bold),

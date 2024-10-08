@@ -10,6 +10,7 @@ class DropDownMenuWidget extends StatefulWidget {
   @override
   State<DropDownMenuWidget> createState() => _DropDownMenuWidgetState();
 }
+
 class _DropDownMenuWidgetState extends State<DropDownMenuWidget> {
   final List<String> items = [
     'new'.tr(),
@@ -30,7 +31,6 @@ class _DropDownMenuWidgetState extends State<DropDownMenuWidget> {
                   'choose_filter'.tr(),
                   style: TextStyle(
                     fontSize: getSize(context) / 25,
-
                     color: AppColors.grayLite,
                   ),
                   overflow: TextOverflow.ellipsis,
@@ -40,18 +40,18 @@ class _DropDownMenuWidgetState extends State<DropDownMenuWidget> {
           ),
           items: items
               .map((String item) => DropdownMenuItem<String>(
-            value: item,
-            child: AutoSizeText(
-              item,
-              style: TextStyle(
-                fontSize: getSize(context) / 25,
-                fontWeight: FontWeight.bold,
-                fontFamily: "Tajawal",
-                color: AppColors.grayLite,
-              ),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ))
+                    value: item,
+                    child: AutoSizeText(
+                      item,
+                      style: TextStyle(
+                        fontSize: getSize(context) / 25,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: "cairo",
+                        color: AppColors.grayLite,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ))
               .toList(),
           value: selectedValue,
           onChanged: (String? value) {
@@ -65,7 +65,6 @@ class _DropDownMenuWidgetState extends State<DropDownMenuWidget> {
             padding: const EdgeInsets.only(left: 14, right: 14),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(getSize(context) / 12),
-
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
@@ -100,8 +99,7 @@ class _DropDownMenuWidgetState extends State<DropDownMenuWidget> {
           menuItemStyleData: MenuItemStyleData(
             height: getSize(context) / 8,
             padding: EdgeInsets.only(
-                left: getSize(context) / 12,
-                right: getSize(context) / 12),
+                left: getSize(context) / 12, right: getSize(context) / 12),
           ),
         ),
       ),

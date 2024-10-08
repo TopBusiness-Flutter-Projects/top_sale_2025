@@ -80,3 +80,6 @@ flutter:
     - family: Tajawal
       fonts:
         - asset: assets/fonts/Tajawal-Regular.ttf
+    - family: cairo
+      fonts:
+        - asset: assets/fonts/cairo.ttf
