@@ -8,6 +8,9 @@ class ImageAssets {
   static const String topbusinessImage = '$imagePath/topbusiness.png';
   static const String introBackgroundImage = '$imagePath/on1.png';
   static const String introBackgroundImage2 = '$imagePath/on2.png';
+  static const String arrowAr = '$imagePath/arrow_ar.png';
+  static const String dateIcon = '$imagePath/date.icon.png';
+  static const String user = '$imagePath/default_user.png';
 
   // icons
   static const String phoneIcon = '$iconsPath/phone.svg';
