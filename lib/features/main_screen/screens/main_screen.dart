@@ -34,8 +34,9 @@ class _MainScreenState extends State<MainScreen> {
                         child: const Text('Orders')),
                     TextButton(
                         onPressed: () {
-                          //! Push with Navigator.pushNamed(context, Routes.mainRoute);
+                           Navigator.pushNamed(context, Routes.detailsOrder);
                           //! set here Main orders (nehal)
+                          // Navigator
                         },
                         child: const Text('Order details')),
                   ]),
