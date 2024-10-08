@@ -4,6 +4,8 @@ import 'package:top_sale/core/utils/app_colors.dart';
 import 'package:top_sale/features/main_screen/cubit/cubit.dart';
 import 'package:top_sale/features/main_screen/cubit/state.dart';
 
+import '../../../config/routes/app_routes.dart';
+
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
@@ -33,8 +35,9 @@ class _MainScreenState extends State<MainScreen> {
                         child: const Text('Orders')),
                     TextButton(
                         onPressed: () {
-                          //! Push with Navigator.pushNamed(context, Routes.mainRoute);
+                           Navigator.pushNamed(context, Routes.detailsOrder);
                           //! set here Main orders (nehal)
+                          // Navigator
                         },
                         child: const Text('Order details')),
                   ]),

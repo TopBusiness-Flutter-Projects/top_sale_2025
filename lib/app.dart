@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:top_sale/features/main_screen/cubit/cubit.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 
@@ -15,11 +16,9 @@ import 'features/splash/cubit/cubit.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
-
   @override
   State<MyApp> createState() => _MyAppState();
 }
-
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
@@ -50,7 +49,12 @@ class _MyAppState extends State<MyApp> {
             create: (_) => injector.serviceLocator<OnboardingCubit>(),
           ),
         ],
-        child: GetMaterialApp(
+    child:     ScreenUtilInit(
+          designSize: const Size(360, 690),
+          minTextAdapt: true,
+          splitScreenMode: true,
+          child:
+       GetMaterialApp(
           supportedLocales: context.supportedLocales,
           locale: context.locale,
           theme: appTheme(),
@@ -61,6 +65,9 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           title: AppStrings.appName,
           onGenerateRoute: AppRoutes.onGenerateRoute,
-        ));
+       ),
+    )
+    );
+
   }
 }

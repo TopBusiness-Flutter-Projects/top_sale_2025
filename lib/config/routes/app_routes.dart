@@ -3,6 +3,8 @@ import 'package:top_sale/features/main_screen/screens/main_screen.dart';
 import 'package:top_sale/features/splash/screens/splash_screen.dart';
 import '../../core/utils/app_strings.dart';
 import 'package:page_transition/page_transition.dart';
+import '../../features/details_order/screens/details_order.dart';
+import '../../features/details_order/screens/payment.dart';
 import '../../features/login/screens/login_screen.dart';
 import '../../features/on_boarding/screen/onboarding_screen.dart';
 
@@ -10,6 +12,8 @@ class Routes {
   static const String initialRoute = '/';
   static const String loginRoute = '/login';
   static const String mainRoute = '/main';
+  static const String detailsOrder = '/orderDetails';
+  static const String paymentRoute = '/payment';
   static const String onboardingPageScreenRoute = '/onboardingPageScreenRoute';
 }
 
@@ -34,6 +38,18 @@ class AppRoutes {
       case Routes.loginRoute:
         return PageTransition(
           child: LoginScreen(),
+          type: PageTransitionType.fade,
+          alignment: Alignment.center,
+          duration: const Duration(milliseconds: 800),
+        ); case Routes.paymentRoute:
+        return PageTransition(
+          child: PaymentScreen(),
+          type: PageTransitionType.fade,
+          alignment: Alignment.center,
+          duration: const Duration(milliseconds: 800),
+        ); case Routes.detailsOrder:
+        return PageTransition(
+         child: DetailsOrder(),
           type: PageTransitionType.fade,
           alignment: Alignment.center,
           duration: const Duration(milliseconds: 800),
