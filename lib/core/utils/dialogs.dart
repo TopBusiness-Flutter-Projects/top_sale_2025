@@ -59,10 +59,10 @@ messageGetBar(String message) {
   Get.showSnackbar(GetSnackBar(
     messageText: Text(
       message,
-      style: Get.textTheme.bodyText2!.copyWith(
-        color: Colors.white,
-        height: 1.5,
-      ),
+      // style: Get.textTheme.bodyText2!.copyWith(
+      //   color: Colors.white,
+      //   height: 1.5,
+      // ),
     ),
     icon: const Icon(CupertinoIcons.arrow_left_circle, color: Colors.white),
     backgroundColor: Get.theme.primaryColor,
@@ -95,9 +95,9 @@ loadingDialog() {
           children: [
             Text(
               'جارى التحميل'.tr,
-              style: Get.textTheme.bodyText1!.copyWith(
-                color: Get.theme.primaryColor,
-              ),
+              // style: Get.textTheme.bodyText1!.copyWith(
+              //   color: Get.theme.primaryColor,
+              // ),
             ),
             const SizedBox(width: 5),
             // SpinKitCircle(),vx

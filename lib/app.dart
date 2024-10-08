@@ -9,6 +9,7 @@ import 'config/themes/app_theme.dart';
 import 'core/utils/app_strings.dart';
 import 'package:top_sale/injector.dart' as injector;
 
+import 'features/delevery_order/cubit/delevery_orders_cubit.dart';
 import 'features/login/cubit/cubit.dart';
 import 'features/on_boarding/cubit/onboarding_cubit.dart';
 import 'features/splash/cubit/cubit.dart';
@@ -48,6 +49,8 @@ class _MyAppState extends State<MyApp> {
           ),
           BlocProvider(
             create: (_) => injector.serviceLocator<OnboardingCubit>(),
+          ),  BlocProvider(
+            create: (_) => injector.serviceLocator<DeleveryOrdersCubit>(),
           ),
         ],
         child: GetMaterialApp(

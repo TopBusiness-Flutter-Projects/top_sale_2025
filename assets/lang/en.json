@@ -1,6 +1,17 @@
 {
-    "hi": "Hi",
-      "next":"Next",
+  "hi": "Hi",
+  "next":"Next",
   "skip":"Skip",
-  "start_now":"Start Now"
+  "delevery_order": "Delevery Order",
+  "start_now":"Start Now",
+  "current_orders": "Current Orders",
+  "last_orders": "Last Orders",
+  "choose_filter": "Choose Filter",
+  "new": "New",
+  "delivered": "Delivered",
+  "shipment_number": "Shipment Number : ",
+  "total": "Total : ",
+  "complete": "Complete"
+
+
 }
