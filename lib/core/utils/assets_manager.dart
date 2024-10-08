@@ -10,7 +10,6 @@ class ImageAssets {
   static const String introBackgroundImage2 = '$imagePath/on2.png';
   static const String timeTableIcon = '$imagePath/timetable-icon.png';
   static const String arrowAr = '$imagePath/arrowAr.png';
-  static const String arrowAr = '$imagePath/arrow_ar.png';
   static const String dateIcon = '$imagePath/date.icon.png';
   static const String user = '$imagePath/default_user.png';
 

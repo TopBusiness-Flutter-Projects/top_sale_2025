@@ -35,7 +35,9 @@ class DeleveryOrderScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: GestureDetector(
-                        onTap: () {cubit.changeIndex(0);},
+                        onTap: () {
+                          cubit.changeIndex(0);
+                        },
                         child: Container(
                           height: getSize(context) / 9,
                           width: getSize(context) / 2.5,
@@ -44,7 +46,7 @@ class DeleveryOrderScreen extends StatelessWidget {
                                 ? AppColors.orange
                                 : AppColors.gray1,
                             borderRadius:
-                            BorderRadius.circular(getSize(context) / 20),
+                                BorderRadius.circular(getSize(context) / 20),
                           ),
                           child: Center(
                             child: Text(
@@ -66,7 +68,8 @@ class DeleveryOrderScreen extends StatelessWidget {
                     Expanded(
                       child: GestureDetector(
                         onTap: () {
-                          cubit.changeIndex(1);},
+                          cubit.changeIndex(1);
+                        },
                         child: Container(
                           height: getSize(context) / 9,
                           width: getSize(context) / 2.5,
@@ -75,7 +78,7 @@ class DeleveryOrderScreen extends StatelessWidget {
                                 ? AppColors.orange
                                 : AppColors.gray1,
                             borderRadius:
-                            BorderRadius.circular(getSize(context) / 20),
+                                BorderRadius.circular(getSize(context) / 20),
                           ),
                           child: Center(
                             child: Text(
@@ -103,46 +106,46 @@ class DeleveryOrderScreen extends StatelessWidget {
               builder: (context, state) {
                 return cubit.currentIndex == 0
                     ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const DropDownMenuWidget(),
-                    SizedBox(height: getSize(context) / 20),
-                    Flexible(
-                      child: ListView.builder(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const DropDownMenuWidget(),
+                          SizedBox(height: getSize(context) / 20),
+                          Flexible(
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: 7, // Number of current orders
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: EdgeInsets.only(
+                                      right: getSize(context) / 50,
+                                      bottom: getSize(context) / 50,
+                                      left: getSize(context) / 50),
+                                  child: ShipmentCardWidget(
+                                    backgroundColor:
+                                        AppColors.orange.withOpacity(0.5),
+                                    textColor: AppColors.orange,
+                                    status: "new".tr(), // Current orders
+                                  ),
+                                );
+                              },
+                            ),
+                          )
+                        ],
+                      )
+                    : ListView.builder(
                         shrinkWrap: true,
-                        itemCount: 7, // Number of current orders
+                        itemCount: 3, // Number of last orders
                         itemBuilder: (context, index) {
                           return Padding(
-                            padding: EdgeInsets.only(
-                                right: getSize(context) / 50,
-                                bottom: getSize(context) / 50,
-                                left: getSize(context) / 50),
+                            padding: EdgeInsets.all(getSize(context) / 50),
                             child: ShipmentCardWidget(
-                              backgroundColor:
-                              AppColors.orange.withOpacity(0.5),
-                              textColor: AppColors.orange,
-                              status: "new".tr(), // Current orders
+                              backgroundColor: AppColors.green.withOpacity(0.5),
+                              textColor: AppColors.green,
+                              status: "complete".tr(), // Last orders
                             ),
                           );
                         },
-                      ),
-                    )
-                  ],
-                )
-                    : ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: 3, // Number of last orders
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: EdgeInsets.all(getSize(context) / 50),
-                      child: ShipmentCardWidget(
-                        backgroundColor: AppColors.green.withOpacity(0.5),
-                        textColor: AppColors.green,
-                        status: "complete".tr(), // Last orders
-                      ),
-                    );
-                  },
-                );
+                      );
               },
             ),
           ),

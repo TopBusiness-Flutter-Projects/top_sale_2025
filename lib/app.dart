@@ -20,6 +20,7 @@ class MyApp extends StatefulWidget {
   @override
   State<MyApp> createState() => _MyAppState();
 }
+
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
@@ -48,29 +49,27 @@ class _MyAppState extends State<MyApp> {
           ),
           BlocProvider(
             create: (_) => injector.serviceLocator<OnboardingCubit>(),
-          ),  BlocProvider(
+          ),
+          BlocProvider(
             create: (_) => injector.serviceLocator<DeleveryOrdersCubit>(),
           ),
         ],
-    child:     ScreenUtilInit(
+        child: ScreenUtilInit(
           designSize: const Size(360, 690),
           minTextAdapt: true,
           splitScreenMode: true,
-          child:
-       GetMaterialApp(
-          supportedLocales: context.supportedLocales,
-          locale: context.locale,
-          theme: appTheme(),
-          themeMode: ThemeMode.light,
-          darkTheme: ThemeData.light(),
-          // standard dark theme
-          localizationsDelegates: context.localizationDelegates,
-          debugShowCheckedModeBanner: false,
-          title: AppStrings.appName,
-          onGenerateRoute: AppRoutes.onGenerateRoute,
-       ),
-    )
-    );
-
+          child: GetMaterialApp(
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
+            theme: appTheme(),
+            themeMode: ThemeMode.light,
+            darkTheme: ThemeData.light(),
+            // standard dark theme
+            localizationsDelegates: context.localizationDelegates,
+            debugShowCheckedModeBanner: false,
+            title: AppStrings.appName,
+            onGenerateRoute: AppRoutes.onGenerateRoute,
+          ),
+        ));
   }
 }
