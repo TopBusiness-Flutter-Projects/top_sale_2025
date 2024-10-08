@@ -10,6 +10,13 @@
   "payment":"الدفع",
   "confirm_invoice":"تأكيد الفاتوره",
   "customer_name":"اسم العميل",
-  "start_now":"أبدا الان"
-
+  "start_now":"أبدا الان",
+  "delevery_order": "توصيل الطلبات",
+  "current_orders": "الطلبات الحالية",
+  "last_orders": "الطلبات السابقة",
+  "choose_filter": "اختر الفلتر",
+  "new": "جديدة",
+  "delivered": "تم التسليم",
+  "shipment_number": "رقم الشحنة : ",
+  "complete": "مكتملة"
 }

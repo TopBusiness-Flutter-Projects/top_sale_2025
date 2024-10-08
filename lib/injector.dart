@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'core/api/app_interceptors.dart';
 import 'core/api/base_api_consumer.dart';
 import 'core/api/dio_consumer.dart';
+import 'features/delevery_order/cubit/delevery_orders_cubit.dart';
 import 'features/on_boarding/cubit/onboarding_cubit.dart';
 
 // import 'features/downloads_videos/cubit/downloads_videos_cubit.dart';
@@ -22,10 +23,10 @@ Future<void> setup() async {
   ///////////////////////// Blocs ////////////////////////
 
   serviceLocator.registerFactory(() => SplashCubit());
-
   serviceLocator.registerFactory(() => LoginCubit(serviceLocator()));
   serviceLocator.registerFactory(() => MainCubit(serviceLocator()));
   serviceLocator.registerFactory(() => OnboardingCubit());
+  serviceLocator.registerFactory(() => DeleveryOrdersCubit());
 
   ///////////////////////////////////////////////////////////////////////////////
 
