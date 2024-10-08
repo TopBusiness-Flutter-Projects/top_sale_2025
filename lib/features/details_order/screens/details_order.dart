@@ -31,6 +31,7 @@ class _DetailsOrderState extends State<DetailsOrder> {
             title: 'details_order',
           ),
           CustomDetailsCard(),
+          //
           SizedBox(
             height: 15.h,
           ),
