@@ -11,7 +11,7 @@ class ShipmentCardWidget extends StatelessWidget {
       required this.status,
       required this.backgroundColor,
       required this.textColor});
-  DateTime currentBackPressTime = DateTime.now(); // تاريخ ووقت الحالي
+  DateTime currentBackPressTime = DateTime.now();
   final String status;
   final Color backgroundColor;
   final Color textColor;
@@ -90,40 +90,45 @@ class ShipmentCardWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  Image.asset(ImageAssets.dateIcon),
-                  SizedBox(width: getSize(context) / 60),
-                  AutoSizeText(
-                    DateFormat('dd/MM/yyyy').format(currentBackPressTime),
-                    style: TextStyle(
-                      fontFamily: "cairo",
-                      color: AppColors.black,
-                      fontSize: getSize(context) / 28,
+              Expanded(
+                child: Row(
+                  children: [
+                    Image.asset(ImageAssets.dateIcon),
+                    SizedBox(width: getSize(context) / 60),
+                    AutoSizeText(
+                      DateFormat('dd/MM/yyyy').format(currentBackPressTime),
+                      style: TextStyle(
+                        fontFamily: "cairo",
+                        color: AppColors.black,
+                        fontSize: getSize(context) / 28,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-              Row(
-                children: [
-                  AutoSizeText(
-                    "total".tr(),
-                    style: TextStyle(
-                      fontFamily: "cairo",
-                      color: AppColors.blue,
-                      fontSize: getSize(context) / 25,
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    AutoSizeText(
+                      "total".tr(),
+                      style: TextStyle(
+                        fontFamily: "cairo",
+                        color: AppColors.blue,
+                        fontSize: getSize(context) / 25,
+                      ),
                     ),
-                  ),
-                  SizedBox(width: getSize(context) / 60),
-                  AutoSizeText(
-                    "40 \$",
-                    style: TextStyle(
-                      fontFamily: "cairo",
-                      color: AppColors.black,
-                      fontSize: getSize(context) / 28,
+                    SizedBox(width: getSize(context) / 60),
+                    AutoSizeText(
+                      "40 \$",
+                      style: TextStyle(
+                        fontFamily: "cairo",
+                        color: AppColors.black,
+                        fontSize: getSize(context) / 28,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),

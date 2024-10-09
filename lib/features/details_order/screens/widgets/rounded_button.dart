@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:top_sale/core/utils/app_colors.dart';
+import 'package:top_sale/core/utils/get_size.dart';
 
 class RoundedButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
   final Color backgroundColor;
-  final Color textColor;
 
   const RoundedButton({
-    Key? key,
+    super.key,
     required this.text,
-    required this.onPressed,
-    this.backgroundColor = Colors.orange, // Default color
-    this.textColor = Colors.white,        // Default text color
-  }) : super(key: key);
+    required this.onPressed, required this.backgroundColor,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery.of(context).size.width;
 
     return SizedBox(
-      width:screenWidth * 0.7,  // Full width button
-      height: 50,              // Fixed height
+      width:getSize(context)/1,  // Full width button
+      height: getSize(context)/8,              // Fixed height
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
@@ -32,8 +30,8 @@ class RoundedButton extends StatelessWidget {
         child: Text(
           text,
           style: TextStyle(
-            color: textColor,
-            fontSize: 18,
+            color: AppColors.white,
+            fontSize: getSize(context)/22,
             fontWeight: FontWeight.bold,
           ),
           textDirection: TextDirection.rtl, // For Arabic text
