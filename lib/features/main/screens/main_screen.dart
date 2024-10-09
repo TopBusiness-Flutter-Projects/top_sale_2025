@@ -1,13 +1,17 @@
-import 'package:flutter/cupertino.dart';
+import 'package:easy_localization/easy_localization.dart' as tr;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:top_sale/core/utils/get_size.dart';
+import 'package:top_sale/features/main/widget/menu_screen_widget.dart';
 import '../../../core/utils/app_colors.dart';
 import '../cubit/main_cubit.dart';
 import '../cubit/main_states.dart';
+
+final ZoomDrawerController z = ZoomDrawerController();
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -17,109 +21,125 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-
- 
-
   @override
   Widget build(BuildContext context) {
     MainCubit cubit = context.read<MainCubit>();
 
-    return BlocBuilder<MainCubit, MainStates>(
-      builder: (context, state) {
-        return SafeArea(
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              Scaffold(
-                resizeToAvoidBottomInset: true,
-                extendBody: true,
-                body: WillPopScope(
-                  onWillPop: () async {
-                    if (cubit.currentIndex != 0) {
-                      setState(() {
-                        cubit.currentIndex = 0;
-                      });
-                      return false;
-                    } else {
-                      SystemNavigator.pop();
-                      return true;
-                    }
-                  },
-                  child: cubit.navigationBarViews[cubit.currentIndex],
-                ),
-                bottomNavigationBar: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    height:70.h,
-                    decoration: BoxDecoration(
-                      color: AppColors.white,
-                      borderRadius: BorderRadius.circular(getSize(context)/12),
-                      boxShadow: [
-                        BoxShadow(
-                          color:
-                          Colors.black.withOpacity(0.1), // لون الظل مع تقليل الشفافية
-                          spreadRadius: 1, // مدى انتشار الظل
-                          blurRadius: 1, // مدى نعومة الظل
-                          offset: const Offset(0, 1), // الاتجاه الأفقي والرأسي للظل
-                        ),
-                      ],
-                    ),
-                    child: FloatingNavbar(
-
-                      itemBorderRadius: 90,
-                      padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-                      margin: const EdgeInsets.all(0),
-                      backgroundColor: AppColors.white, // Set the background to white
-                      elevation: 0,
-                      items: [
-                        FloatingNavbarItem(
-                          customWidget: _buildNavItem(
-                            context,
-                            icon: Icons.menu,
-                            isActive: cubit.currentIndex == 0,
-                            label: "",
-                          ),
-                        ),
-                        FloatingNavbarItem(
-                          customWidget: _buildNavItem(
-                            context,
-                            icon: CupertinoIcons.person_alt,
-                            isActive: cubit.currentIndex == 1,
-                            label: "",
-                          ),
-                        ),
-                        FloatingNavbarItem(
-                          customWidget: _buildNavItem(
-                            context,
-                            icon: Icons.shopping_cart,
-                            isActive: cubit.currentIndex == 2,
-                            label: "",
-                          ),
-                        ),
-
-                        FloatingNavbarItem(
-                          customWidget: _buildNavItem(
-                            context,
-                            icon: CupertinoIcons.house_fill,
-                            isActive: cubit.currentIndex == 3,
-                            label: "",
-                          ),
-                        ),
-                      ],
-                      onTap: (index) {
-                        setState(() {
-                          cubit.currentIndex = index;
-                        });
+    return ZoomDrawer(
+      borderRadius: 50,
+      // showShadow: true,
+      openCurve: Curves.fastOutSlowIn,
+      slideWidth: MediaQuery.of(context).size.width * 0.65,
+      duration: const Duration(milliseconds: 500),
+      menuScreenTapClose: true,
+      // angle: 0.0,
+      menuBackgroundColor: Colors.blue,
+      menuScreen: MenuScreenWidget(
+        closeClick: () => z.close?.call(),
+      ),
+      mainScreen: BlocBuilder<MainCubit, MainStates>(
+        builder: (context, state) {
+          return SafeArea(
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Scaffold(
+                    resizeToAvoidBottomInset: true,
+                    extendBody: true,
+                    body: WillPopScope(
+                      onWillPop: () async {
+                        if (cubit.currentIndex != 0) {
+                          setState(() {
+                            cubit.currentIndex = 0;
+                          });
+                          return false;
+                        } else {
+                          SystemNavigator.pop();
+                          return true;
+                        }
                       },
-                      currentIndex: cubit.currentIndex,
+                      child: cubit.navigationBarViews[cubit.currentIndex],
                     ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
+                    bottomNavigationBar: Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: Material(
+                        elevation: 50,
+                        shadowColor: Colors.grey,
+                        child: SalomonBottomBar(
+                          items: [
+                            /// Home
+                            SalomonBottomBarItem(
+                              icon: Image.asset(
+                                'assets/images/home1.png',
+                                width: getSize(context) / 22,
+                                color: cubit.currentIndex == 0
+                                    ? AppColors.orange
+                                    : Colors.black,
+                              ),
+                              title: Text('home'.tr()),
+                              selectedColor: AppColors.orange,
+                            ),
+
+                            /// Likes
+                            SalomonBottomBarItem(
+                              icon: Image.asset(
+                                'assets/images/basket1.png',
+                                width: getSize(context) / 22,
+                                color: cubit.currentIndex == 1
+                                    ? AppColors.orange
+                                    : Colors.black,
+                              ),
+                              title: Text('basket'.tr()),
+                              selectedColor: AppColors.orange,
+                            ),
+
+                            /// Search
+                            SalomonBottomBarItem(
+                              icon: Image.asset(
+                                'assets/images/hr1.png',
+                                width: getSize(context) / 22,
+                                color: cubit.currentIndex == 2
+                                    ? AppColors.orange
+                                    : Colors.black,
+                              ),
+                              title: Text('hr'.tr()),
+                              selectedColor: AppColors.orange,
+                            ),
+
+                            /// Profile
+                            SalomonBottomBarItem(
+                              icon: Image.asset(
+                                'assets/images/menu1.png',
+                                width: getSize(context) / 22,
+                                color: cubit.currentIndex == 3
+                                    ? AppColors.orange
+                                    : Colors.black,
+                              ),
+                              title: Text('menu'.tr()),
+                              selectedColor: AppColors.orange,
+                            ),
+                          ],
+                          backgroundColor: Colors.white70,
+
+                          currentIndex: cubit.currentIndex,
+                          // activeIndex: cubit.currentIndex,
+                          // gapLocation: GapLocation.center,
+                          // notchSmoothness: NotchSmoothness.verySmoothEdge,
+                          onTap: (index) {
+                            if (cubit.currentIndex == 3) {
+                              z.toggle!.call();
+                            } else {
+                              cubit.changeNavigationBar(index);
+                            }
+                          },
+                        ),
+                      ),
+                    )),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -134,20 +154,21 @@ class _MainScreenState extends State<MainScreen> {
           Container(
             decoration: isActive
                 ? BoxDecoration(
-              color: AppColors.orange, // Highlight color for active item
-              borderRadius: BorderRadius.circular(90),
-            )
+                    color: AppColors.orange, // Highlight color for active item
+                    borderRadius: BorderRadius.circular(90),
+                  )
                 : null,
             child: Padding(
               padding: EdgeInsets.all(5.h),
               child: Icon(
                 icon,
-                color: isActive ? AppColors.white : AppColors.primary, // Change icon color when active
+                color: isActive
+                    ? AppColors.white
+                    : AppColors.primary, // Change icon color when active
                 size: getSize(context) / 15,
               ),
             ),
           ),
-
         ],
       ),
     );

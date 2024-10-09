@@ -40,5 +40,9 @@
   "delevey_order": "توصيل الطلبات",
   "direct_sales": "بيع مباشر",
   "serali_line": "خط سير ",
-  "clients": "العملاء"
+  "clients": "العملاء",
+  "menu":"القائمة",
+  "hr":"مدير",
+  "basket":"السلة",
+  "home":"الرئيسية"
 }

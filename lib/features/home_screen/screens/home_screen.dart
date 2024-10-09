@@ -15,6 +15,7 @@ class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
+
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
@@ -36,14 +37,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 GridView(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      mainAxisSpacing: 10,
-                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 20,
+                      crossAxisSpacing: 20,
                       crossAxisCount: 2),
                   shrinkWrap: true,
                   children: [
                     CardHome(
                         onPressed: () {
-                          Navigator.pushNamed(context, Routes.deleveryOrderRoute);},
+                          Navigator.pushNamed(
+                              context, Routes.deleveryOrderRoute);
+                        },
                         text: "delevey_order".tr(),
                         image: ImageAssets.deleveryOrder),
                     CardHome(

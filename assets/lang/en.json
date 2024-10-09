@@ -40,5 +40,9 @@
   "delevey_order": "Delivery Order",
   "direct_sales": "Direct Sales",
   "serali_line": "Seral Line",
-  "clients": "Clients"
+  "clients": "Clients",
+  "menu":"Menu",
+  "hr":"HRM",
+  "basket":"Basket",
+  "home":"Home"
 }
