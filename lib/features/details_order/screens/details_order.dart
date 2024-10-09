@@ -47,6 +47,7 @@ class _DetailsOrderState extends State<DetailsOrder> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             ShipmentCardWidget(
+              isDeleveryOrder: false,
               backgroundColor:
               AppColors.orange.withOpacity(0.5),
               textColor: AppColors.orange,
