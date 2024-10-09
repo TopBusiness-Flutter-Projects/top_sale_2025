@@ -1,22 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:top_sale/core/utils/get_size.dart';
 import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/app_fonts.dart';
 import '../../../../core/utils/assets_manager.dart';
 
 class ProductCard extends StatelessWidget {
-   ProductCard({super.key,required this.text});
-String? text;
+   const ProductCard({super.key,required this.text, required this.number, required this.price});
+   final String text;
+   final String number;
+   final String price;
   @override
   Widget build(BuildContext context) {
-    // For responsiveness
-    final double screenWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
-
     return Column(
       children: [
         Row(
@@ -27,35 +20,33 @@ String? text;
               children: [
                 // Product details
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
+                  borderRadius: BorderRadius.circular(getSize(context)/12),
                   child:
-                  Image.asset(ImageAssets.logoImage,scale:20
-                    // Image  .network(
-                    //   'https://images.unsplash.com/photo-1611078489446-9aa582f8145e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-                    //  width: 50,
-                    //   height: 50,
-                    //   fit: BoxFit.cover,
+                  Image.asset(
+                      ImageAssets.logoImage,
+                      scale:getSize(context)/20
+
                   ),
                 ),
-                const SizedBox(width: 8),
-
+                 SizedBox(width: getSize(context)/50),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children:  [
                     Text(
-                     text!, // Product name
-                      style: getBoldStyle(fontweight: FontWeight.w700)
-                      // TextStyle(
-                      //   fontWeight: FontWeight.bold,
-                      //   fontSize: 16,
-                      //   color: Colors.black,
-                      // ),
+                     text,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: getSize(context) / 25,
+                        color: Colors.black,
+                      ),
                     ),
-                    SizedBox(height: 2.h),
+                    SizedBox(height: getSize(context)/50),
                     Text(
-                      'عدد : 2', // Quantity
+                      'عدد : $number',
                       style:
-                     getRegularStyle(color:AppColors.orange)
+                     TextStyle(  fontWeight: FontWeight.bold,
+                       color: AppColors.orange,
+                       fontSize: getSize(context) / 28,)
                     ),
                   ],
                 ),
@@ -64,26 +55,21 @@ String? text;
               ],
             ),
              Text(
-              '\$40',
+              '40 \$',
               style:
-              getBoldStyle(color:AppColors.orange),
-              // TextStyle(
-              //   fontWeight: FontWeight.bold,
-              //   color: Colors.orange,
-              //   fontSize: 18,
-              // ),
+              TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.orange,
+                fontSize: getSize(context)/28,
+              ),
               textDirection: TextDirection.rtl,
             ),
-
-            // Product name, quantity, and image
-
           ],
         ),
 
-        // Divider line
-        const Padding(
-          padding: EdgeInsets.symmetric(vertical: 10),
-          child: Divider(thickness: 1, color: Colors.grey),
+         Padding(
+          padding: EdgeInsets.symmetric(vertical: getSize(context) / 50),
+          child: Divider(thickness: 1, color: AppColors.gray.withOpacity(0.5)),
         ),
       ],
     );

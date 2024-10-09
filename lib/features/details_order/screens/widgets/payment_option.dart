@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:top_sale/core/utils/app_fonts.dart';
 
 class PaymentOptions extends StatefulWidget {
-  const PaymentOptions({Key? key}) : super(key: key);
+  const PaymentOptions({super.key});
 
   @override
   _PaymentOptionsState createState() => _PaymentOptionsState();
