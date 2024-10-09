@@ -17,7 +17,6 @@
   "choose_filter": "اختر الفلتر",
   "new": "جديدة",
   "delivered": "تم التسليم",
-  "shipment_number": "رقم الشحنة : ",
   "complete": "مكتملة",
   "login": "تسجيل الدخول",
   "username": "اسم المستخدم",
@@ -37,5 +36,9 @@
   "db_name":"اسم قاعدة البيانات",
   "db_name_invalid":"ادخل قاعدة البيانات",
   "register":"حساب جديد",  "user":"مستخدم",
-  "emplyee":"موظف"
+  "emplyee":"موظف",
+  "delevey_order": "توصيل الطلبات",
+  "direct_sales": "بيع مباشر",
+  "serali_line": "خط سير ",
+  "clients": "العملاء"
 }

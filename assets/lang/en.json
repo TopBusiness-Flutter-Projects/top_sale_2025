@@ -17,7 +17,6 @@
   "choose_filter": "Choose Filter",
   "new": "New",
   "delivered": "Delivered",
-  "shipment_number": "Shipment Number : ",
   "complete": "Complete",
   "login": "Login",
   "username": "Username",
@@ -39,4 +38,9 @@
     "user":"User",
   "emplyee":"Employee"
 
+,  "create_account": "Create Account",
+  "delevey_order": "Delivery Order",
+  "direct_sales": "Direct Sales",
+  "serali_line": "Seral Line",
+  "clients":"Clients"
 }

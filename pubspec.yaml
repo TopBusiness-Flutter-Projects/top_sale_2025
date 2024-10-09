@@ -55,6 +55,7 @@ dependencies:
   flutter_screenutil: ^5.9.3
   dropdown_button2: ^2.3.9
   auto_size_text: ^3.0.0
+  floating_bottom_navigation_bar: ^1.5.2
 
   # ! main packages
 
