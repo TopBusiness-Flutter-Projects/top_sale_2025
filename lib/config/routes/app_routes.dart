@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:top_sale/features/direct_sell/screens/categories_screen.dart';
 import 'package:top_sale/features/direct_sell/screens/direct_sell_screen.dart';
 import 'package:top_sale/features/direct_sell/screens/products_screen.dart';
-import 'package:top_sale/features/login/screens/register_screen.dart';
 import 'package:top_sale/features/clients/screens/clients_screen.dart';
 import 'package:top_sale/features/login/screens/system_info_screen.dart';
 import 'package:top_sale/features/home_screen/screens/home_screen.dart';
