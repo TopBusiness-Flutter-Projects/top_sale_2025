@@ -1,13 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top_sale/core/utils/app_colors.dart';
 import 'package:top_sale/core/utils/app_strings.dart';
 import 'package:top_sale/core/utils/assets_manager.dart';
 import 'package:top_sale/features/login/cubit/cubit.dart';
 import 'package:top_sale/features/login/cubit/state.dart';
-
 import '../../../config/routes/app_routes.dart';
 import '../../../core/utils/get_size.dart';
 import '../widget/custom_button.dart';
@@ -51,18 +49,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
               SizedBox(
                 height: getSize(context) / 8,
               ),
-              CustomTextFielWithTitle(
+              CustomTextFieldWithTitle(
                 controller: cubit.companynameController,
                 hint: 'companyname_invalid'.tr(),
                 keyboardType: TextInputType.name,
                 title: 'companyname'.tr(),
               ),
-              CustomTextFielWithTitle(
+              CustomTextFieldWithTitle(
                   keyboardType: TextInputType.url,
                   controller: cubit.odooLinkController,
                   hint: 'odoo_link_invalid'.tr(),
                   title: 'odoo_link'.tr()),
-              CustomTextFielWithTitle(
+              CustomTextFieldWithTitle(
                   controller: cubit.dbNumberController,
                   hint: 'db_name_invalid'.tr(),
                   title: 'db_name'.tr(),

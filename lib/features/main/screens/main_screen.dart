@@ -71,8 +71,13 @@ class _MainScreenState extends State<MainScreen> {
                       margin: const EdgeInsets.all(0),
                       backgroundColor: AppColors.white, // Set the background to white
                       elevation: 0,
+                      selectedBackgroundColor: AppColors.orange,
+
+
+
                       items: [
                         FloatingNavbarItem(
+
                           customWidget: _buildNavItem(
                             context,
                             icon: Icons.menu,

@@ -17,6 +17,7 @@ class ImageAssets {
   static const String deleveryOrder = '$imagePath/delevery_order.png';
   static const String line = '$imagePath/line.png';
   static const String clients = '$imagePath/clients.png';
+  static const String notificationIconPage = '$imagePath/notification_icon.png';
   // icons
   static const String phoneIcon = '$iconsPath/phone.svg';
   // Lottie
