@@ -47,6 +47,21 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.pushNamed(
                               context, Routes.deleveryOrderRoute);
                         },
+                        text: "توصيل الطلبات",
+                        image: ImageAssets.deleveryOrder),
+                    CardHome(
+                        onPressed: () {
+                          Navigator.pushNamed(context, Routes.directSellRoute);
+                        },
+                        text: "بيع مباشر",
+                        image: ImageAssets.directSale),
+                    const CardHome(text: "خط سير", image: ImageAssets.line),
+                    const CardHome(text: "العملاء", image: ImageAssets.clients),
+                    CardHome(
+                        onPressed: () {
+                          Navigator.pushNamed(
+                              context, Routes.deleveryOrderRoute);
+                        },
                         text: "delevey_order".tr(),
                         image: ImageAssets.deleveryOrder),
                     CardHome(

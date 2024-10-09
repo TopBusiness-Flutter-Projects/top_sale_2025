@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:top_sale/features/direct_sell/screens/categories_screen.dart';
+import 'package:top_sale/features/direct_sell/screens/direct_sell_screen.dart';
+import 'package:top_sale/features/direct_sell/screens/products_screen.dart';
 import 'package:top_sale/features/clients/screens/clients_screen.dart';
 import 'package:top_sale/features/login/screens/system_info_screen.dart';
 import 'package:top_sale/features/home_screen/screens/home_screen.dart';
@@ -23,6 +26,9 @@ class Routes {
   static const String deleveryOrderRoute = '/deleveryOrderRoute';
   static const String onboardingPageScreenRoute = '/onboardingPageScreenRoute';
   static const String registerScreen = '/registerScreen';
+  static const String directSellRoute = '/directSellRoute';
+  static const String categoriesRoute = '/categoriesRoute';
+  static const String productsRoute = '/productsRoute';
 }
 
 class AppRoutes {
@@ -103,6 +109,20 @@ class AppRoutes {
           type: PageTransitionType.fade,
           alignment: Alignment.center,
           duration: const Duration(milliseconds: 800),
+        );
+      case Routes.directSellRoute:
+       return MaterialPageRoute(
+          builder: (context) => const DirectSellScreen(),
+        );
+      case Routes.productsRoute:
+          String categoryname =
+            settings.arguments as String;
+        return MaterialPageRoute(
+          builder: (context) =>  ProductsScreen(categoryName: categoryname,),
+        );
+      case Routes.categoriesRoute:
+        return MaterialPageRoute(
+          builder: (context) => const CategoriesScreen(),
         );
       //
       // case Routes.resultOfLessonExam:

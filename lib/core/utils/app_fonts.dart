@@ -39,6 +39,19 @@ TextStyle getLineOverStyle({bool isBold = true}) {
     fontWeight: isBold ? FontWeight.w700 : FontWeight.w500,
   );
 }
+
+TextStyle getUnderLine({Color? color, double? fontSize}) {
+  return TextStyle(
+    decoration: TextDecoration.underline,
+    decorationColor: color ?? AppColors.primaryText,
+    // height: 2,
+    decorationThickness: 4,
+    fontSize: fontSize ?? 16.sp,
+    fontFamily: AppStrings.fontFamily,
+    color: color ?? AppColors.primaryText,
+    fontWeight: FontWeight.w600,
+  );
+}
 //textcolor
 
 // regular style 400
