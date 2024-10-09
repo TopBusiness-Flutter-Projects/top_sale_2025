@@ -1,4 +1,4 @@
-# TOP SALE 2025
+# Deals 2025
 
 <div align="center">
     <img align="center" src="https://github.com/TopBusiness-Flutter-Projects/top_sale_2025/blob/main/assets/images/1.png" alt="CENTER">

@@ -76,8 +76,8 @@ class _SplashScreenState extends State<SplashScreen>
               child: SizedBox(
                 child: Image.asset(
                   ImageAssets.logoImage,
-                  height: getSize(context) / 1.4,
-                  width: getSize(context) / 1.4,
+                  // height: getSize(context),
+                  // width: getSize(context),
                 ),
               ),
             ),

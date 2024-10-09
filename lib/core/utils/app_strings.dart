@@ -1,5 +1,5 @@
 class AppStrings {
-  static const String appName = 'Top Sale';
+  static const String appName = 'Deals';
 
   // static const String googleApiKey = '';
   static const String fontFamily = 'cairo';
