@@ -7,7 +7,6 @@ import 'package:page_transition/page_transition.dart';
 import '../../features/details_order/screens/details_order.dart';
 import '../../features/details_order/screens/widgets/payment.dart';
 import '../../features/delevery_order/screens/delevery_order_screen.dart';
-import '../../features/home_screen/screens/home_screen.dart';
 import '../../features/login/screens/login_screen.dart';
 import '../../features/on_boarding/screen/onboarding_screen.dart';
 
