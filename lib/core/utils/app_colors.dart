@@ -4,7 +4,7 @@ import 'hex_color.dart';
 
 class AppColors {
   static Color primary = HexColor('#292929');
-  static Color primaryText = Colors.black;
+  static Color primaryText = HexColor('#373737');
   static Color secondPrimary = HexColor('#1E487F');
   static Color orangeThirdPrimary = HexColor('#FF9201');
   static Color blueLiteColor = HexColor('#00B3DC');
@@ -15,6 +15,14 @@ class AppColors {
   static Color scaffoldColor = HexColor('#F5F5F5');
   static Color avatarColor = HexColor('#96B2B5');
 
+
+
+
+
+  static Color primaryHint = HexColor('#B2B2B2');
+  static Color primaryGrey = HexColor('#525252');
+
+
   static Color hint = Colors.grey;
   static Color blackLite = Colors.black54;
   static Color error = Colors.red;
@@ -24,7 +32,7 @@ class AppColors {
   static Color gray = Colors.grey;
   static Color grayLite = Colors.grey[700]!;
   static Color gray1 = HexColor('#D3D3D3');
-  static Color gray2 = HexColor('#BABABB');
+  static Color gray2 = HexColor('#225862');
   // static Color gray6 = HexColor('#A7A7A7');
   // static Color gray7 = HexColor('#A0A1A0');
   static Color red = HexColor('#FF0000');

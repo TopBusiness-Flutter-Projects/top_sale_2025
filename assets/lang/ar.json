@@ -28,5 +28,16 @@
   "emplyee_num_invalid": "ادخل رقم الموظف",
   "new_account": "حساب جديد",
   "create_account": "انشاء الحساب",
-  "try_the_app": "تجربة"
+  "try_the_app": "تجربة",
+  "direct_sell": "بيع مباشر",
+  "categories": "الأقسام",
+  "all": "الكل",
+  "products": "المنتجات",
+  "search_product": "ابحث عن منتجك",
+  "clients": "العملاء",
+  "search_client": "ابحث عن عميلك",
+  
+  "currency": "ج.م",
+  "": "",
+  "ll": ""
 }

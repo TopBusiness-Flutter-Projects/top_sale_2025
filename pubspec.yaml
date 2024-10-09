@@ -55,7 +55,9 @@ dependencies:
   flutter_screenutil: ^5.9.3
   dropdown_button2: ^2.3.9
   auto_size_text: ^3.0.0
-
+  easy_debounce: ^2.0.3
+  ai_barcode_scanner:
+  flutter_staggered_grid_view: ^0.7.0
   # ! main packages
 
 dev_dependencies:
