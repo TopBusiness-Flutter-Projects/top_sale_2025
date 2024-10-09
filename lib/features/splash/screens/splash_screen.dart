@@ -39,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen>
             context, Routes.mainRoute, (route) => false);
       } else {
         Navigator.pushNamedAndRemoveUntil(
-            context, Routes.loginRoute, (route) => false);
+            context, Routes.registerScreen, (route) => false);
       }
     } else {
       Navigator.pushNamedAndRemoveUntil(
@@ -76,8 +76,8 @@ class _SplashScreenState extends State<SplashScreen>
               child: SizedBox(
                 child: Image.asset(
                   ImageAssets.logoImage,
-                  // height: getSize(context),
-                  // width: getSize(context),
+                  height: getSize(context) / 1.2,
+                  width: getSize(context) / 1.2,
                 ),
               ),
             ),

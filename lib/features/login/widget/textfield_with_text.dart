@@ -1,21 +1,30 @@
 import 'package:flutter/material.dart';
+import '../../../core/utils/app_colors.dart';
+import '../../../core/utils/app_strings.dart';
+import '../../../core/utils/get_size.dart';
 
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/app_strings.dart';
-import '../../../../core/utils/get_size.dart';
-
-class CustomTextFielWithTitle extends StatelessWidget {
-  CustomTextFielWithTitle({
+class CustomTextFieldWithTitle extends StatefulWidget {
+  const CustomTextFieldWithTitle({
     super.key,
     required this.controller,
     required this.title,
     required this.hint,
     this.keyboardType,
   });
-  TextInputType? keyboardType;
-  TextEditingController controller;
-  String title;
-  String hint;
+
+  final TextEditingController controller;
+  final String title;
+  final String hint;
+  final TextInputType? keyboardType;
+
+  @override
+  _CustomTextFieldWithTitleState createState() =>
+      _CustomTextFieldWithTitleState();
+}
+
+class _CustomTextFieldWithTitleState extends State<CustomTextFieldWithTitle> {
+  bool _isPasswordVisible = false;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,26 +37,29 @@ class CustomTextFielWithTitle extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            title,
+            widget.title,
             style: TextStyle(
-                fontFamily: AppStrings.fontFamily,
-                color: AppColors.black,
-                fontWeight: FontWeight.w500),
+              fontFamily: AppStrings.fontFamily,
+              color: AppColors.black,
+              fontWeight: FontWeight.w500,
+            ),
           ),
           const SizedBox(height: 5),
           TextFormField(
             validator: (value) {
               if (value!.isEmpty) {
-                return hint;
+                return widget.hint;
               } else {
                 return null;
               }
             },
-            keyboardType: keyboardType,
-            controller: controller,
+            keyboardType: widget.keyboardType,
+            controller: widget.controller,
+            obscureText: widget.keyboardType == TextInputType.visiblePassword &&
+                !_isPasswordVisible,
             decoration: InputDecoration(
               contentPadding: const EdgeInsetsDirectional.only(start: 8),
-              hintText: hint,
+              hintText: widget.hint,
               border: OutlineInputBorder(
                 borderSide: BorderSide(
                   color: AppColors.greyColor,
@@ -76,6 +88,22 @@ class CustomTextFielWithTitle extends StatelessWidget {
                 ),
                 borderRadius: BorderRadius.circular(getSize(context) / 32),
               ),
+              // Add a visibility toggle icon for password fields
+              suffixIcon: widget.keyboardType == TextInputType.visiblePassword
+                  ? IconButton(
+                      icon: Icon(
+                        _isPasswordVisible
+                            ? Icons.visibility_outlined
+                            : Icons.visibility_off,
+                        color: AppColors.greyColor,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _isPasswordVisible = !_isPasswordVisible;
+                        });
+                      },
+                    )
+                  : null,
             ),
           )
         ],
