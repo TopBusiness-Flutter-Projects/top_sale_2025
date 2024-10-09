@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:top_sale/features/main_screen/screens/main_screen.dart';
 import 'package:top_sale/features/splash/screens/splash_screen.dart';
 import '../../core/utils/app_strings.dart';
 import 'package:page_transition/page_transition.dart';
 import '../../features/details_order/screens/details_order.dart';
 import '../../features/details_order/screens/widgets/payment.dart';
 import '../../features/delevery_order/screens/delevery_order_screen.dart';
+import '../../features/home_screen/screens/home_screen.dart';
 import '../../features/login/screens/login_screen.dart';
 import '../../features/on_boarding/screen/onboarding_screen.dart';
 
@@ -72,7 +72,7 @@ class AppRoutes {
         );
       case Routes.mainRoute:
         return PageTransition(
-          child: const MainScreen(),
+          child: const HomeScreen(),
           type: PageTransitionType.fade,
           alignment: Alignment.center,
           duration: const Duration(milliseconds: 800),

@@ -5,7 +5,7 @@ import 'package:top_sale/core/utils/get_size.dart';
 import 'package:top_sale/features/delevery_order/screens/widgets/drop_down_widget.dart';
 import 'package:top_sale/features/delevery_order/screens/widgets/shipment_card_widget.dart';
 import '../../../core/utils/app_colors.dart';
-import '../../../core/widgets/shard_appbar_app.dart';
+import '../../../core/utils/app_strings.dart';
 import '../cubit/delevery_orders_cubit.dart';
 import '../cubit/delevery_orders_state.dart';
 
@@ -16,17 +16,22 @@ class DeleveryOrderScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var cubit = context.read<DeleveryOrdersCubit>();
     return Scaffold(
-      // appBar: AppBar(
-      //   centerTitle: false,
-      //   elevation: 0,
-      // title: Text("delevery_order".tr(),style: TextStyle(color: AppColors.black),),
-      // ),
+      appBar: AppBar(
+        backgroundColor: AppColors.white,
+        centerTitle: false,
+        leadingWidth: 20,
+        title: Text(
+           "delevery_order".tr(),
+          style: TextStyle(
+              fontFamily: AppStrings.fontFamily,
+              color: AppColors.black,
+              fontWeight: FontWeight.w700),
+        ),
+      ),
       backgroundColor: AppColors.white,
       body: Column(
         children: [
-          SharedAppBarApp(
-            title: "delevery_order".tr(),
-          ),
+
           BlocBuilder<DeleveryOrdersCubit, DeleveryOrdersState>(
             builder: (context, state) {
               return Padding(
