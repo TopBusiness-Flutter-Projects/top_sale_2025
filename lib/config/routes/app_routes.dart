@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:top_sale/features/login/screens/register_screen.dart';
 import 'package:top_sale/features/main_screen/screens/main_screen.dart';
 import 'package:top_sale/features/splash/screens/splash_screen.dart';
 import '../../core/utils/app_strings.dart';
@@ -17,6 +18,7 @@ class Routes {
   static const String paymentRoute = '/payment';
   static const String deleveryOrderRoute = '/deleveryOrderRoute';
   static const String onboardingPageScreenRoute = '/onboardingPageScreenRoute';
+  static const String registerScreen = '/registerScreen';
 }
 
 class AppRoutes {
@@ -46,19 +48,21 @@ class AppRoutes {
         );
       case Routes.deleveryOrderRoute:
         return PageTransition(
-          child:  DeleveryOrderScreen(),
+          child: DeleveryOrderScreen(),
           type: PageTransitionType.fade,
           alignment: Alignment.center,
           duration: const Duration(milliseconds: 800),
-        ); case Routes.paymentRoute:
+        );
+      case Routes.paymentRoute:
         return PageTransition(
           child: PaymentScreen(),
           type: PageTransitionType.fade,
           alignment: Alignment.center,
           duration: const Duration(milliseconds: 800),
-        ); case Routes.detailsOrder:
+        );
+      case Routes.detailsOrder:
         return PageTransition(
-         child: DetailsOrder(),
+          child: DetailsOrder(),
           type: PageTransitionType.fade,
           alignment: Alignment.center,
           duration: const Duration(milliseconds: 800),
@@ -73,6 +77,13 @@ class AppRoutes {
       case Routes.mainRoute:
         return PageTransition(
           child: const MainScreen(),
+          type: PageTransitionType.fade,
+          alignment: Alignment.center,
+          duration: const Duration(milliseconds: 800),
+        );
+      case Routes.registerScreen:
+        return PageTransition(
+          child: const RegisterScreen(),
           type: PageTransitionType.fade,
           alignment: Alignment.center,
           duration: const Duration(milliseconds: 800),

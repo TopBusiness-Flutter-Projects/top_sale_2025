@@ -10,6 +10,8 @@ import 'package:top_sale/features/login/cubit/state.dart';
 
 import '../../../config/routes/app_routes.dart';
 import '../../../core/utils/get_size.dart';
+import 'widget/custom_button.dart';
+import 'widget/textfield_with_text.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -27,8 +29,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
         return Scaffold(
           appBar: AppBar(
             centerTitle: false,
+            leadingWidth: 20,
             title: Text(
-              'انشاء الحساب',
+              'create_account'.tr(),
               style: TextStyle(
                   fontFamily: AppStrings.fontFamily,
                   color: AppColors.black,
@@ -65,117 +68,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         );
       },
-    );
-  }
-}
-
-class CustomButton extends StatelessWidget {
-  CustomButton({super.key, this.onTap});
-  void Function()? onTap;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-          horizontal: getSize(context) / 12, vertical: getSize(context) / 32),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(getSize(context) / 12),
-        child: Container(
-          width: double.infinity,
-          alignment: Alignment.center,
-          padding: EdgeInsets.all(getSize(context) / 32),
-          decoration: BoxDecoration(
-            color: AppColors.primaryColor,
-            borderRadius: BorderRadius.circular(getSize(context) / 12),
-          ),
-          child: Text(
-            'تسجيل الدخول',
-            style: TextStyle(
-              color: AppColors.white,
-              fontFamily: AppStrings.fontFamily,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class CustomTextFielWithTitle extends StatelessWidget {
-  CustomTextFielWithTitle({
-    super.key,
-    required this.controller,
-    required this.title,
-    required this.hint,
-    this.keyboardType,
-  });
-  TextInputType? keyboardType;
-  TextEditingController controller;
-  String title;
-  String hint;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.all(getSize(context) / 32),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 5.0),
-            child: Text(
-              title,
-              style: TextStyle(
-                  fontFamily: AppStrings.fontFamily,
-                  color: AppColors.black,
-                  fontWeight: FontWeight.w500),
-            ),
-          ),
-          TextFormField(
-            validator: (value) {
-              if (value!.isEmpty) {
-                return hint;
-              } else {
-                return null;
-              }
-            },
-            keyboardType: keyboardType,
-            controller: controller,
-            decoration: InputDecoration(
-              contentPadding: const EdgeInsetsDirectional.only(start: 8),
-              hintText: hint,
-              border: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: AppColors.greyColor,
-                  width: 2,
-                ),
-                borderRadius: BorderRadius.circular(getSize(context) / 32),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: AppColors.greyColor,
-                  width: 2,
-                ),
-                borderRadius: BorderRadius.circular(getSize(context) / 32),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: AppColors.greyColor,
-                  width: 2,
-                ),
-                borderRadius: BorderRadius.circular(getSize(context) / 32),
-              ),
-              disabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: AppColors.greyColor,
-                  width: 2,
-                ),
-                borderRadius: BorderRadius.circular(getSize(context) / 32),
-              ),
-            ),
-          )
-        ],
-      ),
     );
   }
 }

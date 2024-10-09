@@ -61,10 +61,14 @@ TextStyle getMediumStyle({Color? color, double? fontHeight, double? fontSize}) {
 }
 
 // bold style 700
-TextStyle getBoldStyle({Color? color, double? fontHeight, double? fontSize,FontWeight ?fontweight}) {
+TextStyle getBoldStyle(
+    {Color? color,
+    double? fontHeight,
+    double? fontSize,
+    FontWeight? fontweight}) {
   return _getTextStyle(
       color: color ?? AppColors.primaryText,
-      fontWeight: fontweight??FontWeight.bold,
+      fontWeight: fontweight ?? FontWeight.bold,
       fontSize: fontSize ?? 16.sp,
       fontHeight: fontHeight);
 }
