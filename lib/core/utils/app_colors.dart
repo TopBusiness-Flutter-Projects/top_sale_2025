@@ -31,6 +31,7 @@ class AppColors {
   static Color blue3 = const Color(0xff3646ff);
   static Color greyColor = const Color(0xffB2B2B2);
   static Color primaryColor = const Color(0xff1E487F);
+  static Color yellowColor = const Color(0xffFF9201);
   static Color bink = HexColor('#FF9F9F');
   static Color purple1 = HexColor('#854AA4');
   static Color purple1light = HexColor('#E3D2FE');

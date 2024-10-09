@@ -27,6 +27,16 @@
   "emplyee_num": "Employee Number",
   "emplyee_num_invalid": "Enter employee number",
   "new_account": "New Account",
-  "create_account": "Create Account",
-  "try_the_app": "Try the app"
+  "create_account": "Company Information",
+  "try_the_app": "Try the app",
+  "companyname": "Company Name",
+  "companyname_invalid": "Enter the company name",
+  "odoo_link": "Odoo Link",
+  "odoo_link_invalid": "Enter the Odoo link",
+  "db_name": "Database Name",
+  "db_name_invalid": "Enter the database name",
+  "register":"New Account",
+    "user":"User",
+  "emplyee":"Employee"
+
 }

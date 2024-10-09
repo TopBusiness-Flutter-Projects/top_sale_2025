@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:top_sale/features/login/screens/register_screen.dart';
+import 'package:top_sale/features/login/screens/system_info_screen.dart';
 import 'package:top_sale/features/home_screen/screens/home_screen.dart';
 import 'package:top_sale/features/splash/screens/splash_screen.dart';
 import '../../core/utils/app_strings.dart';

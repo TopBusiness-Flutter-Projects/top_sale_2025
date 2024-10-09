@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/app_strings.dart';
-import '../../../../core/utils/get_size.dart';
+import '../../../core/utils/app_colors.dart';
+import '../../../core/utils/app_strings.dart';
+import '../../../core/utils/get_size.dart';
 
 class CustomButton extends StatelessWidget {
-  CustomButton({super.key, this.onTap});
+  CustomButton({
+    super.key,
+    this.onTap,
+    required this.title,
+  });
   void Function()? onTap;
+  String title;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -24,7 +29,7 @@ class CustomButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(getSize(context) / 12),
           ),
           child: Text(
-            'تسجيل الدخول',
+            title,
             style: TextStyle(
               color: AppColors.white,
               fontFamily: AppStrings.fontFamily,
