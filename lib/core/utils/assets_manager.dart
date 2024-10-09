@@ -12,6 +12,7 @@ class ImageAssets {
   static const String arrowAr = '$imagePath/arrowAr.png';
   static const String dateIcon = '$imagePath/date.icon.png';
   static const String user = '$imagePath/default_user.png';
+  static const String directSale = '$imagePath/direct_sale.png';
   // icons
   static const String phoneIcon = '$iconsPath/phone.svg';
   // Lottie

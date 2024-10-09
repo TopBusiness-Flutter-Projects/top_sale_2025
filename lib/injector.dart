@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:top_sale/features/home_screen/cubit/cubit.dart';
 import 'package:top_sale/features/login/cubit/cubit.dart';
-import 'package:top_sale/features/main_screen/cubit/cubit.dart';
 import 'package:top_sale/features/splash/cubit/cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:top_sale/core/remote/service.dart';
@@ -24,7 +24,7 @@ Future<void> setup() async {
 
   serviceLocator.registerFactory(() => SplashCubit());
   serviceLocator.registerFactory(() => LoginCubit(serviceLocator()));
-  serviceLocator.registerFactory(() => MainCubit(serviceLocator()));
+  serviceLocator.registerFactory(() => HomeCubit(serviceLocator()));
   serviceLocator.registerFactory(() => OnboardingCubit());
   serviceLocator.registerFactory(() => DeleveryOrdersCubit());
 
