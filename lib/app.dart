@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:top_sale/features/main_screen/cubit/cubit.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-
 import 'config/routes/app_routes.dart';
 import 'config/themes/app_theme.dart';
 import 'core/utils/app_strings.dart';
 import 'package:top_sale/injector.dart' as injector;
 
 import 'features/delevery_order/cubit/delevery_orders_cubit.dart';
+import 'features/home_screen/cubit/cubit.dart';
 import 'features/login/cubit/cubit.dart';
 import 'features/on_boarding/cubit/onboarding_cubit.dart';
 import 'features/splash/cubit/cubit.dart';
@@ -45,7 +44,7 @@ class _MyAppState extends State<MyApp> {
             create: (_) => injector.serviceLocator<LoginCubit>(),
           ),
           BlocProvider(
-            create: (_) => injector.serviceLocator<MainCubit>(),
+            create: (_) => injector.serviceLocator<HomeCubit>(),
           ),
           BlocProvider(
             create: (_) => injector.serviceLocator<OnboardingCubit>(),

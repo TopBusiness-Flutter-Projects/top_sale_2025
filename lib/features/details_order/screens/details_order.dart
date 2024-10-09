@@ -4,9 +4,9 @@ import 'package:top_sale/core/utils/get_size.dart';
 import 'package:top_sale/features/details_order/screens/widgets/custom_total_price.dart';
 import 'package:top_sale/features/details_order/screens/widgets/product_card.dart';
 import 'package:top_sale/features/details_order/screens/widgets/rounded_button.dart';
-import 'package:top_sale/features/details_order/screens/widgets/shard_appbar_app.dart';
 import '../../../config/routes/app_routes.dart';
 import '../../../core/utils/app_colors.dart';
+import '../../../core/utils/app_strings.dart';
 import '../../delevery_order/screens/widgets/shipment_card_widget.dart';
 
 class DetailsOrder extends StatefulWidget {
@@ -21,11 +21,21 @@ class _DetailsOrderState extends State<DetailsOrder> {
   Widget build(BuildContext context) {
     return Scaffold(
           backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: AppColors.white,
+        centerTitle: false,
+        leadingWidth: 20,
+        title: Text(
+          'details_order'.tr(),
+          style: TextStyle(
+              fontFamily: AppStrings.fontFamily,
+              color: AppColors.black,
+              fontWeight: FontWeight.w700),
+        ),
+      ),
           body: Column(
     children: [
-      SharedAppBarApp(
-        title: 'details_order',
-      ),
+
       SizedBox(height: getSize(context)/33,),
       Expanded(
         child: Padding(
