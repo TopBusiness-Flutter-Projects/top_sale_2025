@@ -11,24 +11,29 @@ class SharedAppBarApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(getSize(context) / 20),
-      child: Row(
-        children: [
-          Directionality.of(context) == TextDirection.RTL
-              ? Image.asset(ImageAssets.arrowAr)
-              : Icon(Icons.arrow_back, color: AppColors.primary),
-          SizedBox(width: getSize(context) / 50),
-          Padding(
-            padding: EdgeInsets.only(top: getSize(context) / 55),
-            child: Text(
-              title,
-              style: TextStyle(
-                  fontFamily: "cairo",
-                  color: AppColors.primary,
-                  fontSize: getSize(context) / 21,
-                  fontWeight: FontWeight.bold),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.pop(context);
+        },
+        child: Row(
+          children: [
+            Directionality.of(context) == TextDirection.RTL
+                ? Image.asset(ImageAssets.arrowAr)
+                : Icon(Icons.arrow_back, color: AppColors.primary),
+            SizedBox(width: getSize(context) / 50),
+            Padding(
+              padding: EdgeInsets.only(top: getSize(context) / 55),
+              child: Text(
+                title,
+                style: TextStyle(
+                    fontFamily: "cairo",
+                    color: AppColors.primary,
+                    fontSize: getSize(context) / 21,
+                    fontWeight: FontWeight.bold),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

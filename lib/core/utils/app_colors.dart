@@ -40,6 +40,7 @@ class AppColors {
   static Color blue4 = const Color(0xff3E3F68);
   static Color bluelight = HexColor('#D7EAF9');
   static Color orange = HexColor('#FE7C04');
+  static Color orangeLight = HexColor('#FF9201');
   static Color orangelight = HexColor('#FFEAD7');
   static Color green = HexColor('#01880A');
   static Color opacityWhite = Colors.white.withOpacity(0.5);
