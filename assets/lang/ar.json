@@ -17,7 +17,6 @@
   "choose_filter": "اختر الفلتر",
   "new": "جديدة",
   "delivered": "تم التسليم",
-  "shipment_number": "رقم الشحنة : ",
   "complete": "مكتملة",
   "login": "تسجيل الدخول",
   "username": "اسم المستخدم",
@@ -28,5 +27,9 @@
   "emplyee_num_invalid": "ادخل رقم الموظف",
   "new_account": "حساب جديد",
   "create_account": "انشاء الحساب",
-  "try_the_app": "تجربة"
+  "try_the_app": "تجربة",
+  "delevey_order": "توصيل الطلبات",
+  "direct_sales": "بيع مباشر",
+  "serali_line": "خط سير ",
+  "clients": "العملاء"
 }

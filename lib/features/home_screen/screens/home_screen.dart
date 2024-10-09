@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top_sale/core/utils/app_colors.dart';
@@ -11,11 +12,9 @@ import '../cubit/state.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
-
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
-
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
@@ -40,25 +39,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisSpacing: 10,
                       crossAxisSpacing: 10,
                       crossAxisCount: 2),
-                  
                   shrinkWrap: true,
                   children: [
-               CardHome(
-                  onPressed: () {
-                    Navigator.pushNamed(context, Routes.deleveryOrderRoute);
-                  },
-                  text: "توصيل الطلبات",
-                  image:  ImageAssets.deleveryOrder),
-              CardHome(
-                  onPressed: () {
-
-                  },
-                  text: "بيع مباشر", image:  ImageAssets.directSale),
-              const CardHome(text: "خط سير", image:  ImageAssets.line),
-              const CardHome(text: "العملاء", image:  ImageAssets.clients),
-
+                    CardHome(
+                        onPressed: () {
+                          Navigator.pushNamed(context, Routes.deleveryOrderRoute);},
+                        text: "delevey_order".tr(),
+                        image: ImageAssets.deleveryOrder),
+                    CardHome(
+                        onPressed: () {},
+                        text: "direct_sales".tr(),
+                        image: ImageAssets.directSale),
+                    CardHome(text: "serali_line".tr(), image: ImageAssets.line),
+                    CardHome(text: "clients".tr(), image: ImageAssets.clients),
                   ],
-               
                 )
               ]),
             )),

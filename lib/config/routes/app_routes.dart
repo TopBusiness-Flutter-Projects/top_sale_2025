@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:top_sale/features/login/screens/register_screen.dart';
 import 'package:top_sale/features/home_screen/screens/home_screen.dart';
+import 'package:top_sale/features/main/screens/main_screen.dart';
 import 'package:top_sale/features/splash/screens/splash_screen.dart';
 import '../../core/utils/app_strings.dart';
 import 'package:page_transition/page_transition.dart';
@@ -14,6 +15,7 @@ class Routes {
   static const String initialRoute = '/';
   static const String loginRoute = '/login';
   static const String mainRoute = '/main';
+  static const String homeRoute = '/home';
   static const String detailsOrder = '/orderDetails';
   static const String paymentRoute = '/payment';
   static const String deleveryOrderRoute = '/deleveryOrderRoute';
@@ -74,9 +76,15 @@ class AppRoutes {
           alignment: Alignment.center,
           duration: const Duration(milliseconds: 400),
         );
-      case Routes.mainRoute:
+      case Routes.homeRoute:
         return PageTransition(
           child: const HomeScreen(),
+          type: PageTransitionType.fade,
+          alignment: Alignment.center,
+          duration: const Duration(milliseconds: 800),
+        );  case Routes.mainRoute:
+        return PageTransition(
+          child: const MainScreen(),
           type: PageTransitionType.fade,
           alignment: Alignment.center,
           duration: const Duration(milliseconds: 800),

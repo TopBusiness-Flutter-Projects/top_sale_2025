@@ -11,6 +11,7 @@ import 'core/api/app_interceptors.dart';
 import 'core/api/base_api_consumer.dart';
 import 'core/api/dio_consumer.dart';
 import 'features/delevery_order/cubit/delevery_orders_cubit.dart';
+import 'features/main/cubit/main_cubit.dart';
 import 'features/on_boarding/cubit/onboarding_cubit.dart';
 
 // import 'features/downloads_videos/cubit/downloads_videos_cubit.dart';
@@ -27,6 +28,7 @@ Future<void> setup() async {
   serviceLocator.registerFactory(() => HomeCubit(serviceLocator()));
   serviceLocator.registerFactory(() => OnboardingCubit());
   serviceLocator.registerFactory(() => DeleveryOrdersCubit());
+  serviceLocator.registerFactory(() => MainCubit(serviceLocator()));
 
   ///////////////////////////////////////////////////////////////////////////////
 
