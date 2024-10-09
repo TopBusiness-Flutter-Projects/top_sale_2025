@@ -34,13 +34,11 @@
   "odoo_link_invalid": "Enter the Odoo link",
   "db_name": "Database Name",
   "db_name_invalid": "Enter the database name",
-  "register":"New Account",
-    "user":"User",
-  "emplyee":"Employee"
-
-,  "create_account": "Create Account",
+  "register": "New Account",
+  "user": "User",
+  "emplyee": "Employee",
   "delevey_order": "Delivery Order",
   "direct_sales": "Direct Sales",
   "serali_line": "Seral Line",
-  "clients":"Clients"
+  "clients": "Clients"
 }
