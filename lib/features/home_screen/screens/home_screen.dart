@@ -5,6 +5,7 @@ import 'package:top_sale/core/utils/assets_manager.dart';
 import 'package:top_sale/core/utils/get_size.dart';
 import 'package:top_sale/features/home_screen/screens/widgets/appbar_home.dart';
 import 'package:top_sale/features/home_screen/screens/widgets/card_home.dart';
+import '../../../config/routes/app_routes.dart';
 import '../cubit/cubit.dart';
 import '../cubit/state.dart';
 
@@ -36,20 +37,25 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 GridView(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      mainAxisSpacing: 5,
-                      crossAxisSpacing: 5,
+                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 10,
                       crossAxisCount: 2),
                   
                   shrinkWrap: true,
                   children: [
-              const CardHome(text: "توصيل الطلبات", image:  ImageAssets.directSale),
+               CardHome(
+                  onPressed: () {
+                    Navigator.pushNamed(context, Routes.deleveryOrderRoute);
+                  },
+                  text: "توصيل الطلبات",
+                  image:  ImageAssets.deleveryOrder),
               CardHome(
                   onPressed: () {
 
                   },
                   text: "بيع مباشر", image:  ImageAssets.directSale),
-              CardHome(text: "خط سير", image:  ImageAssets.directSale),
-              CardHome(text: "العملاء", image:  ImageAssets.directSale),
+              const CardHome(text: "خط سير", image:  ImageAssets.line),
+              const CardHome(text: "العملاء", image:  ImageAssets.clients),
 
                   ],
                

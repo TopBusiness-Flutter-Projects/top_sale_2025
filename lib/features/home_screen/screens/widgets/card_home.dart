@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/assets_manager.dart';
 import '../../../../core/utils/get_size.dart';
 
 class CardHome extends StatelessWidget {
@@ -17,6 +15,14 @@ final void Function()? onPressed;
       child: Container(
 
         decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1), // لون الظل مع تقليل الشفافية
+                spreadRadius: 1, // مدى انتشار الظل
+                blurRadius: 1, // مدى نعومة الظل
+                offset: const Offset(0, 1), // الاتجاه الأفقي والرأسي للظل
+              ),
+            ],
             borderRadius: BorderRadiusDirectional.circular(
                 getSize(context) / 20),
             color: AppColors.white),

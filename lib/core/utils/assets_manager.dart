@@ -13,6 +13,9 @@ class ImageAssets {
   static const String dateIcon = '$imagePath/date.icon.png';
   static const String user = '$imagePath/default_user.png';
   static const String directSale = '$imagePath/direct_sale.png';
+  static const String deleveryOrder = '$imagePath/delevery_order.png';
+  static const String line = '$imagePath/line.png';
+  static const String clients = '$imagePath/clients.png';
   // icons
   static const String phoneIcon = '$iconsPath/phone.svg';
   // Lottie

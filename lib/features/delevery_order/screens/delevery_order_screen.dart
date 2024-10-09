@@ -126,6 +126,7 @@ class DeleveryOrderScreen extends StatelessWidget {
                                       bottom: getSize(context) / 50,
                                       left: getSize(context) / 50),
                                   child: ShipmentCardWidget(
+                                    isDeleveryOrder: true,
                                     backgroundColor:
                                         AppColors.orange.withOpacity(0.5),
                                     textColor: AppColors.orange,
@@ -144,6 +145,7 @@ class DeleveryOrderScreen extends StatelessWidget {
                           return Padding(
                             padding: EdgeInsets.all(getSize(context) / 50),
                             child: ShipmentCardWidget(
+                              isDeleveryOrder: true,
                               backgroundColor: AppColors.green.withOpacity(0.5),
                               textColor: AppColors.green,
                               status: "complete".tr(), // Last orders
