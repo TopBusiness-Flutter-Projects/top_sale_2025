@@ -18,5 +18,12 @@
   "new": "جديدة",
   "delivered": "تم التسليم",
   "shipment_number": "رقم الشحنة : ",
-  "complete": "مكتملة"
+  "complete": "مكتملة",
+  "login":"تسجيل الدخول",
+  "username":"اسم المستخدم",
+  "username_invalid":"ادخل اسم المستخدم"
+  ,"password":"كلمة المرور",
+  "password_invalid":"ادخل كلمة المرور",
+  "emplyee_num":"رقم الموظف",
+  "emplyee_num_invalid":"ادخل رقم الموظف"
 }

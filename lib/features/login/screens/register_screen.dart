@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top_sale/core/utils/app_colors.dart';
 import 'package:top_sale/core/utils/app_strings.dart';
@@ -10,14 +11,14 @@ import 'package:top_sale/features/login/cubit/state.dart';
 import '../../../config/routes/app_routes.dart';
 import '../../../core/utils/get_size.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginCubit, LoginState>(
@@ -27,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
           appBar: AppBar(
             centerTitle: false,
             title: Text(
-              'login'.tr(),
+              'انشاء الحساب',
               style: TextStyle(
                   fontFamily: AppStrings.fontFamily,
                   color: AppColors.black,
@@ -38,9 +39,6 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Center(
-                    child: Image.asset(ImageAssets.logoImage,
-                        width: getSize(context) / 2)),
                 CustomTextFielWithTitle(
                   controller: cubit.usernameController,
                   hint: 'username_invalid'.tr(),
@@ -123,12 +121,15 @@ class CustomTextFielWithTitle extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: TextStyle(
-                fontFamily: AppStrings.fontFamily,
-                color: AppColors.black,
-                fontWeight: FontWeight.w500),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 5.0),
+            child: Text(
+              title,
+              style: TextStyle(
+                  fontFamily: AppStrings.fontFamily,
+                  color: AppColors.black,
+                  fontWeight: FontWeight.w500),
+            ),
           ),
           TextFormField(
             validator: (value) {
