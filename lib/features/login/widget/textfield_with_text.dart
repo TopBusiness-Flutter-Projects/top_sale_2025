@@ -3,8 +3,8 @@ import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_strings.dart';
 import '../../../core/utils/get_size.dart';
 
-class CustomTextFielWithTitle extends StatefulWidget {
-  CustomTextFielWithTitle({
+class CustomTextFieldWithTitle extends StatefulWidget {
+  const CustomTextFieldWithTitle({
     super.key,
     required this.controller,
     required this.title,
@@ -18,11 +18,11 @@ class CustomTextFielWithTitle extends StatefulWidget {
   final TextInputType? keyboardType;
 
   @override
-  _CustomTextFielWithTitleState createState() =>
-      _CustomTextFielWithTitleState();
+  _CustomTextFieldWithTitleState createState() =>
+      _CustomTextFieldWithTitleState();
 }
 
-class _CustomTextFielWithTitleState extends State<CustomTextFielWithTitle> {
+class _CustomTextFieldWithTitleState extends State<CustomTextFieldWithTitle> {
   bool _isPasswordVisible = false;
 
   @override

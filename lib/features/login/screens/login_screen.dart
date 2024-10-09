@@ -1,14 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top_sale/core/utils/app_colors.dart';
 import 'package:top_sale/core/utils/app_strings.dart';
 import 'package:top_sale/core/utils/assets_manager.dart';
 import 'package:top_sale/features/login/cubit/cubit.dart';
 import 'package:top_sale/features/login/cubit/state.dart';
-
 import '../../../config/routes/app_routes.dart';
 import '../../../core/utils/get_size.dart';
 import '../widget/custom_button.dart';
@@ -137,18 +134,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 cubit.isEmplyee
-                    ? CustomTextFielWithTitle(
+                    ? CustomTextFieldWithTitle(
                         controller: cubit.emplyeeNumberController,
                         hint: 'emplyee_num_invalid'.tr(),
                         title: 'emplyee_num'.tr(),
                         keyboardType: TextInputType.number)
-                    : CustomTextFielWithTitle(
+                    : CustomTextFieldWithTitle(
                         controller: cubit.usernameController,
                         hint: 'username_invalid'.tr(),
                         keyboardType: TextInputType.name,
                         title: 'username'.tr(),
                       ),
-                CustomTextFielWithTitle(
+                CustomTextFieldWithTitle(
                     keyboardType: TextInputType.visiblePassword,
                     controller: cubit.passwordController,
                     hint: 'password_invalid'.tr(),

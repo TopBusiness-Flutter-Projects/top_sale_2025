@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:top_sale/features/clients/screens/clients_screen.dart';
 import 'package:top_sale/features/login/screens/system_info_screen.dart';
 import 'package:top_sale/features/home_screen/screens/home_screen.dart';
 import 'package:top_sale/features/main/screens/main_screen.dart';
@@ -15,6 +16,7 @@ class Routes {
   static const String initialRoute = '/';
   static const String loginRoute = '/login';
   static const String mainRoute = '/main';
+  static const String clientsRoute = '/clients';
   static const String homeRoute = '/home';
   static const String detailsOrder = '/orderDetails';
   static const String paymentRoute = '/payment';
@@ -85,6 +87,12 @@ class AppRoutes {
         );  case Routes.mainRoute:
         return PageTransition(
           child: const MainScreen(),
+          type: PageTransitionType.fade,
+          alignment: Alignment.center,
+          duration: const Duration(milliseconds: 800),
+        );  case Routes.clientsRoute:
+        return PageTransition(
+          child: const ClientScreen(),
           type: PageTransitionType.fade,
           alignment: Alignment.center,
           duration: const Duration(milliseconds: 800),
