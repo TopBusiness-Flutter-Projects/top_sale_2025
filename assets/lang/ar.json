@@ -40,7 +40,6 @@
   "delevey_order": "توصيل الطلبات",
   "direct_sales": "بيع مباشر",
   "serali_line": "خط سير ",
-  "clients": "العملاء",
   "enter_name": "ادخل اسم العميل",
   "name": "اسم العميل",
   "email": "البريد الالكتروني",
@@ -49,7 +48,7 @@
   "enter_phone": "ادخل رقم التلفون",
   "enter_email": "ادخل البريد الالكتروني",
   "confirm": "تاكيد",
-  "enter_address": "ادخل العنوان"
+  "enter_address": "ادخل العنوان",
   "clients": "العملاء",
   "menu":"القائمة",
   "hr":"مدير",

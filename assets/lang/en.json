@@ -40,10 +40,7 @@
   "odoo_link": "Odoo Link",
   "odoo_link_invalid": "Enter the Odoo link",
   "db_name": "Database Name",
-  "db_name_invalid": "Enter the database name",
-  "register":"New Account",
-    "user":"User",
-  "emplyee":"Employee"
+  "db_name_invalid": "Enter the database name"
 
 ,
   "confirm": "Confirm",
