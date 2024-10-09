@@ -17,7 +17,6 @@
   "choose_filter": "Choose Filter",
   "new": "New",
   "delivered": "Delivered",
-  "shipment_number": "Shipment Number : ",
   "complete": "Complete",
   "login": "Login",
   "username": "Username",
@@ -28,5 +27,9 @@
   "emplyee_num_invalid": "Enter employee number",
   "new_account": "New Account",
   "create_account": "Create Account",
-  "try_the_app": "Try the app"
+  "try_the_app": "Try the app",
+  "delevey_order": "Delivery Order",
+  "direct_sales": "Direct Sales",
+  "serali_line": "Seral Line",
+  "clients":"Clients"
 }
