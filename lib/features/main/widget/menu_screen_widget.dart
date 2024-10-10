@@ -77,23 +77,22 @@ class MenuScreenWidget extends StatelessWidget {
                   MenuListTileWidget(
                     iconPath: ImageAssets.profileIcon,
                     onclick: () {
-                      Navigator.pushNamed(
-                          context, Routes.profileRoute);
+                      Navigator.pushNamed(context, Routes.profileRoute);
                     },
                     title: 'profile'.tr(),
                   ),
                   MenuListTileWidget(
                     iconPath: ImageAssets.shareIcon,
                     onclick: () async {
-                      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+                      PackageInfo packageInfo =
+                          await PackageInfo.fromPlatform();
                       String url = '';
                       String packageName = packageInfo.packageName;
                       if (Platform.isAndroid) {
                         url =
-                        "https://play.google.com/store/apps/details?id=$packageName";
+                            "https://play.google.com/store/apps/details?id=$packageName";
                       } else if (Platform.isIOS) {
-                        url =
-                        'https://apps.apple.com/us/app/$packageName';
+                        url = 'https://apps.apple.com/us/app/$packageName';
                       }
                       await Share.share(url);
                     },
@@ -109,15 +108,14 @@ class MenuScreenWidget extends StatelessWidget {
 
                       if (Platform.isAndroid) {
                         url =
-                        "https://play.google.com/store/apps/details?id=$packageName";
+                            "https://play.google.com/store/apps/details?id=$packageName";
                       } else if (Platform.isIOS) {
-                        url =
-                        'https://apps.apple.com/us/app/$packageName';
+                        url = 'https://apps.apple.com/us/app/$packageName';
                       }
                       if (await canLaunch(url)) {
-                      await launch(url);
+                        await launch(url);
                       } else {
-                      throw 'Could not launch $url';
+                        throw 'Could not launch $url';
                       }
                     },
                     title: 'evaluate_the_application'.tr(),
@@ -125,16 +123,14 @@ class MenuScreenWidget extends StatelessWidget {
                   MenuListTileWidget(
                     iconPath: ImageAssets.contactIcon,
                     onclick: () {
-                      Navigator.pushNamed(
-                          context, Routes.contactRoute);
+                      Navigator.pushNamed(context, Routes.contactRoute);
                     },
                     title: 'contact'.tr(),
                   ),
                   MenuListTileWidget(
                     iconPath: ImageAssets.editIcon,
                     onclick: () {
-                      Navigator.pushNamed(
-                          context, Routes.updateprofileRoute);
+                      Navigator.pushNamed(context, Routes.updateprofileRoute);
                     },
                     title: 'edit'.tr(),
                   ),
