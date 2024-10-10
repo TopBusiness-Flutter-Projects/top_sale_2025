@@ -101,8 +101,12 @@ class AppRoutes {
           duration: const Duration(milliseconds: 800),
         );
       case Routes.clientsRoute:
+        bool isCart = settings.arguments as bool;
+
         return PageTransition(
-          child: const ClientScreen(),
+          child: ClientScreen(
+            isCart: isCart,
+          ),
           type: PageTransitionType.fade,
           alignment: Alignment.center,
           duration: const Duration(milliseconds: 800),
