@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_strings.dart';
 import '../../../core/utils/get_size.dart';
+import '../../../core/utils/style_text.dart';
 
 class CustomTextFieldWithTitle extends StatefulWidget {
   const CustomTextFieldWithTitle({
@@ -10,11 +11,15 @@ class CustomTextFieldWithTitle extends StatefulWidget {
     required this.title,
     required this.hint,
     this.keyboardType,
+    this.readonly,
+    this.isModify,
   });
 
   final TextEditingController controller;
   final String title;
   final String hint;
+  final bool ?readonly;
+  final bool ?isModify;
   final TextInputType? keyboardType;
 
   @override
@@ -53,13 +58,17 @@ class _CustomTextFieldWithTitleState extends State<CustomTextFieldWithTitle> {
                 return null;
               }
             },
+            readOnly: widget.readonly??false,
             keyboardType: widget.keyboardType,
             controller: widget.controller,
             obscureText: widget.keyboardType == TextInputType.visiblePassword &&
                 !_isPasswordVisible,
             decoration: InputDecoration(
+              fillColor:widget.isModify == true?AppColors.gray.withOpacity(0.25):AppColors.white,
               contentPadding: const EdgeInsetsDirectional.only(start: 8),
               hintText: widget.hint,
+              filled: true,
+              hintStyle: widget.isModify == true?TextStyles.size16FontWidget400Gray.copyWith(color:  AppColors.greyColor):TextStyles.size16FontWidget400Gray,
               border: OutlineInputBorder(
                 borderSide: BorderSide(
                   color: AppColors.greyColor,

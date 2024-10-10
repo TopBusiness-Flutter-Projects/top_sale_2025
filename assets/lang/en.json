@@ -70,5 +70,10 @@
   "logout": "Logout",
   "contact": "Contact Us",
   "server_error": "Some thing went wrong",
+  "message": "Message",
+  "enter_message": "Enter Message",
+  "enter_subject": " Enter Subject",
+  "leave_your_message": "Leave your message",
+  "subject": "Subject",
   "ll": ""
 }

@@ -70,6 +70,12 @@
   "logout": "تسجيل الخروج",
   "profile": "الصفحة الشخصيه",
   "share_app": "مشاركة التطبيق",
+  "subject": "الموضوع",
+  "leave_your_message": "اترك رسالتك",
+  "message": "رسالة",
+  "enter_message": "ادخل رسالتك",
+  "enter_subject": "ادخل الموضوع",
+
   "": "",
   "ll": ""
 }

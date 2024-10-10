@@ -76,14 +76,16 @@ class MenuScreenWidget extends StatelessWidget {
                   ),
                   MenuListTileWidget(
                     iconPath: ImageAssets.profileIcon,
-                    onclick: () {},
+                    onclick: () {
+                      Navigator.pushNamed(
+                          context, Routes.profileRoute);
+                    },
                     title: 'profile'.tr(),
                   ),
                   MenuListTileWidget(
                     iconPath: ImageAssets.shareIcon,
                     onclick: () async {
-                      PackageInfo packageInfo =
-                          await PackageInfo.fromPlatform();
+                      PackageInfo packageInfo = await PackageInfo.fromPlatform();
                       String url = '';
                       String packageName = packageInfo.packageName;
                       if (Platform.isAndroid) {
@@ -122,12 +124,18 @@ class MenuScreenWidget extends StatelessWidget {
                   ),
                   MenuListTileWidget(
                     iconPath: ImageAssets.contactIcon,
-                    onclick: () {},
+                    onclick: () {
+                      Navigator.pushNamed(
+                          context, Routes.contactRoute);
+                    },
                     title: 'contact'.tr(),
                   ),
                   MenuListTileWidget(
                     iconPath: ImageAssets.editIcon,
-                    onclick: () {},
+                    onclick: () {
+                      Navigator.pushNamed(
+                          context, Routes.updateprofileRoute);
+                    },
                     title: 'edit'.tr(),
                   ),
                   MenuListTileWidget(
