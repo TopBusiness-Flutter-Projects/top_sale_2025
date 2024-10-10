@@ -5,7 +5,7 @@ import '../../../core/utils/get_size.dart';
 import '../../../core/utils/style_text.dart';
 
 class CustomTextFieldWithTitle extends StatefulWidget {
-   CustomTextFieldWithTitle({
+  CustomTextFieldWithTitle({
     super.key,
     required this.controller,
     required this.title,
@@ -16,13 +16,13 @@ class CustomTextFieldWithTitle extends StatefulWidget {
     this.isModify,
   });
 
-  final TextEditingController controller;
-  final String title;
-  final String hint;
-  final bool ?readonly;
-  final bool ?isModify;
-  final TextInputType? keyboardType;
- final int? maxLines;
+  TextEditingController controller;
+  String title;
+  String hint;
+  bool? readonly;
+  bool? isModify;
+  TextInputType? keyboardType;
+  int? maxLines;
 
   @override
   _CustomTextFieldWithTitleState createState() =>
@@ -62,17 +62,22 @@ class _CustomTextFieldWithTitleState extends State<CustomTextFieldWithTitle> {
               }
             },
             //
-            readOnly: widget.readonly??false,
+            readOnly: widget.readonly ?? false,
             keyboardType: widget.keyboardType,
             controller: widget.controller,
             obscureText: widget.keyboardType == TextInputType.visiblePassword &&
                 !_isPasswordVisible,
             decoration: InputDecoration(
-              fillColor:widget.isModify == true?AppColors.gray.withOpacity(0.25):AppColors.white,
+              fillColor: widget.isModify == true
+                  ? AppColors.gray.withOpacity(0.25)
+                  : AppColors.white,
               contentPadding: const EdgeInsetsDirectional.only(start: 8),
               hintText: widget.hint,
               filled: true,
-              hintStyle: widget.isModify == true?TextStyles.size16FontWidget400Gray.copyWith(color:  AppColors.greyColor):TextStyles.size16FontWidget400Gray,
+              hintStyle: widget.isModify == true
+                  ? TextStyles.size16FontWidget400Gray
+                      .copyWith(color: AppColors.greyColor)
+                  : TextStyles.size16FontWidget400Gray,
               border: OutlineInputBorder(
                 borderSide: BorderSide(
                   color: AppColors.greyColor,

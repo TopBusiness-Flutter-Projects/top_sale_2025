@@ -1,19 +1,16 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:top_sale/core/utils/app_fonts.dart';
 import 'package:top_sale/features/direct_sell/cubit/direct_sell_state.dart';
-import 'package:top_sale/features/direct_sell/screens/widgets/custom_category_widget.dart';
-import 'package:top_sale/features/direct_sell/screens/widgets/custom_product_widget.dart';
 import 'package:top_sale/features/direct_sell/screens/widgets/scanner.dart';
 
 import '../../../core/utils/app_colors.dart';
 import '../cubit/direct_sell_cubit.dart';
+import 'widgets/custom_product_widget.dart';
 
 class ProductsScreen extends StatefulWidget {
   const ProductsScreen({super.key, required this.categoryName});
