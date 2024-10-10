@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:top_sale/core/utils/assets_manager.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -77,12 +81,43 @@ class MenuScreenWidget extends StatelessWidget {
                   ),
                   MenuListTileWidget(
                     iconPath: ImageAssets.shareIcon,
-                    onclick: () {},
+                    onclick: () async {
+                      PackageInfo packageInfo =
+                          await PackageInfo.fromPlatform();
+                      String url = '';
+                      String packageName = packageInfo.packageName;
+                      if (Platform.isAndroid) {
+                        url =
+                        "https://play.google.com/store/apps/details?id=$packageName";
+                      } else if (Platform.isIOS) {
+                        url =
+                        'https://apps.apple.com/us/app/$packageName';
+                      }
+                      await Share.share(url);
+                    },
                     title: 'share_app'.tr(),
                   ),
                   MenuListTileWidget(
                     iconPath: ImageAssets.evaluate,
-                    onclick: () {},
+                    onclick: () async {
+                      PackageInfo packageInfo =
+                          await PackageInfo.fromPlatform();
+                      String url = '';
+                      String packageName = packageInfo.packageName;
+
+                      if (Platform.isAndroid) {
+                        url =
+                        "https://play.google.com/store/apps/details?id=$packageName";
+                      } else if (Platform.isIOS) {
+                        url =
+                        'https://apps.apple.com/us/app/$packageName';
+                      }
+                      if (await canLaunch(url)) {
+                      await launch(url);
+                      } else {
+                      throw 'Could not launch $url';
+                      }
+                    },
                     title: 'evaluate_the_application'.tr(),
                   ),
                   MenuListTileWidget(
