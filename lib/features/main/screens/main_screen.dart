@@ -128,6 +128,7 @@ class _MainScreenState extends State<MainScreen> {
                           onTap: (index) {
                             if (cubit.currentIndex == 3) {
                               z.toggle!.call();
+                              cubit.changeNavigationBar(index);
                             } else {
                               cubit.changeNavigationBar(index);
                             }
