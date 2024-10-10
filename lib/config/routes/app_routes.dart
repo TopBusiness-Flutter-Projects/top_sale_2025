@@ -6,6 +6,7 @@ import 'package:top_sale/features/clients/screens/clients_screen.dart';
 import 'package:top_sale/features/login/screens/system_info_screen.dart';
 import 'package:top_sale/features/home_screen/screens/home_screen.dart';
 import 'package:top_sale/features/main/screens/main_screen.dart';
+import 'package:top_sale/features/notification_screen/screens/notification_screens.dart';
 import 'package:top_sale/features/splash/screens/splash_screen.dart';
 import '../../core/utils/app_strings.dart';
 import 'package:page_transition/page_transition.dart';
@@ -30,6 +31,7 @@ class Routes {
   static const String directSellRoute = '/directSellRoute';
   static const String categoriesRoute = '/categoriesRoute';
   static const String productsRoute = '/productsRoute';
+  static const String notificationRoute = '/notificationRoute';
   static const String basketScreenRoute = '/basketScreen';
 }
 
@@ -136,6 +138,10 @@ class AppRoutes {
       case Routes.basketScreenRoute:
         return MaterialPageRoute(
           builder: (context) => const BasketScreen(),
+        );
+      case Routes.notificationRoute:
+        return MaterialPageRoute(
+          builder: (context) => NotificationScreens(),
         );
       //
       // case Routes.resultOfLessonExam:
