@@ -77,6 +77,7 @@ class _NotificationScreensState extends State<NotificationScreens> {
                                           //       .notificationModel
                                           //       ?.data?[index],
                                           // ));
+                                      //
                                   NotificationDialog(
 
                                           ));
