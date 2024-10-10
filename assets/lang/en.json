@@ -62,7 +62,10 @@
   "hr":"HRM",
   "basket":"Basket",
   "home":"Home",
-   "ll": "",
-   "admin_name":"ُEnter master username"
+  "server_error": "Some thing went wrong",
+"admin_name":"ُEnter master username",
+   "ll": ""
+   
+   
  
 }
