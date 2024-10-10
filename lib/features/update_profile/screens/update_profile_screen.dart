@@ -19,66 +19,72 @@ class UpdateProfileScreen extends StatelessWidget {
     var cubit = context.read<UpdateProfileCubit>();
     return Scaffold(
       backgroundColor: AppColors.white,
-      body:  SingleChildScrollView(
-        child: BlocBuilder<UpdateProfileCubit,UpdateProfileState>(
-          builder: (context,state) {
-            return Column(
-              children: [
-                SizedBox(height: getSize(context)/30,),
+      body: SingleChildScrollView(
+        child: BlocBuilder<UpdateProfileCubit, UpdateProfileState>(
+            builder: (context, state) {
+          return Column(
+            children: [
+              SizedBox(
+                height: getSize(context) / 30,
+              ),
               Row(
-               crossAxisAlignment: CrossAxisAlignment.center,
-               mainAxisAlignment: MainAxisAlignment.center,
-               children: [
-                 Stack(children: [
-                   CircleAvatar(
-                     radius: 50.sp,
-                     backgroundImage: const AssetImage(ImageAssets.user),),
-                   const Positioned(
-                     bottom: 0,
-                     right: 0,
-                     child: Icon(
-                       Icons.camera_alt,
-
-                     ),
-                   )
-                 ],),
-               ],
-             ),
-                SizedBox(height: getSize(context)/30,),
-
-                CustomTextFieldWithTitle(
-                  hint: "ثناء عادل",
-                  controller: TextEditingController(),
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Stack(
+                    children: [
+                      CircleAvatar(
+                        radius: 50.sp,
+                        backgroundImage: const AssetImage(ImageAssets.user),
+                      ),
+                      const Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: Icon(
+                          Icons.camera_alt,
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: getSize(context) / 30,
+              ),
+              CustomTextFieldWithTitle(
+                hint: "ثناء عادل",
+                controller: cubit.nameController,
                 title: "name".tr(),
-                  keyboardType: TextInputType.name,
-                ),
-                SizedBox(height: getSize(context)/30,),
-                CustomTextFieldWithTitle(
-                  hint: "000000000000",
-                  controller: TextEditingController(),
+                keyboardType: TextInputType.name,
+              ),
+              SizedBox(
+                height: getSize(context) / 30,
+              ),
+              CustomTextFieldWithTitle(
+                hint: "000000000000",
+                controller: cubit.phoneController,
                 title: "phone".tr(),
-                  keyboardType: TextInputType.name,
-                ),
-                SizedBox(height: getSize(context)/30,),
-                CustomTextFieldWithTitle(
-                  hint: "sanaa@gmail.com",
-                  controller: TextEditingController(),
+                keyboardType: TextInputType.phone,
+              ),
+              SizedBox(
+                height: getSize(context) / 30,
+              ),
+              CustomTextFieldWithTitle(
+                hint: "sanaa@gmail.com",
+                controller: cubit.emailController,
                 title: "email".tr(),
-                  keyboardType: TextInputType.name,
-                ),
-                SizedBox(height: getSize(context)/8,),
-                CustomButton(
-                  title: "modify".tr(),
-                  onTap: () {
-
-                  },
-
-                )
-
-            ],);
-          }
-        ),
-
+                keyboardType: TextInputType.emailAddress,
+              ),
+              SizedBox(
+                height: getSize(context) / 8,
+              ),
+              CustomButton(
+                title: "modify".tr(),
+                onTap: () {},
+              )
+            ],
+          );
+        }),
       ),
       appBar: AppBar(
         backgroundColor: AppColors.white,
