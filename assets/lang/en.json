@@ -4,8 +4,13 @@
   "skip": "Skip",
   "start_now": "Start Now",
   "total": "total",
+  "message": "Message",
+  "enter_message": "Enter Message",
+  "enter_subject": " Enter Subject",
   "details_order": "details_order",
   "payment": "Payment",
+  "leave_your_message": "Leave your message",
+  "subject": "Subject",
   "confirm_invoice": "Confirm invoice",
   "Create_an_invoice": "Create an invoice",
   "shipment_number": "Shipment Number",
@@ -27,7 +32,7 @@
   "emplyee_num_invalid": "Enter employee number",
   "new_account": "New Account",
   "enter_name": "Enter name",
-  "name": "Name",
+  "client_name": "Client Name",
   "email": "Email",
   "phone": "Phone",
   "address": "Address",
@@ -50,13 +55,34 @@
   "search_product": "Searh for a product",
   "search_client": "Searh for a client",
   "currency": "EGP",
+
+
   "register": "New Account",
   "user": "User",
   "emplyee": "Employee",
   "delevey_order": "Delivery Order",
   "direct_sales": "Direct Sales",
   "serali_line": "Seral Line",
-  "menu": "Menu",
+  "menu":"Menu",
+  "hr":"HRM",
+  "basket":"Basket",
+  "home":"Home",
+   "ll": "",
+   "admin_name":"ُEnter master username"
+
+  "ll": "",
+  "modify": "Modify",
+  "leave_your_message": "Leave your message",
+  "update_profile": "Update Profile",
+  "name": "Name",
+  "send": "send",
+  "message": "Message",
+  "write_your_message": "Write your message",
+  "subject": "Subject",
+  "enter_subject": "Enter subject"
+
+
+,  "menu": "Menu",
   "hr": "HRM",
   "basket": "Basket",
   "home": "Home",
@@ -68,6 +94,7 @@
   "share_app": "Share App",
   "delete": "ُDelete Profile",
   "logout": "Logout",
+  "show_price": "show price",
   "contact": "Contact Us",
   "server_error": "Some thing went wrong",
   "message": "Message",
@@ -76,4 +103,8 @@
   "leave_your_message": "Leave your message",
   "subject": "Subject",
   "ll": ""
+  "ll": "",
+  "enter_the_percentage":"Enter the percentage",
+  "discount_rate": "Discount Rate",
+
 }

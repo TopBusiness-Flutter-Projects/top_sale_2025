@@ -9,7 +9,9 @@ import 'config/themes/app_theme.dart';
 import 'core/utils/app_strings.dart';
 import 'package:top_sale/injector.dart' as injector;
 
+import 'features/contact_us/cubit/contact_us_cubit.dart';
 import 'features/basket_screen/cubit/cubit.dart';
+import 'features/clients/cubit/clients_cubit.dart';
 import 'features/contact_us/cubit/contact_us_cubit.dart';
 import 'features/delevery_order/cubit/delevery_orders_cubit.dart';
 import 'features/home_screen/cubit/cubit.dart';
@@ -66,6 +68,11 @@ class _MyAppState extends State<MyApp> {
             create: (_) => injector.serviceLocator<DirectSellCubit>(),
           ),
           BlocProvider(
+            create: (_) => injector.serviceLocator<ContactUsCubit>(),
+          ),  BlocProvider(
+            create: (_) => injector.serviceLocator<UpdateProfileCubit>(),
+          ),
+          BlocProvider(
             create: (_) => injector.serviceLocator<BasketCubit>(),
           ),   BlocProvider(
             create: (_) => injector.serviceLocator<ProfileCubit>(),
@@ -77,6 +84,8 @@ class _MyAppState extends State<MyApp> {
           ),
           BlocProvider(
             create: (_) => injector.serviceLocator<UpdateProfileCubit>(),
+          ), BlocProvider(
+            create: (_) => injector.serviceLocator<ClientsCubit>(),
           ),
         ],
         child: ScreenUtilInit(

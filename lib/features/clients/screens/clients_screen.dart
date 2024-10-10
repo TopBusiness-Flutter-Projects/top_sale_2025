@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:top_sale/core/utils/get_size.dart';
 import 'package:top_sale/features/clients/screens/widgets/custom_card_client.dart';
@@ -9,17 +10,20 @@ import '../../../core/utils/app_strings.dart';
 import '../../../core/widgets/custom_text_form_field.dart';
 import '../../details_order/screens/widgets/rounded_button.dart';
 import '../../login/widget/textfield_with_text.dart';
+import '../cubit/clients_cubit.dart';
 
 class ClientScreen extends StatelessWidget {
+
   ClientScreen({this.isCart = false, super.key});
   bool isCart;
   @override
   Widget build(BuildContext context) {
+    var cubit = context.read<ClientsCubit>();
     return Scaffold(
         backgroundColor: AppColors.white,
         floatingActionButton: GestureDetector(
           onTap: () {
-            _showBottomSheet(context);
+            _showBottomSheet(context,cubit);
           },
           child: Container(
             height: 30.sp,
@@ -50,11 +54,13 @@ class ClientScreen extends StatelessWidget {
             ),
           ),
         ),
+
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12.0),
           child: Column(
             children: [
               CustomTextField(
+                controller: cubit.searchController,
                 onChanged: (keyValue) {
                   if (keyValue.isEmpty) {
                     // cubit.getAllProducts();
@@ -95,7 +101,7 @@ class ClientScreen extends StatelessWidget {
         ));
   }
 
-  void _showBottomSheet(BuildContext context) {
+  void _showBottomSheet(BuildContext context,ClientsCubit cubit) {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
@@ -110,8 +116,9 @@ class ClientScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 CustomTextFieldWithTitle(
+
                   title: "name".tr(),
-                  controller: TextEditingController(),
+                  controller: cubit.clientNameController,
                   hint: "enter_name".tr(),
                   keyboardType: TextInputType.text,
                 ),
@@ -120,7 +127,7 @@ class ClientScreen extends StatelessWidget {
                 ),
                 CustomTextFieldWithTitle(
                   title: "phone".tr(),
-                  controller: TextEditingController(),
+                  controller: cubit.phoneController,
                   hint: "enter_phone".tr(),
                   keyboardType: TextInputType.text,
                 ),
@@ -129,7 +136,7 @@ class ClientScreen extends StatelessWidget {
                 ),
                 CustomTextFieldWithTitle(
                   title: "email".tr(),
-                  controller: TextEditingController(),
+                  controller: cubit.emailController,
                   hint: "enter_email".tr(),
                   keyboardType: TextInputType.text,
                 ),
@@ -138,7 +145,7 @@ class ClientScreen extends StatelessWidget {
                 ),
                 CustomTextFieldWithTitle(
                   title: "address".tr(),
-                  controller: TextEditingController(),
+                  controller: cubit.addressController,
                   hint: "enter_address".tr(),
                   keyboardType: TextInputType.text,
                 ),
