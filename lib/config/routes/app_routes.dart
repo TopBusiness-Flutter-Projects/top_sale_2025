@@ -90,13 +90,15 @@ class AppRoutes {
           type: PageTransitionType.fade,
           alignment: Alignment.center,
           duration: const Duration(milliseconds: 800),
-        );  case Routes.mainRoute:
+        );
+      case Routes.mainRoute:
         return PageTransition(
-          child: const MainScreen(),
+          child: const Zoom(),
           type: PageTransitionType.fade,
           alignment: Alignment.center,
           duration: const Duration(milliseconds: 800),
-        );  case Routes.clientsRoute:
+        );
+      case Routes.clientsRoute:
         return PageTransition(
           child: const ClientScreen(),
           type: PageTransitionType.fade,
@@ -111,14 +113,15 @@ class AppRoutes {
           duration: const Duration(milliseconds: 800),
         );
       case Routes.directSellRoute:
-       return MaterialPageRoute(
+        return MaterialPageRoute(
           builder: (context) => const DirectSellScreen(),
         );
       case Routes.productsRoute:
-          String categoryname =
-            settings.arguments as String;
+        String categoryname = settings.arguments as String;
         return MaterialPageRoute(
-          builder: (context) =>  ProductsScreen(categoryName: categoryname,),
+          builder: (context) => ProductsScreen(
+            categoryName: categoryname,
+          ),
         );
       case Routes.categoriesRoute:
         return MaterialPageRoute(

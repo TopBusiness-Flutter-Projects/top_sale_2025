@@ -65,6 +65,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   hint: 'db_name_invalid'.tr(),
                   title: 'db_name'.tr(),
                   keyboardType: TextInputType.text),
+              CustomTextFieldWithTitle(
+                  controller: cubit.adminNameController,
+                  hint: 'username_invalid'.tr(),
+                  title: 'admin_name'.tr(),
+                  keyboardType: TextInputType.text),
+              CustomTextFieldWithTitle(
+                  keyboardType: TextInputType.visiblePassword,
+                  controller: cubit.adminPasswordController,
+                  hint: 'password_invalid'.tr(),
+                  title: 'password'.tr()),
               CustomButton(
                   title: 'register'.tr(),
                   onTap: () {
