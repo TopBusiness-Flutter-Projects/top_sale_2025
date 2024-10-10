@@ -10,6 +10,7 @@ import 'package:top_sale/features/main/screens/main_screen.dart';
 import 'package:top_sale/features/splash/screens/splash_screen.dart';
 import 'package:top_sale/features/update_profile/screens/update_profile_screen.dart';
 import '../../core/utils/app_strings.dart';
+import 'package:page_transition/page_transition.dart';
 import '../../features/details_order/screens/details_order.dart';
 import '../../features/details_order/screens/widgets/payment.dart';
 import '../../features/delevery_order/screens/delevery_order_screen.dart';
@@ -102,6 +103,17 @@ class AppRoutes {
         return MaterialPageRoute(
           builder: (context) => const CategoriesScreen(),
         );
+      //
+      // case Routes.resultOfLessonExam:
+      //   ResponseOfApplyLessonExmamData model =
+      //       settings.arguments as ResponseOfApplyLessonExmamData;
+      //   return PageTransition(
+      //     child: ResultExamLessonScreen(model: model),
+      //     type: PageTransitionType.fade,
+      //     alignment: Alignment.center,
+      //     duration: const Duration(milliseconds: 800),
+      //   );
+
       default:
         return undefinedRoute();
     }

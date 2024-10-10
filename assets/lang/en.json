@@ -39,9 +39,7 @@
   "odoo_link": "Odoo Link",
   "odoo_link_invalid": "Enter the Odoo link",
   "db_name": "Database Name",
-  "db_name_invalid": "Enter the database name"
-
-,
+  "db_name_invalid": "Enter the database name",
   "confirm": "Confirm",
   "create_account": "Create Account",
   "try_the_app": "Try the app",
@@ -52,17 +50,21 @@
   "search_product": "Searh for a product",
   "search_client": "Searh for a client",
   "currency": "EGP",
+
+
   "register": "New Account",
   "user": "User",
   "emplyee": "Employee",
   "delevey_order": "Delivery Order",
   "direct_sales": "Direct Sales",
   "serali_line": "Seral Line",
-  "clients": "Clients",
   "menu":"Menu",
   "hr":"HRM",
   "basket":"Basket",
   "home":"Home",
+   "ll": "",
+   "admin_name":"ُEnter master username"
+
   "ll": "",
   "modify": "Modify",
   "leave_your_message": "Leave your message",
