@@ -127,7 +127,7 @@ class _MainScreenState extends State<MainScreen> {
                           // notchSmoothness: NotchSmoothness.verySmoothEdge,
                           onTap: (index) {
                             if (cubit.currentIndex == 3) {
-                              z.toggle!.call();
+                              z.toggle?.call();
                               cubit.changeNavigationBar(index);
                             } else {
                               cubit.changeNavigationBar(index);
