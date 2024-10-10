@@ -25,6 +25,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return BlocBuilder<LoginCubit, LoginState>(builder: (context, state) {
       var cubit = context.read<LoginCubit>();
       return Scaffold(
+          backgroundColor: AppColors.white,
           appBar: AppBar(
             centerTitle: false,
             title: Text(
