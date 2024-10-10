@@ -47,25 +47,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.pushNamed(
                               context, Routes.deleveryOrderRoute);
                         },
-                        text: "توصيل الطلبات",
+                        text: "delevey_order".tr(),
                         image: ImageAssets.deleveryOrder),
                     CardHome(
                         onPressed: () {
                           Navigator.pushNamed(context, Routes.directSellRoute);
                         },
-                        text: "بيع مباشر",
-                        image: ImageAssets.directSale),
-                    const CardHome(text: "خط سير", image: ImageAssets.line),
-                    const CardHome(text: "العملاء", image: ImageAssets.clients),
-                    CardHome(
-                        onPressed: () {
-                          Navigator.pushNamed(
-                              context, Routes.deleveryOrderRoute);
-                        },
-                        text: "delevey_order".tr(),
-                        image: ImageAssets.deleveryOrder),
-                    CardHome(
-                        onPressed: () {},
                         text: "direct_sales".tr(),
                         image: ImageAssets.directSale),
                     CardHome(text: "serali_line".tr(), image: ImageAssets.line),
@@ -73,7 +60,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         onPressed: () {
                           Navigator.pushNamed(context, Routes.clientsRoute);
                         },
-                        text: "clients".tr(), image: ImageAssets.clients),
+                        text: "clients".tr(),
+                        image: ImageAssets.clients),
                   ],
                 )
               ]),

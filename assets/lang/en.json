@@ -39,9 +39,7 @@
   "odoo_link": "Odoo Link",
   "odoo_link_invalid": "Enter the Odoo link",
   "db_name": "Database Name",
-  "db_name_invalid": "Enter the database name"
-
-,
+  "db_name_invalid": "Enter the database name",
   "confirm": "Confirm",
   "create_account": "Create Account",
   "try_the_app": "Try the app",
@@ -50,7 +48,6 @@
   "all": "All",
   "products": "Products",
   "search_product": "Searh for a product",
-  "clients": "Clients",
   "search_client": "Searh for a client",
   "currency": "EGP",
 
@@ -66,4 +63,10 @@
   "basket":"Basket",
   "home":"Home",
    "ll": ""
+  "clients": "Clients",
+  "menu": "Menu",
+  "hr": "HRM",
+  "basket": "Basket",
+  "home": "Home",
+  "ll": ""
 }
