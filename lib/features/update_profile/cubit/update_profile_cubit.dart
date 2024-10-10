@@ -9,5 +9,4 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
-
 }
