@@ -63,9 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     CardHome(
                         onPressed: () {
                           Navigator.pushNamed(context, Routes.clientsRoute,arguments: false);
-                        },
-                        text: "clients".tr(),
-                        image: ImageAssets.clients),
+
                   ],
                 )
               ]),

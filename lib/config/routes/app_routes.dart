@@ -7,10 +7,12 @@ import 'package:top_sale/features/clients/screens/clients_screen.dart';
 import 'package:top_sale/features/login/screens/system_info_screen.dart';
 import 'package:top_sale/features/home_screen/screens/home_screen.dart';
 import 'package:top_sale/features/main/screens/main_screen.dart';
+import 'package:top_sale/features/notification_screen/screens/notification_screens.dart';
 import 'package:top_sale/features/splash/screens/splash_screen.dart';
 import 'package:top_sale/features/update_profile/screens/update_profile_screen.dart';
 import '../../core/utils/app_strings.dart';
 import 'package:page_transition/page_transition.dart';
+import '../../features/basket_screen/screen/basket_screen.dart';
 import '../../features/details_order/screens/details_order.dart';
 import '../../features/details_order/screens/widgets/payment.dart';
 import '../../features/delevery_order/screens/delevery_order_screen.dart';
@@ -33,6 +35,8 @@ class Routes {
   static const String productsRoute = '/productsRoute';
   static const String updateProfileRoute = '/updateProfileRoute';
   static const String contactUsRoute = '/contactUsRoute';
+  static const String notificationRoute = '/notificationRoute';
+  static const String basketScreenRoute = '/basketScreen';
 }
 
 class AppRoutes {
@@ -102,6 +106,14 @@ class AppRoutes {
       case Routes.categoriesRoute:
         return MaterialPageRoute(
           builder: (context) => const CategoriesScreen(),
+        );
+      case Routes.basketScreenRoute:
+        return MaterialPageRoute(
+          builder: (context) => const BasketScreen(),
+        );
+      case Routes.notificationRoute:
+        return MaterialPageRoute(
+          builder: (context) => NotificationScreens(),
         );
       //
       // case Routes.resultOfLessonExam:

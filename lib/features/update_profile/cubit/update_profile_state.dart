@@ -1,3 +1,4 @@
- class UpdateProfileState {}
 
-final class UpdateProfileInitial extends UpdateProfileState {}
+abstract class UpdateProfileState {}
+
+class UpdateProfileInitial extends UpdateProfileState {}

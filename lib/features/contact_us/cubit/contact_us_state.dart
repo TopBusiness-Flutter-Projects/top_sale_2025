@@ -1,3 +1,4 @@
- class ContactUsState {}
 
-final class ContactUsInitial extends ContactUsState {}
+abstract class ContactUsState {}
+
+class ContactUsInitial extends ContactUsState {}

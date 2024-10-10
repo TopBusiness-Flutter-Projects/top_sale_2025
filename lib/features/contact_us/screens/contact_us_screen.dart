@@ -18,59 +18,56 @@ class ContactUsScreen extends StatelessWidget {
     var cubit = context.read<ContactUsCubit>();
     return Scaffold(
       backgroundColor: AppColors.white,
-      body:  SingleChildScrollView(
-        child: BlocBuilder<ContactUsCubit,ContactUsState>(
-          builder: (context,state) {
-            return Column(
 
-              children: [
-                SizedBox(height: getSize(context)/10,),
+      body: SingleChildScrollView(
+        child: BlocBuilder<ContactUsCubit, ContactUsState>(
+            builder: (context, state) {
+          return Column(
+            children: [
+              SizedBox(
+                height: getSize(context) / 10,
+              ),
               Row(
-               crossAxisAlignment: CrossAxisAlignment.center,
-               mainAxisAlignment: MainAxisAlignment.center,
-               children: [
-                  Image.asset(ImageAssets.contactUsRoute),
-                  SizedBox(height: getSize(context)/10),
-
-                 ],
-             ),
-                Column(
-                  children: [
-                    CustomTextFieldWithTitle(
-                      hint: "ثناء عادل",
-                      controller: TextEditingController(),
-                      title: "name".tr(),
-                      keyboardType: TextInputType.name,
-                    ),
-                    SizedBox(height: getSize(context)/30),
-                    CustomTextFieldWithTitle(
-                      hint: "enter_subject".tr(),
-                      controller: TextEditingController(),
-                      title: "subject".tr(),
-                      keyboardType: TextInputType.name,
-                    ),  SizedBox(height: getSize(context)/30),
-                    CustomTextFieldWithTitle(
-                      maxLines: 5,
-                      hint: "write_your_message".tr(),
-                      controller: TextEditingController(),
-                      title: "message".tr(),
-                      keyboardType: TextInputType.name,
-                    ),
-                  ],
-                ),
-                SizedBox(height: getSize(context)/30),
-                CustomButton(
-                  title: "send".tr(),
-                  onTap: () {
-
-                  },
-
-                )
-
-            ],);
-          }
-        ),
-
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(ImageAssets.contactUs),
+                  SizedBox(height: getSize(context) / 10),
+                ],
+              ),
+              Column(
+                children: [
+                  CustomTextFieldWithTitle(
+                    hint: "ثناء عادل",
+                    controller: cubit.nameController,
+                    title: "name".tr(),
+                    keyboardType: TextInputType.name,
+                  ),
+                  SizedBox(height: getSize(context) / 30),
+                  CustomTextFieldWithTitle(
+                    hint: "enter_subject".tr(),
+                    controller: cubit.subjectController,
+                    title: "subject".tr(),
+                    keyboardType: TextInputType.text,
+                  ),
+                  SizedBox(height: getSize(context) / 30),
+                  CustomTextFieldWithTitle(
+                    // maxLines: 5,
+                    hint: "write_your_message".tr(),
+                    controller: cubit.messageController,
+                    title: "message".tr(),
+                    keyboardType: TextInputType.text,
+                  ),
+                ],
+              ),
+              SizedBox(height: getSize(context) / 30),
+              CustomButton(
+                title: "send".tr(),
+                onTap: () {},
+              )
+            ],
+          );
+        }),
       ),
       appBar: AppBar(
         backgroundColor: AppColors.white,

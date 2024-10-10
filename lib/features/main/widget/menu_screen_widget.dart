@@ -73,12 +73,37 @@ class MenuScreenWidget extends StatelessWidget {
                   MenuListTileWidget(
                     iconPath: ImageAssets.profileIcon,
                     onclick: () {},
-                    title: 'الصفحة الشخصية',
+                    title: 'profile'.tr(),
                   ),
                   MenuListTileWidget(
                     iconPath: ImageAssets.shareIcon,
                     onclick: () {},
-                    title: 'مشاركة التطبيق',
+                    title: 'share_app'.tr(),
+                  ),
+                  MenuListTileWidget(
+                    iconPath: ImageAssets.evaluate,
+                    onclick: () {},
+                    title: 'evaluate_the_application'.tr(),
+                  ),
+                  MenuListTileWidget(
+                    iconPath: ImageAssets.contactIcon,
+                    onclick: () {},
+                    title: 'contact'.tr(),
+                  ),
+                  MenuListTileWidget(
+                    iconPath: ImageAssets.editIcon,
+                    onclick: () {},
+                    title: 'edit'.tr(),
+                  ),
+                  MenuListTileWidget(
+                    iconPath: ImageAssets.deleteIcon,
+                    onclick: () {},
+                    title: 'delete'.tr(),
+                  ),
+                  MenuListTileWidget(
+                    iconPath: ImageAssets.logoutIcon,
+                    onclick: () {},
+                    title: 'logout'.tr(),
                   ),
                 ],
               ),
