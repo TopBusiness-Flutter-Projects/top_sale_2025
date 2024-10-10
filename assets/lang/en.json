@@ -50,6 +50,8 @@
   "search_product": "Searh for a product",
   "search_client": "Searh for a client",
   "currency": "EGP",
+
+  
   "register": "New Account",
   "user": "User",
   "emplyee": "Employee",
@@ -70,5 +72,11 @@
    "delete":"ُDelete Profile",
    "logout":"Logout",
    "contact":"Contact Us"
+
+  "server_error": "Some thing went wrong",
+"admin_name":"ُEnter master username",
+   "ll": ""
+
+
 
 }

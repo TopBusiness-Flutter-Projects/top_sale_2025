@@ -58,7 +58,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     CardHome(text: "serali_line".tr(), image: ImageAssets.line),
                     CardHome(
                         onPressed: () {
-                          Navigator.pushNamed(context, Routes.clientsRoute);
+                          Navigator.pushNamed(context, Routes.clientsRoute,
+                              arguments: false);
                         },
                         text: "clients".tr(),
                         image: ImageAssets.clients),
