@@ -12,7 +12,7 @@ import 'core/api/app_interceptors.dart';
 import 'core/api/base_api_consumer.dart';
 import 'core/api/dio_consumer.dart';
 import 'features/basket_screen/cubit/cubit.dart';
-import 'features/clients/cubit/clients_cubit.dart';
+
 import 'features/contact_us/cubit/contact_us_cubit.dart';
 import 'features/delevery_order/cubit/delevery_orders_cubit.dart';
 import 'features/main/cubit/main_cubit.dart';
@@ -37,6 +37,8 @@ Future<void> setup() async {
   serviceLocator.registerFactory(() => DeleveryOrdersCubit());
   serviceLocator.registerFactory(() => DirectSellCubit());
   serviceLocator.registerFactory(() => MainCubit(serviceLocator()));
+  serviceLocator.registerFactory(() => ContactUsCubit());
+  serviceLocator.registerFactory(() => UpdateProfileCubit());
   serviceLocator.registerFactory(() => BasketCubit(serviceLocator()));
   serviceLocator.registerFactory(() => ContactUsCubit(serviceLocator()));
   serviceLocator.registerFactory(() => UpdateProfileCubit(serviceLocator()));

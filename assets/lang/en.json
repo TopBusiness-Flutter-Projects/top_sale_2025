@@ -32,7 +32,7 @@
   "emplyee_num_invalid": "Enter employee number",
   "new_account": "New Account",
   "enter_name": "Enter name",
-  "name": "Name",
+  "client_name": "Client Name",
   "email": "Email",
   "phone": "Phone",
   "address": "Address",
@@ -55,13 +55,34 @@
   "search_product": "Searh for a product",
   "search_client": "Searh for a client",
   "currency": "EGP",
+
+
   "register": "New Account",
   "user": "User",
   "emplyee": "Employee",
   "delevey_order": "Delivery Order",
   "direct_sales": "Direct Sales",
   "serali_line": "Seral Line",
-  "menu": "Menu",
+  "menu":"Menu",
+  "hr":"HRM",
+  "basket":"Basket",
+  "home":"Home",
+   "ll": "",
+   "admin_name":"ُEnter master username"
+
+  "ll": "",
+  "modify": "Modify",
+  "leave_your_message": "Leave your message",
+  "update_profile": "Update Profile",
+  "name": "Name",
+  "send": "send",
+  "message": "Message",
+  "write_your_message": "Write your message",
+  "subject": "Subject",
+  "enter_subject": "Enter subject"
+
+
+,  "menu": "Menu",
   "hr": "HRM",
   "basket": "Basket",
   "home": "Home",

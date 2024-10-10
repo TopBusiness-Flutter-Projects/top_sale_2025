@@ -18,6 +18,7 @@ class ContactUsScreen extends StatelessWidget {
     var cubit = context.read<ContactUsCubit>();
     return Scaffold(
       backgroundColor: AppColors.white,
+
       body: SingleChildScrollView(
         child: BlocBuilder<ContactUsCubit, ContactUsState>(
             builder: (context, state) {

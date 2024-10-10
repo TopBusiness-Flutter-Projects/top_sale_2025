@@ -13,6 +13,7 @@ import '../../login/widget/textfield_with_text.dart';
 import '../cubit/clients_cubit.dart';
 
 class ClientScreen extends StatelessWidget {
+
   ClientScreen({this.isCart = false, super.key});
   bool isCart;
   @override
@@ -53,6 +54,7 @@ class ClientScreen extends StatelessWidget {
             ),
           ),
         ),
+
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12.0),
           child: Column(
@@ -114,6 +116,7 @@ class ClientScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 CustomTextFieldWithTitle(
+
                   title: "name".tr(),
                   controller: cubit.clientNameController,
                   hint: "enter_name".tr(),
