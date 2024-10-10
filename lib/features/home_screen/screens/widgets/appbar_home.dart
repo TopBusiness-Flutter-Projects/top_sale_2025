@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:top_sale/core/utils/assets_manager.dart';
 
+import '../../../../config/routes/app_routes.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/get_size.dart';
 
@@ -29,7 +30,11 @@ class AppbarHome extends StatelessWidget {
           child: Stack(
             children: [
 
-              Icon(Icons.notifications_none,size: 25.sp,color: AppColors.black,),
+              GestureDetector(
+                onTap:(){
+                  Navigator.pushNamed(context, Routes.notificationRoute);
+                },
+                  child: Icon(Icons.notifications_none,size: 25.sp,color: AppColors.black,)),
               Positioned(
                 width: 13.sp,
                 height: 13.sp,

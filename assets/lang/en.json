@@ -50,8 +50,6 @@
   "search_product": "Searh for a product",
   "search_client": "Searh for a client",
   "currency": "EGP",
-
-  
   "register": "New Account",
   "user": "User",
   "emplyee": "Employee",
@@ -63,6 +61,14 @@
   "basket":"Basket",
   "home":"Home",
    "ll": "",
-   "admin_name":"ُEnter master username"
- 
+   "notification": "notification",
+   "evaluate_the_application": "Evaluate the application",
+   "admin_name":"ُEnter master username",
+   "edit":"ُEdit Profile",
+   "profile":"Profile",
+   "share_app":"Share App",
+   "delete":"ُDelete Profile",
+   "logout":"Logout",
+   "contact":"Contact Us"
+
 }

@@ -11,6 +11,7 @@ class ImageAssets {
   static const String introBackgroundImage2 = '$imagePath/on2.png';
   static const String timeTableIcon = '$imagePath/timetable-icon.png';
   static const String arrowAr = '$imagePath/arrowAr.png';
+  static const String noNotificationIcon = '$imagePath/no_notification.png';
   static const String dateIcon = '$imagePath/date.icon.png';
   static const String user = '$imagePath/default_user.png';
   static const String profileIconPng = '$imagePath/profile_icon.png';
@@ -23,6 +24,14 @@ class ImageAssets {
   static const String phoneIcon = '$iconsPath/phone.svg';
   static const String profileIcon = '$iconsPath/profile.svg';
   static const String shareIcon = '$iconsPath/share.svg';
+  static const String notification = '$iconsPath/notification.svg';
+  static const String evaluate = '$iconsPath/evaluate.svg';
+  static const String contactIcon = '$iconsPath/contatctUs.svg';
+  static const String editIcon = '$iconsPath/edit.svg';
+  static const String deleteIcon = '$iconsPath/delete.svg';
+  static const String logoutIcon= '$iconsPath/logout.svg';
+
   // Lottie
   static const String noLessons = '$lottiePath/no_lessons.json';
+
 }

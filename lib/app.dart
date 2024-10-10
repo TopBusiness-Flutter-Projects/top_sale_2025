@@ -14,6 +14,7 @@ import 'features/delevery_order/cubit/delevery_orders_cubit.dart';
 import 'features/home_screen/cubit/cubit.dart';
 import 'features/login/cubit/cubit.dart';
 import 'features/main/cubit/main_cubit.dart';
+import 'features/notification_screen/cubit/notification_cubit.dart';
 import 'features/on_boarding/cubit/onboarding_cubit.dart';
 import 'features/splash/cubit/cubit.dart';
 
@@ -63,6 +64,8 @@ class _MyAppState extends State<MyApp> {
           ),
           BlocProvider(
             create: (_) => injector.serviceLocator<BasketCubit>(),
+          ),  BlocProvider(
+            create: (_) => injector.serviceLocator<NotificationCubit>(),
           ),
         ],
         child: ScreenUtilInit(

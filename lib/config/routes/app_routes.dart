@@ -13,6 +13,7 @@ import '../../features/details_order/screens/details_order.dart';
 import '../../features/details_order/screens/widgets/payment.dart';
 import '../../features/delevery_order/screens/delevery_order_screen.dart';
 import '../../features/login/screens/login_screen.dart';
+import '../../features/notification_screen/screens/notification_screens.dart';
 import '../../features/on_boarding/screen/onboarding_screen.dart';
 
 class Routes {
@@ -29,6 +30,7 @@ class Routes {
   static const String directSellRoute = '/directSellRoute';
   static const String categoriesRoute = '/categoriesRoute';
   static const String productsRoute = '/productsRoute';
+  static const String  notificationRoute= '/notificationRoute';
 }
 
 class AppRoutes {
@@ -52,6 +54,13 @@ class AppRoutes {
       case Routes.loginRoute:
         return PageTransition(
           child: const LoginScreen(),
+          type: PageTransitionType.fade,
+          alignment: Alignment.center,
+          duration: const Duration(milliseconds: 800),
+        );
+        case Routes.notificationRoute:
+        return PageTransition(
+          child:  NotificationScreens(),
           type: PageTransitionType.fade,
           alignment: Alignment.center,
           duration: const Duration(milliseconds: 800),
