@@ -13,11 +13,14 @@ import 'package:top_sale/features/update_profile/screens/update_profile_screen.d
 import '../../core/utils/app_strings.dart';
 import 'package:page_transition/page_transition.dart';
 import '../../features/basket_screen/screen/basket_screen.dart';
+import '../../features/contact_us/screens/contact_us_screen.dart';
 import '../../features/details_order/screens/details_order.dart';
 import '../../features/details_order/screens/widgets/payment.dart';
 import '../../features/delevery_order/screens/delevery_order_screen.dart';
 import '../../features/login/screens/login_screen.dart';
 import '../../features/on_boarding/screen/onboarding_screen.dart';
+import '../../features/profile/screens/profile_screen.dart';
+import '../../features/update_profile/screens/update_profile_screen.dart';
 
 class Routes {
   static const String initialRoute = '/';
@@ -31,12 +34,15 @@ class Routes {
   static const String onboardingPageScreenRoute = '/onboardingPageScreenRoute';
   static const String registerScreen = '/registerScreen';
   static const String directSellRoute = '/directSellRoute';
+  static const String contactRoute = '/contactRoute';
   static const String categoriesRoute = '/categoriesRoute';
   static const String productsRoute = '/productsRoute';
   static const String updateProfileRoute = '/updateProfileRoute';
   static const String contactUsRoute = '/contactUsRoute';
   static const String notificationRoute = '/notificationRoute';
   static const String basketScreenRoute = '/basketScreen';
+  static const String updateprofileRoute = '/updateprofile';
+  static const String profileRoute = '/profileRoute';
 }
 
 class AppRoutes {
@@ -50,8 +56,36 @@ class AppRoutes {
         );
 
       case Routes.loginRoute:
-        return MaterialPageRoute(
-          builder: (context) => const LoginScreen(),
+        return PageTransition(
+          child: const LoginScreen(),
+          type: PageTransitionType.fade,
+          alignment: Alignment.center,
+          duration: const Duration(milliseconds: 800),
+        );  case Routes.profileRoute:
+        return PageTransition(
+          child:  ProfileScreen(),
+          type: PageTransitionType.fade,
+          alignment: Alignment.center,
+          duration: const Duration(milliseconds: 800),
+        );  case Routes.updateprofileRoute:
+        return PageTransition(
+          child: const UpdateProfileScreen(),
+          type: PageTransitionType.fade,
+          alignment: Alignment.center,
+          duration: const Duration(milliseconds: 800),
+        );  case Routes.contactRoute:
+        return PageTransition(
+          child: const ContactUsScreen(),
+          type: PageTransitionType.fade,
+          alignment: Alignment.center,
+          duration: const Duration(milliseconds: 800),
+        );  case Routes.notificationRoute:
+        return PageTransition(
+          child:  NotificationScreens(),
+          type: PageTransitionType.fade,
+          alignment: Alignment.center,
+          duration: const Duration(milliseconds: 800),
+
         );
       case Routes.deleveryOrderRoute:
         return MaterialPageRoute(

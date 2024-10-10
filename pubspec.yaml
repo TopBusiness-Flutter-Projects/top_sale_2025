@@ -63,6 +63,8 @@ dependencies:
   salomon_bottom_bar: ^3.3.2
   url_launcher: ^6.3.1
   odoo_rpc: ^0.5.4 # fer session don't change the version ^0.5.4
+  package_info_plus: ^8.0.3
+  share_plus: ^10.0.3
 
   # ! main packages
 

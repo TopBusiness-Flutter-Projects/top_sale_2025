@@ -19,6 +19,7 @@ import 'features/login/cubit/cubit.dart';
 import 'features/main/cubit/main_cubit.dart';
 import 'features/notification_screen/cubit/notification_cubit.dart';
 import 'features/on_boarding/cubit/onboarding_cubit.dart';
+import 'features/profile/cubit/profile_cubit.dart';
 import 'features/splash/cubit/cubit.dart';
 import 'features/update_profile/cubit/update_profile_cubit.dart';
 
@@ -73,6 +74,8 @@ class _MyAppState extends State<MyApp> {
           ),
           BlocProvider(
             create: (_) => injector.serviceLocator<BasketCubit>(),
+          ),   BlocProvider(
+            create: (_) => injector.serviceLocator<ProfileCubit>(),
           ),  BlocProvider(
             create: (_) => injector.serviceLocator<NotificationCubit>(),
           ),
