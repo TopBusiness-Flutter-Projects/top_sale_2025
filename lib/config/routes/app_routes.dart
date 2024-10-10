@@ -61,31 +61,34 @@ class AppRoutes {
           type: PageTransitionType.fade,
           alignment: Alignment.center,
           duration: const Duration(milliseconds: 800),
-        );  case Routes.profileRoute:
+        );
+      case Routes.profileRoute:
         return PageTransition(
-          child:  ProfileScreen(),
+          child: ProfileScreen(),
           type: PageTransitionType.fade,
           alignment: Alignment.center,
           duration: const Duration(milliseconds: 800),
-        );  case Routes.updateprofileRoute:
+        );
+      case Routes.updateprofileRoute:
         return PageTransition(
           child: const UpdateProfileScreen(),
           type: PageTransitionType.fade,
           alignment: Alignment.center,
           duration: const Duration(milliseconds: 800),
-        );  case Routes.contactRoute:
+        );
+      case Routes.contactRoute:
         return PageTransition(
           child: const ContactUsScreen(),
           type: PageTransitionType.fade,
           alignment: Alignment.center,
           duration: const Duration(milliseconds: 800),
-        );  case Routes.notificationRoute:
+        );
+      case Routes.notificationRoute:
         return PageTransition(
-          child:  NotificationScreens(),
+          child: NotificationScreens(),
           type: PageTransitionType.fade,
           alignment: Alignment.center,
           duration: const Duration(milliseconds: 800),
-
         );
       case Routes.deleveryOrderRoute:
         return MaterialPageRoute(
@@ -112,7 +115,7 @@ class AppRoutes {
           builder: (context) => const MainScreen(),
         );
       case Routes.clientsRoute:
-        final bool isCart = settings.arguments as bool;
+        bool isCart = settings.arguments as bool;
         return MaterialPageRoute(
           builder: (context) => ClientScreen(isCart: isCart),
         );
@@ -129,14 +132,13 @@ class AppRoutes {
         return MaterialPageRoute(
           builder: (context) => ProductsScreen(categoryName: categoryName),
         );
-        case Routes.contactUsRoute:
+      case Routes.contactUsRoute:
         return MaterialPageRoute(
           builder: (context) => const ContactUsScreen(),
         );
-        case Routes.updateProfileRoute:
+      case Routes.updateProfileRoute:
         return MaterialPageRoute(
-          builder: (context) => const UpdateProfileScreen()
-        );
+            builder: (context) => const UpdateProfileScreen());
       case Routes.categoriesRoute:
         return MaterialPageRoute(
           builder: (context) => const CategoriesScreen(),

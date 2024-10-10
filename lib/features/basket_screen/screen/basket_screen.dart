@@ -39,280 +39,286 @@ class _BasketScreenState extends State<BasketScreen> {
         ),
       ),
       body: SingleChildScrollView(
-        child: BlocBuilder<BasketCubit, BasketState>(
-          builder: (context,state) {
-            return Column(
-              children: [
-            //! Cusomer name
-                Container(
-                  padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 14),
-                  margin: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                      color: AppColors.grey2Color,
-                      borderRadius: BorderRadius.circular(5)),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Image.asset(
-                        ImageAssets.profileIconPng,
-                        width: getSize(context) / 8,
-                        height: getSize(context) / 8,
-                      ),
-                      Flexible(
-                        fit: FlexFit.tight,
-                        child: Padding(
-                          padding: const EdgeInsetsDirectional.only(start: 5.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 5.0),
-                                child: Text(
-                                  'اسم العميل',
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 14.sp,
-                                  ),
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () async {
-                                  await launchPhoneDialer('01201709414');
-                                },
-                                child: Text(
-                                  '01201709414',
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 14.sp,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          _showBottomSheet(context,cubit);
-                        },
-                        child: Image.asset(
-                          ImageAssets.discount,
-                          width: getSize(context) / 12,
-                        ),
-                      ),
-                      Padding(
+        child: BlocBuilder<BasketCubit, BasketState>(builder: (context, state) {
+          return Column(
+            children: [
+              //! Cusomer name
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 18, horizontal: 14),
+                margin: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                    color: AppColors.grey2Color,
+                    borderRadius: BorderRadius.circular(5)),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Image.asset(
+                      ImageAssets.profileIconPng,
+                      width: getSize(context) / 8,
+                      height: getSize(context) / 8,
+                    ),
+                    Flexible(
+                      fit: FlexFit.tight,
+                      child: Padding(
                         padding: const EdgeInsetsDirectional.only(start: 5.0),
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'total'.tr(),
-                              maxLines: 1,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 14.sp,
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 5.0),
+                              child: Text(
+                                'اسم العميل',
+                                maxLines: 1,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 14.sp,
+                                ),
                               ),
                             ),
-                            Text(
-                              '200 ج',
-                              maxLines: 1,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 14.sp,
+                            InkWell(
+                              onTap: () async {
+                                await launchPhoneDialer('01201709414');
+                              },
+                              child: Text(
+                                '01201709414',
+                                maxLines: 1,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14.sp,
+                                ),
                               ),
                             ),
                           ],
                         ),
-                      )
-                    ],
-                  ),
-                )
-
-                //! Cusomer name
-                ,
-                SizedBox(
-                  height: getSize(context) / 16,
-                ),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: 3,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      height: getSize(context) / 4,
-                      padding: const EdgeInsets.all(8),
-                      margin: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              offset: Offset(2, 2),
-                              color: AppColors.grey2Color,
-                            )
-                          ],
-                          color: AppColors.white,
-                          borderRadius: BorderRadius.circular(5)),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        _showBottomSheet(context, cubit);
+                      },
+                      child: Image.asset(
+                        ImageAssets.discount,
+                        width: getSize(context) / 12,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsetsDirectional.only(start: 5.0),
+                      child: Column(
                         children: [
-                          Image.asset(
-                            ImageAssets.qolasaImage,
-                            width: getSize(context) / 8,
-                            height: getSize(context) / 8,
+                          Text(
+                            'total'.tr(),
+                            maxLines: 1,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14.sp,
+                            ),
                           ),
-                          Flexible(
-                            fit: FlexFit.tight,
-                            child: Padding(
-                              padding: const EdgeInsetsDirectional.only(start: 5.0),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Flexible(
-                                        fit: FlexFit.tight,
-                                        child: Text(
-                                          'اناناس',
-                                          maxLines: 1,
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 16.sp,
+                          Text(
+                            '200 ج',
+                            maxLines: 1,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14.sp,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              )
+
+              //! Cusomer name
+              ,
+              SizedBox(
+                height: getSize(context) / 16,
+              ),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const BouncingScrollPhysics(),
+                itemCount: 3,
+                itemBuilder: (context, index) {
+                  return Container(
+                    height: getSize(context) / 4,
+                    padding: const EdgeInsets.all(8),
+                    margin: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            offset: Offset(2, 2),
+                            color: AppColors.grey2Color,
+                          )
+                        ],
+                        color: AppColors.white,
+                        borderRadius: BorderRadius.circular(5)),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Image.asset(
+                          ImageAssets.qolasaImage,
+                          width: getSize(context) / 8,
+                          height: getSize(context) / 8,
+                        ),
+                        Flexible(
+                          fit: FlexFit.tight,
+                          child: Padding(
+                            padding:
+                                const EdgeInsetsDirectional.only(start: 5.0),
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Flexible(
+                                      fit: FlexFit.tight,
+                                      child: Text(
+                                        'اناناس',
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 16.sp,
+                                        ),
+                                      ),
+                                    ),
+
+                                    InkWell(
+                                      onTap: () {
+                                        _showBottomSheet(context, cubit);
+                                      },
+                                      child: Image.asset(
+                                        ImageAssets.discount,
+                                        width: getSize(context) / 14,
+                                      ),
+                                    ),
+                                    //! delete Product
+                                    Padding(
+                                        padding:
+                                            const EdgeInsetsDirectional.only(
+                                                start: 5.0),
+                                        child: IconButton(
+                                            onPressed: () async {
+                                              ///!
+                                            },
+                                            icon: Icon(
+                                              CupertinoIcons.delete_solid,
+                                              color: AppColors.red,
+                                            )))
+                                  ],
+                                ),
+                                Flexible(
+                                  child: Container(
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 5,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: AppColors.white,
+                                              border: Border.all(
+                                                  color: AppColors
+                                                      .orangeThirdPrimary,
+                                                  width: 1.8),
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      getSize(context) / 22),
+                                            ),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 12.0,
+                                                      vertical: 4),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      // Navigator.pop(context);
+                                                    },
+                                                    child: Icon(
+                                                      Icons.add,
+                                                      color: AppColors
+                                                          .orangeThirdPrimary,
+                                                      size: 30.w,
+                                                    ),
+                                                  ),
+                                                  //SizedBox(width: 8.w),
+                                                  Text("1",
+                                                      style: getBoldStyle(
+                                                          color:
+                                                              AppColors.primary,
+                                                          fontHeight: 1.3)),
+                                                  //SizedBox(width: 8.w),
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      // Navigator.pop(context);
+                                                    },
+                                                    child: Icon(
+                                                      Icons.remove,
+                                                      color: AppColors
+                                                          .orangeThirdPrimary,
+                                                      size: 30.w,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                      ),
-
-                                      InkWell(
-                                        onTap: () {
-                                          _showBottomSheet(context,cubit);
-                                        },
-                                        child: Image.asset(
-                                          ImageAssets.discount,
-                                          width: getSize(context) / 14,
-                                        ),
-                                      ),
-                                      //! delete Product
-                                      Padding(
-                                          padding: const EdgeInsetsDirectional.only(
-                                              start: 5.0),
-                                          child: IconButton(
-                                              onPressed: () async {
-                                                ///!
-                                              },
-                                              icon: Icon(
-                                                CupertinoIcons.delete_solid,
-                                                color: AppColors.red,
-                                              )))
-                                    ],
-                                  ),
-                                  Flexible(
-                                    child: Container(
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            flex: 5,
-                                            child: Container(
+                                        Expanded(
+                                          flex: 4,
+                                          child: Container(
+                                              alignment: Alignment.center,
+                                              margin:
+                                                  const EdgeInsetsDirectional
+                                                      .only(start: 10),
                                               decoration: BoxDecoration(
                                                 color: AppColors.white,
                                                 border: Border.all(
                                                     color: AppColors
                                                         .orangeThirdPrimary,
                                                     width: 1.8),
-                                                borderRadius: BorderRadius.circular(
-                                                    getSize(context) / 22),
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        getSize(context) / 22),
                                               ),
-                                              child: Padding(
-                                                padding: const EdgeInsets.symmetric(
-                                                    horizontal: 12.0, vertical: 4),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    GestureDetector(
-                                                      onTap: () {
-                                                        // Navigator.pop(context);
-                                                      },
-                                                      child: Icon(
-                                                        Icons.add,
-                                                        color: AppColors
-                                                            .orangeThirdPrimary,
-                                                        size: 30.w,
-                                                      ),
-                                                    ),
-                                                    //SizedBox(width: 8.w),
-                                                    Text("1",
-                                                        style: getBoldStyle(
-                                                            color:
-                                                                AppColors.primary,
-                                                            fontHeight: 1.3)),
-                                                    //SizedBox(width: 8.w),
-                                                    GestureDetector(
-                                                      onTap: () {
-                                                        // Navigator.pop(context);
-                                                      },
-                                                      child: Icon(
-                                                        Icons.remove,
-                                                        color: AppColors
-                                                            .orangeThirdPrimary,
-                                                        size: 30.w,
-                                                      ),
-                                                    ),
-                                                  ],
+                                              child: Text(
+                                                '225 ج',
+                                                style: TextStyle(
+                                                  color: AppColors
+                                                      .orangeThirdPrimary,
+                                                  fontWeight: FontWeight.w700,
                                                 ),
-                                              ),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            flex: 4,
-                                            child: Container(
-                                                alignment: Alignment.center,
-                                                margin: const EdgeInsetsDirectional
-                                                    .only(start: 10),
-                                                decoration: BoxDecoration(
-                                                  color: AppColors.white,
-                                                  border: Border.all(
-                                                      color: AppColors
-                                                          .orangeThirdPrimary,
-                                                      width: 1.8),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          getSize(context) / 22),
-                                                ),
-                                                child: Text(
-                                                  '225 ج',
-                                                  style: TextStyle(
-                                                    color: AppColors
-                                                        .orangeThirdPrimary,
-                                                    fontWeight: FontWeight.w700,
-                                                  ),
-                                                )),
-                                          ),
-                                        ],
-                                      ),
+                                              )),
+                                        ),
+                                      ],
                                     ),
-                                  )
-                                ],
-                              ),
+                                  ),
+                                )
+                              ],
                             ),
                           ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-                SizedBox(height: 32.h),
-                CustomButton(
-                    title: 'show_price'.tr(),
-                    onTap: () {
-                      //!
-                    })
-              ],
-            );
-          }
-        ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+              SizedBox(height: 32.h),
+              CustomButton(
+                  title: 'show_price'.tr(),
+                  onTap: () {
+                    //!
+                  })
+            ],
+          );
+        }),
       ),
     );
   }
-  void _showBottomSheet(BuildContext context,BasketCubit cubit) {
+
+  void _showBottomSheet(BuildContext context, BasketCubit cubit) {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
@@ -332,7 +338,6 @@ class _BasketScreenState extends State<BasketScreen> {
                   hint: "enter_the_percentage".tr(),
                   keyboardType: TextInputType.text,
                 ),
-
                 SizedBox(
                   height: getSize(context) / 30,
                 ),
@@ -353,6 +358,7 @@ class _BasketScreenState extends State<BasketScreen> {
       },
     );
   }
+
   Future<void> launchPhoneDialer(String phoneNumber) async {
     final Uri phoneUri = Uri(scheme: 'tel', path: phoneNumber);
     if (!await launchUrl(phoneUri)) {
