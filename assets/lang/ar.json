@@ -34,7 +34,6 @@
   "search_product": "ابحث عن منتجك",
   "search_client": "ابحث عن عميلك",
   "currency": "ج.م",
-  
   "try_the_app": "تجربة",
   "companyname": "اسم الشركة",
   "companyname_invalid": "ادخل اسم الشركة",
@@ -66,12 +65,11 @@
   "evaluate_the_application": "تقيم التطبيق",
   "contact": "تواصل معنا",
   "edit": "تعديل الحساب",
+  
   "delete": "حذف الحساب",
   "logout": "تسجيل الخروج",
   "profile": "الصفحة الشخصيه",
   "share_app": "مشاركة التطبيق",
   "": "",
   "ll": ""
-
- 
 }
