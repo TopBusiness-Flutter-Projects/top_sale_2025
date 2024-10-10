@@ -27,17 +27,16 @@
   "emplyee_num_invalid": "ادخل رقم الموظف",
   "new_account": "معلومات الشركة",
   "create_account": "انشاء الحساب",
-  "try_the_app": "تجربة",
   "direct_sell": "بيع مباشر",
   "categories": "الأقسام",
   "all": "الكل",
   "products": "المنتجات",
   "search_product": "ابحث عن منتجك",
-  "clients": "العملاء",
   "search_client": "ابحث عن عميلك",
   
   "currency": "ج.م",
-  "": "","try_the_app": "تجربة",
+"try_the_app": "تجربة",
+
   "companyname": "اسم الشركة",
   "companyname_invalid": "ادخل اسم الشركة",
   "odoo_link": "رابط اودو",
@@ -63,7 +62,7 @@
   "menu":"القائمة",
   "hr":"مدير",
   "basket":"السلة",
-  "home":"الرئيسية",
+  "home":"الرئيسية",  
+  "": "",
   "ll": ""
-  
 }
