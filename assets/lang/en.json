@@ -62,6 +62,8 @@
   "hr":"HRM",
   "basket":"Basket",
   "home":"Home",
+  "server_error": "Some thing went wrong",
+
    "ll": ""
  
 }

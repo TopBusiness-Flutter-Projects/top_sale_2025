@@ -1,110 +1,132 @@
 // To parse this JSON data, do
 //
-//     final loginModel = loginModelFromJson(jsonString);
+//     final authModel = authModelFromJson(jsonString);
 
 import 'dart:convert';
 
-LoginModel loginModelFromJson(String str) => LoginModel.fromJson(json.decode(str));
+AuthModel authModelFromJson(String str) => AuthModel.fromJson(json.decode(str));
 
-String loginModelToJson(LoginModel data) => json.encode(data.toJson());
+String authModelToJson(AuthModel data) => json.encode(data.toJson());
 
-class LoginModel {
-  final Data? data;
-  final String? message;
-  final int? code;
-
-  @override
-  String toString() {
-    return 'LoginModel{data: $data, message: $message, code: $code}';
-  }
-
-  LoginModel({
-    this.data,
-    this.message,
-    this.code,
+class AuthModel {
+  Result? result;
+  AuthModel({
+       this.result,
   });
-
-  factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
-    data: json["data"] == null ? null : Data.fromJson(json["data"]),
-    message: json["code"]==422?'':json["message"],
-    code: json["code"],
-  );
-
+  factory AuthModel.fromJson(Map<String, dynamic> json) => AuthModel(        
+        result: json["result"] == null ? null : Result.fromJson(json["result"]),
+      );
   Map<String, dynamic> toJson() => {
-    "data": data?.toJson(),
-    "message": message,
-    "code": code,
-  };
+              "result": result?.toJson(),
+      };
 }
 
-class Data {
-  final User? user;
-  final String? accessToken;
-  final String? tokenType;
+class Result {
 
-  Data({
-    this.user,
-    this.accessToken,
-    this.tokenType,
-  });
+  UserContext? userContext;
+  String? name;
+  String? username;
+  String? partnerDisplayName;
+  int? partnerId;
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
-    user: json["user"] == null ? null : User.fromJson(json["user"]),
-    accessToken: json["access_token"],
-    tokenType: json["token_type"],
-  );
 
-  Map<String, dynamic> toJson() => {
-    "user": user?.toJson(),
-    "access_token": accessToken,
-    "token_type": tokenType,
-  };
-}
+ 
 
-class User {
-  final int? id;
-    String? name;
-  final dynamic phoneCode;
-  final String? phone;
-  final String? email;
-  final dynamic location;
-  final int? status;
-  final String? image;
-  final int? userType;
+  UserCompanies? userCompanies;
+  
 
-  User({
-    this.id,
+  Result({
+    this.userContext,
     this.name,
-    this.phoneCode,
-    this.phone,
-    this.email,
-    this.location,
-    this.status,
-    this.image,
-    this.userType,
+    this.username,
+    this.partnerDisplayName,
+    this.partnerId,  
+ 
+    this.userCompanies,
+   
   });
 
-  factory User.fromJson(Map<String, dynamic> json) => User(
-    id: json["id"],
-    name: json["name"],
-    phoneCode: json["phone_code"],
-    phone: json["phone"],
-    email: json["email"],
-    location: json["location"],
-    status: json["status"],
-    image: json["image"],
-    userType: json["user_type"],
-  );
+  factory Result.fromJson(Map<String, dynamic> json) => Result(       
+        userContext: json["user_context"] == null
+            ? null
+            : UserContext.fromJson(json["user_context"]),
+        name: json["name"],
+        username: json["username"],
+        partnerDisplayName: json["partner_display_name"],
+        partnerId: json["partner_id"],            
+       
+        userCompanies: json["user_companies"] == null
+            ? null
+            : UserCompanies.fromJson(json["user_companies"]),
+       
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": name,
-    "phone_code": phoneCode,
-    "phone": phone,
-    "email": email,
-    "location": location,
-    "status": status,
-    "image": image,
-    "user_type": userType,
-  };
+      
+      
+        "name": name,
+        "username": username,
+        "partner_display_name": partnerDisplayName,
+        "partner_id": partnerId,    
+        "user_companies": userCompanies?.toJson(),
+        
+      };
+}
+
+
+
+
+
+class UserCompanies {
+  int? currentCompany;
+
+
+  UserCompanies({
+    this.currentCompany,
+
+  });
+
+  factory UserCompanies.fromJson(Map<String, dynamic> json) => UserCompanies(
+        currentCompany: json["current_company"],
+       
+      );
+
+  Map<String, dynamic> toJson() => {
+        "current_company": currentCompany,
+      };
+}
+
+class UserContext {
+
+  int? uid;
+
+  UserContext({  
+    this.uid,
+  });
+
+  factory UserContext.fromJson(Map<String, dynamic> json) => UserContext(
+     
+        uid: json["uid"],
+      );
+
+  Map<String, dynamic> toJson() => {
+      
+        "uid": uid,
+      };
+}
+
+class UserId {
+  int? id;
+
+  UserId({
+    this.id,
+  });
+
+  factory UserId.fromJson(Map<String, dynamic> json) => UserId(
+        id: json["id"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+      };
 }

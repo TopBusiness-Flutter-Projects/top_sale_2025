@@ -62,6 +62,7 @@ dependencies:
   flutter_zoom_drawer: ^3.2.0
   salomon_bottom_bar: ^3.3.2
   url_launcher: ^6.3.1
+  odoo_rpc: ^0.5.4 # fer session don't change the version ^0.5.4
 
   # ! main packages
 
