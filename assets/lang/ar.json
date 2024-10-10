@@ -37,9 +37,7 @@
   "search_client": "ابحث عن عميلك",
   
   "currency": "ج.م",
-  "": "",
-  "ll": ""
-  "try_the_app": "تجربة",
+  
   "companyname": "اسم الشركة",
   "companyname_invalid": "ادخل اسم الشركة",
   "odoo_link": "رابط اودو",
@@ -61,9 +59,11 @@
   "enter_email": "ادخل البريد الالكتروني",
   "confirm": "تاكيد",
   "enter_address": "ادخل العنوان",
-  "clients": "العملاء",
   "menu":"القائمة",
-  "hr":"مدير",
+  "hr":"HR",
+  
   "basket":"السلة",
-  "home":"الرئيسية"
+  "home":"الرئيسية",
+  "": "",
+  "ll": ""
 }

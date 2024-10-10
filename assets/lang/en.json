@@ -34,7 +34,6 @@
   "enter_phone": "Enter phone",
   "enter_email": "Enter email",
   "enter_address": "Enter address",
-  "try_the_app": "Try the app",
   "companyname": "Company Name",
   "companyname_invalid": "Enter the company name",
   "odoo_link": "Odoo Link",
@@ -55,16 +54,16 @@
   "search_client": "Searh for a client",
   "currency": "EGP",
 
-   "ll": ""
+  
   "register": "New Account",
   "user": "User",
   "emplyee": "Employee",
   "delevey_order": "Delivery Order",
   "direct_sales": "Direct Sales",
   "serali_line": "Seral Line",
-  "clients": "Clients",
   "menu":"Menu",
   "hr":"HRM",
   "basket":"Basket",
-  "home":"Home"
+  "home":"Home",
+   "ll": ""
 }
