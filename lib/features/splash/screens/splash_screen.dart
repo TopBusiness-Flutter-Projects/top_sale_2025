@@ -4,7 +4,6 @@ import '../../../core/utils/assets_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../config/routes/app_routes.dart';
 import '../../../../core/utils/app_colors.dart';
-import '../../../core/preferences/preferences.dart';
 import '../../../core/utils/get_size.dart';
 
 class SplashScreen extends StatefulWidget {

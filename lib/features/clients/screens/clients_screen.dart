@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:top_sale/core/utils/get_size.dart';
 import 'package:top_sale/features/clients/screens/widgets/custom_card_client.dart';
+import '../../../config/routes/app_routes.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_strings.dart';
 import '../../details_order/screens/widgets/rounded_button.dart';
@@ -51,7 +52,11 @@ class ClientScreen extends StatelessWidget {
       body: ListView.builder(
         itemCount: 3,
         itemBuilder: (context, index) {
-          return const CustomCardClient();
+          return InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, Routes.basketScreenRoute);
+              },
+              child: const CustomCardClient());
         },
       ),
     );
@@ -66,41 +71,51 @@ class ClientScreen extends StatelessWidget {
       ),
       builder: (context) {
         return Padding(
-          padding: EdgeInsets.all(getSize(context)/20),
+          padding: EdgeInsets.all(getSize(context) / 20),
           child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-
                 CustomTextFieldWithTitle(
                   title: "name".tr(),
                   controller: TextEditingController(),
                   hint: "enter_name".tr(),
                   keyboardType: TextInputType.text,
                 ),
-                SizedBox(height: getSize(context)/30,),
+                SizedBox(
+                  height: getSize(context) / 30,
+                ),
                 CustomTextFieldWithTitle(
                   title: "phone".tr(),
                   controller: TextEditingController(),
                   hint: "enter_phone".tr(),
                   keyboardType: TextInputType.text,
                 ),
-                SizedBox(height: getSize(context)/30,),
+                SizedBox(
+                  height: getSize(context) / 30,
+                ),
                 CustomTextFieldWithTitle(
                   title: "email".tr(),
                   controller: TextEditingController(),
                   hint: "enter_email".tr(),
                   keyboardType: TextInputType.text,
-                ),  SizedBox(height: getSize(context)/30,),
+                ),
+                SizedBox(
+                  height: getSize(context) / 30,
+                ),
                 CustomTextFieldWithTitle(
                   title: "address".tr(),
                   controller: TextEditingController(),
                   hint: "enter_address".tr(),
                   keyboardType: TextInputType.text,
                 ),
-                SizedBox(height: getSize(context)/30,),
+                SizedBox(
+                  height: getSize(context) / 30,
+                ),
                 Padding(
-                  padding:  EdgeInsets.only(left: getSize(context)/20, right: getSize(context)/20),
+                  padding: EdgeInsets.only(
+                      left: getSize(context) / 20,
+                      right: getSize(context) / 20),
                   child: RoundedButton(
                     backgroundColor: AppColors.primaryColor,
                     text: 'confirm'.tr(),

@@ -9,6 +9,7 @@ import 'package:top_sale/features/main/screens/main_screen.dart';
 import 'package:top_sale/features/splash/screens/splash_screen.dart';
 import '../../core/utils/app_strings.dart';
 import 'package:page_transition/page_transition.dart';
+import '../../features/basket_screen/screen/basket_screen.dart';
 import '../../features/details_order/screens/details_order.dart';
 import '../../features/details_order/screens/widgets/payment.dart';
 import '../../features/delevery_order/screens/delevery_order_screen.dart';
@@ -29,6 +30,7 @@ class Routes {
   static const String directSellRoute = '/directSellRoute';
   static const String categoriesRoute = '/categoriesRoute';
   static const String productsRoute = '/productsRoute';
+  static const String basketScreenRoute = '/basketScreen';
 }
 
 class AppRoutes {
@@ -90,13 +92,15 @@ class AppRoutes {
           type: PageTransitionType.fade,
           alignment: Alignment.center,
           duration: const Duration(milliseconds: 800),
-        );  case Routes.mainRoute:
+        );
+      case Routes.mainRoute:
         return PageTransition(
-          child: const MainScreen(),
+          child: const Zoom(),
           type: PageTransitionType.fade,
           alignment: Alignment.center,
           duration: const Duration(milliseconds: 800),
-        );  case Routes.clientsRoute:
+        );
+      case Routes.clientsRoute:
         return PageTransition(
           child: const ClientScreen(),
           type: PageTransitionType.fade,
@@ -111,18 +115,23 @@ class AppRoutes {
           duration: const Duration(milliseconds: 800),
         );
       case Routes.directSellRoute:
-       return MaterialPageRoute(
+        return MaterialPageRoute(
           builder: (context) => const DirectSellScreen(),
         );
       case Routes.productsRoute:
-          String categoryname =
-            settings.arguments as String;
+        String categoryname = settings.arguments as String;
         return MaterialPageRoute(
-          builder: (context) =>  ProductsScreen(categoryName: categoryname,),
+          builder: (context) => ProductsScreen(
+            categoryName: categoryname,
+          ),
         );
       case Routes.categoriesRoute:
         return MaterialPageRoute(
           builder: (context) => const CategoriesScreen(),
+        );
+      case Routes.basketScreenRoute:
+        return MaterialPageRoute(
+          builder: (context) => const BasketScreen(),
         );
       //
       // case Routes.resultOfLessonExam:

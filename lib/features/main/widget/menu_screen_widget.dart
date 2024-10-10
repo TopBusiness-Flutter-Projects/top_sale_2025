@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:top_sale/core/utils/assets_manager.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../config/routes/app_routes.dart';
@@ -8,6 +10,7 @@ import '../../../core/utils/app_colors.dart';
 
 import '../../../core/utils/get_size.dart';
 import '../../../core/widgets/network_image.dart';
+import 'list_tile_menu_widget.dart';
 
 class MenuScreenWidget extends StatelessWidget {
   const MenuScreenWidget({Key? key, required this.closeClick})
@@ -26,10 +29,58 @@ class MenuScreenWidget extends StatelessWidget {
       child: Stack(
         children: [
           Scaffold(
-            backgroundColor: AppColors.primary,
+            backgroundColor: AppColors.blue,
             body: SafeArea(
               child: Column(
-                children: [],
+                children: [
+                  SizedBox(height: getSize(context) / 4),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          // Navigator.pushNamed(context, Routes.profileScreen);
+                        },
+                        child: ManageNetworkImage(
+                          imageUrl:
+                              'https://images.pexels.com/photos/28492538/pexels-photo-28492538/free-photo-of-close-up-of-a-purple-aster-in-autumn-bloom.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+                          width: 60.w,
+                          height: 60.w,
+                          borderRadius: getSize(context),
+                        ),
+                      ),
+                      SizedBox(width: getSize(context) / 66),
+                      Container(
+                        alignment: lang == 'ar'
+                            ? Alignment.topRight
+                            : Alignment.topLeft,
+                        padding: EdgeInsets.only(
+                          left: lang == 'ar' ? getSize(context) / 5 : 0,
+                        ),
+                        child: Text(
+                          'ahmed elsapagh',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              color: AppColors.white,
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      SizedBox(height: getSize(context) / 4),
+                    ],
+                  ),
+                  MenuListTileWidget(
+                    iconPath: ImageAssets.profileIcon,
+                    onclick: () {},
+                    title: 'الصفحة الشخصية',
+                  ),
+                  MenuListTileWidget(
+                    iconPath: ImageAssets.shareIcon,
+                    onclick: () {},
+                    title: 'مشاركة التطبيق',
+                  ),
+                ],
               ),
             ),
           ),

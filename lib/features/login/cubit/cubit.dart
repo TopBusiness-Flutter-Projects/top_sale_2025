@@ -10,7 +10,9 @@ class LoginCubit extends Cubit<LoginState> {
   TextEditingController companynameController = TextEditingController();
   TextEditingController odooLinkController = TextEditingController();
   TextEditingController dbNumberController = TextEditingController();
+  TextEditingController adminNameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController adminPasswordController = TextEditingController();
 //! case user
   TextEditingController usernameController = TextEditingController();
   //! case emplyee
