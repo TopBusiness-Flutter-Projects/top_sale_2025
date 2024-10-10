@@ -33,10 +33,8 @@
   "products": "المنتجات",
   "search_product": "ابحث عن منتجك",
   "search_client": "ابحث عن عميلك",
-  
   "currency": "ج.م",
-"try_the_app": "تجربة",
-
+  "try_the_app": "تجربة",
   "companyname": "اسم الشركة",
   "companyname_invalid": "ادخل اسم الشركة",
   "odoo_link": "رابط اودو",
@@ -59,10 +57,10 @@
   "confirm": "تاكيد",
   "enter_address": "ادخل العنوان",
   "clients": "العملاء",
-  "menu":"القائمة",
-  "hr":"مدير",
-  "basket":"السلة",
-  "home":"الرئيسية",  
+  "menu": "القائمة",
+  "hr": "مدير",
+  "basket": "السلة",
+  "home": "الرئيسية",
   "": "",
   "ll": ""
 }

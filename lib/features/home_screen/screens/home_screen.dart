@@ -42,7 +42,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisCount: 2),
                   shrinkWrap: true,
                   children: [
-
                     CardHome(
                         onPressed: () {
                           Navigator.pushNamed(
