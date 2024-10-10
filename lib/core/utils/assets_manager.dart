@@ -18,6 +18,7 @@ class ImageAssets {
   static const String line = '$imagePath/line.png';
   static const String clients = '$imagePath/clients.png';
   static const String notificationIconPage = '$imagePath/notification_icon.png';
+  static const String contactUsRoute = '$imagePath/contact_us_icon.png';
   // icons
   static const String phoneIcon = '$iconsPath/phone.svg';
   // Lottie

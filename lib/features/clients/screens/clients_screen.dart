@@ -5,12 +5,13 @@ import 'package:top_sale/core/utils/get_size.dart';
 import 'package:top_sale/features/clients/screens/widgets/custom_card_client.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_strings.dart';
+import '../../../core/widgets/custom_text_form_field.dart';
 import '../../details_order/screens/widgets/rounded_button.dart';
 import '../../login/widget/textfield_with_text.dart';
 
 class ClientScreen extends StatelessWidget {
-  const ClientScreen({super.key});
-
+  const ClientScreen({super.key, required this.isCart});
+final bool isCart;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,12 +49,40 @@ class ClientScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: ListView.builder(
-        itemCount: 3,
-        itemBuilder: (context, index) {
-          return const CustomCardClient();
-        },
-      ),
+      body: Padding(
+        padding:  EdgeInsets.all(getSize(context)/30),
+        child: Column(children: [
+          CustomTextField(
+            onChanged: (keyValue) {
+              if (keyValue.isEmpty) {
+                // cubit.getAllProducts();
+              } else {
+                // EasyDebounce.debounce(
+                //     'search', // <-- An ID for this particular debouncer
+                //     Duration(
+                //         seconds: 1), // <-- The debounce duration
+                //     () => cubit.searchProducts(
+                //           productName: keyValue,
+                //         ) // <-- The target method
+                //     );
+              }
+            },
+            labelText: "search_product".tr(),
+            prefixIcon: Icon(
+              Icons.search_rounded,
+              size: 35,
+              color: AppColors.gray2,
+            ),
+          ),
+          ListView.builder(
+            shrinkWrap: true,
+            itemCount: 3,
+            itemBuilder: (context, index) {
+              return const CustomCardClient();
+            },
+          ),
+        ],),
+      )
     );
   }
 
@@ -73,7 +102,7 @@ class ClientScreen extends StatelessWidget {
               children: [
 
                 CustomTextFieldWithTitle(
-                  title: "name".tr(),
+                  title: "client_name".tr(),
                   controller: TextEditingController(),
                   hint: "enter_name".tr(),
                   keyboardType: TextInputType.text,

@@ -35,10 +35,7 @@
   "search_product": "ابحث عن منتجك",
   "clients": "العملاء",
   "search_client": "ابحث عن عميلك",
-  
   "currency": "ج.م",
-
-  "try_the_app": "تجربة",
   "companyname": "اسم الشركة",
   "companyname_invalid": "ادخل اسم الشركة",
   "odoo_link": "رابط اودو",
@@ -52,7 +49,7 @@
   "direct_sales": "بيع مباشر",
   "serali_line": "خط سير ",
   "enter_name": "ادخل اسم العميل",
-  "name": "اسم العميل",
+  "client_name": "اسم العميل",
   "email": "البريد الالكتروني",
   "phone": "رقم التلفون",
   "address": "العنوان",
@@ -60,11 +57,21 @@
   "enter_email": "ادخل البريد الالكتروني",
   "confirm": "تاكيد",
   "enter_address": "ادخل العنوان",
-  "clients": "العملاء",
   "menu":"القائمة",
   "hr":"مدير",
   "basket":"السلة",
   "home":"الرئيسية",
   "": "",
-  "ll": ""
+  "ll": "",
+  "update_profile": "تعديل الحساب",
+  "name": "الاسم",
+  "modify": "تعديل",
+  "leave_your_message": "اترك رسالتك",
+  "send": "ارسال",
+  "message": "رسالة",
+  "write_your_message": "اكتب رسالتك",
+  "subject": "الموضوع",
+  "enter_subject": "ادخل الموضوع"
+
+
 }

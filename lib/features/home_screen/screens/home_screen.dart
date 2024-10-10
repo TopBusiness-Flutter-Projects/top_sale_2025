@@ -42,7 +42,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisCount: 2),
                   shrinkWrap: true,
                   children: [
-
                     CardHome(
                         onPressed: () {
                           Navigator.pushNamed(
@@ -56,12 +55,17 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                         text: "direct_sales".tr(),
                         image: ImageAssets.directSale),
-                    CardHome(text: "serali_line".tr(), image: ImageAssets.line),
                     CardHome(
                         onPressed: () {
-                          Navigator.pushNamed(context, Routes.clientsRoute);
+                          Navigator.pushNamed(context, Routes.contactUsRoute);
                         },
-                        text: "clients".tr(), image: ImageAssets.clients),
+                        text: "serali_line".tr(), image: ImageAssets.line),
+                    CardHome(
+                        onPressed: () {
+                          Navigator.pushNamed(context, Routes.clientsRoute,arguments: false);
+                        },
+                        text: "clients".tr(),
+                        image: ImageAssets.clients),
                   ],
                 )
               ]),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:top_sale/features/contact_us/screens/contact_us_screen.dart';
 import 'package:top_sale/features/direct_sell/screens/categories_screen.dart';
 import 'package:top_sale/features/direct_sell/screens/direct_sell_screen.dart';
 import 'package:top_sale/features/direct_sell/screens/products_screen.dart';
@@ -7,8 +8,8 @@ import 'package:top_sale/features/login/screens/system_info_screen.dart';
 import 'package:top_sale/features/home_screen/screens/home_screen.dart';
 import 'package:top_sale/features/main/screens/main_screen.dart';
 import 'package:top_sale/features/splash/screens/splash_screen.dart';
+import 'package:top_sale/features/update_profile/screens/update_profile_screen.dart';
 import '../../core/utils/app_strings.dart';
-import 'package:page_transition/page_transition.dart';
 import '../../features/details_order/screens/details_order.dart';
 import '../../features/details_order/screens/widgets/payment.dart';
 import '../../features/delevery_order/screens/delevery_order_screen.dart';
@@ -29,6 +30,8 @@ class Routes {
   static const String directSellRoute = '/directSellRoute';
   static const String categoriesRoute = '/categoriesRoute';
   static const String productsRoute = '/productsRoute';
+  static const String updateProfileRoute = '/updateProfileRoute';
+  static const String contactUsRoute = '/contactUsRoute';
 }
 
 class AppRoutes {
@@ -41,100 +44,64 @@ class AppRoutes {
           builder: (context) => const SplashScreen(),
         );
 
-      // case Routes.detailsRoute:
-      //   final service = settings.arguments as ServicesModel;
-      //   return MaterialPageRoute(
-      //     // Extract the service model argument from the settings arguments map
-      //
-      //     builder: (context) => Details(service: service),
-      //   );
-      //
       case Routes.loginRoute:
-        return PageTransition(
-          child: const LoginScreen(),
-          type: PageTransitionType.fade,
-          alignment: Alignment.center,
-          duration: const Duration(milliseconds: 800),
+        return MaterialPageRoute(
+          builder: (context) => const LoginScreen(),
         );
       case Routes.deleveryOrderRoute:
-        return PageTransition(
-          child: DeleveryOrderScreen(),
-          type: PageTransitionType.fade,
-          alignment: Alignment.center,
-          duration: const Duration(milliseconds: 800),
+        return MaterialPageRoute(
+          builder: (context) => const DeleveryOrderScreen(),
         );
       case Routes.paymentRoute:
-        return PageTransition(
-          child: PaymentScreen(),
-          type: PageTransitionType.fade,
-          alignment: Alignment.center,
-          duration: const Duration(milliseconds: 800),
+        return MaterialPageRoute(
+          builder: (context) => const PaymentScreen(),
         );
       case Routes.detailsOrder:
-        return PageTransition(
-          child: DetailsOrder(),
-          type: PageTransitionType.fade,
-          alignment: Alignment.center,
-          duration: const Duration(milliseconds: 800),
+        return MaterialPageRoute(
+          builder: (context) => DetailsOrder(),
         );
       case Routes.onboardingPageScreenRoute:
-        return PageTransition(
-          child: const OnBoardinScreen(),
-          type: PageTransitionType.fade,
-          alignment: Alignment.center,
-          duration: const Duration(milliseconds: 400),
+        return MaterialPageRoute(
+          builder: (context) => const OnBoardinScreen(),
         );
       case Routes.homeRoute:
-        return PageTransition(
-          child: const HomeScreen(),
-          type: PageTransitionType.fade,
-          alignment: Alignment.center,
-          duration: const Duration(milliseconds: 800),
-        );  case Routes.mainRoute:
-        return PageTransition(
-          child: const MainScreen(),
-          type: PageTransitionType.fade,
-          alignment: Alignment.center,
-          duration: const Duration(milliseconds: 800),
-        );  case Routes.clientsRoute:
-        return PageTransition(
-          child: const ClientScreen(),
-          type: PageTransitionType.fade,
-          alignment: Alignment.center,
-          duration: const Duration(milliseconds: 800),
+        return MaterialPageRoute(
+          builder: (context) => const HomeScreen(),
+        );
+      case Routes.mainRoute:
+        return MaterialPageRoute(
+          builder: (context) => const MainScreen(),
+        );
+      case Routes.clientsRoute:
+        final bool isCart = settings.arguments as bool;
+        return MaterialPageRoute(
+          builder: (context) => ClientScreen(isCart: isCart),
         );
       case Routes.registerScreen:
-        return PageTransition(
-          child: const RegisterScreen(),
-          type: PageTransitionType.fade,
-          alignment: Alignment.center,
-          duration: const Duration(milliseconds: 800),
+        return MaterialPageRoute(
+          builder: (context) => const RegisterScreen(),
         );
       case Routes.directSellRoute:
-       return MaterialPageRoute(
+        return MaterialPageRoute(
           builder: (context) => const DirectSellScreen(),
         );
       case Routes.productsRoute:
-          String categoryname =
-            settings.arguments as String;
+        String categoryName = settings.arguments as String;
         return MaterialPageRoute(
-          builder: (context) =>  ProductsScreen(categoryName: categoryname,),
+          builder: (context) => ProductsScreen(categoryName: categoryName),
+        );
+        case Routes.contactUsRoute:
+        return MaterialPageRoute(
+          builder: (context) => const ContactUsScreen(),
+        );
+        case Routes.updateProfileRoute:
+        return MaterialPageRoute(
+          builder: (context) => const UpdateProfileScreen()
         );
       case Routes.categoriesRoute:
         return MaterialPageRoute(
           builder: (context) => const CategoriesScreen(),
         );
-      //
-      // case Routes.resultOfLessonExam:
-      //   ResponseOfApplyLessonExmamData model =
-      //       settings.arguments as ResponseOfApplyLessonExmamData;
-      //   return PageTransition(
-      //     child: ResultExamLessonScreen(model: model),
-      //     type: PageTransitionType.fade,
-      //     alignment: Alignment.center,
-      //     duration: const Duration(milliseconds: 800),
-      //   );
-
       default:
         return undefinedRoute();
     }

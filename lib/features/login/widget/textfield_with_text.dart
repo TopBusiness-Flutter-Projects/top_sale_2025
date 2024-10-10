@@ -4,11 +4,12 @@ import '../../../core/utils/app_strings.dart';
 import '../../../core/utils/get_size.dart';
 
 class CustomTextFieldWithTitle extends StatefulWidget {
-  const CustomTextFieldWithTitle({
+   CustomTextFieldWithTitle({
     super.key,
     required this.controller,
     required this.title,
     required this.hint,
+    this.maxLines,
     this.keyboardType,
   });
 
@@ -16,6 +17,7 @@ class CustomTextFieldWithTitle extends StatefulWidget {
   final String title;
   final String hint;
   final TextInputType? keyboardType;
+ final int? maxLines;
 
   @override
   _CustomTextFieldWithTitleState createState() =>
@@ -46,6 +48,7 @@ class _CustomTextFieldWithTitleState extends State<CustomTextFieldWithTitle> {
           ),
           const SizedBox(height: 5),
           TextFormField(
+            maxLines: widget.maxLines ?? 1,
             validator: (value) {
               if (value!.isEmpty) {
                 return widget.hint;
