@@ -20,6 +20,8 @@ class ImageAssets {
   static const String line = '$imagePath/line.png';
   static const String clients = '$imagePath/clients.png';
   static const String contactUs = '$imagePath/contactUs.png';
+  static const String qolasaImage = '$imagePath/qolasa.png';
+  static const String discount = '$imagePath/discount.png';
   static const String notificationIconPage = '$imagePath/notification_icon.png';
   // icons
   static const String phoneIcon = '$iconsPath/phone.svg';
@@ -30,9 +32,8 @@ class ImageAssets {
   static const String contactIcon = '$iconsPath/contatctUs.svg';
   static const String editIcon = '$iconsPath/edit.svg';
   static const String deleteIcon = '$iconsPath/delete.svg';
-  static const String logoutIcon= '$iconsPath/logout.svg';
+  static const String logoutIcon = '$iconsPath/logout.svg';
 
   // Lottie
   static const String noLessons = '$lottiePath/no_lessons.json';
-
 }
