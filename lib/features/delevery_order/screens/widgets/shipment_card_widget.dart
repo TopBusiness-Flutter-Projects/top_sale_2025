@@ -15,8 +15,7 @@ class ShipmentCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(
-        'image ::${order.partnerModel!.image1920}::imageeeeeeeeeeee');
+    print('image ::${order.partnerModel!.image1920}::imageeeeeeeeeeee');
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, Routes.detailsOrder, arguments: order);
@@ -192,7 +191,12 @@ class ShipmentCardWidget extends StatelessWidget {
                 //         height: 50.w,
                 //         width: 50.w,
                 //       ),
-                Center(child: Image.asset(ImageAssets.user)),
+                Center(
+                    child: Image.asset(
+                  ImageAssets.user,
+                  width: getSize(context) / 12,
+                  height: getSize(context) / 12,
+                )),
                 SizedBox(width: getSize(context) / 60),
                 Expanded(
                   child: Column(

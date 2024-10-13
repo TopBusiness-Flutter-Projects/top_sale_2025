@@ -11,13 +11,12 @@ import '../../../../core/widgets/decode_image.dart';
 
 class CardDetailsOrders extends StatelessWidget {
   CardDetailsOrders(
-      {super.key,required this.orderDetailsModel,required this.orderModel});
+      {super.key, required this.orderDetailsModel, required this.orderModel});
   OrderDetailsModel orderDetailsModel;
-  OrderModel  orderModel;
+  OrderModel orderModel;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-    
       child: Container(
         width: getSize(context),
         decoration: BoxDecoration(
@@ -66,8 +65,6 @@ class CardDetailsOrders extends StatelessWidget {
                     ],
                   ),
                 ),
-
-                
               ],
             ),
             SizedBox(
@@ -87,7 +84,8 @@ class CardDetailsOrders extends StatelessWidget {
                       ),
                       SizedBox(width: getSize(context) / 60),
                       AutoSizeText(
-                        orderDetailsModel.dateOrder.substring(0, 10) ?? '',                         style: TextStyle(
+                        orderDetailsModel.dateOrder.substring(0, 10) ?? '',
+                        style: TextStyle(
                           fontFamily: "cairo",
                           color: AppColors.black,
                           fontSize: getSize(context) / 28,
@@ -138,7 +136,12 @@ class CardDetailsOrders extends StatelessWidget {
                 //   height: 50.w,
                 //   width: 50.w,
                 // )             ,   // Image.asset(ImageAssets.user),
-                Center(child: Image.asset(ImageAssets.user)),
+                Center(
+                    child: Image.asset(
+                  ImageAssets.user,
+                  width: getSize(context) / 12,
+                  height: getSize(context) / 12,
+                )),
                 SizedBox(width: getSize(context) / 60),
                 Expanded(
                   child: Column(

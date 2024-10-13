@@ -12,7 +12,6 @@ import '../../../config/routes/app_routes.dart';
 import '../../../core/models/get_orders_model.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_strings.dart';
-import '../../delevery_order/screens/widgets/shipment_card_widget.dart';
 
 class DetailsOrder extends StatefulWidget {
   DetailsOrder({super.key, required this.orderModel});
@@ -25,7 +24,9 @@ class DetailsOrder extends StatefulWidget {
 class _DetailsOrderState extends State<DetailsOrder> {
   @override
   void initState() {
-    context.read<DetailsOrdersCubit>().getDetailsOrders(orderId: 38);
+    context
+        .read<DetailsOrdersCubit>()
+        .getDetailsOrders(orderId: widget.orderModel.id ?? -1);
     super.initState();
   }
 
