@@ -1,20 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:top_sale/core/utils/app_fonts.dart';
-import '../../../core/utils/app_colors.dart';
-import '../../../core/utils/assets_manager.dart';
 import '../../../core/widgets/shard_appbar_app.dart';
 import '../cubit/notification_cubit.dart';
 import '../cubit/notification_state.dart';
 import 'custom_notificaton_widget.dart';
 import 'notification_dialog.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class NotificationScreens extends StatefulWidget {
-   NotificationScreens({super.key, this.data});
-final String ?data;
+  NotificationScreens({super.key, this.data});
+  final String? data;
   @override
   State<NotificationScreens> createState() => _NotificationScreensState();
 }
@@ -22,7 +17,7 @@ final String ?data;
 class _NotificationScreensState extends State<NotificationScreens> {
   @override
   void initState() {
- //   context.read<NotificationCubit>().getNotificationData();
+    //   context.read<NotificationCubit>().getNotificationData();
     super.initState();
   }
 
@@ -36,7 +31,9 @@ class _NotificationScreensState extends State<NotificationScreens> {
               // AppBarWidget(
               //   text: "notifications".tr(),
               // ),
-              SharedAppBarApp(title: 'notification'.tr(),),
+              SharedAppBarApp(
+                title: 'notification'.tr(),
+              ),
               BlocBuilder<NotificationCubit, NotificationState>(
                   builder: (context, state) {
                 // print("the model ${cubit.notificationModel!.data!.toString()}");
@@ -47,45 +44,43 @@ class _NotificationScreensState extends State<NotificationScreens> {
                         ),
                       )
                     :
-                // (cubit.notificationModel!.data!.isEmpty)
-                //        ?
-                //     Expanded(
-                //             child: Column(
-                //               mainAxisAlignment: MainAxisAlignment.center,
-                //               crossAxisAlignment: CrossAxisAlignment.center,
-                //               children: [
-                //                 Image.asset(
-                //                   ImageAssets.noNotificationIcon,
-                //                   width: getSize(context) / 6,
-                //                   height: getSize(context) / 6,
-                //                 )
-                //               ],
-                //             ),
-                //           )
-                //         :
-                Expanded(
-                            child: ListView.builder(
-                            //  itemCount: cubit.notificationModel?.data?.length,
-                              itemCount: 6,
-                              itemBuilder: (context, index) => InkWell(
-                                onTap: () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) =>
-                                          // NotificationDialog(
-                                          //   notificationModel: cubit
-                                          //       .notificationModel
-                                          //       ?.data?[index],
-                                          // ));
+                    // (cubit.notificationModel!.data!.isEmpty)
+                    //        ?
+                    //     Expanded(
+                    //             child: Column(
+                    //               mainAxisAlignment: MainAxisAlignment.center,
+                    //               crossAxisAlignment: CrossAxisAlignment.center,
+                    //               children: [
+                    //                 Image.asset(
+                    //                   ImageAssets.noNotificationIcon,
+                    //                   width: getSize(context) / 6,
+                    //                   height: getSize(context) / 6,
+                    //                 )
+                    //               ],
+                    //             ),
+                    //           )
+                    //         :
+                    Expanded(
+                        child: ListView.builder(
+                          //  itemCount: cubit.notificationModel?.data?.length,
+                          itemCount: 6,
+                          itemBuilder: (context, index) => InkWell(
+                            onTap: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) =>
+                                      // NotificationDialog(
+                                      //   notificationModel: cubit
+                                      //       .notificationModel
+                                      //       ?.data?[index],
+                                      // ));
                                       //
-                                  NotificationDialog(
-
-                                          ));
-                                },
-                                child:NotificationWidget(),
-                              ),
-                            ),
-                          );
+                                      NotificationDialog());
+                            },
+                            child: NotificationWidget(),
+                          ),
+                        ),
+                      );
               })
             ])));
   }

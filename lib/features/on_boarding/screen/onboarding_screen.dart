@@ -9,6 +9,7 @@ import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/assets_manager.dart';
 import '../../../core/utils/get_size.dart';
 import '../cubit/onboarding_cubit.dart';
+import '../cubit/onboarding_state.dart';
 import 'onboarding1.dart';
 import 'onboarding2.dart';
 

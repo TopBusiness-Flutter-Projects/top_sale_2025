@@ -1,5 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:top_sale/core/preferences/preferences.dart';
+import 'package:top_sale/features/login/cubit/cubit.dart';
 import '../../../core/utils/assets_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../config/routes/app_routes.dart';
@@ -33,12 +38,56 @@ class _SplashScreenState extends State<SplashScreen>
   Future<void> _getStoreUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.getBool('onBoarding') == true) {
-      if (prefs.getString('user') != null) {
+      if (await Preferences.instance.getDataBaseName() == null ||
+          await Preferences.instance.getOdooUrl() == null) {
         Navigator.pushNamedAndRemoveUntil(
-            context, Routes.mainRoute, (route) => false);
+          context,
+          Routes.registerScreen,
+          (route) => false,
+        );
       } else {
-        Navigator.pushNamedAndRemoveUntil(
-            context, Routes.registerScreen, (route) => false);
+        if (await Preferences.instance.getEmployeeId() == null) {
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            Routes.loginRoute,
+            (route) => false,
+          );
+        } else {
+          if (await Preferences.instance.getMasterUserName() == null ||
+              await Preferences.instance.getMasterUserPass() == null) {
+            if (await Preferences.instance.getUserName() == null ||
+                await Preferences.instance.getUserPass() == null) {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                Routes.loginRoute,
+                (route) => false,
+              );
+            } else {
+              String session = await context.read<LoginCubit>().setSessionId(
+                  phoneOrMail: await Preferences.instance.getUserName() ?? '',
+                  password: await Preferences.instance.getUserPass() ?? '',
+                  baseUrl: await Preferences.instance.getOdooUrl() ?? '',
+                  database: await Preferences.instance.getDataBaseName() ?? '');
+              if (session != "error") {
+                Navigator.pushReplacementNamed(context, Routes.mainRoute);
+              } else {
+                Navigator.pushReplacementNamed(context, Routes.loginRoute);
+              }
+            }
+          } else {
+            String session = await context.read<LoginCubit>().setSessionId(
+                phoneOrMail:
+                    await Preferences.instance.getMasterUserName() ?? '',
+                password: await Preferences.instance.getMasterUserPass() ?? '',
+                baseUrl: await Preferences.instance.getOdooUrl() ?? '',
+                database: await Preferences.instance.getDataBaseName() ?? '');
+            if (session != "error") {
+              Navigator.pushReplacementNamed(context, Routes.mainRoute);
+            } else {
+              Navigator.pushReplacementNamed(context, Routes.loginRoute);
+            }
+          }
+        }
       }
     } else {
       Navigator.pushNamedAndRemoveUntil(
@@ -48,6 +97,55 @@ class _SplashScreenState extends State<SplashScreen>
       );
     }
   }
+
+  // void navigateToHome() async {
+  //   Future.delayed(
+  //     const Duration(seconds: 3),
+  //     () {
+  //       String userName = '';
+  //       String userPass = '';
+
+  //       Preferences.instance.getIsFirstTime(key: 'onBoarding').then((value) {
+  //         if (value != null && value == true) {
+  //           Preferences.instance.getUserName().then((value) async {
+  //             if (value != null) {
+  //               userName = value;
+
+  //               Preferences.instance.getUserPass().then((value) async {
+  //                 if (value != null) {
+  //                   userPass = value;
+  //                   String session = await context
+  //                       .read<LoginCubit>()
+  //                       .setSessionId(
+  //                           phoneOrMail: userName, password: userPass);
+  //                   if (session != "error") {
+  //                     Navigator.pushReplacementNamed(context, Routes.mainRoute);
+  //                   } else {
+  //                     Navigator.pushReplacementNamed(
+  //                         context, Routes.loginRoute);
+  //                   }
+  //                 }
+  //               }).catchError((error) {
+  //                 debugPrint("ffffffffff" + error.toString());
+  //               });
+  //             } else {
+  //               Navigator.pushReplacementNamed(context, Routes.loginRoute);
+  //             }
+  //           }).catchError((error) {
+  //             debugPrint("ffffffffff" + error.toString());
+  //           });
+
+  //           print('not first time');
+  //         } else {
+  //           Navigator.pushReplacementNamed(context, Routes.onBoarding);
+  //           print('first time');
+  //         }
+  //       }).catchError((error) {
+  //         print(error.toString());
+  //       });
+  //     },
+  //   );
+  // }
 
   @override
   void initState() {

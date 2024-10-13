@@ -27,14 +27,8 @@ class ContactUsScreen extends StatelessWidget {
               SizedBox(
                 height: getSize(context) / 10,
               ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(ImageAssets.contactUs),
-                  SizedBox(height: getSize(context) / 10),
-                ],
-              ),
+              Image.asset(ImageAssets.contactUs),
+              SizedBox(height: getSize(context) / 10),
               Column(
                 children: [
                   CustomTextFieldWithTitle(

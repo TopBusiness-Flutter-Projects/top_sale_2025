@@ -9,10 +9,19 @@ import '../../../core/utils/app_strings.dart';
 import '../cubit/delevery_orders_cubit.dart';
 import '../cubit/delevery_orders_state.dart';
 
-class DeleveryOrderScreen extends StatelessWidget {
+class DeleveryOrderScreen extends StatefulWidget {
   const DeleveryOrderScreen({super.key});
 
   @override
+  State<DeleveryOrderScreen> createState() => _DeleveryOrderScreenState();
+}
+
+class _DeleveryOrderScreenState extends State<DeleveryOrderScreen> {
+  @override
+  initState() {
+    super.initState();
+    context.read<DeleveryOrdersCubit>().getOrders();
+  }
   Widget build(BuildContext context) {
     var cubit = context.read<DeleveryOrdersCubit>();
     return Scaffold(
@@ -116,9 +125,10 @@ class DeleveryOrderScreen extends StatelessWidget {
                           const DropDownMenuWidget(),
                           SizedBox(height: getSize(context) / 20),
                           Flexible(
-                            child: ListView.builder(
+                            child: (state is OrdersLoadedState)?
+                            ListView.builder(
                               shrinkWrap: true,
-                              itemCount: 7, // Number of current orders
+                              itemCount: cubit.getOrdersModel!.result!.length, // Number of current orders
                               itemBuilder: (context, index) {
                                 return Padding(
                                   padding: EdgeInsets.only(
@@ -134,13 +144,13 @@ class DeleveryOrderScreen extends StatelessWidget {
                                   ),
                                 );
                               },
-                            ),
+                            ):const Center(child: CircularProgressIndicator(),)
                           )
                         ],
                       )
-                    : ListView.builder(
+                    :(state is OrdersLoadedState)? ListView.builder(
                         shrinkWrap: true,
-                        itemCount: 3, // Number of last orders
+                        itemCount: cubit.getOrdersModel!.count, // Number of last orders
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: EdgeInsets.all(getSize(context) / 50),
@@ -152,7 +162,7 @@ class DeleveryOrderScreen extends StatelessWidget {
                             ),
                           );
                         },
-                      );
+                      ):const Center(child: CircularProgressIndicator(),);
               },
             ),
           ),

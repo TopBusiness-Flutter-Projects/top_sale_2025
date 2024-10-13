@@ -9,6 +9,8 @@ import 'package:top_sale/features/main/widget/menu_screen_widget.dart';
 import '../../../core/utils/app_colors.dart';
 import '../cubit/main_cubit.dart';
 
+ZoomDrawerController z = ZoomDrawerController();
+
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
@@ -105,15 +107,12 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                     ],
                     backgroundColor: Colors.white70,
-
                     currentIndex: cubit.currentIndex,
-                    // activeIndex: cubit.currentIndex,
-                    // gapLocation: GapLocation.center,
-                    // notchSmoothness: NotchSmoothness.verySmoothEdge,
                     onTap: (index) {
                       setState(() {
                         if (index == 3) {
-                          z.toggle!.call();
+                          // print(z.)
+                          z.open!();
                         } else {
                           cubit.changeNavigationBar(index);
                         }
@@ -127,8 +126,6 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 }
-
-final ZoomDrawerController z = ZoomDrawerController();
 
 class Zoom extends StatefulWidget {
   const Zoom({Key? key}) : super(key: key);
@@ -159,9 +156,7 @@ class _ZoomState extends State<Zoom> {
       menuScreenOverlayColor: AppColors.primary,
       menuBackgroundColor: AppColors.white,
       mainScreen: const MainScreen(),
-      menuScreen: MenuScreenWidget(
-        closeClick: () => z.close?.call(),
-      ),
+      menuScreen: MenuScreenWidget(closeClick: () => z.close?.call()),
     );
   }
 }

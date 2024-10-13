@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/utils/assets_manager.dart';
 import '../../../core/utils/get_size.dart';
 import '../cubit/onboarding_cubit.dart';
+import '../cubit/onboarding_state.dart';
 
 class OnBoarding3 extends StatelessWidget {
   const OnBoarding3({super.key});

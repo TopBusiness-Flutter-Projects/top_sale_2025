@@ -15,6 +15,7 @@ class _DropDownMenuWidgetState extends State<DropDownMenuWidget> {
   final List<String> items = [
     'new'.tr(),
     'delivered'.tr(),
+    "show_price".tr()
   ];
   String? selectedValue;
   @override

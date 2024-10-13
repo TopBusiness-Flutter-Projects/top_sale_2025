@@ -70,12 +70,20 @@
   "evaluate_the_application": "تقيم التطبيق",
   "contact": "تواصل معنا",
   "edit": "تعديل الحساب",
-
   "admin_name": "اسم المستخدم الرئيسى",
   "delete": "حذف الحساب",
   "logout": "تسجيل الخروج",
   "profile": "الصفحة الشخصيه",
   "share_app": "مشاركة التطبيق",
+  "subject": "الموضوع",
+  "leave_your_message": "اترك رسالتك",
+  "message": "رسالة",
+  "enter_message": "ادخل رسالتك",
+  "enter_subject": "ادخل الموضوع",
+
   "": "",
-  "ll": ""
+  "ll": "",
+  "enter_the_percentage": "ادخل نسبة الخصم",
+  "discount_rate": "نسبة الخصم",
+  "show_price": "عرض السعر"
 }

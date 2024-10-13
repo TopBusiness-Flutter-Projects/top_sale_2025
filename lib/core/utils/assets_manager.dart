@@ -17,6 +17,7 @@ class ImageAssets {
   static const String directSale = '$imagePath/direct_sale.png';
   static const String deleveryOrder = '$imagePath/delevery_order.png';
   static const String line = '$imagePath/line.png';
+  static const String profileIconPng = '$imagePath/profile_icon.png';
   static const String clients = '$imagePath/clients.png';
   static const String contactUs = '$imagePath/contactUs.png';
   static const String qolasaImage = '$imagePath/qolasa.png';

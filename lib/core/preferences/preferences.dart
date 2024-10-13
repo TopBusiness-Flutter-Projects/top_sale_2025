@@ -46,7 +46,6 @@ class Preferences {
   //   return userModel;
   // }
 
-
   Future<void> setSessionId(String sessionId) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString('sessionId', sessionId);
@@ -58,23 +57,25 @@ class Preferences {
     String? sessionId = preferences.getString('sessionId');
     return sessionId;
   }
-Future<void> setDataBaseName(String db) async {
+
+  Future<void> setDataBaseName(String db) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString('database', db);
     print("sessionIdTrueUser = $db");
   }
-  
+
   Future<String?> getDataBaseName() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? database = preferences.getString('database');
     return database;
   }
-Future<void> setOdooUrl(String url) async {
+
+  Future<void> setOdooUrl(String url) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString('odooUrl', url);
     print("sessionIdTrueUser = $url");
   }
-  
+
   Future<String?> getOdooUrl() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? url = preferences.getString('odooUrl');
@@ -87,18 +88,17 @@ Future<void> setOdooUrl(String url) async {
     print("userId = $userId");
   }
 
-
   Future<String?> getUserId() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
     return userId;
   }
+
   Future<void> setCompanyId(String companyId) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString('companyId', companyId);
     print("userId = $companyId");
   }
-
 
   Future<String?> getCompanyId() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -109,7 +109,6 @@ Future<void> setOdooUrl(String url) async {
   Future<void> setUserName(String userName) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString('userName', userName);
-   
   }
 
   Future<void> removeUserName() async {
@@ -121,6 +120,29 @@ Future<void> setOdooUrl(String url) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userName = preferences.getString('userName');
     return userName;
+  }
+
+  Future<void> setMasterUserName(String userName) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString('userNameMaster', userName);
+  }
+
+  Future<String?> getMasterUserName() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? userName = preferences.getString('userNameMaster');
+    return userName;
+  }
+
+  Future<void> setMasterUserPass(String userPass) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString('userPassMaster', userPass);
+    print("Password = $userPass");
+  }
+
+  Future<String?> getMasterUserPass() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? userPass = preferences.getString('userPassMaster');
+    return userPass;
   }
 
   Future<void> setUserPass(String userPass) async {
@@ -135,12 +157,12 @@ Future<void> setOdooUrl(String url) async {
     return userPass;
   }
 
-
   Future<void> setEmployeeId(String employeeId) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString('employeeId', employeeId);
     print("employeeId = $employeeId");
   }
+
   Future<void> removeEmployeeId() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.remove('employeeId');

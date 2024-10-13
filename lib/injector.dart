@@ -13,11 +13,13 @@ import 'core/api/base_api_consumer.dart';
 import 'core/api/dio_consumer.dart';
 import 'features/basket_screen/cubit/cubit.dart';
 
+import 'features/clients/cubit/clients_cubit.dart';
 import 'features/contact_us/cubit/contact_us_cubit.dart';
 import 'features/delevery_order/cubit/delevery_orders_cubit.dart';
 import 'features/main/cubit/main_cubit.dart';
 import 'features/notification_screen/cubit/notification_cubit.dart';
 import 'features/on_boarding/cubit/onboarding_cubit.dart';
+import 'features/profile/cubit/profile_cubit.dart';
 import 'features/update_profile/cubit/update_profile_cubit.dart';
 
 // import 'features/downloads_videos/cubit/downloads_videos_cubit.dart';
@@ -32,16 +34,15 @@ Future<void> setup() async {
   serviceLocator.registerFactory(() => SplashCubit());
   serviceLocator.registerFactory(() => LoginCubit(serviceLocator()));
   serviceLocator.registerFactory(() => HomeCubit(serviceLocator()));
+  serviceLocator.registerFactory(() => ProfileCubit(serviceLocator()));
   serviceLocator.registerFactory(() => NotificationCubit(serviceLocator()));
   serviceLocator.registerFactory(() => OnboardingCubit());
-  serviceLocator.registerFactory(() => DeleveryOrdersCubit());
+  serviceLocator.registerFactory(() => DeleveryOrdersCubit(serviceLocator()));
   serviceLocator.registerFactory(() => DirectSellCubit());
   serviceLocator.registerFactory(() => MainCubit(serviceLocator()));
-  serviceLocator.registerFactory(() => ContactUsCubit());
-  serviceLocator.registerFactory(() => UpdateProfileCubit());
-  serviceLocator.registerFactory(() => BasketCubit(serviceLocator()));
   serviceLocator.registerFactory(() => ContactUsCubit(serviceLocator()));
   serviceLocator.registerFactory(() => UpdateProfileCubit(serviceLocator()));
+  serviceLocator.registerFactory(() => BasketCubit(serviceLocator()));
   serviceLocator.registerFactory(() => ClientsCubit(serviceLocator()));
 
   ///////////////////////////////////////////////////////////////////////////////

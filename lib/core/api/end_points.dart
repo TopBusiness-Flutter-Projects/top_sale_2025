@@ -1,18 +1,24 @@
 
+import 'package:top_sale/core/utils/app_strings.dart';
+
 class EndPoints {
   //static const String baseUrl = "https://demo17.topbuziness.com";
-  static String baseUrl = "https://demo17.topbuziness.com";
-  static String db = "demo17.topbuziness.com";
+  // static String baseUrl =  AppStrings.demoBaseUrl;
+  // static String db = "demo17.topbuziness.com";
 
   ///
-  static String auth = "$baseUrl/auth/";
-  static String checkEmployee = '$baseUrl/api/hr.employee/';
+  static String auth = "/auth/";
+  static String checkEmployee = '/api/hr.employee/';
  static String allCategoriesUrl =
-      "$baseUrl/api/product.category?query={id,name,display_name}";
-  static String allProducts = '$baseUrl/api/product.product/';
+      "/api/product.category?query={id,name,image}";
+  static String allProducts = '/api/product.product/';
   static String getUserData =
-      '$baseUrl/api/res.users/';
-  // static String authWithSession = "$baseUrl/web/session/authenticate";
+      '/api/res.users/';
+static String getAllPartners = '/api/res.partner/';
+  static String saleOrder = '/api/sale.order/';
+    static String resPartner = '/api/res.partner/';
+  // static String objectSaleOrder = '/object/sale.order/';
+ // static String authWithSession = "$baseUrl/web/session/authenticate";
 
   // static String allCategoryProducts = '$baseUrl/api/product.product/';
   // static String getUsers =
@@ -27,7 +33,6 @@ class EndPoints {
   // static String companyData = '$baseUrl/api/res.company/?';
   // static String currencyName = '$baseUrl/api/res.currency/?';
   // static String createPicking = '$baseUrl/api/stock.picking/';
-  // static String objectSaleOrder = '$baseUrl/object/sale.order/';
   // static String objectAccountMove = '$baseUrl/object/account.move/';
   // static String createStokeMove = '$baseUrl/api/stock.move';
   // static String getTaxes =
