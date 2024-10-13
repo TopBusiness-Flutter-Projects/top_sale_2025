@@ -117,7 +117,7 @@ class CustomProductWidget extends StatelessWidget {
                           GestureDetector(
                             onTap: () {
                               // Navigator.pop(context);
-                              context.read
+                              // context.read<>
                             },
                             child: Icon(
                               Icons.add,
