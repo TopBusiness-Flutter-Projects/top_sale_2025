@@ -15,6 +15,7 @@ import 'package:top_sale/core/models/get_employee_data_model.dart';
 import 'package:top_sale/core/models/get_orders_model.dart';
 import 'package:top_sale/core/models/get_user_data_model.dart';
 import 'package:top_sale/core/models/login_model.dart';
+import 'package:top_sale/core/models/partner_model.dart';
 import 'package:top_sale/core/preferences/preferences.dart';
 import 'package:top_sale/core/utils/app_strings.dart';
 
@@ -285,4 +286,22 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
+  Future<Either<Failure, PartnerModel>> getPartnerDetails({required int partnerId}) async {
+   String odooUrl =
+          await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+    String? sessionId = await Preferences.instance.getSessionId();
+    try {
+      final response = await dio.get(
+      odooUrl+  EndPoints.resPartner +
+            '$partnerId?query={id, phone,name,image_1920}',
+        options: Options(
+          headers: {"Cookie": "session_id=$sessionId"},
+        ),
+      );
+      return Right(PartnerModel.fromJson(response));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
+
 }
