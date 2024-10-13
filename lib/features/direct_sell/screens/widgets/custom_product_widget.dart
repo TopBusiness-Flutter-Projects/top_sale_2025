@@ -6,6 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:top_sale/core/models/all_products_model.dart';
 import 'package:top_sale/core/utils/app_colors.dart';
 import 'package:top_sale/core/utils/app_fonts.dart';
 import 'package:top_sale/core/utils/get_size.dart';
@@ -17,9 +18,9 @@ import '../../cubit/direct_sell_state.dart';
 class CustomProductWidget extends StatelessWidget {
   const CustomProductWidget({
     super.key,
-    required this.index
+    required this.product
   });
-  final int index;
+  final ProductModelData product;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DirectSellCubit , DirectSellState>(builder: (context, state) {
@@ -56,17 +57,17 @@ state==LoadingProduct?
                           borderRadius: BorderRadius.circular(18.r)),
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(18.r),
-                          child:cubit.allProductsModel!.result![index].image1920.toString()  == "false"
+                          child:product.image1920.toString()  == "false"
                               ? Center(
                             child: Text(
-                                cubit.allProductsModel!.result![index].name!.length>5?cubit.allProductsModel!.result![index].name!.substring(0,4):cubit.allProductsModel!.result![index].name??'',
+                                product.name!.length>5?product.name!.substring(0,4):product.name??'',
                                 style: getBoldStyle(
                                     color: AppColors.white, fontSize: 18.sp)),
                           )
                               :
                           CustomDecodedImage(
                             context: context,
-                            base64String: cubit.allProductsModel!.result![index].image1920,
+                            base64String: product.image1920,
 
                           )
                       ),
@@ -78,7 +79,7 @@ state==LoadingProduct?
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Flexible(
-                          child: Text(cubit.allProductsModel!.result![index].name??'' + "\n",
+                          child: Text(product.name??'' + "\n",
                               maxLines: 2,
                               textAlign: TextAlign.start,
                               overflow: TextOverflow.ellipsis,
@@ -87,7 +88,7 @@ state==LoadingProduct?
                         SizedBox(
                           width: 8.w,
                         ),
-                        Text(cubit.allProductsModel!.result![index].listPrice.toString()??'0' + " " + "currency".tr(),
+                        Text(product.listPrice.toString()??'0' + " " + "currency".tr(),
                             // maxLines: 2,
                             // textAlign: TextAlign.center,
                             overflow: TextOverflow.ellipsis,
@@ -116,7 +117,7 @@ state==LoadingProduct?
                                 // Navigator.pop(context);
 
 //! add
-                              cubit.addAndRemoveToBasket(index: index,isAdd: true);
+                              cubit.addAndRemoveToBasket(product: product,isAdd: true);
                               },
                               child: Icon(
                                 Icons.add,
@@ -125,13 +126,13 @@ state==LoadingProduct?
                               ),
                             ),
                             //SizedBox(width: 8.w),
-                            Text(cubit.allProductsModel!.result![index].userOrderedQuantity.toString(),
+                            Text(product.userOrderedQuantity.toString(),
                                 style: getBoldStyle(
                                     color: AppColors.primary, fontHeight: 1.3)),
 //SizedBox(width: 8.w),
                             GestureDetector(
                               onTap: () {
-                                cubit.addAndRemoveToBasket(index: index,isAdd: false);
+                                 cubit.addAndRemoveToBasket(product: product,isAdd: false);
 
                                 // Navigator.pop(context);
                               },

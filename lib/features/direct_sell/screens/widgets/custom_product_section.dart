@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:top_sale/config/routes/app_routes.dart';
 import 'package:top_sale/core/utils/app_colors.dart';
@@ -10,14 +11,21 @@ import 'package:top_sale/features/direct_sell/screens/widgets/custom_product_wid
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import '../../../../core/models/all_products_model.dart';
+import '../../cubit/direct_sell_cubit.dart';
 
-class CustomProductSection extends StatelessWidget {
+class CustomProductSection extends StatefulWidget {
    CustomProductSection({
 
     super.key,
      required this.result
   });
   List<ProductModelData>? result;
+
+  @override
+  State<CustomProductSection> createState() => _CustomProductSectionState();
+}
+
+class _CustomProductSectionState extends State<CustomProductSection> {
   @override
   Widget build(BuildContext context) {
     String testImage =
@@ -28,10 +36,14 @@ class CustomProductSection extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              "products".tr(),
-              style:
-                  getBoldStyle(color: AppColors.secondPrimary, fontSize: 20.sp),
+            GestureDetector(
+              onTap: () {
+            print(    context.read<DirectSellCubit>() .basket.length   )  ; },
+              child: Text(
+                "products".tr(),
+                style:
+                    getBoldStyle(color: AppColors.secondPrimary, fontSize: 20.sp),
+              ),
             ),
             GestureDetector(
                 onTap: () {
@@ -56,11 +68,11 @@ class CustomProductSection extends StatelessWidget {
             mainAxisSpacing: 10.h,
             crossAxisSpacing: 10.w,
             children: List.generate(
-              result!.length,
+              widget.result!.length,
               (index) => Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: CustomProductWidget(
-             index: index,  ),
+             product: widget. result![index],  ),
               ),
             ))
         // SizedBox(
@@ -80,4 +92,5 @@ class CustomProductSection extends StatelessWidget {
       ],
     );
   }
+
 }
