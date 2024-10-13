@@ -7,6 +7,7 @@ import 'package:top_sale/features/direct_sell/screens/widgets/custom_category_se
 import 'package:top_sale/features/direct_sell/screens/widgets/custom_product_section.dart';
 import 'package:top_sale/features/direct_sell/screens/widgets/scanner.dart';
 
+import '../../../core/models/category_model.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_strings.dart';
 import '../cubit/direct_sell_cubit.dart';
@@ -19,6 +20,14 @@ class DirectSellScreen extends StatefulWidget {
 }
 
 class _DirectSellScreenState extends State<DirectSellScreen> {
+  List<Result> ?result;
+
+  void initState() {
+    super.initState();
+    context.read<DirectSellCubit>().getCatogries();
+    context.read<DirectSellCubit>().getAllProducts();
+    print("nono");
+  }
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DirectSellCubit, DirectSellState>(
@@ -48,9 +57,9 @@ class _DirectSellScreenState extends State<DirectSellScreen> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      CustomCategorySection(),
+                      CustomCategorySection(result: cubit.catogriesModel?.result??[],),
                       SizedBox(height: 25.h),
-                      CustomProductSection()
+                      CustomProductSection(result: cubit.allProductsModel?.result??[],)
                     ],
                   ),
                 ),

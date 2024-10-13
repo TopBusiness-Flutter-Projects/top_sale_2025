@@ -4,10 +4,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:top_sale/core/utils/app_colors.dart';
 import 'package:top_sale/core/utils/app_fonts.dart';
 import 'package:top_sale/core/utils/get_size.dart';
+
+import '../../../../core/widgets/decode_image.dart';
 
 class CustomProductWidget extends StatelessWidget {
   const CustomProductWidget({
@@ -15,9 +18,11 @@ class CustomProductWidget extends StatelessWidget {
     required this.title,
     required this.image,
     required this.price,
+    required this.numofadded,
   });
   final String title;
   final String price;
+  final String numofadded;
   final String image;
   @override
   Widget build(BuildContext context) {
@@ -56,10 +61,17 @@ class CustomProductWidget extends StatelessWidget {
                                   style: getBoldStyle(
                                       color: AppColors.white, fontSize: 18.sp)),
                             )
-                          : Image.network(
-                              image,
-                              fit: BoxFit.cover,
-                            ),
+                          :
+                      CustomDecodedImage(
+                        context: context,
+                        base64String: image,
+                        height: 50.w,
+                        width: 50.w,
+                      )
+                      // Image.network(
+                      //         image,
+                      //         fit: BoxFit.cover,
+                      //       ),
                     ),
                   ),
                   SizedBox(
@@ -105,6 +117,7 @@ class CustomProductWidget extends StatelessWidget {
                           GestureDetector(
                             onTap: () {
                               // Navigator.pop(context);
+                              context.read
                             },
                             child: Icon(
                               Icons.add,
@@ -113,7 +126,7 @@ class CustomProductWidget extends StatelessWidget {
                             ),
                           ),
                           //SizedBox(width: 8.w),
-                          Text("1",
+                          Text(numofadded,
                               style: getBoldStyle(
                                   color: AppColors.primary, fontHeight: 1.3)),
 //SizedBox(width: 8.w),

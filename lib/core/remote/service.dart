@@ -174,7 +174,7 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
-
+//getAllProducts
   Future<Either<Failure, AllProductsModel>> getAllProducts(int page) async {
     try {
       String? sessionId = await Preferences.instance.getSessionId();

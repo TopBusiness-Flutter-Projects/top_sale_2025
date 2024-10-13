@@ -8,6 +8,8 @@ import 'package:top_sale/core/utils/app_colors.dart';
 import 'package:top_sale/core/utils/app_fonts.dart';
 import 'package:top_sale/core/utils/get_size.dart';
 
+import '../../../../core/widgets/decode_image.dart';
+
 class CustomCategoryWidget extends StatelessWidget {
   const CustomCategoryWidget({
     super.key,
@@ -40,10 +42,17 @@ class CustomCategoryWidget extends StatelessWidget {
                             style: getBoldStyle(
                                 color: AppColors.white, fontSize: 18.sp)),
                       )
-                    : Image.network(
-                        image,
-                        fit: BoxFit.cover,
-                      ),
+                    :
+                CustomDecodedImage(
+                  context: context,
+                  base64String:image,
+                  height: 50.w,
+                  width: 50.w,
+                )
+                // Image.network(
+                //         image,
+                //         fit: BoxFit.cover,
+                //       ),
               )),
           Flexible(
             child: SizedBox(
@@ -92,10 +101,12 @@ class CustomCategoryScreenWidget extends StatelessWidget {
                             style: getBoldStyle(
                                 color: AppColors.white, fontSize: 18.sp)),
                       )
-                    : Image.network(
-                        image,
-                        fit: BoxFit.cover,
-                      ),
+                    :   CustomDecodedImage(
+                  context: context,
+                  base64String:image,
+                  height: 50.w,
+                  width: 50.w,
+                )
               )),
           Text(title,
               maxLines: 2,

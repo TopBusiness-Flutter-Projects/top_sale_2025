@@ -21,6 +21,12 @@ class ProductsScreen extends StatefulWidget {
 
 class _ProductsScreenState extends State<ProductsScreen> {
   @override
+  void initState() {
+    // TODO: implement initState
+
+
+  }
+  @override
   Widget build(BuildContext context) {
     String testImage =
         'https://img.freepik.com/free-photo/organic-cosmetic-product-with-dreamy-aesthetic-fresh-background_23-2151382816.jpg';
@@ -108,7 +114,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                             image: testImage,
                             //image: "false",
                             title: "لحوم لحوم لحوم لحوم",
-                            price: "100",
+                            price: "100", numofadded: '0',
                           ),
                         ),
                       )),

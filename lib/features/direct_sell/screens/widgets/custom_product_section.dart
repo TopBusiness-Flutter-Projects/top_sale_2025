@@ -9,10 +9,15 @@ import 'package:top_sale/features/direct_sell/screens/widgets/custom_category_wi
 import 'package:top_sale/features/direct_sell/screens/widgets/custom_product_widget.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
+import '../../../../core/models/all_products_model.dart';
+
 class CustomProductSection extends StatelessWidget {
-  const CustomProductSection({
+   CustomProductSection({
+
     super.key,
+     required this.result
   });
+  List<ProductModelData>? result;
   @override
   Widget build(BuildContext context) {
     String testImage =
@@ -48,18 +53,18 @@ class CustomProductSection extends StatelessWidget {
             mainAxisSpacing: 10.h,
             crossAxisSpacing: 10.w,
             children: List.generate(
-              10,
+              result?.length??1,
               (index) => Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: CustomProductWidget(
-                  image: testImage,
+                //  image: testImage,
+                  image: result?[index].image1920.toString()??"",
                   //image: "false",
-                  title: "لحوم لحوم لحوم لحوم",
-                  price: "100",
+                  title: result?[index].name??"",
+                  price: "100", numofadded: result?[index]?.userOrderedQuantity.toString()??"1",
                 ),
               ),
             ))
-
         // SizedBox(
         //   height: getheightSize(context) / 8,
         //   child: ListView.separated(
