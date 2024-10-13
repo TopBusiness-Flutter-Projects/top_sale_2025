@@ -40,7 +40,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               size: 25.w,
             ),
           ),
-          // leadingWidth: 20,
+          // //leadingWidth: 20,
           title: Text(
             "categories".tr(),
             style: getBoldStyle(

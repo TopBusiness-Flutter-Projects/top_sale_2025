@@ -24,7 +24,7 @@ class _DetailsOrderState extends State<DetailsOrder> {
       appBar: AppBar(
         backgroundColor: AppColors.white,
         centerTitle: false,
-        leadingWidth: 20,
+        //leadingWidth: 20,
         title: Text(
           'details_order'.tr(),
           style: TextStyle(

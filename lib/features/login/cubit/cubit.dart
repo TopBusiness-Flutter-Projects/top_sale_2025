@@ -45,7 +45,6 @@ class LoginCubit extends Cubit<LoginState> {
       required String database,
       required bool isEmployeeType,
       required bool isVisitor}) async {
-   
     emit(LoadingLoginState());
     AppWidget.createProgressDialog(context, 'انتظر');
     final response = isVisitor

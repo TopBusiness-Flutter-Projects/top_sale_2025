@@ -20,6 +20,11 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  @override
+  void initState() {
+    print('zz:: ${z.isOpen}');
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -111,8 +116,7 @@ class _MainScreenState extends State<MainScreen> {
                     onTap: (index) {
                       setState(() {
                         if (index == 3) {
-                          // print(z.)
-                          z.open!();
+                          z.toggle!.call();
                         } else {
                           cubit.changeNavigationBar(index);
                         }
@@ -127,14 +131,14 @@ class _MainScreenState extends State<MainScreen> {
   }
 }
 
-class Zoom extends StatefulWidget {
-  const Zoom({Key? key}) : super(key: key);
+class ZoomDrawerScreen extends StatefulWidget {
+  const ZoomDrawerScreen({super.key});
 
   @override
-  _ZoomState createState() => _ZoomState();
+  _ZoomDrawerScreenState createState() => _ZoomDrawerScreenState();
 }
 
-class _ZoomState extends State<Zoom> {
+class _ZoomDrawerScreenState extends State<ZoomDrawerScreen> {
   @override
   Widget build(BuildContext context) {
     return ZoomDrawer(

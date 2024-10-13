@@ -9,9 +9,10 @@ import '../../../../core/utils/get_size.dart';
 class ShipmentCardWidget extends StatelessWidget {
   ShipmentCardWidget(
       {super.key,
-       this.status,
+      this.status,
       required this.backgroundColor,
-      required this.textColor, required this.isDeleveryOrder});
+      required this.textColor,
+      required this.isDeleveryOrder});
   DateTime currentBackPressTime = DateTime.now();
   final String? status;
   final Color backgroundColor;
@@ -21,9 +22,9 @@ class ShipmentCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        isDeleveryOrder ?
-        Navigator.pushNamed(context, Routes.detailsOrder):
-            Container();
+        isDeleveryOrder
+            ? Navigator.pushNamed(context, Routes.detailsOrder)
+            : Container();
       },
       child: Container(
         width: getSize(context),
@@ -73,27 +74,27 @@ class ShipmentCardWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                isDeleveryOrder ?
-
-                Container(
-                  height: getSize(context) / 15,
-                  width: getSize(context) / 5,
-                  decoration: BoxDecoration(
-                      color: backgroundColor,
-                      borderRadius:
-                          BorderRadius.circular(getSize(context) / 20)),
-                  child: Center(
-                    child: Padding(
-                      padding: EdgeInsets.all(getSize(context) / 200),
-                      child: AutoSizeText(
-                        status ?? '',
-                        style: TextStyle(
-                          color: textColor,
+                isDeleveryOrder
+                    ? Container(
+                        height: getSize(context) / 15,
+                        width: getSize(context) / 5,
+                        decoration: BoxDecoration(
+                            color: backgroundColor,
+                            borderRadius:
+                                BorderRadius.circular(getSize(context) / 20)),
+                        child: Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(getSize(context) / 200),
+                            child: AutoSizeText(
+                              status ?? '',
+                              style: TextStyle(
+                                color: textColor,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                ) :SizedBox()
+                      )
+                    : SizedBox()
               ],
             ),
             SizedBox(
@@ -105,7 +106,12 @@ class ShipmentCardWidget extends StatelessWidget {
                 Expanded(
                   child: Row(
                     children: [
-                      Image.asset(ImageAssets.dateIcon),
+                      Image.asset(
+                        ImageAssets.dateIcon,
+                        fit: BoxFit.contain,
+                        width: getSize(context) / 14,
+                        height: getSize(context) / 14,
+                      ),
                       SizedBox(width: getSize(context) / 60),
                       AutoSizeText(
                         DateFormat('dd/MM/yyyy').format(currentBackPressTime),

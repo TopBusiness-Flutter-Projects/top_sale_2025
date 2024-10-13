@@ -19,9 +19,9 @@ class DeleveryOrderScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.white,
         centerTitle: false,
-        leadingWidth: 20,
+        //leadingWidth: 20,
         title: Text(
-           "delevery_order".tr(),
+          "delevery_order".tr(),
           style: TextStyle(
               fontFamily: AppStrings.fontFamily,
               color: AppColors.black,
@@ -31,7 +31,6 @@ class DeleveryOrderScreen extends StatelessWidget {
       backgroundColor: AppColors.white,
       body: Column(
         children: [
-
           BlocBuilder<DeleveryOrdersCubit, DeleveryOrdersState>(
             builder: (context, state) {
               return Padding(
