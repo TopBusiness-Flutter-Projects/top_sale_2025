@@ -17,7 +17,7 @@ class GetOrdersModel {
   int? current;
   dynamic next;
   int? totalPages;
-  List<Result>? result;
+  List<OrderModel>? result;
 
   GetOrdersModel({
     this.count,
@@ -36,7 +36,7 @@ class GetOrdersModel {
         totalPages: json["total_pages"],
         result: json["result"] == null
             ? []
-            : List<Result>.from(json["result"]!.map((x) => Result.fromJson(x))),
+            : List<OrderModel>.from(json["result"]!.map((x) => OrderModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -51,18 +51,18 @@ class GetOrdersModel {
       };
 }
 
-class Result {
+class OrderModel {
   int? id;
   int? userId;
   int? partnerId;
   String? displayName;
   String? state;
   String? writeDate;
-  int? amountTotal;
+  dynamic? amountTotal;
   String? invoiceStatus;
   dynamic deliveryStatus;
   PartnerModel? partnerModel;
-  Result({
+  OrderModel({
     this.id,
     this.userId,
     this.partnerId,
@@ -74,7 +74,7 @@ class Result {
     this.deliveryStatus,this.partnerModel
   });
 
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
+  factory OrderModel.fromJson(Map<String, dynamic> json) => OrderModel(
         id: json["id"],
         userId: json["user_id"],
         partnerId: json["partner_id"],

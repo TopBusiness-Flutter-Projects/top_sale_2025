@@ -5,6 +5,7 @@ import 'package:top_sale/features/details_order/screens/widgets/custom_total_pri
 import 'package:top_sale/features/details_order/screens/widgets/product_card.dart';
 import 'package:top_sale/features/details_order/screens/widgets/rounded_button.dart';
 import '../../../config/routes/app_routes.dart';
+import '../../../core/models/get_orders_model.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_strings.dart';
 import '../../delevery_order/screens/widgets/shipment_card_widget.dart';
@@ -46,12 +47,11 @@ class _DetailsOrderState extends State<DetailsOrder> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                ShipmentCardWidget(
-                  isDeleveryOrder: false,
-                  backgroundColor: AppColors.orange.withOpacity(0.5),
-                  textColor: AppColors.orange,
-                  status: "new".tr(), // Current orders
-                ),
+                // ShipmentCardWidget(
+                //   isDeleveryOrder: false,
+                //  order: OrderModel(),
+                //
+                // ),
                 SizedBox(
                   height: getSize(context) / 12,
                 ),
