@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top_sale/core/utils/app_colors.dart';
+import 'package:top_sale/core/utils/app_fonts.dart';
 import 'package:top_sale/core/utils/assets_manager.dart';
 import 'package:top_sale/core/utils/get_size.dart';
 import 'package:top_sale/features/home_screen/screens/widgets/appbar_home.dart';
@@ -69,7 +70,15 @@ class _HomeScreenState extends State<HomeScreen> {
                               arguments: false);
                         })
                   ],
-                )
+                ),
+                TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, Routes.loginRoute);
+                    },
+                    child: Text(
+                      "LOGOUT",
+                      style: getBoldStyle(),
+                    ))
               ]),
             )),
           ),

@@ -24,7 +24,7 @@ class DioConsumer implements BaseApiConsumer {
     };
 
     client.options
-      ..baseUrl = EndPoints.baseUrl
+      ..baseUrl = ""
       ..responseType = ResponseType.plain
       ..followRedirects = false
       ..receiveTimeout = const Duration(minutes: 1)

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top_sale/core/utils/app_colors.dart';
 import 'package:top_sale/core/utils/app_strings.dart';
 import 'package:top_sale/core/utils/assets_manager.dart';
+import 'package:top_sale/core/utils/dialogs.dart';
 import 'package:top_sale/features/login/cubit/cubit.dart';
 import 'package:top_sale/features/login/cubit/state.dart';
 import '../../../config/routes/app_routes.dart';
@@ -79,7 +80,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
               CustomButton(
                   title: 'register'.tr(),
                   onTap: () {
-                    Navigator.pushNamed(context, Routes.loginRoute);
+                    if (_formKey.currentState!.validate()) {
+                      cubit.login(context,
+                          isEmployeeType: true,
+                          isVisitor: false,
+                          phoneOrMail: cubit.adminNameController.text,
+                          password: cubit.adminPasswordController.text,
+                          baseUrl: cubit.odooLinkController.text,
+                          database: cubit.dbNumberController.text);
+                    } else {
+                    
+                      errorGetBar("من فضلك املأ الحقول");
+                      print('Form is Not valid');
+                    }
                   }),
             ]),
           )));

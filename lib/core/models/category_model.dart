@@ -1,67 +1,69 @@
-class AllCategoriesModel {
-  int? count;
-  dynamic prev;
-  int? current;
-  dynamic next;
-  int? totalPages;
-  List<CategoriesModelData>? result;
+// To parse this JSON data, do
+//
+//     final getCategoriesModel = getCategoriesModelFromJson(jsonString);
 
-  AllCategoriesModel({
-    this.count,
-    this.prev,
-    this.current,
-    this.next,
-    this.totalPages,
-    this.result,
-  });
+import 'dart:convert';
 
-  factory AllCategoriesModel.fromJson(Map<String, dynamic> json) =>
-      AllCategoriesModel(
+GetCategoriesModel getCategoriesModelFromJson(String str) => GetCategoriesModel.fromJson(json.decode(str));
+
+String getCategoriesModelToJson(GetCategoriesModel data) => json.encode(data.toJson());
+
+class GetCategoriesModel {
+    int? count;
+    dynamic prev;
+    int? current;
+    dynamic next;
+    int? totalPages;
+    List<Result>? result;
+
+    GetCategoriesModel({
+        this.count,
+        this.prev,
+        this.current,
+        this.next,
+        this.totalPages,
+        this.result,
+    });
+
+    factory GetCategoriesModel.fromJson(Map<String, dynamic> json) => GetCategoriesModel(
         count: json["count"],
         prev: json["prev"],
         current: json["current"],
         next: json["next"],
         totalPages: json["total_pages"],
-        result: json["result"] == null
-            ? []
-            : List<CategoriesModelData>.from(
-                json["result"]!.map((x) => CategoriesModelData.fromJson(x))),
-      );
+        result: json["result"] == null ? [] : List<Result>.from(json["result"]!.map((x) => Result.fromJson(x))),
+    );
 
-  Map<String, dynamic> toJson() => {
+    Map<String, dynamic> toJson() => {
         "count": count,
         "prev": prev,
         "current": current,
         "next": next,
         "total_pages": totalPages,
-        "result": result == null
-            ? []
-            : List<dynamic>.from(result!.map((x) => x.toJson())),
-      };
+        "result": result == null ? [] : List<dynamic>.from(result!.map((x) => x.toJson())),
+    };
 }
 
-class CategoriesModelData {
-  String? name;
+class Result {
+    int? id;
+    String? name;
+    dynamic image;
 
-  int? id;
-  String? displayName;
+    Result({
+        this.id,
+        this.name,
+        this.image,
+    });
 
-  CategoriesModelData({
-    this.name,
-    this.id,
-    this.displayName,
-  });
-
-  factory CategoriesModelData.fromJson(Map<String, dynamic> json) =>
-      CategoriesModelData(
-        name: json["name"],
+    factory Result.fromJson(Map<String, dynamic> json) => Result(
         id: json["id"],
-        displayName: json["display_name"],
-      );
+        name: json["name"],
+        image: json["image"],
+    );
 
-  Map<String, dynamic> toJson() => {
-        "name": name,
+    Map<String, dynamic> toJson() => {
         "id": id,
-        "display_name": displayName,
-      };
+        "name": name,
+        "image": image,
+    };
 }
