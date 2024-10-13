@@ -112,7 +112,7 @@ class AppRoutes {
         );
       case Routes.mainRoute:
         return MaterialPageRoute(
-          builder: (context) => const MainScreen(),
+          builder: (context) => const ZoomDrawerScreen(),
         );
       case Routes.clientsRoute:
         bool isCart = settings.arguments as bool;

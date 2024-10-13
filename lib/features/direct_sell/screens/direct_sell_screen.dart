@@ -40,7 +40,7 @@ class _DirectSellScreenState extends State<DirectSellScreen> {
         appBar: AppBar(
           backgroundColor: AppColors.white,
           centerTitle: false,
-          leadingWidth: 20,
+          //leadingWidth: 20,
           title: Text(
             "direct_sell".tr(),
             style: TextStyle(

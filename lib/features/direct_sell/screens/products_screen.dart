@@ -59,7 +59,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
               size: 25.w,
             ),
           ),
-          // leadingWidth: 20,
+          // //leadingWidth: 20,
           title: Text(
             widget.categoryName,
             style: getBoldStyle(

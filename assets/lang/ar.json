@@ -85,5 +85,6 @@
   "ll": "",
   "enter_the_percentage": "ادخل نسبة الخصم",
   "discount_rate": "نسبة الخصم",
-  "show_price": "عرض السعر"
+  "show_price": "عرض السعر",
+  "no_data": "لا يوجد بيانات"
 }
