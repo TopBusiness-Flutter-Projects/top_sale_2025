@@ -36,7 +36,10 @@ class CustomProductSection extends StatelessWidget {
             GestureDetector(
                 onTap: () {
                   Navigator.pushNamed(context, Routes.productsRoute,
-                      arguments: "products".tr());
+                      arguments: [
+                        "products".tr(),
+                        '-1'
+                      ]);
                 },
                 child: Text(
                   "all".tr(),
@@ -53,16 +56,11 @@ class CustomProductSection extends StatelessWidget {
             mainAxisSpacing: 10.h,
             crossAxisSpacing: 10.w,
             children: List.generate(
-              result?.length??1,
+              result!.length,
               (index) => Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: CustomProductWidget(
-                //  image: testImage,
-                  image: result?[index].image1920.toString()??"",
-                  //image: "false",
-                  title: result?[index].name??"",
-                  price: "100", numofadded: result?[index]?.userOrderedQuantity.toString()??"1",
-                ),
+             index: index,  ),
               ),
             ))
         // SizedBox(

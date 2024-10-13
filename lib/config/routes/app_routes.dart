@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:top_sale/features/contact_us/screens/contact_us_screen.dart';
-import 'package:top_sale/features/direct_sell/screens/categories_screen.dart';
+import 'package:top_sale/features/direct_sell/screens/all_categories_screen.dart';
 import 'package:top_sale/features/direct_sell/screens/direct_sell_screen.dart';
 import 'package:top_sale/features/direct_sell/screens/products_screen.dart';
 import 'package:top_sale/features/clients/screens/clients_screen.dart';
@@ -130,9 +130,12 @@ class AppRoutes {
           builder: (context) => const DirectSellScreen(),
         );
       case Routes.productsRoute:
-        String categoryName = settings.arguments as String;
+        List<String> categoryName = settings.arguments as List<String>;
         return MaterialPageRoute(
-          builder: (context) => ProductsScreen(categoryName: categoryName),
+          builder: (context) => ProductsScreen(categoryName: categoryName[0],
+            catId: categoryName[1],
+
+          ),
         );
       case Routes.contactUsRoute:
         return MaterialPageRoute(
@@ -143,7 +146,7 @@ class AppRoutes {
             builder: (context) => const UpdateProfileScreen());
       case Routes.categoriesRoute:
         return MaterialPageRoute(
-          builder: (context) => const CategoriesScreen(),
+          builder: (context) =>  AllCategoriesScreen(),
         );
       case Routes.basketScreenRoute:
         return MaterialPageRoute(

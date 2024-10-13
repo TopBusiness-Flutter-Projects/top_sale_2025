@@ -5,16 +5,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:top_sale/core/utils/app_fonts.dart';
+import 'package:top_sale/core/utils/get_size.dart';
 import 'package:top_sale/features/direct_sell/cubit/direct_sell_state.dart';
 import 'package:top_sale/features/direct_sell/screens/widgets/scanner.dart';
 
+import '../../../core/models/all_products_model.dart';
 import '../../../core/utils/app_colors.dart';
+import '../../../core/utils/assets_manager.dart';
 import '../cubit/direct_sell_cubit.dart';
 import 'widgets/custom_product_widget.dart';
 
 class ProductsScreen extends StatefulWidget {
-  const ProductsScreen({super.key, required this.categoryName});
+  const ProductsScreen(
+      {super.key, required this.categoryName, required this.catId});
   final String categoryName;
+  final String catId;
   @override
   State<ProductsScreen> createState() => _ProductsScreenState();
 }
@@ -23,9 +28,17 @@ class _ProductsScreenState extends State<ProductsScreen> {
   @override
   void initState() {
     // TODO: implement initState
+    if(widget.catId!='-1'){
+      context.read<DirectSellCubit>().getAllProductsByCatogrey(id:int.parse( widget.catId));
+
+      // context.read<DirectSellCubit>().currentIndex =
+    }else{    context.read<DirectSellCubit>().getAllProducts();
+    context.read<DirectSellCubit>().currentIndex == -1;
 
 
+    }
   }
+
   @override
   Widget build(BuildContext context) {
     String testImage =
@@ -71,7 +84,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          cubit.changeIndex(-1);
+                          cubit.changeIndex(-1, 0);
                         },
                         child: CustomCategoryText(
                             text: "all".tr(),
@@ -89,10 +102,13 @@ class _ProductsScreenState extends State<ProductsScreen> {
                           ),
                           itemBuilder: (context, index) => GestureDetector(
                             onTap: () {
-                              cubit.changeIndex(index);
+                              cubit.changeIndex(index,
+                                  cubit.catogriesModel?.result?[index].id);
                             },
                             child: CustomCategoryText(
-                                text: "لحوم",
+                                text:
+                                    cubit.catogriesModel?.result?[index].name ??
+                                        "",
                                 isSelected: cubit.currentIndex == index),
                           ),
                         ),
@@ -100,26 +116,39 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     ],
                   ),
                 ),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: StaggeredGrid.count(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 10.h,
-                      crossAxisSpacing: 10.w,
-                      children: List.generate(
-                        10,
-                        (index) => Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: CustomProductWidget(
-                            image: testImage,
-                            //image: "false",
-                            title: "لحوم لحوم لحوم لحوم",
-                            price: "100", numofadded: '0',
+              cubit.allProductsModel?.result == [] ||
+                      cubit.allProductsModel == null ||
+                      cubit.allProductsModel?.result?.length == 0
+                  ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(ImageAssets.nodata,
+                          width: getSize(context)/8,
                           ),
-                        ),
-                      )),
-                ),
-              )
+
+                          Text("no_data".tr())
+
+                          ,
+                          SizedBox(height: 20.h),
+                        ],
+                      ),
+                    )
+                  : Expanded(
+                      child: SingleChildScrollView(
+                        child: StaggeredGrid.count(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 10.h,
+                            crossAxisSpacing: 10.w,
+                            children: List.generate(
+                              cubit.allProductsModel?.result?.length ?? 0,
+                              (index) => Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: CustomProductWidget(index: index),
+                              ),
+                            )),
+                      ),
+                    )
             ],
           ),
         ),

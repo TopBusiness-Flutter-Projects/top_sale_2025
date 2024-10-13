@@ -51,7 +51,7 @@ class ProductModelData {
   int? uomId;
 
   int userOrderedQuantity;
-  dynamic qty_available;
+  dynamic qtyAvailable;
   List<int>? taxesId;
 
   dynamic image1920;
@@ -65,7 +65,7 @@ class ProductModelData {
     this.uomName,
     this.uomId,
      this.categId,
-    this.qty_available,
+    this.qtyAvailable,
     this.image1920 = false,
     this.userOrderedQuantity = 0,
   });
@@ -81,7 +81,7 @@ class ProductModelData {
         taxesId: json["taxes_id"] == null
             ? []
             : List<int>.from(json["taxes_id"]!.map((x) => x)),
-        qty_available: json["qty_available"],
+        qtyAvailable: json["qty_available"],
          categId: json["categ_id"],
         image1920: json["image_1920"],
       );
@@ -92,22 +92,14 @@ class ProductModelData {
         "list_price": listPrice,
         // "currency_id": currencyId,
         "uom_name": uomName,
-        "qty_available": qty_available,
+        "qty_available": qtyAvailable,
         "uom_id": uomId,
          "categ_id": categId,
         "taxes_id":
             taxesId == null ? [] : List<dynamic>.from(taxesId!.map((x) => x)),
         "image_1920": image1920,
       };
-   addQuantity(int value) {
-    userOrderedQuantity += value;
-  }
 
-   removeQuantity(int value) {
-    if (userOrderedQuantity - value >= 0) {
-      userOrderedQuantity -= value;
-    } else {
-      userOrderedQuantity = 0; // Prevent negative quantity
-    }
-  }
+
+
 }
