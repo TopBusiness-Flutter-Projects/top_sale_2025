@@ -1,17 +1,20 @@
 
+import 'package:top_sale/core/utils/app_strings.dart';
+
 class EndPoints {
   //static const String baseUrl = "https://demo17.topbuziness.com";
-  static String baseUrl = "https://demo17.topbuziness.com";
-  static String db = "demo17.topbuziness.com";
+  // static String baseUrl =  AppStrings.demoBaseUrl;
+  // static String db = "demo17.topbuziness.com";
 
   ///
-  static String auth = "$baseUrl/auth/";
-  static String checkEmployee = '$baseUrl/api/hr.employee/';
+  static String auth = "/auth/";
+  static String checkEmployee = '/api/hr.employee/';
  static String allCategoriesUrl =
-      "$baseUrl/api/product.category?query={id,name,display_name}";
-  static String allProducts = '$baseUrl/api/product.product/';
+      "/api/product.category?query={id,name,image}";
+  static String allProducts = '/api/product.product/';
   static String getUserData =
-      '$baseUrl/api/res.users/';
+      '/api/res.users/';
+static String getAllPartners = '/api/res.partner/';
   // static String authWithSession = "$baseUrl/web/session/authenticate";
 
   // static String allCategoryProducts = '$baseUrl/api/product.product/';

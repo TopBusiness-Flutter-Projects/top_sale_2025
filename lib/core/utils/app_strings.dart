@@ -59,4 +59,7 @@ class AppStrings {
   static const String noEmailError = 'There_is_no_email_with_this_phone';
   static const String demoUserName = 'admin';
   static const String demoUserpassword = 'admin';
+  static const String demoSessionId = '';
+  static const String demoBaseUrl = "https://demo17.topbuziness.com";
+  static const String demoDB = "demo17.topbuziness.com";
 }
