@@ -37,7 +37,7 @@ Future<void> setup() async {
   serviceLocator.registerFactory(() => ProfileCubit(serviceLocator()));
   serviceLocator.registerFactory(() => NotificationCubit(serviceLocator()));
   serviceLocator.registerFactory(() => OnboardingCubit());
-  serviceLocator.registerFactory(() => DeleveryOrdersCubit());
+  serviceLocator.registerFactory(() => DeleveryOrdersCubit(serviceLocator()));
   serviceLocator.registerFactory(() => DirectSellCubit());
   serviceLocator.registerFactory(() => MainCubit(serviceLocator()));
   serviceLocator.registerFactory(() => ContactUsCubit(serviceLocator()));
