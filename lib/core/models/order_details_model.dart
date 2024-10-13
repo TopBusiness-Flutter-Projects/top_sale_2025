@@ -104,7 +104,7 @@ class Invoice {
 
 class Line {
     int? id;
-    String? productId;
+    dynamic? productId;
     dynamic quantity;
    dynamic priceUnit;
     dynamic discount;
