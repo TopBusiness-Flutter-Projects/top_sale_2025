@@ -24,7 +24,6 @@ class _DeleveryOrderScreenState extends State<DeleveryOrderScreen> {
   }
 
   Widget build(BuildContext context) {
-
     return BlocBuilder<DeleveryOrdersCubit, DeleveryOrdersState>(
         builder: (context, state) {
       var cubit = context.read<DeleveryOrdersCubit>();

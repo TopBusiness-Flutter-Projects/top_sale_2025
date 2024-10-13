@@ -9,20 +9,8 @@ import '../../../../core/utils/get_size.dart';
 
 class ShipmentCardWidget extends StatelessWidget {
   ShipmentCardWidget(
-      {super.key,
-
-
-
-
- 
- 
-
-        required this.order,
-
-   required this.isDeleveryOrder});
+      {super.key, required this.order, required this.isDeleveryOrder});
   OrderModel order;
- 
-
 
   final bool isDeleveryOrder;
   @override
@@ -68,7 +56,7 @@ class ShipmentCardWidget extends StatelessWidget {
                       SizedBox(width: getSize(context) / 60),
                       Expanded(
                         child: AutoSizeText(
-                          order.displayName?? '',
+                          order.displayName ?? '',
                           maxLines: 1,
                           style: TextStyle(
                             overflow: TextOverflow.ellipsis,
@@ -81,34 +69,67 @@ class ShipmentCardWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-
-                isDeleveryOrder ?
-
-                Container(
-                  height: getSize(context) / 15,
-                  width: getSize(context) / 5,
-                  decoration: BoxDecoration(
-                      color: order.state == "sale"&& order.invoiceStatus == "to invoice"  && order.deliveryStatus == "full"? AppColors.blue.withOpacity(0.5) :
-                      order.state == "sale" && order.invoiceStatus == "invoiced"  && order.deliveryStatus == "full"? AppColors.green.withOpacity(0.5) :
-                      order.state == "sale"&& order.invoiceStatus == "to invoice"  && order.deliveryStatus == "pending"? AppColors.orange.withOpacity(0.5) :
-                      AppColors.orange.withOpacity(0.5) ,
-                      borderRadius:
-                          BorderRadius.circular(getSize(context) / 20)),
-                  child: Center(
-                    child: Padding(
-                      padding: EdgeInsets.all(getSize(context) / 200),
-                      child: AutoSizeText(
-                        order.state == "sale"&& order.invoiceStatus == "to invoice"  && order.deliveryStatus == "full"? "delivered".tr() :
-                        order.state == "sale" && order.invoiceStatus == "invoiced"  && order.deliveryStatus == "full"? "complete".tr() :
-                        order.state == "sale"&& order.invoiceStatus == "to invoice"  && order.deliveryStatus == "pending"? "new".tr() :
-                        "show_price".tr() ,
-                        style: TextStyle(
-                          color: order.state == "sale"&& order.invoiceStatus == "to invoice"  && order.deliveryStatus == "full"? AppColors.blue :
-                          order.state == "sale" && order.invoiceStatus == "invoiced"  && order.deliveryStatus == "full"? AppColors.green:
-                          order.state == "sale"&& order.invoiceStatus == "to invoice"  && order.deliveryStatus == "pending"? AppColors.orange :
-                          AppColors.orange ,
-                        ),
-                      ))))
+                isDeleveryOrder
+                    ? Container(
+                        height: getSize(context) / 15,
+                        width: getSize(context) / 5,
+                        decoration: BoxDecoration(
+                            color: order.state == "sale" &&
+                                    order.invoiceStatus == "to invoice" &&
+                                    order.deliveryStatus == "full"
+                                ? AppColors.blue.withOpacity(0.5)
+                                : order.state == "sale" &&
+                                        order.invoiceStatus == "invoiced" &&
+                                        order.deliveryStatus == "full"
+                                    ? AppColors.green.withOpacity(0.5)
+                                    : order.state == "sale" &&
+                                            order.invoiceStatus ==
+                                                "to invoice" &&
+                                            order.deliveryStatus == "pending"
+                                        ? AppColors.orange.withOpacity(0.5)
+                                        : AppColors.orange.withOpacity(0.5),
+                            borderRadius:
+                                BorderRadius.circular(getSize(context) / 20)),
+                        child: Center(
+                            child: Padding(
+                                padding: EdgeInsets.all(getSize(context) / 200),
+                                child: AutoSizeText(
+                                  order.state == "sale" &&
+                                          order.invoiceStatus == "to invoice" &&
+                                          order.deliveryStatus == "full"
+                                      ? "delivered".tr()
+                                      : order.state == "sale" &&
+                                              order.invoiceStatus ==
+                                                  "invoiced" &&
+                                              order.deliveryStatus == "full"
+                                          ? "complete".tr()
+                                          : order.state == "sale" &&
+                                                  order.invoiceStatus ==
+                                                      "to invoice" &&
+                                                  order.deliveryStatus ==
+                                                      "pending"
+                                              ? "new".tr()
+                                              : "show_price".tr(),
+                                  style: TextStyle(
+                                    color: order.state == "sale" &&
+                                            order.invoiceStatus ==
+                                                "to invoice" &&
+                                            order.deliveryStatus == "full"
+                                        ? AppColors.blue
+                                        : order.state == "sale" &&
+                                                order.invoiceStatus ==
+                                                    "invoiced" &&
+                                                order.deliveryStatus == "full"
+                                            ? AppColors.green
+                                            : order.state == "sale" &&
+                                                    order.invoiceStatus ==
+                                                        "to invoice" &&
+                                                    order.deliveryStatus ==
+                                                        "pending"
+                                                ? AppColors.orange
+                                                : AppColors.orange,
+                                  ),
+                                ))))
                     : SizedBox()
               ],
             ),
@@ -178,7 +199,7 @@ class ShipmentCardWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       AutoSizeText(
-                       order.partnerModel!.name ?? '',
+                        order.partnerModel!.name ?? '',
                         maxLines: 1,
                         style: TextStyle(
                             fontSize: getSize(context) / 25,
@@ -186,9 +207,11 @@ class ShipmentCardWidget extends StatelessWidget {
                             fontWeight: FontWeight.bold),
                       ),
                       AutoSizeText(
+                        (order.partnerModel?.phone.toString() == "false")
+                            ? '000000001/100000000'
+                            : order.partnerModel?.phone ?? '',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        (order.partnerModel!.phone == false)? '000000001/100000000' : order.partnerModel!.phone ?? '',
                         style: TextStyle(
                           fontFamily: "cairo",
                           color: AppColors.black.withOpacity(0.8),
