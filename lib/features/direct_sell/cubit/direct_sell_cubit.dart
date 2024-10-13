@@ -7,15 +7,29 @@ import 'direct_sell_state.dart';
 class DirectSellCubit extends Cubit<DirectSellState> {
   DirectSellCubit(this.api) : super(DirectSellInitial());
   ServiceApi api;
-  List<Result> ?result;
+  List<CategoryModelData>? result;
 
   int currentIndex = -1;
-  changeIndex(int index) {
+  changeIndex(int index,int? id) {
     currentIndex = index;
     emit(ChangeIndexState());
+    print("sucess change");
+    if( currentIndex==-1){
+      getAllProducts();
+    }
+    else{
+      print("catogrey id"+'${id}');
+      getAllProductsByCatogrey(id: id);
+    }
+
+
+    print("sucess change 2");
+
+
   }
-  GetCategoriesModel ?catogriesModel;
-  Future<void> getCatogries() async {
+
+  CategoriesModel? catogriesModel;
+  Future<void> getCategries() async {
     emit(LoadingCatogries());
     final response = await api.getAllCategories();
     //
@@ -28,7 +42,8 @@ class DirectSellCubit extends Cubit<DirectSellState> {
       emit(LoadedCatogries(catogriesModel: catogriesModel));
     });
   }
-  AllProductsModel?allProductsModel;
+
+  AllProductsModel? allProductsModel;
 
   Future<void> getAllProducts() async {
     emit(LoadingProduct());
@@ -40,7 +55,39 @@ class DirectSellCubit extends Cubit<DirectSellState> {
       print("sucess cubit");
       allProductsModel = right;
       print("loaded");
-      emit(LoadedProduct( allProductmodel: allProductsModel));
+      emit(LoadedProduct(allProductmodel: allProductsModel));
+    });
+  }
+
+  addAndRemoveToBasket({bool isAdd = false, required int index}) {
+    if (isAdd) {
+      allProductsModel!.result![index].userOrderedQuantity++;
+      emit(IncreaseTheQuantityCount());
+    } else {
+      if (allProductsModel!.result![index].userOrderedQuantity > 0) {
+        allProductsModel!.result![index].userOrderedQuantity--;
+        emit(DecreaseTheQuantityCount());
+      }
+    }
+  }
+  Future<void> getAllProductsByCatogrey({ required int ?id}) async {
+    print("sucess change 3");
+
+    emit(LoadingProductByCatogrey());
+    final response = await api.getAllProductsByCategory(1, categoryId: id!);
+    //
+    response.fold((l) {
+      print("errorr change 2");
+
+      emit(ErrorProductByCatogrey());
+    }, (right) async {
+      print("sucess cubit");
+      allProductsModel = right;
+      print("loaded");
+      emit(LoadedProductByCatogrey(allProductmodel: allProductsModel));
     });
   }
 }
+
+//
+//

@@ -6,19 +6,21 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:top_sale/core/utils/app_fonts.dart';
 import 'package:top_sale/features/direct_sell/cubit/direct_sell_state.dart';
 
+import '../../../core/models/category_model.dart';
 import '../../../core/utils/app_colors.dart';
 
 import '../cubit/direct_sell_cubit.dart';
 import 'widgets/custom_category_widget.dart';
 
-class CategoriesScreen extends StatefulWidget {
-  const CategoriesScreen({super.key});
-
+class AllCategoriesScreen extends StatefulWidget {
+   AllCategoriesScreen({super.key});
   @override
-  State<CategoriesScreen> createState() => _CategoriesScreenState();
+  State<AllCategoriesScreen> createState() => _AllCategoriesScreenState();
 }
 
-class _CategoriesScreenState extends State<CategoriesScreen> {
+class _AllCategoriesScreenState extends State<AllCategoriesScreen> {
+
+
   @override
   Widget build(BuildContext context) {
     String testImage =
@@ -57,13 +59,14 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   mainAxisSpacing: 10.h,
                   crossAxisSpacing: 10.w,
                   children: List.generate(
-                    50,
+                  cubit.catogriesModel?.result?.length??0,
                     (index) => Padding(
                       padding: const EdgeInsets.all(4.0),
-                      child: CustomCategoryScreenWidget(
-                        image: testImage,
-                        // image: "false",
-                        title: "لحوم لحوم  لحوم",
+                      child: CustomCategoryWidget(
+                        catId: cubit.catogriesModel?.result?[index].id.toString()??'-1',
+                        image: cubit.catogriesModel?.result?[index].image.toString()??"",
+                        //image: "false",
+                        title:  cubit.catogriesModel?.result?[index].name.toString()??"",
                       ),
                     ),
                   ))),

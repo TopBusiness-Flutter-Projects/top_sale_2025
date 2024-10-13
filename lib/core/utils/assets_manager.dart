@@ -24,6 +24,7 @@ class ImageAssets {
   static const String discount = '$imagePath/discount.png';
   static const String notificationIconPage = '$imagePath/notification_icon.png';
   static const String contactUsRoute = '$imagePath/contact_us_icon.png';
+  static const String nodata = '$imagePath/no_data.png';
   // icons
   static const String phoneIcon = '$iconsPath/phone.svg';
 
