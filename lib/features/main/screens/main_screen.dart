@@ -9,6 +9,8 @@ import 'package:top_sale/features/main/widget/menu_screen_widget.dart';
 import '../../../core/utils/app_colors.dart';
 import '../cubit/main_cubit.dart';
 
+ZoomDrawerController z = ZoomDrawerController();
+
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
@@ -18,6 +20,11 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  @override
+  void initState() {
+    print('zz:: ${z.isOpen}');
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,11 +112,7 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                     ],
                     backgroundColor: Colors.white70,
-
                     currentIndex: cubit.currentIndex,
-                    // activeIndex: cubit.currentIndex,
-                    // gapLocation: GapLocation.center,
-                    // notchSmoothness: NotchSmoothness.verySmoothEdge,
                     onTap: (index) {
                       setState(() {
                         if (index == 3) {
@@ -128,16 +131,14 @@ class _MainScreenState extends State<MainScreen> {
   }
 }
 
-final ZoomDrawerController z = ZoomDrawerController();
-
-class Zoom extends StatefulWidget {
-  const Zoom({Key? key}) : super(key: key);
+class ZoomDrawerScreen extends StatefulWidget {
+  const ZoomDrawerScreen({super.key});
 
   @override
-  _ZoomState createState() => _ZoomState();
+  _ZoomDrawerScreenState createState() => _ZoomDrawerScreenState();
 }
 
-class _ZoomState extends State<Zoom> {
+class _ZoomDrawerScreenState extends State<ZoomDrawerScreen> {
   @override
   Widget build(BuildContext context) {
     return ZoomDrawer(
@@ -159,9 +160,7 @@ class _ZoomState extends State<Zoom> {
       menuScreenOverlayColor: AppColors.primary,
       menuBackgroundColor: AppColors.white,
       mainScreen: const MainScreen(),
-      menuScreen: MenuScreenWidget(
-        closeClick: () => z.close?.call(),
-      ),
+      menuScreen: MenuScreenWidget(closeClick: () => z.close?.call()),
     );
   }
 }

@@ -34,7 +34,7 @@
   "search_product": "ابحث عن منتجك",
   "search_client": "ابحث عن عميلك",
   "currency": "ج.م",
-  
+
   "try_the_app": "تجربة",
   "companyname": "اسم الشركة",
   "companyname_invalid": "ادخل اسم الشركة",
@@ -58,14 +58,33 @@
   "confirm": "تاكيد",
   "enter_address": "ادخل العنوان",
   "clients": "العملاء",
+  "menu":"القائمة",
+  "hr":"مدير",
+  "basket":"السلة",
+  "home":"الرئيسية",
   "menu": "القائمة",
   "hr": "HR",
   "basket": "السلة",
   "home": "الرئيسية",
-"admin_name":"اسم المستخدم الرئيسى",
-  "server_error": "حدث خطأ ",
-  "": "",
-  "ll": ""
+  "notification": "الاشعارات",
+  "evaluate_the_application": "تقيم التطبيق",
+  "contact": "تواصل معنا",
+  "edit": "تعديل الحساب",
+  "admin_name": "اسم المستخدم الرئيسى",
+  "delete": "حذف الحساب",
+  "logout": "تسجيل الخروج",
+  "profile": "الصفحة الشخصيه",
+  "share_app": "مشاركة التطبيق",
+  "subject": "الموضوع",
+  "leave_your_message": "اترك رسالتك",
+  "message": "رسالة",
+  "enter_message": "ادخل رسالتك",
+  "enter_subject": "ادخل الموضوع",
 
- 
+  "": "",
+  "ll": "",
+  "enter_the_percentage": "ادخل نسبة الخصم",
+  "discount_rate": "نسبة الخصم",
+  "show_price": "عرض السعر",
+  "no_data": "لا يوجد بيانات"
 }

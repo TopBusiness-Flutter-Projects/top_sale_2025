@@ -15,8 +15,13 @@ class AppColors {
   static Color scaffoldColor = HexColor('#F5F5F5');
   static Color avatarColor = HexColor('#96B2B5');
 
+
+
+
+
   static Color primaryHint = HexColor('#B2B2B2');
   static Color primaryGrey = HexColor('#525252');
+
 
   static Color hint = Colors.grey;
   static Color blackLite = Colors.black54;
@@ -34,6 +39,7 @@ class AppColors {
   static Color blue3 = const Color(0xff3646ff);
   static Color greyColor = const Color(0xffB2B2B2);
   static Color primaryColor = const Color(0xff1E487F);
+  static Color grey2Color = const Color(0xffEFEFEF);
   static Color yellowColor = const Color(0xffFF9201);
   static Color bink = HexColor('#FF9F9F');
   static Color purple1 = HexColor('#854AA4');

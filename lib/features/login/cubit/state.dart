@@ -1,6 +1,7 @@
 abstract class LoginState {}
 
 class LoginStateInitial extends LoginState {}
+
 class ChnageStatusOfEmplyeeAndUser extends LoginState {}
 class SuccessLoginState extends LoginState {}
 class FailureLoginState extends LoginState {}

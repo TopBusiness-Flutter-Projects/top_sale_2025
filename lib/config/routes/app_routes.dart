@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:top_sale/features/contact_us/screens/contact_us_screen.dart';
 import 'package:top_sale/features/direct_sell/screens/categories_screen.dart';
 import 'package:top_sale/features/direct_sell/screens/direct_sell_screen.dart';
 import 'package:top_sale/features/direct_sell/screens/products_screen.dart';
@@ -6,15 +7,20 @@ import 'package:top_sale/features/clients/screens/clients_screen.dart';
 import 'package:top_sale/features/login/screens/system_info_screen.dart';
 import 'package:top_sale/features/home_screen/screens/home_screen.dart';
 import 'package:top_sale/features/main/screens/main_screen.dart';
+import 'package:top_sale/features/notification_screen/screens/notification_screens.dart';
 import 'package:top_sale/features/splash/screens/splash_screen.dart';
+import 'package:top_sale/features/update_profile/screens/update_profile_screen.dart';
 import '../../core/utils/app_strings.dart';
 import 'package:page_transition/page_transition.dart';
 import '../../features/basket_screen/screen/basket_screen.dart';
+import '../../features/contact_us/screens/contact_us_screen.dart';
 import '../../features/details_order/screens/details_order.dart';
 import '../../features/details_order/screens/widgets/payment.dart';
 import '../../features/delevery_order/screens/delevery_order_screen.dart';
 import '../../features/login/screens/login_screen.dart';
 import '../../features/on_boarding/screen/onboarding_screen.dart';
+import '../../features/profile/screens/profile_screen.dart';
+import '../../features/update_profile/screens/update_profile_screen.dart';
 
 class Routes {
   static const String initialRoute = '/';
@@ -28,9 +34,15 @@ class Routes {
   static const String onboardingPageScreenRoute = '/onboardingPageScreenRoute';
   static const String registerScreen = '/registerScreen';
   static const String directSellRoute = '/directSellRoute';
+  static const String contactRoute = '/contactRoute';
   static const String categoriesRoute = '/categoriesRoute';
   static const String productsRoute = '/productsRoute';
+  static const String updateProfileRoute = '/updateProfileRoute';
+  static const String contactUsRoute = '/contactUsRoute';
+  static const String notificationRoute = '/notificationRoute';
   static const String basketScreenRoute = '/basketScreen';
+  static const String updateprofileRoute = '/updateprofile';
+  static const String profileRoute = '/profileRoute';
 }
 
 class AppRoutes {
@@ -43,14 +55,6 @@ class AppRoutes {
           builder: (context) => const SplashScreen(),
         );
 
-      // case Routes.detailsRoute:
-      //   final service = settings.arguments as ServicesModel;
-      //   return MaterialPageRoute(
-      //     // Extract the service model argument from the settings arguments map
-      //
-      //     builder: (context) => Details(service: service),
-      //   );
-      //
       case Routes.loginRoute:
         return PageTransition(
           child: const LoginScreen(),
@@ -58,73 +62,83 @@ class AppRoutes {
           alignment: Alignment.center,
           duration: const Duration(milliseconds: 800),
         );
-      case Routes.deleveryOrderRoute:
+      case Routes.profileRoute:
         return PageTransition(
-          child: DeleveryOrderScreen(),
+          child: ProfileScreen(),
           type: PageTransitionType.fade,
           alignment: Alignment.center,
           duration: const Duration(milliseconds: 800),
+        );
+      case Routes.updateprofileRoute:
+        return PageTransition(
+          child: const UpdateProfileScreen(),
+          type: PageTransitionType.fade,
+          alignment: Alignment.center,
+          duration: const Duration(milliseconds: 800),
+        );
+      case Routes.contactRoute:
+        return PageTransition(
+          child: const ContactUsScreen(),
+          type: PageTransitionType.fade,
+          alignment: Alignment.center,
+          duration: const Duration(milliseconds: 800),
+        );
+      case Routes.notificationRoute:
+        return PageTransition(
+          child: NotificationScreens(),
+          type: PageTransitionType.fade,
+          alignment: Alignment.center,
+          duration: const Duration(milliseconds: 800),
+        );
+      case Routes.deleveryOrderRoute:
+        return MaterialPageRoute(
+          builder: (context) => const DeleveryOrderScreen(),
         );
       case Routes.paymentRoute:
-        return PageTransition(
-          child: PaymentScreen(),
-          type: PageTransitionType.fade,
-          alignment: Alignment.center,
-          duration: const Duration(milliseconds: 800),
+        return MaterialPageRoute(
+          builder: (context) => const PaymentScreen(),
         );
       case Routes.detailsOrder:
-        return PageTransition(
-          child: DetailsOrder(),
-          type: PageTransitionType.fade,
-          alignment: Alignment.center,
-          duration: const Duration(milliseconds: 800),
+        return MaterialPageRoute(
+          builder: (context) => DetailsOrder(),
         );
       case Routes.onboardingPageScreenRoute:
-        return PageTransition(
-          child: const OnBoardinScreen(),
-          type: PageTransitionType.fade,
-          alignment: Alignment.center,
-          duration: const Duration(milliseconds: 400),
+        return MaterialPageRoute(
+          builder: (context) => const OnBoardinScreen(),
         );
       case Routes.homeRoute:
-        return PageTransition(
-          child: const HomeScreen(),
-          type: PageTransitionType.fade,
-          alignment: Alignment.center,
-          duration: const Duration(milliseconds: 800),
+        return MaterialPageRoute(
+          builder: (context) => const HomeScreen(),
         );
       case Routes.mainRoute:
-        return PageTransition(
-          child: const Zoom(),
-          type: PageTransitionType.fade,
-          alignment: Alignment.center,
-          duration: const Duration(milliseconds: 800),
+        return MaterialPageRoute(
+          builder: (context) => const ZoomDrawerScreen(),
         );
       case Routes.clientsRoute:
-        return PageTransition(
-          child: const ClientScreen(),
-          type: PageTransitionType.fade,
-          alignment: Alignment.center,
-          duration: const Duration(milliseconds: 800),
+        bool isCart = settings.arguments as bool;
+        return MaterialPageRoute(
+          builder: (context) => ClientScreen(isCart: isCart),
         );
       case Routes.registerScreen:
-        return PageTransition(
-          child: const RegisterScreen(),
-          type: PageTransitionType.fade,
-          alignment: Alignment.center,
-          duration: const Duration(milliseconds: 800),
+        return MaterialPageRoute(
+          builder: (context) => const RegisterScreen(),
         );
       case Routes.directSellRoute:
         return MaterialPageRoute(
           builder: (context) => const DirectSellScreen(),
         );
       case Routes.productsRoute:
-        String categoryname = settings.arguments as String;
+        String categoryName = settings.arguments as String;
         return MaterialPageRoute(
-          builder: (context) => ProductsScreen(
-            categoryName: categoryname,
-          ),
+          builder: (context) => ProductsScreen(categoryName: categoryName),
         );
+      case Routes.contactUsRoute:
+        return MaterialPageRoute(
+          builder: (context) => const ContactUsScreen(),
+        );
+      case Routes.updateProfileRoute:
+        return MaterialPageRoute(
+            builder: (context) => const UpdateProfileScreen());
       case Routes.categoriesRoute:
         return MaterialPageRoute(
           builder: (context) => const CategoriesScreen(),
@@ -132,6 +146,10 @@ class AppRoutes {
       case Routes.basketScreenRoute:
         return MaterialPageRoute(
           builder: (context) => const BasketScreen(),
+        );
+      case Routes.notificationRoute:
+        return MaterialPageRoute(
+          builder: (context) => NotificationScreens(),
         );
       //
       // case Routes.resultOfLessonExam:
