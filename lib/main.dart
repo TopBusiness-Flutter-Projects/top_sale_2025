@@ -5,7 +5,6 @@ import 'package:top_sale/injector.dart' as injector;
 import 'app.dart';
 import 'app_bloc_observer.dart';
 import 'core/utils/restart_app_class.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
@@ -24,4 +23,3 @@ void main() async {
     ),
   );
 }
-//amer first commit
