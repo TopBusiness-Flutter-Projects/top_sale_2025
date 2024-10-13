@@ -146,7 +146,7 @@ class _DeleveryOrderScreenState extends State<DeleveryOrderScreen> {
                                                   child: ShipmentCardWidget(
                                                     order: cubit
                                                         .currentOrders[index],
-                                                    isDeleveryOrder: true,
+
                                                   ),
                                                 );
                                               },
@@ -178,7 +178,7 @@ class _DeleveryOrderScreenState extends State<DeleveryOrderScreen> {
                                                       child: ShipmentCardWidget(
                                                         order: cubit
                                                             .draftOrders[index],
-                                                        isDeleveryOrder: true,
+
                                                       ),
                                                     );
                                                   },
@@ -212,8 +212,7 @@ class _DeleveryOrderScreenState extends State<DeleveryOrderScreen> {
                                                             order:
                                                                 cubit.newOrders[
                                                                     index],
-                                                            isDeleveryOrder:
-                                                                true, // Current orders
+
                                                           ),
                                                         );
                                                       },
@@ -249,8 +248,7 @@ class _DeleveryOrderScreenState extends State<DeleveryOrderScreen> {
                                                             order: cubit
                                                                     .deliveredOrders[
                                                                 index],
-                                                            isDeleveryOrder:
-                                                                true,
+
                                                             // Current orders
                                                           ),
                                                         );
@@ -272,7 +270,7 @@ class _DeleveryOrderScreenState extends State<DeleveryOrderScreen> {
                               padding: EdgeInsets.all(getSize(context) / 50),
                               child: ShipmentCardWidget(
                                 order: cubit.completeOrders[index],
-                                isDeleveryOrder: true,
+
                               ),
                             );
                           },
