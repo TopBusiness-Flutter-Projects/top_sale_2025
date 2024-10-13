@@ -20,11 +20,11 @@ class DirectSellScreen extends StatefulWidget {
 }
 
 class _DirectSellScreenState extends State<DirectSellScreen> {
-  List<Result> ?result;
+  List<CategoryModelData> ?result;
 
   void initState() {
     super.initState();
-    context.read<DirectSellCubit>().getCatogries();
+    context.read<DirectSellCubit>().getCategries();
     context.read<DirectSellCubit>().getAllProducts();
     print("nono");
   }
@@ -32,6 +32,9 @@ class _DirectSellScreenState extends State<DirectSellScreen> {
   Widget build(BuildContext context) {
     return BlocBuilder<DirectSellCubit, DirectSellState>(
         builder: (context, state) {
+          if (state is LoadingCatogries) {
+            return const Center(child: CircularProgressIndicator());
+          }
       var cubit = context.read<DirectSellCubit>();
       return Scaffold(
         appBar: AppBar(
@@ -47,24 +50,38 @@ class _DirectSellScreenState extends State<DirectSellScreen> {
           ),
         ),
         backgroundColor: AppColors.white,
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6),
-          child: Column(
-            children: [
-              const CustomSearchWidget(),
-              SizedBox(height: 25.h),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      CustomCategorySection(result: cubit.catogriesModel?.result??[],),
-                      SizedBox(height: 25.h),
-                      CustomProductSection(result: cubit.allProductsModel?.result??[],)
-                    ],
+        body: RefreshIndicator(
+
+            onRefresh: () async {
+              context.read<DirectSellCubit>().getCategries();
+              context.read<DirectSellCubit>().getAllProducts(); // Check network and refresh data
+            }
+          ,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6),
+            child: Column(
+              children: [
+                const CustomSearchWidget(),
+                SizedBox(height: 25.h),
+                cubit.allProductsModel==null||cubit.catogriesModel==null?
+                    Container(child: Center(child: CircularProgressIndicator(color: AppColors.orange,)),):
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        state==LoadingCatogries?
+                        Center(child: CircularProgressIndicator(color: AppColors.primary,)):
+                        CustomCategorySection(result: cubit.catogriesModel?.result??[],),
+                        SizedBox(height: 25.h),
+                        state==LoadingProduct?
+                        Center(child: CircularProgressIndicator()):
+                        CustomProductSection(result: cubit.allProductsModel?.result??[],)
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       );
