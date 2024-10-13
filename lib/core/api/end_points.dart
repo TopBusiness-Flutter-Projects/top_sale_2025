@@ -15,7 +15,10 @@ class EndPoints {
   static String getUserData =
       '/api/res.users/';
 static String getAllPartners = '/api/res.partner/';
-  // static String authWithSession = "$baseUrl/web/session/authenticate";
+  static String saleOrder = '/api/sale.order/';
+    static String resPartner = '/api/res.partner/';
+  // static String objectSaleOrder = '/object/sale.order/';
+ // static String authWithSession = "$baseUrl/web/session/authenticate";
 
   // static String allCategoryProducts = '$baseUrl/api/product.product/';
   // static String getUsers =
@@ -30,7 +33,6 @@ static String getAllPartners = '/api/res.partner/';
   // static String companyData = '$baseUrl/api/res.company/?';
   // static String currencyName = '$baseUrl/api/res.currency/?';
   // static String createPicking = '$baseUrl/api/stock.picking/';
-  // static String objectSaleOrder = '$baseUrl/object/sale.order/';
   // static String objectAccountMove = '$baseUrl/object/account.move/';
   // static String createStokeMove = '$baseUrl/api/stock.move';
   // static String getTaxes =

@@ -99,4 +99,15 @@ class ProductModelData {
             taxesId == null ? [] : List<dynamic>.from(taxesId!.map((x) => x)),
         "image_1920": image1920,
       };
+   addQuantity(int value) {
+    userOrderedQuantity += value;
+  }
+
+   removeQuantity(int value) {
+    if (userOrderedQuantity - value >= 0) {
+      userOrderedQuantity -= value;
+    } else {
+      userOrderedQuantity = 0; // Prevent negative quantity
+    }
+  }
 }

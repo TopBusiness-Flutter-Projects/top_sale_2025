@@ -12,8 +12,10 @@ import 'package:top_sale/core/models/all_products_model.dart';
 import 'package:top_sale/core/models/category_model.dart';
 import 'package:top_sale/core/models/check_employee_model.dart';
 import 'package:top_sale/core/models/get_employee_data_model.dart';
+import 'package:top_sale/core/models/get_orders_model.dart';
 import 'package:top_sale/core/models/get_user_data_model.dart';
 import 'package:top_sale/core/models/login_model.dart';
+import 'package:top_sale/core/models/partner_model.dart';
 import 'package:top_sale/core/preferences/preferences.dart';
 import 'package:top_sale/core/utils/app_strings.dart';
 
@@ -174,7 +176,7 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
-
+//getAllProducts
   Future<Either<Failure, AllProductsModel>> getAllProducts(int page) async {
     try {
       String? sessionId = await Preferences.instance.getSessionId();
@@ -266,4 +268,40 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
+  Future<Either<Failure, GetOrdersModel>> getOrders() async {
+   String odooUrl =
+          await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+    String? sessionId = await Preferences.instance.getSessionId();
+    try {
+      final response = await dio.get(
+      odooUrl+  EndPoints.saleOrder +
+            '?query={id,user_id,partner_id,display_name,state,write_date,amount_total,invoice_status,delivery_status}&page_size=20&page=1',
+        // '?query={id,partner_id,display_name,state,write_date,amount_total}&filter=[["user_id", "=",1]]',
+        options: Options(
+          headers: {"Cookie": "session_id=$sessionId"},
+        ),
+      );
+      return Right(GetOrdersModel.fromJson(response));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
+  Future<Either<Failure, PartnerModel>> getPartnerDetails({required int partnerId}) async {
+   String odooUrl =
+          await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+    String? sessionId = await Preferences.instance.getSessionId();
+    try {
+      final response = await dio.get(
+      odooUrl+  EndPoints.resPartner +
+            '$partnerId?query={id, phone,name,image_1920}',
+        options: Options(
+          headers: {"Cookie": "session_id=$sessionId"},
+        ),
+      );
+      return Right(PartnerModel.fromJson(response));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
+
 }
