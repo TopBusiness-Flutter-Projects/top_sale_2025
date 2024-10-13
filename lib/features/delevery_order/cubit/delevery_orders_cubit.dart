@@ -8,6 +8,7 @@ class DeleveryOrdersCubit extends Cubit<DeleveryOrdersState> {
   ServiceApi api;
   int currentIndex = 0;
   void changeIndex(int index) {
+
     currentIndex = index;
     emit(DeleveryOrdersIndexChanged(currentIndex));
     getOrders();
