@@ -16,6 +16,7 @@ class EndPoints {
       '/api/res.users/';
 static String getAllPartners = '/api/res.partner/';
   static String saleOrder = '/api/sale.order/';
+    static String resPartner = '/api/res.partner/';
   // static String objectSaleOrder = '/object/sale.order/';
  // static String authWithSession = "$baseUrl/web/session/authenticate";
 
