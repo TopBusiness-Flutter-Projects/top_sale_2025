@@ -9,6 +9,7 @@
   "enter_subject": " Enter Subject",
   "details_order": "details_order",
   "payment": "Payment",
+  "no_data": "No data",
   "leave_your_message": "Leave your message",
   "subject": "Subject",
   "confirm_invoice": "Confirm invoice",
@@ -68,7 +69,7 @@
   "basket":"Basket",
   "home":"Home",
    "ll": "",
-   "admin_name":"ُEnter master username"
+   "admin_name":"ُEnter master username",
 
   "ll": "",
   "modify": "Modify",
@@ -102,9 +103,9 @@
   "enter_subject": " Enter Subject",
   "leave_your_message": "Leave your message",
   "subject": "Subject",
-  "ll": ""
+  "ll": "",
   "ll": "",
   "enter_the_percentage":"Enter the percentage",
-  "discount_rate": "Discount Rate",
+  "discount_rate": "Discount Rate"
 
 }
