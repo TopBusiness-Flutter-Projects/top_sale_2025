@@ -11,6 +11,7 @@ import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/get_size.dart';
 import '../../../core/widgets/network_image.dart';
 import 'list_tile_menu_widget.dart';
+
 class MenuScreenWidget extends StatelessWidget {
   const MenuScreenWidget({Key? key, required this.closeClick})
       : super(key: key);
