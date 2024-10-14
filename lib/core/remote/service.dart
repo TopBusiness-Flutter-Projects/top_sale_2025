@@ -332,7 +332,7 @@ class ServiceApi {
     }
   }
 
-// confirm quatation
+// confirm quatation   انشاء امر البيع
   Future<Either<Failure, DefaultModel>> confirmQuotation({
     required int orderId,
   }) async {
@@ -353,9 +353,9 @@ class ServiceApi {
     }
   }
 
-  //confirm delivery
+  //confirm delivery  تاكيد الاستلام اللي جاي من جديدة
   Future<Either<Failure, CreateOrderModel>> confirmDelivery({
-    required int orderId,
+    required int pickingId,
   }) async {
     String odooUrl =
         await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
@@ -363,7 +363,7 @@ class ServiceApi {
     String? sessionId = await Preferences.instance.getSessionId();
     try {
       final response =
-          await dio.post(odooUrl + EndPoints.picking + '$orderId/validate',
+          await dio.post(odooUrl + EndPoints.picking + '$pickingId/validate',
               options: Options(
                 headers: {"Cookie": "session_id=$sessionId"},
               ),
@@ -373,7 +373,7 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
-  //create and validate invoice
+  //create and validate invoice انشاء فاتورة
   Future<Either<Failure, CreateOrderModel>> createAndValidateInvoice({
     required int orderId,
   }) async {
@@ -388,6 +388,26 @@ class ServiceApi {
                 headers: {"Cookie": "session_id=$sessionId"},
               ),
               body: {"jsonrpc": "2.0", "method": "call", "params": {}});
+      return Right(CreateOrderModel.fromJson(response));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
+  //create and validate invoice انشاء فاتورة
+  Future<Either<Failure, CreateOrderModel>> registerPayment({
+    required int orderId,
+  }) async {
+    String odooUrl =
+        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+
+    String? sessionId = await Preferences.instance.getSessionId();
+    try {
+      final response =
+      await dio.post(odooUrl + EndPoints.createInvoice + '$orderId/invoice',
+          options: Options(
+            headers: {"Cookie": "session_id=$sessionId"},
+          ),
+          body: {"jsonrpc": "2.0", "method": "call", "params": {}});
       return Right(CreateOrderModel.fromJson(response));
     } on ServerException {
       return Left(ServerFailure());

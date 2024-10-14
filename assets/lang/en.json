@@ -106,6 +106,8 @@
   "ll": "",
   "ll": "",
   "enter_the_percentage":"Enter the percentage",
-  "discount_rate": "Discount Rate"
-
+  "discount_rate": "Discount Rate",
+  "invoice": "Invoice",
+  "Enter_the_amount":"Enter the amount",
+  "Paid_in_full": "Paid in full"
 }

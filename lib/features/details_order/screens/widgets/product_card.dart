@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:top_sale/core/utils/get_size.dart';
 import '../../../../core/utils/app_colors.dart';
+import '../../../../core/utils/app_fonts.dart';
 import '../../../../core/utils/assets_manager.dart';
 
 class ProductCard extends StatelessWidget {
-   const ProductCard({super.key,required this.text, required this.number, required this.price});
+   const ProductCard({super.key,required this.text, required this.number, required this.price, required this.title});
    final String text;
    final String number;
    final String price;
+   final String title;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -19,14 +22,15 @@ class ProductCard extends StatelessWidget {
             Row(
               children: [
                 // Product details
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(getSize(context)/12),
+                CircleAvatar(
+                 backgroundColor: AppColors.orange,
                   child:
-                  Image.asset(
-                      ImageAssets.logoImage,
-                      scale:getSize(context)/20
-
-                  ),
+                  Center(
+                    child: Text(
+                        title.length > 5 ? title.substring(0, 3) : title,
+                        style: getBoldStyle(
+                            color: AppColors.white, fontSize: 18.sp)),
+                  )
                 ),
                  SizedBox(width: getSize(context)/50),
                 Column(
