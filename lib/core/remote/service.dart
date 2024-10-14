@@ -149,9 +149,9 @@ class ServiceApi {
       final response = await dio.get(
         isBarcode
             ? EndPoints.allProducts +
-                '?filter=[["detailed_type","=","product"],["barcode","=","$name"]]&query={id,name,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id}&page_size=10&limit=10&page=$page'
+                '?filter=[["detailed_type","=","product"],["barcode","=","$name"]]&query={id,name,image_1920,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id}&page_size=10&limit=10&page=$page'
             : EndPoints.allProducts +
-                '?filter=[["detailed_type","=","product"],["name", "=like", "%$name%"]]&query={id,name,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id}&page_size=10&limit=10&page=$page',
+                '?filter=[["detailed_type","=","product"],["name", "=like", "%$name%"]]&query={id,name,image_1920,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id}&page_size=10&limit=10&page=$page',
         options: Options(
           headers: {"Cookie": "frontend_lang=en_US;session_id=$sessionId"},
         ),
@@ -162,7 +162,7 @@ class ServiceApi {
     }
   }
 
-  Future<Either<Failure, GetCategoriesModel>> getAllCategories() async {
+  Future<Either<Failure, CategoriesModel>> getAllCategories() async {
     try {
       String? sessionId = await Preferences.instance.getSessionId();
       String odooUrl =
@@ -175,7 +175,7 @@ class ServiceApi {
         ),
       );
 
-      return Right(GetCategoriesModel.fromJson(response));
+      return Right(CategoriesModel.fromJson(response));
     } on ServerException {
       return Left(ServerFailure());
     }
@@ -190,8 +190,8 @@ class ServiceApi {
       final response = await dio.get(
         odooUrl +
             EndPoints.allProducts +
-            '?filter=[["detailed_type","=","product"]]&query={id,name,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id}&page_size=10&limit=10&page=$page',
-        // '?filter=[["detailed_type","=","product"],["virtual_available","!=",0.0]]&query={id,name,categ_id,list_price,currency_id,taxes_id,uom_name,uom_id,description_sale,virtual_available,image_1920}&page_size=10&limit=10&page=$page',
+            '?filter=[["detailed_type","=","product"]]&query={id,name,image_1920,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id}&page_size=10&limit=10&page=$page',
+        // '?filter=[["detailed_type","=","product"],["virtual_available","!=",0.0]]&query={id,name,image_1920,categ_id,list_price,currency_id,taxes_id,uom_name,uom_id,description_sale,virtual_available,image_1920}&page_size=10&limit=10&page=$page',
         options: Options(
           headers: {"Cookie": "frontend_lang=en_US;session_id=$sessionId"},
         ),
@@ -202,7 +202,7 @@ class ServiceApi {
     }
   }
 
-  Future<Either<Failure, AllProductsModel>> getAllProductsByCategory(int page,
+  Future<Either<Failure, AllProductsModel>> getAllProductsByCategory(int ?page,
       {required int categoryId}) async {
     try {
       String? sessionId = await Preferences.instance.getSessionId();
@@ -211,8 +211,8 @@ class ServiceApi {
       final response = await dio.get(
         odooUrl +
             EndPoints.allProducts +
-            '?filter=[["detailed_type","=","product"],["categ_id", "=", [$categoryId]]&query={id,name,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id}&page_size=10&limit=10&page=$page',
-        // '?filter=[["detailed_type","=","product"],["virtual_available","!=",0.0]]&query={id,name,categ_id,list_price,currency_id,taxes_id,uom_name,uom_id,description_sale,virtual_available,image_1920}&page_size=10&limit=10&page=$page',
+            '?filter=[["detailed_type","=","product"],["categ_id", "=", $categoryId]]&query={id,name,image_1920,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id}&page_size=10&limit=10&page=$page',
+        // '?filter=[["detailed_type","=","product"],["virtual_available","!=",0.0]]&query={id,name,image_1920,categ_id,list_price,currency_id,taxes_id,uom_name,uom_id,description_sale,virtual_available,image_1920}&page_size=10&limit=10&page=$page',
 
         // queryParameters: {
         //   'filter': '[["categ_id", "=", [$categoryId]]',

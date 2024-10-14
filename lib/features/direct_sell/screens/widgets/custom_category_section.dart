@@ -12,7 +12,7 @@ import '../../../../core/widgets/decode_image.dart';
 
 class CustomCategorySection extends StatelessWidget {
    CustomCategorySection({super.key,required this.result});
-  List<Result> result;
+  List<CategoryModelData> result;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,8 @@ class CustomCategorySection extends StatelessWidget {
             ),
             GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, Routes.categoriesRoute);
+                  Navigator.pushNamed(context, Routes.categoriesRoute,
+                  );
                 },
                 child: Text(
                   "all".tr(),
@@ -48,6 +49,7 @@ class CustomCategorySection extends StatelessWidget {
           child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) => CustomCategoryWidget(
+                catId: result[index].id.toString()??'-1',
                     image:result[index].image.toString(),
                      //image: "false",
                     title: result[index].name.toString(),
@@ -55,7 +57,7 @@ class CustomCategorySection extends StatelessWidget {
               separatorBuilder: (context, index) => SizedBox(
                     width: 14.w,
                   ),
-              itemCount: result.length??1),
+              itemCount: result.length),
         )
       ],
     );

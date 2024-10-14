@@ -4,19 +4,19 @@
 
 import 'dart:convert';
 
-GetCategoriesModel getCategoriesModelFromJson(String str) => GetCategoriesModel.fromJson(json.decode(str));
+CategoriesModel getCategoriesModelFromJson(String str) => CategoriesModel.fromJson(json.decode(str));
 
-String getCategoriesModelToJson(GetCategoriesModel data) => json.encode(data.toJson());
+String getCategoriesModelToJson(CategoriesModel data) => json.encode(data.toJson());
 
-class GetCategoriesModel {
+class CategoriesModel {
     int? count;
     dynamic prev;
     int? current;
     dynamic next;
     int? totalPages;
-    List<Result>? result;
+    List<CategoryModelData>? result;
 
-    GetCategoriesModel({
+    CategoriesModel({
         this.count,
         this.prev,
         this.current,
@@ -25,13 +25,13 @@ class GetCategoriesModel {
         this.result,
     });
 
-    factory GetCategoriesModel.fromJson(Map<String, dynamic> json) => GetCategoriesModel(
+    factory CategoriesModel.fromJson(Map<String, dynamic> json) => CategoriesModel(
         count: json["count"],
         prev: json["prev"],
         current: json["current"],
         next: json["next"],
         totalPages: json["total_pages"],
-        result: json["result"] == null ? [] : List<Result>.from(json["result"]!.map((x) => Result.fromJson(x))),
+        result: json["result"] == null ? [] : List<CategoryModelData>.from(json["result"]!.map((x) => CategoryModelData.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
@@ -44,18 +44,18 @@ class GetCategoriesModel {
     };
 }
 
-class Result {
+class CategoryModelData {
     int? id;
     String? name;
     dynamic image;
 
-    Result({
+    CategoryModelData({
         this.id,
         this.name,
         this.image,
     });
 
-    factory Result.fromJson(Map<String, dynamic> json) => Result(
+    factory CategoryModelData.fromJson(Map<String, dynamic> json) => CategoryModelData(
         id: json["id"],
         name: json["name"],
         image: json["image"],

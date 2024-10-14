@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:top_sale/features/contact_us/screens/contact_us_screen.dart';
-import 'package:top_sale/features/direct_sell/screens/categories_screen.dart';
+import 'package:top_sale/features/direct_sell/screens/all_categories_screen.dart';
 import 'package:top_sale/features/direct_sell/screens/direct_sell_screen.dart';
 import 'package:top_sale/features/direct_sell/screens/products_screen.dart';
 import 'package:top_sale/features/clients/screens/clients_screen.dart';
@@ -10,6 +10,7 @@ import 'package:top_sale/features/main/screens/main_screen.dart';
 import 'package:top_sale/features/notification_screen/screens/notification_screens.dart';
 import 'package:top_sale/features/splash/screens/splash_screen.dart';
 import 'package:top_sale/features/update_profile/screens/update_profile_screen.dart';
+import '../../core/models/get_orders_model.dart';
 import '../../core/utils/app_strings.dart';
 import 'package:page_transition/page_transition.dart';
 import '../../features/basket_screen/screen/basket_screen.dart';
@@ -99,8 +100,9 @@ class AppRoutes {
           builder: (context) => const PaymentScreen(),
         );
       case Routes.detailsOrder:
+        final OrderModel orderModel = settings.arguments as OrderModel;
         return MaterialPageRoute(
-          builder: (context) => DetailsOrder(),
+          builder: (context) => DetailsOrder(orderModel: orderModel,),
         );
       case Routes.onboardingPageScreenRoute:
         return MaterialPageRoute(
@@ -128,9 +130,12 @@ class AppRoutes {
           builder: (context) => const DirectSellScreen(),
         );
       case Routes.productsRoute:
-        String categoryName = settings.arguments as String;
+        List<String> categoryName = settings.arguments as List<String>;
         return MaterialPageRoute(
-          builder: (context) => ProductsScreen(categoryName: categoryName),
+          builder: (context) => ProductsScreen(categoryName: categoryName[0],
+            catId: categoryName[1],
+
+          ),
         );
       case Routes.contactUsRoute:
         return MaterialPageRoute(
@@ -141,7 +146,7 @@ class AppRoutes {
             builder: (context) => const UpdateProfileScreen());
       case Routes.categoriesRoute:
         return MaterialPageRoute(
-          builder: (context) => const CategoriesScreen(),
+          builder: (context) =>  AllCategoriesScreen(),
         );
       case Routes.basketScreenRoute:
         return MaterialPageRoute(

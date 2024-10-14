@@ -2,24 +2,21 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../config/routes/app_routes.dart';
-import '../../../../core/models/get_orders_model.dart';
+import 'package:top_sale/core/models/get_orders_model.dart';
+import '../../../../core/models/order_details_model.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/assets_manager.dart';
 import '../../../../core/utils/get_size.dart';
 import '../../../../core/widgets/decode_image.dart';
 
-class ShipmentCardWidget extends StatelessWidget {
-  ShipmentCardWidget({super.key, required this.order});
-  OrderModel order;
-
+class CardDetailsOrders extends StatelessWidget {
+  CardDetailsOrders(
+      {super.key, required this.orderDetailsModel, required this.orderModel});
+  OrderDetailsModel orderDetailsModel;
+  OrderModel orderModel;
   @override
   Widget build(BuildContext context) {
-    print('image ::${order.partnerModel!.image1920}::imageeeeeeeeeeee');
     return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, Routes.detailsOrder, arguments: order);
-      },
       child: Container(
         width: getSize(context),
         decoration: BoxDecoration(
@@ -55,7 +52,7 @@ class ShipmentCardWidget extends StatelessWidget {
                       SizedBox(width: getSize(context) / 60),
                       Expanded(
                         child: AutoSizeText(
-                          order.displayName ?? '',
+                          orderDetailsModel.name ?? '',
                           maxLines: 1,
                           style: TextStyle(
                             overflow: TextOverflow.ellipsis,
@@ -68,61 +65,6 @@ class ShipmentCardWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(
-                    height: getSize(context) / 15,
-                    width: getSize(context) / 5,
-                    decoration: BoxDecoration(
-                        color: order.state == "sale" &&
-                                order.invoiceStatus == "to invoice" &&
-                                order.deliveryStatus == "full"
-                            ? AppColors.blue.withOpacity(0.5)
-                            : order.state == "sale" &&
-                                    order.invoiceStatus == "invoiced" &&
-                                    order.deliveryStatus == "full"
-                                ? AppColors.green.withOpacity(0.5)
-                                : order.state == "sale" &&
-                                        order.invoiceStatus == "to invoice" &&
-                                        order.deliveryStatus == "pending"
-                                    ? AppColors.orange.withOpacity(0.5)
-                                    : AppColors.orange.withOpacity(0.5),
-                        borderRadius:
-                            BorderRadius.circular(getSize(context) / 20)),
-                    child: Center(
-                        child: Padding(
-                            padding: EdgeInsets.all(getSize(context) / 200),
-                            child: AutoSizeText(
-                              order.state == "sale" &&
-                                      order.invoiceStatus == "to invoice" &&
-                                      order.deliveryStatus == "full"
-                                  ? "delivered".tr()
-                                  : order.state == "sale" &&
-                                          order.invoiceStatus == "invoiced" &&
-                                          order.deliveryStatus == "full"
-                                      ? "complete".tr()
-                                      : order.state == "sale" &&
-                                              order.invoiceStatus ==
-                                                  "to invoice" &&
-                                              order.deliveryStatus == "pending"
-                                          ? "new".tr()
-                                          : "show_price".tr(),
-                              style: TextStyle(
-                                color: order.state == "sale" &&
-                                        order.invoiceStatus == "to invoice" &&
-                                        order.deliveryStatus == "full"
-                                    ? AppColors.blue
-                                    : order.state == "sale" &&
-                                            order.invoiceStatus == "invoiced" &&
-                                            order.deliveryStatus == "full"
-                                        ? AppColors.green
-                                        : order.state == "sale" &&
-                                                order.invoiceStatus ==
-                                                    "to invoice" &&
-                                                order.deliveryStatus ==
-                                                    "pending"
-                                            ? AppColors.orange
-                                            : AppColors.orange,
-                              ),
-                            ))))
               ],
             ),
             SizedBox(
@@ -142,7 +84,7 @@ class ShipmentCardWidget extends StatelessWidget {
                       ),
                       SizedBox(width: getSize(context) / 60),
                       AutoSizeText(
-                        order.writeDate!.substring(0, 10) ?? '',
+                        orderDetailsModel.dateOrder.substring(0, 10) ?? '',
                         style: TextStyle(
                           fontFamily: "cairo",
                           color: AppColors.black,
@@ -166,7 +108,7 @@ class ShipmentCardWidget extends StatelessWidget {
                       ),
                       SizedBox(width: getSize(context) / 60),
                       AutoSizeText(
-                        "${order.amountTotal} \$",
+                        "${orderDetailsModel.amountTotal} \$",
                         style: TextStyle(
                           fontFamily: "cairo",
                           color: AppColors.black,
@@ -183,14 +125,17 @@ class ShipmentCardWidget extends StatelessWidget {
             ),
             Row(
               children: [
-                // order.partnerModel?.image1920.toString() == 'false'
-                //     ? Center(child: Image.asset(ImageAssets.user))
-                //     : CustomDecodedImage(
-                //         context: context,
-                //         base64String: order.partnerModel!.image1920,
-                //         height: 50.w,
-                //         width: 50.w,
-                //       ),
+                // orderModel.partnerModel?.image1920.toString()=='false'?
+                //
+                //     Center(
+                //       child: Image.asset(ImageAssets.user),
+                //     )
+                //     :   CustomDecodedImage(
+                //   context: context,
+                //   base64String: orderModel.partnerModel!.image1920,
+                //   height: 50.w,
+                //   width: 50.w,
+                // )             ,   // Image.asset(ImageAssets.user),
                 Center(
                     child: Image.asset(
                   ImageAssets.user,
@@ -204,7 +149,7 @@ class ShipmentCardWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       AutoSizeText(
-                        order.partnerModel!.name ?? '',
+                        orderModel.partnerModel!.name ?? '',
                         maxLines: 1,
                         style: TextStyle(
                             fontSize: getSize(context) / 25,
@@ -212,9 +157,9 @@ class ShipmentCardWidget extends StatelessWidget {
                             fontWeight: FontWeight.bold),
                       ),
                       AutoSizeText(
-                        (order.partnerModel?.phone.toString() == "false")
+                        (orderModel.partnerModel?.phone.toString() == "false")
                             ? '000000001/100000000'
-                            : order.partnerModel?.phone ?? '',
+                            : orderModel.partnerModel?.phone ?? '',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(

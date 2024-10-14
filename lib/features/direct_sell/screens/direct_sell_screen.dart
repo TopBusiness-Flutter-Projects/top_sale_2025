@@ -20,24 +20,28 @@ class DirectSellScreen extends StatefulWidget {
 }
 
 class _DirectSellScreenState extends State<DirectSellScreen> {
-  List<Result> ?result;
+  List<CategoryModelData> ?result;
 
   void initState() {
     super.initState();
-    context.read<DirectSellCubit>().getCatogries();
-    context.read<DirectSellCubit>().getAllProducts();
+
+    context.read<DirectSellCubit>().getCategries();
+    context.read<DirectSellCubit>().getAllProducts(isHome: true);
     print("nono");
   }
   @override
+  @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DirectSellCubit, DirectSellState>(
-        builder: (context, state) {
+    return BlocBuilder<DirectSellCubit, DirectSellState>(builder: (context, state) {
+      // if (state is LoadingCatogries) {
+      //   return Scaffold(body: const Center(child: CircularProgressIndicator()));
+      // }
+
       var cubit = context.read<DirectSellCubit>();
       return Scaffold(
         appBar: AppBar(
           backgroundColor: AppColors.white,
           centerTitle: false,
-          //leadingWidth: 20,
           title: Text(
             "direct_sell".tr(),
             style: TextStyle(
@@ -47,24 +51,38 @@ class _DirectSellScreenState extends State<DirectSellScreen> {
           ),
         ),
         backgroundColor: AppColors.white,
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6),
-          child: Column(
-            children: [
-              const CustomSearchWidget(),
-              SizedBox(height: 25.h),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      CustomCategorySection(result: cubit.catogriesModel?.result??[],),
-                      SizedBox(height: 25.h),
-                      CustomProductSection(result: cubit.allProductsModel?.result??[],)
-                    ],
+        body:
+        state is LoadingCatogries?
+          Center(child: CircularProgressIndicator(color: AppColors.primary,)):
+        RefreshIndicator(
+          onRefresh: () async {
+            // Ensure both methods are awaited for proper refresh functionality
+            await context.read<DirectSellCubit>().getCategries();
+            await     context.read<DirectSellCubit>().getAllProducts(isHome: true);
+
+          },
+          child: cubit.allProductsModel == null || cubit.catogriesModel == null
+              ?  Center(child: CircularProgressIndicator(color:AppColors.primary))
+              : SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(), // Ensures the RefreshIndicator works even if the list is not scrollable
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6),
+              child: Column(
+                children: [
+                  const CustomSearchWidget(),
+                  SizedBox(height: 25.h),
+                  state == LoadingCatogries
+                      ?  Center(child: CircularProgressIndicator(color: AppColors.primary))
+                      : CustomCategorySection(
+                    result: cubit.catogriesModel?.result ?? [],
                   ),
-                ),
+                  SizedBox(height: 25.h),
+                  state == LoadingProduct
+                      ? const Center(child: CircularProgressIndicator())
+                      : CustomProductSection(result: cubit.homeProductsModel?.result ?? []),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       );
