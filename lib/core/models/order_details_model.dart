@@ -199,9 +199,7 @@ class Picking {
         name: json["name"],
         state: json["state"],
         scheduledDate: json["scheduled_date"],
-        dateDone: json["date_done"] == null
-            ? null
-            : DateTime.parse(json["date_done"]),
+        dateDone: json["date_done"],
         pickingLines: json["picking_lines"] == null
             ? []
             : List<PickingLine>.from(
