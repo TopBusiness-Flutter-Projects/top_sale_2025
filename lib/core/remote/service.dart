@@ -202,7 +202,7 @@ class ServiceApi {
     }
   }
 
-  Future<Either<Failure, AllProductsModel>> getAllProductsByCategory(int ?page,
+  Future<Either<Failure, AllProductsModel>> getAllProductsByCategory(int? page,
       {required int categoryId}) async {
     try {
       String? sessionId = await Preferences.instance.getSessionId();
@@ -239,7 +239,8 @@ class ServiceApi {
       final response = await dio.get(
         odooUrl +
             EndPoints.getAllPartners +
-            '?page_size=$pageSize&page=$page&query={name,id,phone,total_overdue,total_due,total_invoiced,credit_to_invoice,sale_order_ids}',
+            '?page_size=$pageSize&page=$page&query={name,id,phone}',
+        // '?page_size=$pageSize&page=$page&query={name,id,phone,total_overdue,total_due,total_invoiced,credit_to_invoice,sale_order_ids}',
         // 'page_size=$pageSize&page=$page&filter=[["user_id", "=",${authModel.result!.userContext!.uid}]]&query={name,id,phone,total_overdue,total_due,total_invoiced,credit_to_invoice,sale_order_ids}',
         options: Options(
           headers: {"Cookie": "frontend_lang=en_US;session_id=$sessionId"},
@@ -373,6 +374,7 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
+
   //create and validate invoice
   Future<Either<Failure, CreateOrderModel>> createAndValidateInvoice({
     required int orderId,
@@ -393,15 +395,17 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
-   Future<Either<Failure, GetAllJournalsModel>> getAllJournals() async {
+
+  Future<Either<Failure, GetAllJournalsModel>> getAllJournals() async {
     try {
       String? sessionId = await Preferences.instance.getSessionId();
-   
+
       String odooUrl =
-        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+          await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
       final response = await dio.get(
-       odooUrl+ EndPoints.getAllJournals + '&filter=[["payment_sequence", "=","true"]]',
-        
+        odooUrl +
+            EndPoints.getAllJournals +
+            '&filter=[["payment_sequence", "=","true"]]',
         options: Options(
           headers: {"Cookie": "session_id=$sessionId"},
         ),

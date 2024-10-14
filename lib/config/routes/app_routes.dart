@@ -10,6 +10,7 @@ import 'package:top_sale/features/main/screens/main_screen.dart';
 import 'package:top_sale/features/notification_screen/screens/notification_screens.dart';
 import 'package:top_sale/features/splash/screens/splash_screen.dart';
 import 'package:top_sale/features/update_profile/screens/update_profile_screen.dart';
+import '../../core/models/all_partners_for_reports_model.dart';
 import '../../core/models/get_orders_model.dart';
 import '../../core/utils/app_strings.dart';
 import 'package:page_transition/page_transition.dart';
@@ -82,13 +83,7 @@ class AppRoutes {
           alignment: Alignment.center,
           duration: const Duration(milliseconds: 800),
         );
-      case Routes.notificationRoute:
-        return PageTransition(
-          child: NotificationScreens(),
-          type: PageTransitionType.fade,
-          alignment: Alignment.center,
-          duration: const Duration(milliseconds: 800),
-        );
+
       case Routes.deleveryOrderRoute:
         return MaterialPageRoute(
           builder: (context) => const DeleveryOrderScreen(),
@@ -100,7 +95,9 @@ class AppRoutes {
       case Routes.detailsOrder:
         final OrderModel orderModel = settings.arguments as OrderModel;
         return MaterialPageRoute(
-          builder: (context) => DetailsOrder(orderModel: orderModel,),
+          builder: (context) => DetailsOrder(
+            orderModel: orderModel,
+          ),
         );
       case Routes.onboardingPageScreenRoute:
         return MaterialPageRoute(
@@ -130,9 +127,9 @@ class AppRoutes {
       case Routes.productsRoute:
         List<String> categoryName = settings.arguments as List<String>;
         return MaterialPageRoute(
-          builder: (context) => ProductsScreen(categoryName: categoryName[0],
+          builder: (context) => ProductsScreen(
+            categoryName: categoryName[0],
             catId: categoryName[1],
-
           ),
         );
       case Routes.contactUsRoute:
@@ -144,12 +141,12 @@ class AppRoutes {
             builder: (context) => const UpdateProfileScreen());
       case Routes.categoriesRoute:
         return MaterialPageRoute(
-          builder: (context) =>  AllCategoriesScreen(),
+          builder: (context) => AllCategoriesScreen(),
         );
       case Routes.basketScreenRoute:
+        AllPartnerResults? partner = settings.arguments as AllPartnerResults?;
         return MaterialPageRoute(
-          builder: (context) => const BasketScreen(),
-        );
+            builder: (context) => BasketScreen(partner: partner));
       case Routes.notificationRoute:
         return MaterialPageRoute(
           builder: (context) => NotificationScreens(),

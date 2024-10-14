@@ -11,14 +11,15 @@ import 'package:top_sale/features/basket_screen/cubit/cubit.dart';
 import 'package:top_sale/features/login/widget/custom_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../core/models/all_partners_for_reports_model.dart';
 import '../../../core/utils/app_fonts.dart';
 import '../../details_order/screens/widgets/rounded_button.dart';
 import '../../login/widget/textfield_with_text.dart';
 import '../cubit/state.dart';
 
 class BasketScreen extends StatefulWidget {
-  const BasketScreen({super.key});
-
+  const BasketScreen({required this.partner, super.key});
+  final AllPartnerResults? partner;
   @override
   State<BasketScreen> createState() => _BasketScreenState();
 }
@@ -68,7 +69,7 @@ class _BasketScreenState extends State<BasketScreen> {
                             Padding(
                               padding: const EdgeInsets.only(bottom: 5.0),
                               child: Text(
-                                'اسم العميل',
+                                widget.partner?.name ?? '',
                                 maxLines: 1,
                                 style: TextStyle(
                                   fontWeight: FontWeight.w700,
@@ -76,19 +77,22 @@ class _BasketScreenState extends State<BasketScreen> {
                                 ),
                               ),
                             ),
-                            InkWell(
-                              onTap: () async {
-                                await launchPhoneDialer('01201709414');
-                              },
-                              child: Text(
-                                '01201709414',
-                                maxLines: 1,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 14.sp,
-                                ),
-                              ),
-                            ),
+                            widget.partner?.phone.toString() == 'false'
+                                ? Container()
+                                : InkWell(
+                                    onTap: () async {
+                                      await launchPhoneDialer(
+                                          widget.partner?.phone ?? '');
+                                    },
+                                    child: Text(
+                                      widget.partner?.phone.toString() ?? '_',
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 14.sp,
+                                      ),
+                                    ),
+                                  ),
                           ],
                         ),
                       ),
