@@ -34,17 +34,17 @@ class _ProductsScreenState extends State<ProductsScreen> {
       context
           .read<DirectSellCubit>()
           .getAllProductsByCatogrey(id: int.parse(widget.catId));
-    if (widget.catId != '-1') {
-      context
-          .read<DirectSellCubit>()
-          .getAllProductsByCatogrey(id: int.parse(widget.catId));
+      if (widget.catId != '-1') {
+        context
+            .read<DirectSellCubit>()
+            .getAllProductsByCatogrey(id: int.parse(widget.catId));
 
-      // context.read<DirectSellCubit>().currentIndex =
-    } else {
-    } else {
-      context.read<DirectSellCubit>().getAllProducts();
-      context.read<DirectSellCubit>().currentIndex == -1;
-      context.read<DirectSellCubit>().currentIndex == -1;
+        // context.read<DirectSellCubit>().currentIndex =
+      } else {
+        context.read<DirectSellCubit>().getAllProducts();
+        context.read<DirectSellCubit>().currentIndex == -1;
+        context.read<DirectSellCubit>().currentIndex == -1;
+      }
     }
   }
 
@@ -56,120 +56,112 @@ class _ProductsScreenState extends State<ProductsScreen> {
         builder: (context, state) {
       var cubit = context.read<DirectSellCubit>();
       return Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppColors.white,
-          centerTitle: false,
-          leading: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Icon(
-              Icons.arrow_back_outlined,
-              size: 25.w,
-            ),
-          ),
-          // //leadingWidth: 20,
-          title: Text(
-            widget.categoryName,
-            style: getBoldStyle(
-              fontSize: 20.sp,
-            ),
-          ),
-        ),
-        backgroundColor: AppColors.white,
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6),
-          child: Column(
-            children: [
-              const CustomSearchWidget(),
-              SizedBox(
-                height: 15.h,
+          appBar: AppBar(
+            backgroundColor: AppColors.white,
+            centerTitle: false,
+            leading: GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Icon(
+                Icons.arrow_back_outlined,
+                size: 25.w,
               ),
-              if (widget.categoryName == "products".tr())
-                SizedBox(
-                  height: 50.h,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          cubit.changeIndex(-1, 0);
-                        },
-                        child: CustomCategoryText(
-                            text: "all".tr(),
-                            isSelected: cubit.currentIndex == -1),
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      Flexible(
-                        child: ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: 10,
-                          separatorBuilder: (context, index) => SizedBox(
-                            width: 10.w,
-                          ),
-                          itemBuilder: (context, index) => GestureDetector(
-                            onTap: () {
-                              cubit.changeIndex(index,
-                                  cubit.catogriesModel?.result?[index].id);
-                            },
-                            child: CustomCategoryText(
-                                text:
-                                    cubit.catogriesModel?.result?[index].name ??
-                                        "",
-                                isSelected: cubit.currentIndex == index),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              if (cubit.allProductsModel.result == [] ||
-                  cubit.allProductsModel == null ||
-                  cubit.allProductsModel.result?.length == 0)
-                Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        ImageAssets.nodata,
-                        width: getSize(context) / 8,
-                      ),
-                      Text("no_data".tr()),
-                      SizedBox(height: 20.h),
-                    ],
-                  ),
-                )
-              else
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: cubit.allProductsModel.result == null
-                        ? Container()
-                        : StaggeredGrid.count(
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 10.h,
-                            crossAxisSpacing: 10.w,
-                            children: List.generate(
-                              cubit.allProductsModel.result!.length ?? 0,
-                              (index) => Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: CustomProductWidget(
-                                    product:
-                                        cubit.allProductsModel!.result![index]),
-                                child: CustomProductWidget(
-                                    product:
-                                        cubit.allProductsModel!.result![index]),
-                              ),
-                            )),
-                  ),
-                )
-                  ),
-                )
-            ],
+            ),
+            // //leadingWidth: 20,
+            title: Text(
+              widget.categoryName,
+              style: getBoldStyle(
+                fontSize: 20.sp,
+              ),
+            ),
           ),
-        ),
-      );
+          backgroundColor: AppColors.white,
+          body: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6),
+              child: Column(children: [
+                const CustomSearchWidget(),
+                SizedBox(
+                  height: 15.h,
+                ),
+                if (widget.categoryName == "products".tr())
+                  SizedBox(
+                    height: 50.h,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            cubit.changeIndex(-1, 0);
+                          },
+                          child: CustomCategoryText(
+                              text: "all".tr(),
+                              isSelected: cubit.currentIndex == -1),
+                        ),
+                        SizedBox(
+                          width: 10.w,
+                        ),
+                        Flexible(
+                          child: ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: 10,
+                            separatorBuilder: (context, index) => SizedBox(
+                              width: 10.w,
+                            ),
+                            itemBuilder: (context, index) => GestureDetector(
+                              onTap: () {
+                                cubit.changeIndex(index,
+                                    cubit.catogriesModel?.result?[index].id);
+                              },
+                              child: CustomCategoryText(
+                                  text: cubit.catogriesModel?.result?[index]
+                                          .name ??
+                                      "",
+                                  isSelected: cubit.currentIndex == index),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                if (cubit.allProductsModel.result == [] ||
+                    cubit.allProductsModel == null ||
+                    cubit.allProductsModel.result?.length == 0)
+                  Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          ImageAssets.nodata,
+                          width: getSize(context) / 8,
+                        ),
+                        Text("no_data".tr()),
+                        SizedBox(height: 20.h),
+                      ],
+                    ),
+                  )
+                else
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: cubit.allProductsModel.result == null
+                          ? Container()
+                          : StaggeredGrid.count(
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 10.h,
+                              crossAxisSpacing: 10.w,
+                              children: List.generate(
+                                cubit.allProductsModel.result!.length ?? 0,
+                                (index) => Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: CustomProductWidget(
+                                      product: cubit
+                                          .allProductsModel!.result![index]),
+                                ),
+                              )),
+                    ),
+                  )
+              ])));
     });
   }
 }
