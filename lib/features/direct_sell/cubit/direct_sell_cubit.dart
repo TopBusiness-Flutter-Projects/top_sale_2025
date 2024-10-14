@@ -10,22 +10,19 @@ class DirectSellCubit extends Cubit<DirectSellState> {
   List<CategoryModelData>? result;
 
   int currentIndex = -1;
-  changeIndex(int index,int? id) {
+  changeIndex(int index, int? id) {
     currentIndex = index;
     emit(ChangeIndexState());
     print("sucess change");
-    if( currentIndex==-1){
+    if (currentIndex == -1) {
       getAllProducts();
-    }
-    else{
-      print("catogrey id"+'${id}');
+    } else {
+      print("catogrey id" + '${id}');
       getAllProductsByCatogrey(id: id);
     }
 
-    allProductsModel?.result=[];
+    allProductsModel?.result = [];
     print("sucess change 2");
-
-
   }
 
   CategoriesModel? catogriesModel;
@@ -43,43 +40,53 @@ class DirectSellCubit extends Cubit<DirectSellState> {
     });
   }
 
-
-  AllProductsModel allProductsModel=AllProductsModel();
-  AllProductsModel homeProductsModel=AllProductsModel();
-  Future<void> getAllProducts({ bool isHome =false }) async {
+  AllProductsModel allProductsModel = AllProductsModel();
+  AllProductsModel homeProductsModel = AllProductsModel();
+  Future<void> getAllProducts({bool isHome = false, bool isGetMore = false, int pageId = 1}) async {
     emit(LoadingProduct());
-    final response = await api.getAllProducts(1);
+    final response = await api.getAllProducts(pageId);
     //
     response.fold((l) {
       emit(ErrorProduct());
-    }, (right) async {
-      print("sucess cubit");
-      if(isHome){
-        homeProductsModel =right;
-      }else{
-      allProductsModel = right;}
-      print("loaded");
+    }, (r) async {
+      if (isHome) {
+        homeProductsModel = r;
+      } else {
+         if (isGetMore) {
+        allProductsModel = AllProductsModel(
+          count: r.count,
+          next: r.next,
+          prev: r.prev,
+          result: [...allProductsModel.result!, ...r.result!],
+        );
+      } else {
+        allProductsModel = r;
+      }
+        // allProductsModel = right;
+      }
       emit(LoadedProduct(allProductmodel: allProductsModel));
     });
   }
-List<ProductModelData> basket =[];
-  addAndRemoveToBasket({bool isAdd = false, required  ProductModelData product}) {
+
+  List<ProductModelData> basket = [];
+  addAndRemoveToBasket(
+      {bool isAdd = false, required ProductModelData product}) {
     if (isAdd) {
       product.userOrderedQuantity++;
-      basket.add(product)   ;
+      basket.add(product);
       emit(IncreaseTheQuantityCount());
-
     } else {
       if (product.userOrderedQuantity == 0) {
         basket.remove(product);
         emit(DecreaseTheQuantityCount());
-      }else{
+      } else {
         product.userOrderedQuantity--;
         emit(DecreaseTheQuantityCount());
       }
     }
   }
-  Future<void> getAllProductsByCatogrey({ required int ?id}) async {
+
+  Future<void> getAllProductsByCatogrey({required int? id}) async {
     print("sucess change 3");
 
     emit(LoadingProductByCatogrey());
@@ -92,9 +99,8 @@ List<ProductModelData> basket =[];
     }, (right) async {
       print("sucess cubit");
       allProductsModel = right;
-      for (var element in allProductsModel.result!) {
-
-        }     print("loaded");
+      for (var element in allProductsModel.result!) {}
+      print("loaded");
       emit(LoadedProductByCatogrey(allProductmodel: allProductsModel));
     });
   }

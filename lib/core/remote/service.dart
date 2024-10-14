@@ -202,7 +202,7 @@ class ServiceApi {
     }
   }
 
-  Future<Either<Failure, AllProductsModel>> getAllProductsByCategory(int ?page,
+  Future<Either<Failure, AllProductsModel>> getAllProductsByCategory(int? page,
       {required int categoryId}) async {
     try {
       String? sessionId = await Preferences.instance.getSessionId();
@@ -333,28 +333,7 @@ class ServiceApi {
   }
 
 // confirm quatation
-  Future<Either<Failure, DefaultModel>> confirmQuotation({
-    required int orderId,
-  }) async {
-    String odooUrl =
-        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
-
-    String? sessionId = await Preferences.instance.getSessionId();
-    try {
-      final response = await dio
-          .post(odooUrl + EndPoints.objectSaleOrder + '$orderId/action_confirm',
-              options: Options(
-                headers: {"Cookie": "session_id=$sessionId"},
-              ),
-              body: {});
-      return Right(DefaultModel.fromJson(response));
-    } on ServerException {
-      return Left(ServerFailure());
-    }
-  }
-
-  //confirm delivery
-  Future<Either<Failure, CreateOrderModel>> confirmDelivery({
+  Future<Either<Failure, CreateOrderModel>> confirmQuotation({
     required int orderId,
   }) async {
     String odooUrl =
@@ -363,7 +342,7 @@ class ServiceApi {
     String? sessionId = await Preferences.instance.getSessionId();
     try {
       final response =
-          await dio.post(odooUrl + EndPoints.picking + '$orderId/validate',
+          await dio.post(odooUrl + EndPoints.createInvoice + '$orderId/confirm',
               options: Options(
                 headers: {"Cookie": "session_id=$sessionId"},
               ),
@@ -373,6 +352,65 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
+
+// create quatation
+  Future<Either<Failure, CreateOrderModel>> createQuotation({
+    required int partnerId,
+  }) async {
+    String odooUrl =
+        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+
+    String? sessionId = await Preferences.instance.getSessionId();
+    String? employeeId = await Preferences.instance.getEmployeeId();
+    try {
+      final response =
+          await dio.post(odooUrl + EndPoints.createQuotation ,
+              options: Options(
+                headers: {"Cookie": "session_id=$sessionId"},
+              ),
+              body: {
+            "params": {
+              "data": {
+                "partner_id": partnerId,
+                if(employeeId != null)
+                "employee_id": employeeId,
+                "order_line": [
+                  {
+                    "product_id": 6939,
+                    "product_uom_qty": 1,
+                    "price_unit": 560.00
+                  }
+                ]
+              }
+            }
+          });
+      return Right(CreateOrderModel.fromJson(response));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
+
+  //confirm delivery
+  Future<Either<Failure, CreateOrderModel>> confirmDelivery({
+    required int pickingId,
+  }) async {
+    String odooUrl =
+        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+
+    String? sessionId = await Preferences.instance.getSessionId();
+    try {
+      final response =
+          await dio.post(odooUrl + EndPoints.picking + '$pickingId/validate',
+              options: Options(
+                headers: {"Cookie": "session_id=$sessionId"},
+              ),
+              body: {"jsonrpc": "2.0", "method": "call", "params": {}});
+      return Right(CreateOrderModel.fromJson(response));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
+
   //create and validate invoice
   Future<Either<Failure, CreateOrderModel>> createAndValidateInvoice({
     required int orderId,
@@ -393,15 +431,17 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
-   Future<Either<Failure, GetAllJournalsModel>> getAllJournals() async {
+
+  Future<Either<Failure, GetAllJournalsModel>> getAllJournals() async {
     try {
       String? sessionId = await Preferences.instance.getSessionId();
-   
+
       String odooUrl =
-        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+          await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
       final response = await dio.get(
-       odooUrl+ EndPoints.getAllJournals + '&filter=[["payment_sequence", "=","true"]]',
-        
+        odooUrl +
+            EndPoints.getAllJournals +
+            '&filter=[["payment_sequence", "=","true"]]',
         options: Options(
           headers: {"Cookie": "session_id=$sessionId"},
         ),
