@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:top_sale/features/direct_sell/cubit/direct_sell_cubit.dart';
+import 'package:top_sale/features/profile/cubit/profile_cubit.dart';
 import 'config/routes/app_routes.dart';
 import 'config/themes/app_theme.dart';
 import 'core/utils/app_strings.dart';
@@ -80,8 +81,12 @@ class _MyAppState extends State<MyApp> {
           ),
           BlocProvider(
             create: (_) => injector.serviceLocator<ClientsCubit>(),
-          ),  BlocProvider(
+          ),
+          BlocProvider(
             create: (_) => injector.serviceLocator<DetailsOrdersCubit>(),
+          ),
+          BlocProvider(
+            create: (_) => injector.serviceLocator<ProfileCubit>(),
           ),
         ],
         child: ScreenUtilInit(
