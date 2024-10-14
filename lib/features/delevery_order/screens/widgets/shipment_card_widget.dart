@@ -13,7 +13,7 @@ class ShipmentCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('image ::${order.partnerModel!.image1920}::imageeeeeeeeeeee');
+    // print('image ::${order.partnerModel!.image1920}::imageeeeeeeeeeee');
     return GestureDetector(
       onTap: () {
         print( "order.state ::${order.state}::stateeeeeeeeeeee");

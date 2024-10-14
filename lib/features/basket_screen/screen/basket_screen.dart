@@ -345,11 +345,19 @@ class _BasketScreenState extends State<BasketScreen> {
                     },
                   ),
                   SizedBox(height: 32.h),
-                  CustomButton(
-                      title: 'show_price'.tr(),
-                      onTap: () {
-                        //!
-                      })
+
+                  (state is LoadingCreateQuotation)
+                      ? const Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : CustomButton(
+                          title: 'show_price'.tr(),
+                          onTap: () {
+                            cubit2.createQuotation(
+                                context: context,
+                                partnerId: widget.partner?.id ?? -1);
+                            //!
+                          })
                 ],
               );
             }),
