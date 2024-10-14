@@ -16,6 +16,9 @@ class ShipmentCardWidget extends StatelessWidget {
     // print('image ::${order.partnerModel!.image1920}::imageeeeeeeeeeee');
     return GestureDetector(
       onTap: () {
+        print( "order.state ::${order.state}::stateeeeeeeeeeee");
+         order.state == 'draft'?
+        Navigator.pushNamed(context, Routes.basketScreenRoute):
         Navigator.pushNamed(context, Routes.detailsOrder, arguments: order);
       },
       child: Container(
@@ -87,8 +90,9 @@ class ShipmentCardWidget extends StatelessWidget {
                             BorderRadius.circular(getSize(context) / 20)),
                     child: Center(
                         child: Padding(
-                            padding: EdgeInsets.all(getSize(context) / 200),
+                            padding: EdgeInsets.all(getSize(context) / 100),
                             child: AutoSizeText(
+                              maxLines: 1,
                               order.state == "sale" &&
                                       order.invoiceStatus == "to invoice" &&
                                       order.deliveryStatus == "full"
@@ -102,7 +106,9 @@ class ShipmentCardWidget extends StatelessWidget {
                                                   "to invoice" &&
                                               order.deliveryStatus == "pending"
                                           ? "new".tr()
-                                          : "show_price".tr(),
+                                          : order.state == "draft" ?
+                              "show_price".tr():
+                              "",
                               style: TextStyle(
                                 color: order.state == "sale" &&
                                         order.invoiceStatus == "to invoice" &&
@@ -181,14 +187,7 @@ class ShipmentCardWidget extends StatelessWidget {
             ),
             Row(
               children: [
-                // order.partnerModel?.image1920.toString() == 'false'
-                //     ? Center(child: Image.asset(ImageAssets.user))
-                //     : CustomDecodedImage(
-                //         context: context,
-                //         base64String: order.partnerModel!.image1920,
-                //         height: 50.w,
-                //         width: 50.w,
-                //       ),
+
                 Center(
                     child: Image.asset(
                   ImageAssets.user,

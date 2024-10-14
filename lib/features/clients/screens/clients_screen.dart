@@ -107,7 +107,7 @@ class _ClientScreenState extends State<ClientScreen> {
                         ? const Center(
                             child: CircularProgressIndicator(),
                           )
-                        : cubit.allPartnersModel!.result!.isEmpty
+                        :( cubit.allPartnersModel==null||cubit.allPartnersModel?.result==[])
                             ? Center(
                                 child: Text('no_data'.tr()),
                               )
