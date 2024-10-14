@@ -21,6 +21,7 @@ class RoundedButton extends StatelessWidget {
       height: getSize(context)/8,              // Fixed height
       child: ElevatedButton(
         onPressed: onPressed,
+
         style: ElevatedButton.styleFrom(
           backgroundColor: backgroundColor,
           shape: RoundedRectangleBorder(

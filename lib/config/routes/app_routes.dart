@@ -10,6 +10,7 @@ import 'package:top_sale/features/main/screens/main_screen.dart';
 import 'package:top_sale/features/notification_screen/screens/notification_screens.dart';
 import 'package:top_sale/features/splash/screens/splash_screen.dart';
 import 'package:top_sale/features/update_profile/screens/update_profile_screen.dart';
+import '../../core/models/get_orders_model.dart';
 import '../../core/utils/app_strings.dart';
 import 'package:page_transition/page_transition.dart';
 import '../../features/basket_screen/screen/basket_screen.dart';
@@ -99,8 +100,9 @@ class AppRoutes {
           builder: (context) => const PaymentScreen(),
         );
       case Routes.detailsOrder:
+        final OrderModel orderModel = settings.arguments as OrderModel;
         return MaterialPageRoute(
-          builder: (context) => DetailsOrder(),
+          builder: (context) => DetailsOrder(orderModel: orderModel,),
         );
       case Routes.onboardingPageScreenRoute:
         return MaterialPageRoute(
