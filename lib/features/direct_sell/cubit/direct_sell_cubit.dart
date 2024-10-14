@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:top_sale/config/routes/app_routes.dart';
+import 'package:top_sale/core/utils/dialogs.dart';
 import '../../../core/models/all_products_model.dart';
 import '../../../core/models/category_model.dart';
+import '../../../core/models/create_order_model.dart';
 import '../../../core/remote/service.dart';
 import 'direct_sell_state.dart';
 
@@ -139,6 +143,26 @@ class DirectSellCubit extends Cubit<DirectSellState> {
         }
       }
     }
+  }
+
+  CreateOrderModel? createOrderModel;
+  createQuotation(
+      {required int partnerId, required BuildContext context}) async {
+    emit(LoadingCreateQuotation());
+    final result =
+        await api.createQuotation(partnerId: partnerId, products: basket);
+
+    result.fold((l) {
+      emit(ErrorCreateQuotation());
+    }, (r) {
+      createOrderModel = r;
+      successGetBar('Success Create Quotation');
+      debugPrint("Success Create Quotation");
+      basket.clear();
+      //! Nav to
+      Navigator.pushNamed(context, Routes.deleveryOrderRoute);
+      emit(LoadedCreateQuotation());
+    });
   }
 }
 

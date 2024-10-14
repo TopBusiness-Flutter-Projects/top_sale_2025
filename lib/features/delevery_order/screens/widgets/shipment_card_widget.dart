@@ -1,13 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../config/routes/app_routes.dart';
 import '../../../../core/models/get_orders_model.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/assets_manager.dart';
 import '../../../../core/utils/get_size.dart';
-import '../../../../core/widgets/decode_image.dart';
 
 class ShipmentCardWidget extends StatelessWidget {
   ShipmentCardWidget({super.key, required this.order});
@@ -15,7 +13,7 @@ class ShipmentCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('image ::${order.partnerModel!.image1920}::imageeeeeeeeeeee');
+    // print('image ::${order.partnerModel!.image1920}::imageeeeeeeeeeee');
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, Routes.detailsOrder, arguments: order);

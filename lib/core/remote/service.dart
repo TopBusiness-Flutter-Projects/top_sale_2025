@@ -355,15 +355,24 @@ class ServiceApi {
   }
 
 // create quatation
-  Future<Either<Failure, CreateOrderModel>> createQuotation({
-    required int partnerId,
-  }) async {
+  Future<Either<Failure, CreateOrderModel>> createQuotation(
+      {required int partnerId,
+      required List<ProductModelData> products}) async {
     String odooUrl =
         await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
-
     String? sessionId = await Preferences.instance.getSessionId();
     String? employeeId = await Preferences.instance.getEmployeeId();
+    String userId = await Preferences.instance.getUserId() ?? "1";
     try {
+      // Map the ProductModelData list to order_line format
+      List<Map<String, dynamic>> orderLine = products
+          .map((product) => {
+                "product_id": product.id,
+                "product_uom_qty": product.userOrderedQuantity,
+                "price_unit": product.listPrice
+              })
+          .toList();
+
       final response = await dio.post(odooUrl + EndPoints.createQuotation,
           options: Options(
             headers: {"Cookie": "session_id=$sessionId"},
@@ -372,14 +381,9 @@ class ServiceApi {
             "params": {
               "data": {
                 "partner_id": partnerId,
+                "user_id": userId,
                 if (employeeId != null) "employee_id": employeeId,
-                "order_line": [
-                  {
-                    "product_id": 6939,
-                    "product_uom_qty": 1,
-                    "price_unit": 560.00
-                  }
-                ]
+                "order_line": orderLine
               }
             }
           });
