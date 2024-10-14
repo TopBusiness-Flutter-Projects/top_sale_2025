@@ -14,11 +14,7 @@ import '../../../../core/models/all_products_model.dart';
 import '../../cubit/direct_sell_cubit.dart';
 
 class CustomProductSection extends StatefulWidget {
-   CustomProductSection({
-
-    super.key,
-     required this.result
-  });
+  CustomProductSection({super.key, required this.result});
   List<ProductModelData>? result;
 
   @override
@@ -28,8 +24,8 @@ class CustomProductSection extends StatefulWidget {
 class _CustomProductSectionState extends State<CustomProductSection> {
   @override
   Widget build(BuildContext context) {
-    String testImage =
-        'https://img.freepik.com/free-photo/organic-cosmetic-product-with-dreamy-aesthetic-fresh-background_23-2151382816.jpg';
+    // String testImage =
+    //     'https://img.freepik.com/free-photo/organic-cosmetic-product-with-dreamy-aesthetic-fresh-background_23-2151382816.jpg';
 
     return Column(
       children: [
@@ -38,20 +34,18 @@ class _CustomProductSectionState extends State<CustomProductSection> {
           children: [
             GestureDetector(
               onTap: () {
-            print(    context.read<DirectSellCubit>() .basket.length   )  ; },
+                print(context.read<DirectSellCubit>().basket.length);
+              },
               child: Text(
                 "products".tr(),
-                style:
-                    getBoldStyle(color: AppColors.secondPrimary, fontSize: 20.sp),
+                style: getBoldStyle(
+                    color: AppColors.secondPrimary, fontSize: 20.sp),
               ),
             ),
             GestureDetector(
                 onTap: () {
                   Navigator.pushNamed(context, Routes.productsRoute,
-                      arguments: [
-                        "products".tr(),
-                        '-1'
-                      ]);
+                      arguments: ["products".tr(), '-1']);
                 },
                 child: Text(
                   "all".tr(),
@@ -72,7 +66,8 @@ class _CustomProductSectionState extends State<CustomProductSection> {
               (index) => Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: CustomProductWidget(
-             product: widget. result![index],  ),
+                  product: widget.result![index],
+                ),
               ),
             ))
         // SizedBox(
@@ -92,5 +87,4 @@ class _CustomProductSectionState extends State<CustomProductSection> {
       ],
     );
   }
-
 }

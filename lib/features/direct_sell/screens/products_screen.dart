@@ -27,15 +27,18 @@ class ProductsScreen extends StatefulWidget {
 class _ProductsScreenState extends State<ProductsScreen> {
   @override
   void initState() {
+    super.initState();
     context.read<DirectSellCubit>().currentIndex = -1;
     // TODO: implement initState
-    if(widget.catId!='-1'){
-      context.read<DirectSellCubit>().getAllProductsByCatogrey(id:int.parse( widget.catId));
+    if (widget.catId != '-1') {
+      context
+          .read<DirectSellCubit>()
+          .getAllProductsByCatogrey(id: int.parse(widget.catId));
 
       // context.read<DirectSellCubit>().currentIndex =
-    }else{
+    } else {
       context.read<DirectSellCubit>().getAllProducts();
-    context.read<DirectSellCubit>().currentIndex == -1;
+      context.read<DirectSellCubit>().currentIndex == -1;
     }
   }
 
@@ -117,28 +120,27 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   ),
                 ),
               if (cubit.allProductsModel.result == [] ||
-                      cubit.allProductsModel == null ||
-                      cubit.allProductsModel.result?.length == 0) Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(ImageAssets.nodata,
-                          width: getSize(context)/8,
-                          ),
-
-                          Text("no_data".tr())
-
-                          ,
-                          SizedBox(height: 20.h),
-                        ],
+                  cubit.allProductsModel == null ||
+                  cubit.allProductsModel.result?.length == 0)
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        ImageAssets.nodata,
+                        width: getSize(context) / 8,
                       ),
-                    ) else Expanded(
-                      child: SingleChildScrollView(
-                        child:
-         cubit.allProductsModel.result == null ?
-             Container()
-             :
-                        StaggeredGrid.count(
+                      Text("no_data".tr()),
+                      SizedBox(height: 20.h),
+                    ],
+                  ),
+                )
+              else
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: cubit.allProductsModel.result == null
+                        ? Container()
+                        : StaggeredGrid.count(
                             crossAxisCount: 2,
                             mainAxisSpacing: 10.h,
                             crossAxisSpacing: 10.w,
@@ -146,11 +148,13 @@ class _ProductsScreenState extends State<ProductsScreen> {
                               cubit.allProductsModel.result!.length ?? 0,
                               (index) => Padding(
                                 padding: const EdgeInsets.all(4.0),
-                                child: CustomProductWidget(product:  cubit.allProductsModel!.result![index]),
+                                child: CustomProductWidget(
+                                    product:
+                                        cubit.allProductsModel!.result![index]),
                               ),
                             )),
-                      ),
-                    )
+                  ),
+                )
             ],
           ),
         ),
@@ -160,11 +164,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
 }
 
 class CustomCategoryText extends StatelessWidget {
-  const CustomCategoryText({
-    super.key,
-    required this.text,
-    required this.isSelected,
-  });
+  const CustomCategoryText(
+      {super.key, required this.text, required this.isSelected});
   final String text;
   final bool isSelected;
 
