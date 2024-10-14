@@ -41,3 +41,9 @@ class LoadedProductByCatogrey extends DirectSellState {
   AllProductsModel? allProductmodel;
   LoadedProductByCatogrey({required this.allProductmodel});
 }
+
+class LoadingCreateQuotation extends DirectSellState {}
+
+class LoadedCreateQuotation extends DirectSellState {}
+
+class ErrorCreateQuotation extends DirectSellState {}
