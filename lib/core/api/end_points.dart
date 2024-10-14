@@ -17,7 +17,11 @@ class EndPoints {
 static String getAllPartners = '/api/res.partner/';
   static String saleOrder = '/api/sale.order/';
     static String resPartner = '/api/res.partner/';
-  // static String objectSaleOrder = '/object/sale.order/';
+   static String objectSaleOrder = '/object/sale.order/';
+   static String picking = '/api/picking/';
+   static String createInvoice = '/api/sale_order/';
+     static String getAllJournals =
+      '/api/account.journal/?query={id, display_name}';
  // static String authWithSession = "$baseUrl/web/session/authenticate";
 
   // static String allCategoryProducts = '$baseUrl/api/product.product/';

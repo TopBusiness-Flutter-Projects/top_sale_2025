@@ -22,7 +22,7 @@ class DirectSellCubit extends Cubit<DirectSellState> {
       getAllProductsByCatogrey(id: id);
     }
 
-
+    allProductsModel?.result=[];
     print("sucess change 2");
 
 
@@ -43,9 +43,10 @@ class DirectSellCubit extends Cubit<DirectSellState> {
     });
   }
 
-  AllProductsModel? allProductsModel;
 
-  Future<void> getAllProducts() async {
+  AllProductsModel allProductsModel=AllProductsModel();
+  AllProductsModel homeProductsModel=AllProductsModel();
+  Future<void> getAllProducts({ bool isHome =false }) async {
     emit(LoadingProduct());
     final response = await api.getAllProducts(1);
     //
@@ -53,19 +54,27 @@ class DirectSellCubit extends Cubit<DirectSellState> {
       emit(ErrorProduct());
     }, (right) async {
       print("sucess cubit");
-      allProductsModel = right;
+      if(isHome){
+        homeProductsModel =right;
+      }else{
+      allProductsModel = right;}
       print("loaded");
       emit(LoadedProduct(allProductmodel: allProductsModel));
     });
   }
-
-  addAndRemoveToBasket({bool isAdd = false, required int index}) {
+List<ProductModelData> basket =[];
+  addAndRemoveToBasket({bool isAdd = false, required  ProductModelData product}) {
     if (isAdd) {
-      allProductsModel!.result![index].userOrderedQuantity++;
+      product.userOrderedQuantity++;
+      basket.add(product)   ;
       emit(IncreaseTheQuantityCount());
+
     } else {
-      if (allProductsModel!.result![index].userOrderedQuantity > 0) {
-        allProductsModel!.result![index].userOrderedQuantity--;
+      if (product.userOrderedQuantity == 0) {
+        basket.remove(product);
+        emit(DecreaseTheQuantityCount());
+      }else{
+        product.userOrderedQuantity--;
         emit(DecreaseTheQuantityCount());
       }
     }
@@ -83,7 +92,9 @@ class DirectSellCubit extends Cubit<DirectSellState> {
     }, (right) async {
       print("sucess cubit");
       allProductsModel = right;
-      print("loaded");
+      for (var element in allProductsModel.result!) {
+
+        }     print("loaded");
       emit(LoadedProductByCatogrey(allProductmodel: allProductsModel));
     });
   }

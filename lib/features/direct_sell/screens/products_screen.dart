@@ -27,22 +27,22 @@ class ProductsScreen extends StatefulWidget {
 class _ProductsScreenState extends State<ProductsScreen> {
   @override
   void initState() {
+    context.read<DirectSellCubit>().currentIndex = -1;
     // TODO: implement initState
     if(widget.catId!='-1'){
       context.read<DirectSellCubit>().getAllProductsByCatogrey(id:int.parse( widget.catId));
 
       // context.read<DirectSellCubit>().currentIndex =
-    }else{    context.read<DirectSellCubit>().getAllProducts();
+    }else{
+      context.read<DirectSellCubit>().getAllProducts();
     context.read<DirectSellCubit>().currentIndex == -1;
-
-
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    String testImage =
-        'https://img.freepik.com/free-photo/organic-cosmetic-product-with-dreamy-aesthetic-fresh-background_23-2151382816.jpg';
+    // String testImage =
+    //     'https://img.freepik.com/free-photo/organic-cosmetic-product-with-dreamy-aesthetic-fresh-background_23-2151382816.jpg';
     return BlocBuilder<DirectSellCubit, DirectSellState>(
         builder: (context, state) {
       var cubit = context.read<DirectSellCubit>();
@@ -116,10 +116,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     ],
                   ),
                 ),
-              cubit.allProductsModel?.result == [] ||
+              if (cubit.allProductsModel.result == [] ||
                       cubit.allProductsModel == null ||
-                      cubit.allProductsModel?.result?.length == 0
-                  ? Center(
+                      cubit.allProductsModel.result?.length == 0) Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -133,18 +132,21 @@ class _ProductsScreenState extends State<ProductsScreen> {
                           SizedBox(height: 20.h),
                         ],
                       ),
-                    )
-                  : Expanded(
+                    ) else Expanded(
                       child: SingleChildScrollView(
-                        child: StaggeredGrid.count(
+                        child:
+         cubit.allProductsModel.result == null ?
+             Container()
+             :
+                        StaggeredGrid.count(
                             crossAxisCount: 2,
                             mainAxisSpacing: 10.h,
                             crossAxisSpacing: 10.w,
                             children: List.generate(
-                              cubit.allProductsModel?.result?.length ?? 0,
+                              cubit.allProductsModel.result!.length ?? 0,
                               (index) => Padding(
                                 padding: const EdgeInsets.all(4.0),
-                                child: CustomProductWidget(index: index),
+                                child: CustomProductWidget(product:  cubit.allProductsModel!.result![index]),
                               ),
                             )),
                       ),
