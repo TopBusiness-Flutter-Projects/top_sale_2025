@@ -364,17 +364,15 @@ class ServiceApi {
     String? sessionId = await Preferences.instance.getSessionId();
     String? employeeId = await Preferences.instance.getEmployeeId();
     try {
-      final response =
-          await dio.post(odooUrl + EndPoints.createQuotation ,
-              options: Options(
-                headers: {"Cookie": "session_id=$sessionId"},
-              ),
-              body: {
+      final response = await dio.post(odooUrl + EndPoints.createQuotation,
+          options: Options(
+            headers: {"Cookie": "session_id=$sessionId"},
+          ),
+          body: {
             "params": {
               "data": {
                 "partner_id": partnerId,
-                if(employeeId != null)
-                "employee_id": employeeId,
+                if (employeeId != null) "employee_id": employeeId,
                 "order_line": [
                   {
                     "product_id": 6939,
