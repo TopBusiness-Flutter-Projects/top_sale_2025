@@ -1,3 +1,5 @@
+// ignore_for_file: unused_element
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -25,17 +27,36 @@ class ProductsScreen extends StatefulWidget {
 }
 
 class _ProductsScreenState extends State<ProductsScreen> {
+  late final ScrollController scrollController = ScrollController();
+
   @override
   void initState() {
     context.read<DirectSellCubit>().currentIndex = -1;
+    
     // TODO: implement initState
-    if(widget.catId!='-1'){
-      context.read<DirectSellCubit>().getAllProductsByCatogrey(id:int.parse( widget.catId));
+    if (widget.catId != '-1') {
+      context
+          .read<DirectSellCubit>()
+          .getAllProductsByCatogrey(id: int.parse(widget.catId));
 
       // context.read<DirectSellCubit>().currentIndex =
-    }else{
+    } else {
       context.read<DirectSellCubit>().getAllProducts();
-    context.read<DirectSellCubit>().currentIndex == -1;
+      context.read<DirectSellCubit>().currentIndex == -1;
+    }
+  }
+
+  _scrollListener() {
+    if (scrollController.position.maxScrollExtent == scrollController.offset) {
+      print('dddddddddbottom');
+      if (context.read<DirectSellCubit>().allProductsModel.next != null) {
+        context.read<DirectSellCubit>().getAllProducts(
+            isGetMore: true,
+            pageId: context.read<DirectSellCubit>().allProductsModel.next ?? 1);
+        debugPrint('new posts');
+      }
+    } else {
+      print('dddddddddtop');
     }
   }
 
@@ -117,28 +138,28 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   ),
                 ),
               if (cubit.allProductsModel.result == [] ||
-                      cubit.allProductsModel == null ||
-                      cubit.allProductsModel.result?.length == 0) Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(ImageAssets.nodata,
-                          width: getSize(context)/8,
-                          ),
-
-                          Text("no_data".tr())
-
-                          ,
-                          SizedBox(height: 20.h),
-                        ],
+                  cubit.allProductsModel == null ||
+                  cubit.allProductsModel.result?.length == 0)
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        ImageAssets.nodata,
+                        width: getSize(context) / 8,
                       ),
-                    ) else Expanded(
-                      child: SingleChildScrollView(
-                        child:
-         cubit.allProductsModel.result == null ?
-             Container()
-             :
-                        StaggeredGrid.count(
+                      Text("no_data".tr()),
+                      SizedBox(height: 20.h),
+                    ],
+                  ),
+                )
+              else
+                Expanded(
+                  child: SingleChildScrollView(
+                    controller: scrollController,
+                    child: cubit.allProductsModel.result == null
+                        ? Container()
+                        : StaggeredGrid.count(
                             crossAxisCount: 2,
                             mainAxisSpacing: 10.h,
                             crossAxisSpacing: 10.w,
@@ -146,11 +167,13 @@ class _ProductsScreenState extends State<ProductsScreen> {
                               cubit.allProductsModel.result!.length ?? 0,
                               (index) => Padding(
                                 padding: const EdgeInsets.all(4.0),
-                                child: CustomProductWidget(product:  cubit.allProductsModel!.result![index]),
+                                child: CustomProductWidget(
+                                    product:
+                                        cubit.allProductsModel!.result![index]),
                               ),
                             )),
-                      ),
-                    )
+                  ),
+                )
             ],
           ),
         ),
