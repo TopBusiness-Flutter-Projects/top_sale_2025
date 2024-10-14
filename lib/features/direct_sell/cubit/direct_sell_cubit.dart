@@ -12,9 +12,11 @@ class DirectSellCubit extends Cubit<DirectSellState> {
 
   int currentIndex = -1;
   changeIndex(int index, int? id) {
+  changeIndex(int index, int? id) {
     currentIndex = index;
     emit(ChangeIndexState());
     print("sucess change");
+    if (currentIndex == -1) {
     if (currentIndex == -1) {
       getAllProducts();
     } else {
@@ -22,6 +24,7 @@ class DirectSellCubit extends Cubit<DirectSellState> {
       getAllProductsByCatogrey(id: id);
     }
 
+    allProductsModel?.result = [];
     allProductsModel?.result = [];
     print("sucess change 2");
   }
@@ -98,12 +101,15 @@ class DirectSellCubit extends Cubit<DirectSellState> {
         basket.removeWhere((item) => item.id == product.id);
         emit(DecreaseTheQuantityCount());
       } else {
+      } else {
         product.userOrderedQuantity--;
         emit(DecreaseTheQuantityCount());
       }
     }
     totalBasket();
   }
+
+  Future<void> getAllProductsByCatogrey({required int? id}) async {
 
   Future<void> getAllProductsByCatogrey({required int? id}) async {
     print("sucess change 3");

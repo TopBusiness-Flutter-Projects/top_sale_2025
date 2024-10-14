@@ -34,10 +34,16 @@ class _ProductsScreenState extends State<ProductsScreen> {
       context
           .read<DirectSellCubit>()
           .getAllProductsByCatogrey(id: int.parse(widget.catId));
+    if (widget.catId != '-1') {
+      context
+          .read<DirectSellCubit>()
+          .getAllProductsByCatogrey(id: int.parse(widget.catId));
 
       // context.read<DirectSellCubit>().currentIndex =
     } else {
+    } else {
       context.read<DirectSellCubit>().getAllProducts();
+      context.read<DirectSellCubit>().currentIndex == -1;
       context.read<DirectSellCubit>().currentIndex == -1;
     }
   }
@@ -151,8 +157,13 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                 child: CustomProductWidget(
                                     product:
                                         cubit.allProductsModel!.result![index]),
+                                child: CustomProductWidget(
+                                    product:
+                                        cubit.allProductsModel!.result![index]),
                               ),
                             )),
+                  ),
+                )
                   ),
                 )
             ],

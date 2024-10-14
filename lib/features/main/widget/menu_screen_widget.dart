@@ -146,6 +146,7 @@ class MenuScreenWidget extends StatelessWidget {
               ),
             ),
           ),
+          
           Positioned(
             top: MediaQuery.of(context).size.height / 7,
             right: lang == 'en' ? -40 : null,
