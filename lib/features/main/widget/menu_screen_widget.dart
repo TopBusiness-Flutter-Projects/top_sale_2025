@@ -137,7 +137,9 @@ class MenuScreenWidget extends StatelessWidget {
                   ),
                   MenuListTileWidget(
                     iconPath: ImageAssets.logoutIcon,
-                    onclick: () {},
+                    onclick: () {
+                      Navigator.pushNamed(context, Routes.loginRoute);
+                    },
                     title: 'logout'.tr(),
                   ),
                 ],

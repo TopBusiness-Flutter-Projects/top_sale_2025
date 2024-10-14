@@ -14,14 +14,12 @@ import '../../core/models/get_orders_model.dart';
 import '../../core/utils/app_strings.dart';
 import 'package:page_transition/page_transition.dart';
 import '../../features/basket_screen/screen/basket_screen.dart';
-import '../../features/contact_us/screens/contact_us_screen.dart';
 import '../../features/details_order/screens/details_order.dart';
 import '../../features/details_order/screens/widgets/payment.dart';
 import '../../features/delevery_order/screens/delevery_order_screen.dart';
 import '../../features/login/screens/login_screen.dart';
 import '../../features/on_boarding/screen/onboarding_screen.dart';
 import '../../features/profile/screens/profile_screen.dart';
-import '../../features/update_profile/screens/update_profile_screen.dart';
 
 class Routes {
   static const String initialRoute = '/';
