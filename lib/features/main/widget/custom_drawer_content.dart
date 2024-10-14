@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../../../config/routes/app_routes.dart';
 
 class MenuScreen extends StatelessWidget {
   final List<MenuClass> mainMenu;

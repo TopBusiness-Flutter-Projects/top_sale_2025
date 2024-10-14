@@ -202,7 +202,7 @@ class ServiceApi {
     }
   }
 
-  Future<Either<Failure, AllProductsModel>> getAllProductsByCategory(int ?page,
+  Future<Either<Failure, AllProductsModel>> getAllProductsByCategory(int? page,
       {required int categoryId}) async {
     try {
       String? sessionId = await Preferences.instance.getSessionId();
@@ -239,7 +239,8 @@ class ServiceApi {
       final response = await dio.get(
         odooUrl +
             EndPoints.getAllPartners +
-            '?page_size=$pageSize&page=$page&query={name,id,phone,total_overdue,total_due,total_invoiced,credit_to_invoice,sale_order_ids}',
+            '?page_size=$pageSize&page=$page&query={name,id,phone}',
+        // '?page_size=$pageSize&page=$page&query={name,id,phone,total_overdue,total_due,total_invoiced,credit_to_invoice,sale_order_ids}',
         // 'page_size=$pageSize&page=$page&filter=[["user_id", "=",${authModel.result!.userContext!.uid}]]&query={name,id,phone,total_overdue,total_due,total_invoiced,credit_to_invoice,sale_order_ids}',
         options: Options(
           headers: {"Cookie": "frontend_lang=en_US;session_id=$sessionId"},
@@ -332,8 +333,8 @@ class ServiceApi {
     }
   }
 
-// confirm quatation   انشاء امر البيع
-  Future<Either<Failure, DefaultModel>> confirmQuotation({
+// confirm quatation
+  Future<Either<Failure, CreateOrderModel>> confirmQuotation({
     required int orderId,
   }) async {
     String odooUrl =
@@ -341,13 +342,48 @@ class ServiceApi {
 
     String? sessionId = await Preferences.instance.getSessionId();
     try {
-      final response = await dio
-          .post(odooUrl + EndPoints.objectSaleOrder + '$orderId/action_confirm',
+      final response =
+          await dio.post(odooUrl + EndPoints.createInvoice + '$orderId/confirm',
               options: Options(
                 headers: {"Cookie": "session_id=$sessionId"},
               ),
-              body: {});
-      return Right(DefaultModel.fromJson(response));
+              body: {"jsonrpc": "2.0", "method": "call", "params": {}});
+      return Right(CreateOrderModel.fromJson(response));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
+
+// create quatation
+  Future<Either<Failure, CreateOrderModel>> createQuotation({
+    required int partnerId,
+  }) async {
+    String odooUrl =
+        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+
+    String? sessionId = await Preferences.instance.getSessionId();
+    String? employeeId = await Preferences.instance.getEmployeeId();
+    try {
+      final response = await dio.post(odooUrl + EndPoints.createQuotation,
+          options: Options(
+            headers: {"Cookie": "session_id=$sessionId"},
+          ),
+          body: {
+            "params": {
+              "data": {
+                "partner_id": partnerId,
+                if (employeeId != null) "employee_id": employeeId,
+                "order_line": [
+                  {
+                    "product_id": 6939,
+                    "product_uom_qty": 1,
+                    "price_unit": 560.00
+                  }
+                ]
+              }
+            }
+          });
+      return Right(CreateOrderModel.fromJson(response));
     } on ServerException {
       return Left(ServerFailure());
     }
@@ -413,15 +449,17 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
-   Future<Either<Failure, GetAllJournalsModel>> getAllJournals() async {
+
+  Future<Either<Failure, GetAllJournalsModel>> getAllJournals() async {
     try {
       String? sessionId = await Preferences.instance.getSessionId();
-   
+
       String odooUrl =
-        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+          await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
       final response = await dio.get(
-       odooUrl+ EndPoints.getAllJournals + '&filter=[["payment_sequence", "=","true"]]',
-        
+        odooUrl +
+            EndPoints.getAllJournals +
+            '&filter=[["payment_sequence", "=","true"]]',
         options: Options(
           headers: {"Cookie": "session_id=$sessionId"},
         ),

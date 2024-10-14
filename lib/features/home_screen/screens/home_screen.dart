@@ -71,14 +71,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         })
                   ],
                 ),
-                TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, Routes.loginRoute);
-                    },
-                    child: Text(
-                      "LOGOUT",
-                      style: getBoldStyle(),
-                    ))
+                // TextButton(
+                //     onPressed: () {
+                //       Navigator.pushNamed(context, Routes.loginRoute);
+                //     },
+                //     child: Text(
+                //       "LOGOUT",
+                //       style: getBoldStyle(),
+                //     ))
               ]),
             )),
           ),
