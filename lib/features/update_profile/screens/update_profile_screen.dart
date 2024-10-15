@@ -8,12 +8,24 @@ import 'package:top_sale/features/update_profile/cubit/update_profile_state.dart
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_fonts.dart';
 import '../../../core/utils/assets_manager.dart';
+import '../../home_screen/cubit/cubit.dart';
 import '../../login/widget/custom_button.dart';
 import '../../login/widget/textfield_with_text.dart';
 
-class UpdateProfileScreen extends StatelessWidget {
+class UpdateProfileScreen extends StatefulWidget {
   const UpdateProfileScreen({super.key});
 
+  @override
+  State<UpdateProfileScreen> createState() => _UpdateProfileScreenState();
+}
+
+class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+   context.read<UpdateProfileCubit>().nameController.text =context.read<HomeCubit>().nameOfUser??"";
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     var cubit = context.read<UpdateProfileCubit>();

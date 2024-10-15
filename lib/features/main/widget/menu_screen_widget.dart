@@ -1,23 +1,32 @@
 import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:top_sale/core/utils/assets_manager.dart';
+import 'package:top_sale/features/home_screen/cubit/cubit.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../config/routes/app_routes.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/get_size.dart';
 import '../../../core/widgets/network_image.dart';
+import '../../home_screen/cubit/state.dart';
+import '../../profile/cubit/profile_cubit.dart';
 import 'list_tile_menu_widget.dart';
 
-class MenuScreenWidget extends StatelessWidget {
+class MenuScreenWidget extends StatefulWidget {
   const MenuScreenWidget({Key? key, required this.closeClick})
       : super(key: key);
 
   final VoidCallback closeClick;
 
+  @override
+  State<MenuScreenWidget> createState() => _MenuScreenWidgetState();
+}
+
+class _MenuScreenWidgetState extends State<MenuScreenWidget> {
   @override
   Widget build(BuildContext context) {
     String lang = EasyLocalization.of(context)!.locale.languageCode;
@@ -57,15 +66,23 @@ class MenuScreenWidget extends StatelessWidget {
                         padding: EdgeInsets.only(
                           left: lang == 'ar' ? getSize(context) / 5 : 0,
                         ),
-                        child: Text(
-                          'ahmed elsapagh',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              color: AppColors.white,
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.bold),
-                        ),
+                        child:
+    BlocBuilder<HomeCubit, HomeState>(
+    builder: (context, state) {
+    return  Text(
+        context
+            .read<HomeCubit>()
+            .nameOfUser
+            .toString() ?? "",
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(
+            color: AppColors.white,
+            fontSize: 15.sp,
+            fontWeight: FontWeight.bold),
+      );
+
+    })
                       ),
                       SizedBox(height: getSize(context) / 4),
                     ],
@@ -146,7 +163,7 @@ class MenuScreenWidget extends StatelessWidget {
               ),
             ),
           ),
-          
+
           Positioned(
             top: MediaQuery.of(context).size.height / 7,
             right: lang == 'en' ? -40 : null,
@@ -161,7 +178,7 @@ class MenuScreenWidget extends StatelessWidget {
               child: Row(
                 children: [
                   GestureDetector(
-                    onTap: closeClick,
+                    onTap: widget.closeClick,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Center(
