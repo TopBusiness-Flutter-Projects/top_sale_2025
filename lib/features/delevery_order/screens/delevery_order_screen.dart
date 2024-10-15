@@ -19,8 +19,8 @@ class DeleveryOrderScreen extends StatefulWidget {
 class _DeleveryOrderScreenState extends State<DeleveryOrderScreen> {
   @override
   initState() {
-    super.initState();
     context.read<DeleveryOrdersCubit>().getOrders();
+    super.initState();
   }
 
   Widget build(BuildContext context) {

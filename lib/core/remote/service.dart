@@ -355,15 +355,24 @@ class ServiceApi {
   }
 
 // create quatation
-  Future<Either<Failure, CreateOrderModel>> createQuotation({
-    required int partnerId,
-  }) async {
+  Future<Either<Failure, CreateOrderModel>> createQuotation(
+      {required int partnerId,
+      required List<ProductModelData> products}) async {
     String odooUrl =
         await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
     String? sessionId = await Preferences.instance.getSessionId();
     String? employeeId = await Preferences.instance.getEmployeeId();
     String userId = await Preferences.instance.getUserId() ?? "1";
     try {
+      // Map the ProductModelData list to order_line format
+      List<Map<String, dynamic>> orderLine = products
+          .map((product) => {
+                "product_id": product.id,
+                "product_uom_qty": product.userOrderedQuantity,
+                "price_unit": product.listPrice
+              })
+          .toList();
+
       final response = await dio.post(odooUrl + EndPoints.createQuotation,
           options: Options(
             headers: {"Cookie": "session_id=$sessionId"},
@@ -374,13 +383,7 @@ class ServiceApi {
                 "partner_id": partnerId,
                 "user_id": userId,
                 if (employeeId != null) "employee_id": employeeId,
-                "order_line": [
-                  {
-                    "product_id": 6939,
-                    "product_uom_qty": 1,
-                    "price_unit": 560.00
-                  }
-                ]
+                "order_line": orderLine
               }
             }
           });
@@ -390,7 +393,7 @@ class ServiceApi {
     }
   }
 
-  //confirm delivery
+  //confirm delivery  تاكيد الاستلام اللي جاي من جديدة
   Future<Either<Failure, CreateOrderModel>> confirmDelivery({
     required int pickingId,
   }) async {
@@ -410,8 +413,7 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
-
-  //create and validate invoice
+  //create and validate invoice انشاء فاتورة
   Future<Either<Failure, CreateOrderModel>> createAndValidateInvoice({
     required int orderId,
   }) async {
@@ -431,28 +433,21 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
-  //register payment
+  //create and validate invoice انشاء فاتورة
   Future<Either<Failure, CreateOrderModel>> registerPayment({
-    required int invoiceId,
+    required int orderId,
   }) async {
     String odooUrl =
         await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
 
     String? sessionId = await Preferences.instance.getSessionId();
     try {
-      final response = await dio
-          .post(odooUrl + EndPoints.invoice + '$invoiceId/register_payment',
-              options: Options(
-                headers: {"Cookie": "session_id=$sessionId"},
-              ),
-              body: {
-            "params": {
-              // "payment_date": "2024-10-10",
-              "journal_id": 11,
-              "payment_method_id": 1,
-              "amount": 560
-            }
-          });
+      final response =
+      await dio.post(odooUrl + EndPoints.createInvoice + '$orderId/invoice',
+          options: Options(
+            headers: {"Cookie": "session_id=$sessionId"},
+          ),
+          body: {"jsonrpc": "2.0", "method": "call", "params": {}});
       return Right(CreateOrderModel.fromJson(response));
     } on ServerException {
       return Left(ServerFailure());

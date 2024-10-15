@@ -1,9 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:top_sale/features/details_order/screens/widgets/payment_option.dart';
-import 'package:top_sale/features/details_order/screens/widgets/rounded_button.dart';
 import 'package:top_sale/features/details_order/screens/widgets/shard_appbar_app.dart';
-import '../../../../core/utils/app_colors.dart';
 
 class PaymentScreen extends StatefulWidget {
   const PaymentScreen({super.key});
@@ -24,18 +22,13 @@ class _DetailsOrderState extends State<PaymentScreen> {
             SharedAppBarApp(title: "payment".tr()),
             const Padding(
               padding: EdgeInsets.all(8.0),
-              child: PaymentOptions(),
+              child: PaymentOptions(
+
+              ),
             ),
           ],
         ),
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.all(60.0),
-          child: RoundedButton(text: 'confirm_invoice'.tr(), onPressed: () {
-            setState(() {
-             // Navigator.pushNamed(context, Routes.paymentRoute);
-            });
-          },backgroundColor: AppColors.secondPrimary,),
-        ),
+
       ),
     );
   }

@@ -64,7 +64,7 @@ class ProductModelData {
     this.taxesId,
     this.uomName,
     this.uomId,
-     this.categId,
+    this.categId,
     this.qtyAvailable,
     this.image1920 = false,
     this.userOrderedQuantity = 0,
@@ -82,7 +82,7 @@ class ProductModelData {
             ? []
             : List<int>.from(json["taxes_id"]!.map((x) => x)),
         qtyAvailable: json["qty_available"],
-         categId: json["categ_id"],
+        categId: json["categ_id"],
         image1920: json["image_1920"],
       );
 
@@ -94,12 +94,9 @@ class ProductModelData {
         "uom_name": uomName,
         "qty_available": qtyAvailable,
         "uom_id": uomId,
-         "categ_id": categId,
+        "categ_id": categId,
         "taxes_id":
             taxesId == null ? [] : List<dynamic>.from(taxesId!.map((x) => x)),
         "image_1920": image1920,
       };
-
-
-
 }
