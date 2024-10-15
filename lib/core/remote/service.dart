@@ -80,6 +80,76 @@ class ServiceApi {
     }
   }
 
+  Future<Either<Failure, DefaultModel>> updateUserData({
+    required dynamic image,
+    required String name,
+    required String mobile,
+     required String email,
+  }) async {
+      String? sessionId = await Preferences.instance.getSessionId();
+      String odooUrl =
+          await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+    String userId = await Preferences.instance.getUserId() ?? "1";
+    try {
+      final response = await dio.put(
+       odooUrl+ EndPoints.resUsers,
+          options: Options(
+            headers: {"Cookie": "session_id=$sessionId"},
+          ),
+          body: {
+            "params": {
+              "filter": [
+                [
+                  "user_ids",
+                  "=",
+                  [userId]
+                ]
+              ],
+              "data": {
+                 "image_1920": image, //base_64
+                "phone": mobile,
+                "name": name,
+                "email": email,
+               // "password": password
+              }
+            }
+          });
+      return Right(DefaultModel.fromJson(response));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
+    Future<Either<Failure, DefaultModel>> updateEmployeeData({
+    required dynamic image,
+    required String name,
+    required String mobile,
+    required String email,
+  }) async {
+      String? sessionId = await Preferences.instance.getSessionId();
+      String odooUrl =
+          await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+ String employeeId = await Preferences.instance.getEmployeeId() ?? "1";    try {
+      final response = await dio.put(
+       odooUrl+ EndPoints.checkEmployee,
+          options: Options(
+            headers: {"Cookie": "session_id=$sessionId"},
+          ),
+          body: {
+    "params": {
+        "filter": [["id", "=",employeeId ]],
+        "data": {
+           "name":name,
+            "work_phone":mobile,
+            "image_1920":image,//base_64
+            "work_email": email             
+        }
+    }
+});
+      return Right(DefaultModel.fromJson(response));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
   Future<Either<Failure, CheckEmployeeModel>> checkEmployee(
       {required String employeeId, required String password}) async {
     try {
