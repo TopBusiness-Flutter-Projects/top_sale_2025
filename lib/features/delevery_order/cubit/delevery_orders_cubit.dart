@@ -43,11 +43,7 @@ class DeleveryOrdersCubit extends Cubit<DeleveryOrdersState> {
     result.fold(
       (failure) => emit(OrdersErrorState('Error loading  data: $failure')),
       (r) async {
-        for (var element in r.result!) {
-          element.partnerModel =
-              await getPartnerDetails(partnerId: element.partnerId!);
-          print(element.partnerModel!.name);
-        }
+       
         for (var element in r.result!) {
           if (element.state.toString() == 'sale' &&
               element.invoiceStatus.toString() == 'invoiced' &&

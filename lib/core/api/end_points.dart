@@ -20,6 +20,7 @@ static String getAllPartners = '/api/res.partner/';
    static String objectSaleOrder = '/object/sale.order/';
    static String picking = '/api/picking/';
    static String createInvoice = '/api/sale_order/';
+   static String invoice = '/api/invoice/';
    static String createQuotation = '/api/quotation/';
      static String getAllJournals =
       '/api/account.journal/?query={id, display_name}';

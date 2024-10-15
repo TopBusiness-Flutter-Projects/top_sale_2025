@@ -13,7 +13,7 @@ class ShipmentCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // print('image ::${order.partnerModel!.image1920}::imageeeeeeeeeeee');
+    // print('image ::${order.partnerId.!.image1920}::imageeeeeeeeeeee');
     return GestureDetector(
       onTap: () {
         print( "order.state ::${order.state}::stateeeeeeeeeeee");
@@ -201,7 +201,7 @@ class ShipmentCardWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       AutoSizeText(
-                        order.partnerModel!.name ?? '',
+                        order.partnerId!.name ?? '',
                         maxLines: 1,
                         style: TextStyle(
                             fontSize: getSize(context) / 25,
@@ -209,9 +209,9 @@ class ShipmentCardWidget extends StatelessWidget {
                             fontWeight: FontWeight.bold),
                       ),
                       AutoSizeText(
-                        (order.partnerModel?.phone.toString() == "false")
+                        (order.partnerId?.phone.toString() == "false")
                             ? '000000001/100000000'
-                            : order.partnerModel?.phone ?? '',
+                            : order.partnerId?.phone ?? '',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(

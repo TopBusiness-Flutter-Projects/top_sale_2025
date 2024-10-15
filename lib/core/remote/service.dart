@@ -283,7 +283,7 @@ class ServiceApi {
       final response = await dio.get(
         odooUrl +
             EndPoints.saleOrder +
-            '?query={id,user_id,partner_id,display_name,state,write_date,amount_total,invoice_status,delivery_status}&page_size=20&page=1',
+            '?query={id,user_id,partner_id{id,name,phone,partner_latitude,partner_longitude},display_name,state,write_date,amount_total,invoice_status,delivery_status,employee_id{id,name}}&page_size=20&page=1',
         // '?query={id,partner_id,display_name,state,write_date,amount_total}&filter=[["user_id", "=",1]]',
         options: Options(
           headers: {"Cookie": "session_id=$sessionId"},
@@ -469,6 +469,40 @@ class ServiceApi {
         ),
       );
       return Right(GetAllJournalsModel.fromJson(response));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
+
+  Future<Either<Failure, CreateOrderModel>> createPartner({
+    required String name,
+    required String mobile,
+    required String street,
+    required double lat,
+    required double long,
+  }) async {
+    String? sessionId = await Preferences.instance.getSessionId();
+    String odooUrl =
+        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+    try {
+      final response =
+          await dio.post(odooUrl + EndPoints.getAllPartners + 'create',
+              options: Options(
+                headers: {"Cookie": "session_id=$sessionId"},
+              ),
+              body: {
+            "params": {
+              "data": {
+                "name": name,
+                "mobile": mobile,
+                "street": street,
+                "latitude": lat,
+                "longitude": long
+                // "user_id": authModel.result!.userContext!.uid
+              }
+            }
+          });
+      return Right(CreateOrderModel.fromJson(response));
     } on ServerException {
       return Left(ServerFailure());
     }
