@@ -134,21 +134,41 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                 widget.orderModel.invoiceStatus ==
                                     'to invoice' &&
                                 widget.orderModel.deliveryStatus == 'full'
-                            ? Padding(
+                            ? Row(
+                          children: [
+
+                            Expanded(child:  Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: RoundedButton(
+                                text: 'payment'.tr(),
+                                onPressed: () {
+                                  setState(() {
+                                    Navigator.pushNamed(context, Routes.paymentRoute);
+                                    // cubit.createAndValidateInvoice(
+                                    //     orderId: widget.orderModel.id ?? -1);
+                                  });
+                                },
+                                backgroundColor: AppColors.blue,
+                              ),
+                            ),),
+                            Expanded(
+                              child: Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: RoundedButton(
-                                  text: 'Create_an_invoice'.tr(),
+                                  text: 'invoice'.tr(),
                                   onPressed: () {
                                     setState(() {
-                                      Navigator.pushNamed(
-                                          context, Routes.paymentRoute);
+                                      // Navigator.pushNamed(context, Routes.paymentRoute);
                                       // cubit.createAndValidateInvoice(
                                       //     orderId: widget.orderModel.id ?? -1);
                                     });
                                   },
-                                  backgroundColor: AppColors.blue,
+                                  backgroundColor: AppColors.orange,
                                 ),
-                              )
+                              ),
+                            ),
+                          ],
+                        )
                             :
                             // جديدةةةةةةةةةةةةةةة
                             widget.orderModel.state == 'sale' &&
