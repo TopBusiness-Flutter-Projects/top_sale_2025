@@ -9,7 +9,7 @@ import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/get_size.dart';
 import '../../../login/widget/textfield_with_text.dart';
 import '../../cubit/details_orders_cubit.dart';
-import '../../cubit/delevery_orders_state.dart';
+import '../../cubit/details_orders_state.dart';
 
 class PaymentOptions extends StatefulWidget {
   const PaymentOptions({super.key});

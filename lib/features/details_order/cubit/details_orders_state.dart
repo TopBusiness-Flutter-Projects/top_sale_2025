@@ -30,3 +30,4 @@ class RegisterPaymentErrorState extends DetailsOrdersState {
   String error;
   RegisterPaymentErrorState(this.error);
 }
+class ChangePageState extends DetailsOrdersState {}
