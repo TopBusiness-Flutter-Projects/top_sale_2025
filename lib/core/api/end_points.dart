@@ -22,6 +22,7 @@ static String getAllPartners = '/api/res.partner/';
    static String createInvoice = '/api/sale_order/';
    static String invoice = '/api/invoice/';
    static String createQuotation = '/api/quotation/';
+   static String updateQuotation = '/api/quotation/update/';
      static String getAllJournals =
       '/api/account.journal/?query={id, display_name}';
  // static String authWithSession = "$baseUrl/web/session/authenticate";
