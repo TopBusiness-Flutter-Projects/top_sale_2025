@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_stepindicator/flutter_stepindicator.dart';
 import 'package:top_sale/core/utils/get_size.dart';
 import 'package:top_sale/features/details_order/cubit/details_orders_cubit.dart';
-import 'package:top_sale/features/details_order/cubit/delevery_orders_state.dart';
 import 'package:top_sale/features/details_order/screens/widgets/card_from_details_order.dart';
 import 'package:top_sale/features/details_order/screens/widgets/custom_total_price.dart';
 import 'package:top_sale/features/details_order/screens/widgets/product_card.dart';
@@ -13,6 +12,7 @@ import '../../../config/routes/app_routes.dart';
 import '../../../core/models/get_orders_model.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_strings.dart';
+import '../cubit/details_orders_state.dart';
 
 class DetailsOrder extends StatefulWidget {
   DetailsOrder({super.key, required this.orderModel});
@@ -63,7 +63,8 @@ class _DetailsOrderState extends State<DetailsOrder> {
             widget.orderModel.invoiceStatus = 'invoiced';
             widget.orderModel.deliveryStatus = 'full';
           });
-        }if (state is RegisterPaymentLoadedState) {
+        }
+        if (state is RegisterPaymentLoadedState) {
           setState(() {
             widget.orderModel.state = 'sale';
             widget.orderModel.invoiceStatus = 'invoiced';
@@ -102,9 +103,7 @@ class _DetailsOrderState extends State<DetailsOrder> {
                           orderModel: widget.orderModel,
                           orderDetailsModel: cubit.getDetailsOrdersModel!,
                         ),
-                        SizedBox(
-                          height: getSize(context) / 12,
-                        ),
+                        SizedBox(height: getSize(context) / 12),
                         Flexible(
                           child: ListView.builder(
                               shrinkWrap: true,
@@ -140,22 +139,19 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                 widget.orderModel.invoiceStatus ==
                                     'to invoice' &&
                                 widget.orderModel.deliveryStatus == 'full'
-                            ?
-
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: RoundedButton(
-                            text: 'Create_an_invoice'.tr(),
-                            onPressed: () {
-                              setState(() {
-                                cubit.createAndValidateInvoice(
-                                  context,
-                                    orderId: widget.orderModel.id ?? -1);
-                              });
-                            },
-                            backgroundColor: AppColors.blue,
-                          ),
-                        )
+                            ? Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: RoundedButton(
+                                  text: 'Create_an_invoice'.tr(),
+                                  onPressed: () {
+                                    setState(() {
+                                      cubit.createAndValidateInvoice(context,
+                                          orderId: widget.orderModel.id ?? -1);
+                                    });
+                                  },
+                                  backgroundColor: AppColors.blue,
+                                ),
+                              )
                             :
                             // جديدةةةةةةةةةةةةةةة
                             widget.orderModel.state == 'sale' &&
@@ -169,8 +165,7 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                       text: 'delivery_confirmation'.tr(),
                                       onPressed: () {
                                         setState(() {
-                                          cubit.confirmDelivery(
-                                            context,
+                                          cubit.confirmDelivery(context,
                                               orderId:
                                                   widget.orderModel.id ?? -1,
                                               pickingId: cubit
