@@ -1,6 +1,7 @@
-import 'package:easy_localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization.dart' as tr;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_stepindicator/flutter_stepindicator.dart';
 import 'package:top_sale/core/utils/get_size.dart';
 import 'package:top_sale/features/details_order/cubit/delevery_orders_cubit.dart';
 import 'package:top_sale/features/details_order/cubit/delevery_orders_state.dart';
@@ -225,7 +226,61 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                 ),
                               ],
                             )
-                                    : const SizedBox()
+                                    : const SizedBox(),
+                        Padding(
+                          padding:
+                          const EdgeInsets.symmetric(vertical: 8.0),
+                          child: SizedBox(
+                            width: double.maxFinite,
+                            height: 30,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 7),
+                              child: Directionality(
+                                textDirection: TextDirection.ltr,
+                                child: FlutterStepIndicator(
+                                  //division: 3,
+                                  height: 28,
+                                  positiveColor: AppColors.orange,
+                                  progressColor:
+                                  widget.orderModel.state == 'sale' &&
+                                      widget.orderModel.invoiceStatus ==
+                                          'to invoice' &&
+                                      widget.orderModel.deliveryStatus ==
+                                          'pending' ? cubit.page == 1
+                                      ? AppColors.green
+                                      : AppColors.orange
+                                      :
+                                  widget.orderModel.state == 'sale' &&
+                                      widget.orderModel.invoiceStatus ==
+                                          'to invoice' &&
+                                      widget.orderModel.deliveryStatus == 'full'?
+
+                                  cubit.page == 2
+                                      ? AppColors.green
+                                      : AppColors.orange
+                                      :
+                                  cubit.page == 2
+                                      ? AppColors.green
+                                      : AppColors.orange,
+                                  negativeColor:
+                                  const Color.fromRGBO(213, 213, 213, 1),
+                                  list: cubit.list,
+                                  // division: cubit.counter,
+                                  onChange: (i) {},
+                                  positiveCheck: const Icon(
+                                    Icons.check_rounded,
+                                    size: 15,
+                                    color: Colors.white,
+                                  ),
+
+                                  page: cubit.page,
+                                  disableAutoScroll: true,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
             ))
