@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top_sale/core/preferences/preferences.dart';
-import 'package:top_sale/features/details_order/cubit/delevery_orders_cubit.dart';
+import 'package:top_sale/features/details_order/cubit/details_orders_cubit.dart';
 import 'package:top_sale/features/details_order/cubit/delevery_orders_state.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -22,7 +22,9 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
   void initState() {
      getSession();
     super.initState();
-   
+   _controller.clearCache();
+// CookieManager().clearCookies();
+
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(const Color(0x00000000))

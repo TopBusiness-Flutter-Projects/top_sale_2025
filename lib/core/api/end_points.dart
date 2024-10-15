@@ -1,4 +1,3 @@
-
 import 'package:top_sale/core/utils/app_strings.dart';
 
 class EndPoints {
@@ -8,24 +7,24 @@ class EndPoints {
 
   ///
   static String auth = "/auth/";
+  static String resUsers = "/api/res.users/";
   static String checkEmployee = '/api/hr.employee/';
- static String allCategoriesUrl =
+  static String allCategoriesUrl =
       "/api/product.category?query={id,name,image}";
   static String allProducts = '/api/product.product/';
-  static String getUserData =
-      '/api/res.users/';
-static String getAllPartners = '/api/res.partner/';
+  static String getUserData = '/api/res.users/';
+  static String getAllPartners = '/api/res.partner/';
   static String saleOrder = '/api/sale.order/';
-    static String resPartner = '/api/res.partner/';
-   static String objectSaleOrder = '/object/sale.order/';
-   static String picking = '/api/picking/';
-   static String createInvoice = '/api/sale_order/';
-   static String invoice = '/api/invoice/';
-   static String createQuotation = '/api/quotation/';
-   static String updateQuotation = '/api/quotation/update/';
-     static String getAllJournals =
+  static String resPartner = '/api/res.partner/';
+  static String objectSaleOrder = '/object/sale.order/';
+  static String picking = '/api/picking/';
+  static String createInvoice = '/api/sale_order/';
+  static String invoice = '/api/invoice/';
+  static String createQuotation = '/api/quotation/';
+  static String updateQuotation = '/api/quotation/update/';
+  static String getAllJournals =
       '/api/account.journal/?query={id, display_name}';
- // static String authWithSession = "$baseUrl/web/session/authenticate";
+  // static String authWithSession = "$baseUrl/web/session/authenticate";
 
   // static String allCategoryProducts = '$baseUrl/api/product.product/';
   // static String getUsers =
@@ -65,5 +64,3 @@ static String getAllPartners = '/api/res.partner/';
   //     '$baseUrl/api/account.journal/?query={id, display_name}';
   // static String getAllJournalName = '$baseUrl/api/account.journal/';
 }
-
-

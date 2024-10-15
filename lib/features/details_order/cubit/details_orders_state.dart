@@ -36,6 +36,11 @@ class GetAllJournalsLoadingState extends DetailsOrdersState {}
 class GetAllJournalsErrorState extends DetailsOrdersState {
   String error;
   GetAllJournalsErrorState(this.error);
+}class RegisterPaymentLoadedState extends DetailsOrdersState {}
+class RegisterPaymentLoadingState extends DetailsOrdersState {}
+class RegisterPaymentErrorState extends DetailsOrdersState {
+  String error;
+  RegisterPaymentErrorState(this.error);
 }
 
 class RemoveItemFromOrderLineLoadedState extends DetailsOrdersState {}
