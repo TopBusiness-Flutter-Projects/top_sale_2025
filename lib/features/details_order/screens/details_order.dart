@@ -105,7 +105,7 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                 return ProductCard(
                                   title: cubit.getDetailsOrdersModel
                                       ?.orderLines?[index].productId,
-                                  price: 50.toString(),
+                                  price: cubit.getDetailsOrdersModel?.orderLines?[index].priceSubtotal,
                                   text: cubit.getDetailsOrdersModel
                                           ?.orderLines?[index].productId ??
                                       '',
