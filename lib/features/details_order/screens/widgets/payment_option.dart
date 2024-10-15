@@ -8,7 +8,7 @@ import 'package:top_sale/features/details_order/screens/widgets/rounded_button.d
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/get_size.dart';
 import '../../../login/widget/textfield_with_text.dart';
-import '../../cubit/delevery_orders_cubit.dart';
+import '../../cubit/details_orders_cubit.dart';
 import '../../cubit/delevery_orders_state.dart';
 
 class PaymentOptions extends StatefulWidget {
