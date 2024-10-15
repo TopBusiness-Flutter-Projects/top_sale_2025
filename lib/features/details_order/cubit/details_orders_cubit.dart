@@ -13,14 +13,15 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
   DetailsOrdersCubit(this.api) : super(DetailsOrdersInitial());
   ServiceApi api;
   OrderDetailsModel? getDetailsOrdersModel;
-  List list = [0, 1, 2,3]; // 0 عرض سعر
-   // جديدة
+  List list = [0, 1, 2, 3]; // 0 عرض سعر
+  // جديدة
 
-     int page = 1;
-     void changePage(int index) {
-       page = index;
-       emit(ChangePageState());
-     }
+  int page = 1;
+  void changePage(int index) {
+    page = index;
+    emit(ChangePageState());
+  }
+
   TextEditingController moneyController = TextEditingController();
   void getDetailsOrders({required int orderId}) async {
     emit(GetDetailsOrdersLoadingState());
