@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:top_sale/core/utils/get_size.dart';
+import 'package:top_sale/features/clients/cubit/clients_state.dart';
 import 'package:top_sale/features/clients/screens/widgets/custom_card_client.dart';
 import '../../../config/routes/app_routes.dart';
 import '../../../core/utils/app_colors.dart';
@@ -12,96 +13,133 @@ import '../../details_order/screens/widgets/rounded_button.dart';
 import '../../login/widget/textfield_with_text.dart';
 import '../cubit/clients_cubit.dart';
 
-class ClientScreen extends StatelessWidget {
-
+class ClientScreen extends StatefulWidget {
   ClientScreen({this.isCart = false, super.key});
   bool isCart;
+
+  @override
+  State<ClientScreen> createState() => _ClientScreenState();
+}
+
+class _ClientScreenState extends State<ClientScreen> {
+  @override
+  void initState() {
+    context.read<ClientsCubit>().getAllPartnersForReport();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     var cubit = context.read<ClientsCubit>();
-    return Scaffold(
-        backgroundColor: AppColors.white,
-        floatingActionButton: GestureDetector(
-          onTap: () {
-            _showBottomSheet(context,cubit);
-          },
-          child: Container(
-            height: 30.sp,
-            width: 30.sp,
-            decoration: BoxDecoration(
-              color: AppColors.primaryColor,
-              borderRadius: BorderRadiusDirectional.circular(90),
-            ),
-            child: Center(
-              child: Icon(
-                Icons.add,
-                size: 20.sp,
-                color: AppColors.white,
-              ),
-            ),
-          ),
-        ),
-        appBar: AppBar(
-          backgroundColor: AppColors.white,
-          centerTitle: false,
-          leadingWidth: 20,
-          title: Text(
-            'clients'.tr(),
-            style: TextStyle(
-              fontFamily: AppStrings.fontFamily,
-              color: AppColors.black,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ),
-
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0),
-          child: Column(
-            children: [
-              CustomTextField(
-                controller: cubit.searchController,
-                onChanged: (keyValue) {
-                  if (keyValue.isEmpty) {
-                    // cubit.getAllProducts();
-                  } else {
-                    // EasyDebounce.debounce(
-                    //     'search', // <-- An ID for this particular debouncer
-                    //     Duration(
-                    //         seconds: 1), // <-- The debounce duration
-                    //     () => cubit.searchProducts(
-                    //           productName: keyValue,
-                    //         ) // <-- The target method
-                    //     );
-                  }
-                },
-                labelText: "search_product".tr(),
-                prefixIcon: Icon(
-                  Icons.search_rounded,
-                  size: 35,
-                  color: AppColors.gray2,
+    return BlocBuilder<ClientsCubit, ClientsState>(
+      builder: (context, state) {
+        return Scaffold(
+            backgroundColor: AppColors.white,
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+            appBar: AppBar(
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      _showBottomSheet(context, cubit);
+                    },
+                    child: Container(
+                      height: 30.sp,
+                      width: 30.sp,
+                      decoration: BoxDecoration(
+                        color: AppColors.primaryColor,
+                        borderRadius: BorderRadiusDirectional.circular(90),
+                      ),
+                      child: Center(
+                        child: Icon(
+                          Icons.add,
+                          size: 20.sp,
+                          color: AppColors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+              backgroundColor: AppColors.white,
+              centerTitle: false,
+              //leadingWidth: 20,
+              title: Text(
+                'clients'.tr(),
+                style: TextStyle(
+                  fontFamily: AppStrings.fontFamily,
+                  color: AppColors.black,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
-              Flexible(
-                child: ListView.builder(
-                  itemCount: 3,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, Routes.basketScreenRoute);
-                        },
-                        child: const CustomCardClient());
-                  },
-                ),
+            ),
+            body: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: Column(
+                children: [
+                  CustomTextField(
+                    controller: cubit.searchController,
+                    onChanged: (keyValue) {
+                      if (keyValue.isEmpty) {
+                        // cubit.getAllProducts();
+                      } else {
+                        // EasyDebounce.debounce(
+                        //     'search', // <-- An ID for this particular debouncer
+                        //     Duration(
+                        //         seconds: 1), // <-- The debounce duration
+                        //     () => cubit.searchProducts(
+                        //           productName: keyValue,
+                        //         ) // <-- The target method
+                        //     );
+                      }
+                    },
+                    labelText: "search_product".tr(),
+                    prefixIcon: Icon(
+                      Icons.search_rounded,
+                      size: 35,
+                      color: AppColors.gray2,
+                    ),
+                  ),
+                  Flexible(
+                    child: (state is LoadingGetPartnersState)
+                        ? const Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        :( cubit.allPartnersModel==null||cubit.allPartnersModel?.result==[])
+                            ? Center(
+                                child: Text('no_data'.tr()),
+                              )
+                            : ListView.builder(
+                                itemCount:
+                                    cubit.allPartnersModel!.result!.length,
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  //! we will padd partner data
+                                  //! cubit.allPartnersModel!.result![index]
+                                  return InkWell(
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                            context, Routes.basketScreenRoute,
+                                            arguments: cubit.allPartnersModel!
+                                                .result![index]);
+                                      },
+                                      child: CustomCardClient(
+                                        partner: cubit
+                                            .allPartnersModel!.result![index],
+                                      ));
+                                },
+                              ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ));
+            ));
+      },
+    );
   }
 
-  void _showBottomSheet(BuildContext context,ClientsCubit cubit) {
+  void _showBottomSheet(BuildContext context, ClientsCubit cubit) {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
@@ -116,7 +154,6 @@ class ClientScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 CustomTextFieldWithTitle(
-
                   title: "name".tr(),
                   controller: cubit.clientNameController,
                   hint: "enter_name".tr(),

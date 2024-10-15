@@ -7,10 +7,13 @@ import 'package:top_sale/core/utils/app_fonts.dart';
 import 'package:top_sale/core/utils/get_size.dart';
 import 'package:top_sale/features/direct_sell/screens/widgets/custom_category_widget.dart';
 
+import '../../../../core/models/category_model.dart';
+import '../../../../core/widgets/decode_image.dart';
+
 class CustomCategorySection extends StatelessWidget {
-  const CustomCategorySection({
-    super.key,
-  });
+   CustomCategorySection({super.key,required this.result});
+  List<CategoryModelData> result;
+
   @override
   Widget build(BuildContext context) {
     String testImage =
@@ -28,7 +31,8 @@ class CustomCategorySection extends StatelessWidget {
             ),
             GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, Routes.categoriesRoute);
+                  Navigator.pushNamed(context, Routes.categoriesRoute,
+                  );
                 },
                 child: Text(
                   "all".tr(),
@@ -45,14 +49,15 @@ class CustomCategorySection extends StatelessWidget {
           child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) => CustomCategoryWidget(
-                    image: testImage,
-                    // image: "false",
-                    title: "لحوم لحوم  لحوم",
+                catId: result[index].id.toString()??'-1',
+                    image:result[index].image.toString(),
+                     //image: "false",
+                    title: result[index].name.toString(),
                   ),
               separatorBuilder: (context, index) => SizedBox(
                     width: 14.w,
                   ),
-              itemCount: 10),
+              itemCount: result.length),
         )
       ],
     );

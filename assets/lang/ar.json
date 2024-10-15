@@ -9,6 +9,7 @@
   "Create_an_invoice": "انشاء فاتورة",
   "payment": "الدفع",
   "confirm_invoice": "تأكيد الفاتوره",
+  "invoice": "الفاتورة",
   "customer_name": "اسم العميل",
   "start_now": "أبدا الان",
   "delevery_order": "توصيل الطلبات",
@@ -85,5 +86,8 @@
   "ll": "",
   "enter_the_percentage": "ادخل نسبة الخصم",
   "discount_rate": "نسبة الخصم",
-  "show_price": "عرض السعر"
+  "show_price": "عرض السعر",
+  "no_data": "لا يوجد بيانات",
+  "Enter_the_amount": "ادخل المبلغ",
+  "Paid_in_full": "المبلغ المدفوع"
 }

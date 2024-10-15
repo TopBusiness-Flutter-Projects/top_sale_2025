@@ -1,17 +1,13 @@
 import 'dart:io';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:top_sale/core/utils/assets_manager.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../../../config/routes/app_routes.dart';
 import '../../../core/utils/app_colors.dart';
-
 import '../../../core/utils/get_size.dart';
 import '../../../core/widgets/network_image.dart';
 import 'list_tile_menu_widget.dart';
@@ -77,23 +73,22 @@ class MenuScreenWidget extends StatelessWidget {
                   MenuListTileWidget(
                     iconPath: ImageAssets.profileIcon,
                     onclick: () {
-                      Navigator.pushNamed(
-                          context, Routes.profileRoute);
+                      Navigator.pushNamed(context, Routes.profileRoute);
                     },
                     title: 'profile'.tr(),
                   ),
                   MenuListTileWidget(
                     iconPath: ImageAssets.shareIcon,
                     onclick: () async {
-                      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+                      PackageInfo packageInfo =
+                          await PackageInfo.fromPlatform();
                       String url = '';
                       String packageName = packageInfo.packageName;
                       if (Platform.isAndroid) {
                         url =
-                        "https://play.google.com/store/apps/details?id=$packageName";
+                            "https://play.google.com/store/apps/details?id=$packageName";
                       } else if (Platform.isIOS) {
-                        url =
-                        'https://apps.apple.com/us/app/$packageName';
+                        url = 'https://apps.apple.com/us/app/$packageName';
                       }
                       await Share.share(url);
                     },
@@ -109,15 +104,14 @@ class MenuScreenWidget extends StatelessWidget {
 
                       if (Platform.isAndroid) {
                         url =
-                        "https://play.google.com/store/apps/details?id=$packageName";
+                            "https://play.google.com/store/apps/details?id=$packageName";
                       } else if (Platform.isIOS) {
-                        url =
-                        'https://apps.apple.com/us/app/$packageName';
+                        url = 'https://apps.apple.com/us/app/$packageName';
                       }
                       if (await canLaunch(url)) {
-                      await launch(url);
+                        await launch(url);
                       } else {
-                      throw 'Could not launch $url';
+                        throw 'Could not launch $url';
                       }
                     },
                     title: 'evaluate_the_application'.tr(),
@@ -125,16 +119,14 @@ class MenuScreenWidget extends StatelessWidget {
                   MenuListTileWidget(
                     iconPath: ImageAssets.contactIcon,
                     onclick: () {
-                      Navigator.pushNamed(
-                          context, Routes.contactRoute);
+                      Navigator.pushNamed(context, Routes.contactRoute);
                     },
                     title: 'contact'.tr(),
                   ),
                   MenuListTileWidget(
                     iconPath: ImageAssets.editIcon,
                     onclick: () {
-                      Navigator.pushNamed(
-                          context, Routes.updateprofileRoute);
+                      Navigator.pushNamed(context, Routes.updateprofileRoute);
                     },
                     title: 'edit'.tr(),
                   ),
@@ -145,13 +137,16 @@ class MenuScreenWidget extends StatelessWidget {
                   ),
                   MenuListTileWidget(
                     iconPath: ImageAssets.logoutIcon,
-                    onclick: () {},
+                    onclick: () {
+                      Navigator.pushNamed(context, Routes.loginRoute);
+                    },
                     title: 'logout'.tr(),
                   ),
                 ],
               ),
             ),
           ),
+          
           Positioned(
             top: MediaQuery.of(context).size.height / 7,
             right: lang == 'en' ? -40 : null,

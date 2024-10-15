@@ -16,6 +16,7 @@ import 'features/basket_screen/cubit/cubit.dart';
 import 'features/clients/cubit/clients_cubit.dart';
 import 'features/contact_us/cubit/contact_us_cubit.dart';
 import 'features/delevery_order/cubit/delevery_orders_cubit.dart';
+import 'features/details_order/cubit/delevery_orders_cubit.dart';
 import 'features/main/cubit/main_cubit.dart';
 import 'features/notification_screen/cubit/notification_cubit.dart';
 import 'features/on_boarding/cubit/onboarding_cubit.dart';
@@ -37,14 +38,15 @@ Future<void> setup() async {
   serviceLocator.registerFactory(() => ProfileCubit(serviceLocator()));
   serviceLocator.registerFactory(() => NotificationCubit(serviceLocator()));
   serviceLocator.registerFactory(() => OnboardingCubit());
-  serviceLocator.registerFactory(() => DeleveryOrdersCubit());
-  serviceLocator.registerFactory(() => DirectSellCubit());
+  serviceLocator.registerFactory(() => DirectSellCubit(serviceLocator()));
   serviceLocator.registerFactory(() => MainCubit(serviceLocator()));
   serviceLocator.registerFactory(() => ContactUsCubit(serviceLocator()));
   serviceLocator.registerFactory(() => UpdateProfileCubit(serviceLocator()));
   serviceLocator.registerFactory(() => BasketCubit(serviceLocator()));
   serviceLocator.registerFactory(() => ClientsCubit(serviceLocator()));
 
+  serviceLocator.registerFactory(() => DetailsOrdersCubit(serviceLocator()));
+  serviceLocator.registerFactory(() => DeleveryOrdersCubit(serviceLocator()));
   ///////////////////////////////////////////////////////////////////////////////
 
   //! External

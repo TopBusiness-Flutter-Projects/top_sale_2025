@@ -18,7 +18,6 @@ class ContactUsScreen extends StatelessWidget {
     var cubit = context.read<ContactUsCubit>();
     return Scaffold(
       backgroundColor: AppColors.white,
-
       body: SingleChildScrollView(
         child: BlocBuilder<ContactUsCubit, ContactUsState>(
             builder: (context, state) {
@@ -75,7 +74,7 @@ class ContactUsScreen extends StatelessWidget {
             size: 25.w,
           ),
         ),
-        // leadingWidth: 20,
+        // //leadingWidth: 20,
         title: Text(
           "leave_your_message".tr(),
           style: getBoldStyle(

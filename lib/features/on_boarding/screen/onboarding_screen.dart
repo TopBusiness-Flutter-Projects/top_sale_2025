@@ -9,6 +9,7 @@ import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/assets_manager.dart';
 import '../../../core/utils/get_size.dart';
 import '../cubit/onboarding_cubit.dart';
+import '../cubit/onboarding_state.dart';
 import 'onboarding1.dart';
 import 'onboarding2.dart';
 
@@ -99,7 +100,7 @@ class _OnBoardinScreenState extends State<OnBoardinScreen> {
                             InkWell(
                                 onTap: () async {
                                   Navigator.pushReplacementNamed(
-                                      context, Routes.loginRoute);
+                                      context, Routes.registerScreen);
                                   SharedPreferences pref =
                                       await SharedPreferences.getInstance();
                                   pref.setBool('onBoarding', true);
@@ -135,7 +136,7 @@ class _OnBoardinScreenState extends State<OnBoardinScreen> {
                                 color: AppColors.primary,
                                 onPressed: () async {
                                   Navigator.pushReplacementNamed(
-                                      context, Routes.loginRoute);
+                                      context, Routes.registerScreen);
                                   SharedPreferences pref =
                                       await SharedPreferences.getInstance();
                                   pref.setBool('HomeState', true);

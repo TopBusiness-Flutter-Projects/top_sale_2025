@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import '../../../../core/models/all_partners_for_reports_model.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_strings.dart';
 import '../../../../core/utils/get_size.dart';
 
 class CustomCardClient extends StatelessWidget {
-  const CustomCardClient({super.key});
-
+  const CustomCardClient({this.partner, super.key});
+  final AllPartnerResults? partner;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -15,14 +16,16 @@ class CustomCardClient extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(
-            "اسم العميل رقم 1",
+            partner?.name.toString() ?? '',
             style: TextStyle(
                 fontFamily: AppStrings.fontFamily,
                 fontWeight: FontWeight.bold,
                 fontSize: getSize(context) / 30),
           ),
           Text(
-            "01000000000    /    01000000000",
+            partner?.phone.toString() == 'false'
+                ? '_'
+                : partner?.phone.toString() ?? '',
             style: TextStyle(
                 fontFamily: AppStrings.fontFamily,
                 fontSize: getSize(context) / 30),

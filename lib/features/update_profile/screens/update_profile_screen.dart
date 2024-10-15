@@ -19,7 +19,6 @@ class UpdateProfileScreen extends StatelessWidget {
     var cubit = context.read<UpdateProfileCubit>();
     return Scaffold(
       backgroundColor: AppColors.white,
-
       body: SingleChildScrollView(
         child: BlocBuilder<UpdateProfileCubit, UpdateProfileState>(
             builder: (context, state) {
@@ -99,7 +98,7 @@ class UpdateProfileScreen extends StatelessWidget {
             size: 25.w,
           ),
         ),
-        // leadingWidth: 20,
+        // //leadingWidth: 20,
         title: Text(
           "update_profile".tr(),
           style: getBoldStyle(

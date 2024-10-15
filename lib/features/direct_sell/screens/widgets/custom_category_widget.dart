@@ -8,101 +8,71 @@ import 'package:top_sale/core/utils/app_colors.dart';
 import 'package:top_sale/core/utils/app_fonts.dart';
 import 'package:top_sale/core/utils/get_size.dart';
 
+import '../../../../core/widgets/decode_image.dart';
+
 class CustomCategoryWidget extends StatelessWidget {
   const CustomCategoryWidget({
     super.key,
     required this.title,
     required this.image,
+    required this.catId,
   });
   final String title;
   final String image;
+  final String catId;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, Routes.productsRoute, arguments: title);
+        Navigator.pushNamed(
+          context,
+          Routes.productsRoute,
+          arguments: [title, catId],
+        );
       },
-      child: Column(
-        children: [
-          Container(
-              height: getheightSize(context) / 12,
-              width: getheightSize(context) / 12,
-              decoration: BoxDecoration(
-                  color: AppColors.orangeThirdPrimary,
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                      color: AppColors.orangeThirdPrimary, width: 1.8)),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(1000),
-                child: image == "false"
-                    ? Center(
-                        child: Text(title.substring(0, title.indexOf(" ")),
-                            style: getBoldStyle(
-                                color: AppColors.white, fontSize: 18.sp)),
-                      )
-                    : Image.network(
-                        image,
-                        fit: BoxFit.cover,
-                      ),
-              )),
-          Flexible(
-            child: SizedBox(
+      child: Container(
+height: getSize(context)/4,
+        child: Column(
+          children: [
+            Container(
+                height: getheightSize(context) / 12,
                 width: getheightSize(context) / 12,
-                child: AutoSizeText(title,
-                    maxLines: 2,
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.ellipsis,
-                    style: getBoldStyle(fontSize: 18.sp))),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class CustomCategoryScreenWidget extends StatelessWidget {
-  const CustomCategoryScreenWidget({
-    super.key,
-    required this.title,
-    required this.image,
-  });
-  final String title;
-  final String image;
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, Routes.productsRoute, arguments: title);
-      },
-      child: Column(
-        children: [
-          Container(
-              height: getheightSize(context) / 12,
-              width: getheightSize(context) / 12,
-              decoration: BoxDecoration(
-                  color: AppColors.orangeThirdPrimary,
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                      color: AppColors.orangeThirdPrimary, width: 1.8)),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(1000),
-                child: image == "false"
-                    ? Center(
-                        child: Text(title.substring(0, title.indexOf(" ")),
-                            style: getBoldStyle(
-                                color: AppColors.white, fontSize: 18.sp)),
-                      )
-                    : Image.network(
-                        image,
-                        fit: BoxFit.cover,
-                      ),
-              )),
-          Text(title,
-              maxLines: 2,
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-              style: getBoldStyle(fontSize: 16.sp)),
-        ],
+                decoration: BoxDecoration(
+                    color: AppColors.orangeThirdPrimary,
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                        color: AppColors.orangeThirdPrimary, width: 1.8)),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(1000),
+                    child: image == "false"
+                        ? Center(
+                            child: Text(
+                                title.length > 5 ? title.substring(0, 3) : title,
+                                style: getBoldStyle(
+                                    color: AppColors.white, fontSize: 18.sp)),
+                          )
+                        : CustomDecodedImage(
+                            context: context,
+                            base64String: image,
+                            height: 50.w,
+                            width: 50.w,
+                          )
+                    // Image.network(
+                    //         image,
+                    //         fit: BoxFit.cover,
+                    //       ),
+                    )),
+            Flexible(
+              child: SizedBox(
+                  width: getheightSize(context) / 12,
+                  child: AutoSizeText(title,
+                      maxLines: 2,
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      style: getBoldStyle(fontSize: 18.sp))),
+            ),
+          ],
+        ),
       ),
     );
   }

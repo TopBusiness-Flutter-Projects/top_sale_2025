@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:top_sale/features/contact_us/screens/contact_us_screen.dart';
-import 'package:top_sale/features/direct_sell/screens/categories_screen.dart';
+import 'package:top_sale/features/direct_sell/screens/all_categories_screen.dart';
 import 'package:top_sale/features/direct_sell/screens/direct_sell_screen.dart';
 import 'package:top_sale/features/direct_sell/screens/products_screen.dart';
 import 'package:top_sale/features/clients/screens/clients_screen.dart';
@@ -10,17 +10,17 @@ import 'package:top_sale/features/main/screens/main_screen.dart';
 import 'package:top_sale/features/notification_screen/screens/notification_screens.dart';
 import 'package:top_sale/features/splash/screens/splash_screen.dart';
 import 'package:top_sale/features/update_profile/screens/update_profile_screen.dart';
+import '../../core/models/all_partners_for_reports_model.dart';
+import '../../core/models/get_orders_model.dart';
 import '../../core/utils/app_strings.dart';
 import 'package:page_transition/page_transition.dart';
 import '../../features/basket_screen/screen/basket_screen.dart';
-import '../../features/contact_us/screens/contact_us_screen.dart';
 import '../../features/details_order/screens/details_order.dart';
 import '../../features/details_order/screens/widgets/payment.dart';
 import '../../features/delevery_order/screens/delevery_order_screen.dart';
 import '../../features/login/screens/login_screen.dart';
 import '../../features/on_boarding/screen/onboarding_screen.dart';
 import '../../features/profile/screens/profile_screen.dart';
-import '../../features/update_profile/screens/update_profile_screen.dart';
 
 class Routes {
   static const String initialRoute = '/';
@@ -61,32 +61,29 @@ class AppRoutes {
           type: PageTransitionType.fade,
           alignment: Alignment.center,
           duration: const Duration(milliseconds: 800),
-        );  case Routes.profileRoute:
+        );
+      case Routes.profileRoute:
         return PageTransition(
-          child:  ProfileScreen(),
+          child: ProfileScreen(),
           type: PageTransitionType.fade,
           alignment: Alignment.center,
           duration: const Duration(milliseconds: 800),
-        );  case Routes.updateprofileRoute:
+        );
+      case Routes.updateprofileRoute:
         return PageTransition(
           child: const UpdateProfileScreen(),
           type: PageTransitionType.fade,
           alignment: Alignment.center,
           duration: const Duration(milliseconds: 800),
-        );  case Routes.contactRoute:
+        );
+      case Routes.contactRoute:
         return PageTransition(
           child: const ContactUsScreen(),
           type: PageTransitionType.fade,
           alignment: Alignment.center,
           duration: const Duration(milliseconds: 800),
-        );  case Routes.notificationRoute:
-        return PageTransition(
-          child:  NotificationScreens(),
-          type: PageTransitionType.fade,
-          alignment: Alignment.center,
-          duration: const Duration(milliseconds: 800),
-
         );
+
       case Routes.deleveryOrderRoute:
         return MaterialPageRoute(
           builder: (context) => const DeleveryOrderScreen(),
@@ -96,8 +93,11 @@ class AppRoutes {
           builder: (context) => const PaymentScreen(),
         );
       case Routes.detailsOrder:
+        final OrderModel orderModel = settings.arguments as OrderModel;
         return MaterialPageRoute(
-          builder: (context) => DetailsOrder(),
+          builder: (context) => DetailsOrder(
+            orderModel: orderModel,
+          ),
         );
       case Routes.onboardingPageScreenRoute:
         return MaterialPageRoute(
@@ -109,10 +109,10 @@ class AppRoutes {
         );
       case Routes.mainRoute:
         return MaterialPageRoute(
-          builder: (context) => const Zoom(),
+          builder: (context) => const ZoomDrawerScreen(),
         );
       case Routes.clientsRoute:
-        final bool isCart = settings.arguments as bool;
+        bool isCart = settings.arguments as bool;
         return MaterialPageRoute(
           builder: (context) => ClientScreen(isCart: isCart),
         );
@@ -125,26 +125,28 @@ class AppRoutes {
           builder: (context) => const DirectSellScreen(),
         );
       case Routes.productsRoute:
-        String categoryName = settings.arguments as String;
+        List<String> categoryName = settings.arguments as List<String>;
         return MaterialPageRoute(
-          builder: (context) => ProductsScreen(categoryName: categoryName),
+          builder: (context) => ProductsScreen(
+            categoryName: categoryName[0],
+            catId: categoryName[1],
+          ),
         );
-        case Routes.contactUsRoute:
+      case Routes.contactUsRoute:
         return MaterialPageRoute(
           builder: (context) => const ContactUsScreen(),
         );
-        case Routes.updateProfileRoute:
+      case Routes.updateProfileRoute:
         return MaterialPageRoute(
-          builder: (context) => const UpdateProfileScreen()
-        );
+            builder: (context) => const UpdateProfileScreen());
       case Routes.categoriesRoute:
         return MaterialPageRoute(
-          builder: (context) => const CategoriesScreen(),
+          builder: (context) => AllCategoriesScreen(),
         );
       case Routes.basketScreenRoute:
+        AllPartnerResults? partner = settings.arguments as AllPartnerResults?;
         return MaterialPageRoute(
-          builder: (context) => const BasketScreen(),
-        );
+            builder: (context) => BasketScreen(partner: partner));
       case Routes.notificationRoute:
         return MaterialPageRoute(
           builder: (context) => NotificationScreens(),
