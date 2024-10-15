@@ -25,9 +25,12 @@ class ProductsScreen extends StatefulWidget {
 }
 
 class _ProductsScreenState extends State<ProductsScreen> {
+    late final ScrollController scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
+      scrollController.addListener(_scrollListener);
     context.read<DirectSellCubit>().currentIndex = -1;
     // TODO: implement initState
     if (widget.catId != '-1') {
@@ -45,6 +48,19 @@ class _ProductsScreenState extends State<ProductsScreen> {
         context.read<DirectSellCubit>().currentIndex == -1;
         context.read<DirectSellCubit>().currentIndex == -1;
       }
+    }
+  }
+ _scrollListener() {
+    if (scrollController.position.maxScrollExtent == scrollController.offset) {
+      print('dddddddddbottom');
+      if (context.read<DirectSellCubit>().allProductsModel.next != null) {
+        context.read<DirectSellCubit>().getAllProducts(
+            isGetMore: true,
+            pageId: context.read<DirectSellCubit>().allProductsModel.next ?? 1);
+        debugPrint('new posts');
+      }
+    } else {
+      print('dddddddddtop');
     }
   }
 
@@ -144,6 +160,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 else
                   Expanded(
                     child: SingleChildScrollView(
+                                          controller: scrollController,
+
                       child: cubit.allProductsModel.result == null
                           ? Container()
                           : StaggeredGrid.count(
