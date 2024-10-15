@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top_sale/core/utils/get_size.dart';
 import 'package:top_sale/features/details_order/cubit/delevery_orders_cubit.dart';
 import 'package:top_sale/features/details_order/cubit/delevery_orders_state.dart';
+import 'package:top_sale/features/details_order/screens/pdf.dart';
 import 'package:top_sale/features/details_order/screens/widgets/card_from_details_order.dart';
 import 'package:top_sale/features/details_order/screens/widgets/custom_total_price.dart';
 import 'package:top_sale/features/details_order/screens/widgets/product_card.dart';
@@ -181,7 +182,10 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                         child: RoundedButton(
                                           text: 'invoice'.tr(),
                                           onPressed: () {
-                                            setState(() {});
+                                            setState(() {
+
+                                              Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentWebViewScreen(url: "https://novapolaris-stage-branche-15780489.dev.odoo.com//report/pdf/stock.report_picking/41"),));
+                                            });
                                           },
                                           backgroundColor: AppColors.blue,
                                         ),
