@@ -47,7 +47,8 @@ class DirectSellCubit extends Cubit<DirectSellState> {
 
   AllProductsModel allProductsModel = AllProductsModel();
   AllProductsModel homeProductsModel = AllProductsModel();
-  Future<void> getAllProducts({bool isHome = false,bool isGetMore = false, int pageId = 1}) async {
+  Future<void> getAllProducts(
+      {bool isHome = false, bool isGetMore = false, int pageId = 1}) async {
     emit(LoadingProduct());
     final response = await api.getAllProducts(pageId);
     //
@@ -59,24 +60,18 @@ class DirectSellCubit extends Cubit<DirectSellState> {
         homeProductsModel = right;
         updateUserOrderedQuantities(homeProductsModel);
       } else {
-    if (isGetMore) {
-        allProductsModel = AllProductsModel(
-          count: right.count,
-          next: right.next,
-          prev: right.prev,
-          result: [...allProductsModel.result!, ...right.result!],
-        );
-        updateUserOrderedQuantities(allProductsModel);
-
-      } else {
-        allProductsModel = right;
-        updateUserOrderedQuantities(allProductsModel);
-      }
-
-
-
-       
-        
+        if (isGetMore) {
+          allProductsModel = AllProductsModel(
+            count: right.count,
+            next: right.next,
+            prev: right.prev,
+            result: [...allProductsModel.result!, ...right.result!],
+          );
+          updateUserOrderedQuantities(allProductsModel);
+        } else {
+          allProductsModel = right;
+          updateUserOrderedQuantities(allProductsModel);
+        }
       }
       print("loaded");
 

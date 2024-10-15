@@ -392,10 +392,13 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
+
 // create quatation
   Future<Either<Failure, CreateOrderModel>> updateQuotation(
       {required int partnerId,
-      required List<ProductModelData> products}) async {
+      required String saleOrderId,
+      required List<OrderLine> products,
+      required List<dynamic> listOfremovedItems}) async {
     String odooUrl =
         await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
     String? sessionId = await Preferences.instance.getSessionId();
@@ -404,10 +407,24 @@ class ServiceApi {
     try {
       // Map the ProductModelData list to order_line format
       List<Map<String, dynamic>> orderLine = products
+          .map((product) => product.productUomQty == 0
+              ? {
+                  "line_id":
+                      product.id, // ID of the existing order line to delete
+                  "delete": true // Set to true to delete this line
+                }
+              : {
+                  "product_id": product.productId,
+                  "product_uom_qty": product.productUomQty,
+                  "price_unit": product.priceUnit,
+                  "line_id": product.id,
+                  "discount": product.discount
+                })
+          .toList();
+      List<Map<String, dynamic>> orderLineDeleted = listOfremovedItems
           .map((product) => {
-                "product_id": product.id,
-                "product_uom_qty": product.userOrderedQuantity,
-                "price_unit": product.listPrice
+                "line_id": product, // ID of the existing order line to delete
+                "delete": true // Set to true to delete this line
               })
           .toList();
 
@@ -418,28 +435,22 @@ class ServiceApi {
           body: {
             "params": {
               "data": {
+                "sale_order_id": int.parse(saleOrderId.toString()),
                 "partner_id": partnerId,
-                "user_id": userId,
-                if (employeeId != null) "employee_id": employeeId,
-                    "order_line": [
-                {
-                    "line_id": 120, // ID of the existing order line to update
-                    "product_id": 6940, // Replace with your product ID
-                    "product_uom_qty": 5, // Quantity to update
-                    "price_unit": 50.0, // Unit price to update
-                    "discount": 10.0 // Discount percentage
-                },
-                {
-                    "line_id": 114, // ID of the existing order line to delete
-                    "delete": true // Set to true to delete this line
-                },
-                {
-                    "product_id": 6916, // New product to add to the quotation
-                    "product_uom_qty": 3, // Quantity of the new product
-                    "price_unit": 75.0, // Unit price of the new product
-                    "discount": 5.0 // Discount percentage
-                }
-            ]
+                "sale_order_user_id": int.parse(userId),
+                if (employeeId != null)
+                  "employee_id": int.parse(employeeId.toString()),
+                "order_line": [
+                  ...orderLine,
+                  ...orderLineDeleted,
+                  //! the new item still
+                  // {
+                  //   "product_id": 6916, // New product to add to the quotation
+                  //   "product_uom_qty": 3, // Quantity of the new product
+                  //   "price_unit": 75.0, // Unit price of the new product
+                  //   "discount": 5.0 // Discount percentage
+                  // }
+                ]
               }
             }
           });
@@ -469,6 +480,7 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
+
   //create and validate invoice انشاء فاتورة
   Future<Either<Failure, CreateOrderModel>> createAndValidateInvoice({
     required int orderId,
@@ -489,6 +501,7 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
+
   // الدفع
   Future<Either<Failure, CreateOrderModel>> registerPayment({
     required int orderId,
@@ -501,21 +514,24 @@ class ServiceApi {
     String? sessionId = await Preferences.instance.getSessionId();
     try {
       final response =
-      await dio.post(odooUrl + EndPoints.createInvoice + '$orderId/invoice',
-          options: Options(
-            headers: {"Cookie": "session_id=$sessionId"},
-          ),
-          body: { "params": {
-       // "payment_date": "2024-10-10",
-        "journal_id": journalId,
-        "payment_method_id": 1, // ثابت
-        "amount": amount
-    }});
+          await dio.post(odooUrl + EndPoints.createInvoice + '$orderId/invoice',
+              options: Options(
+                headers: {"Cookie": "session_id=$sessionId"},
+              ),
+              body: {
+            "params": {
+              // "payment_date": "2024-10-10",
+              "journal_id": journalId,
+              "payment_method_id": 1, // ثابت
+              "amount": amount
+            }
+          });
       return Right(CreateOrderModel.fromJson(response));
     } on ServerException {
       return Left(ServerFailure());
     }
   }
+
   Future<Either<Failure, GetAllJournalsModel>> getAllJournals() async {
     try {
       String? sessionId = await Preferences.instance.getSessionId();

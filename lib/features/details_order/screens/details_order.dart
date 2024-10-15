@@ -96,9 +96,7 @@ class _DetailsOrderState extends State<DetailsOrder> {
                           orderModel: widget.orderModel,
                           orderDetailsModel: cubit.getDetailsOrdersModel!,
                         ),
-                        SizedBox(
-                          height: getSize(context) / 12,
-                        ),
+                        SizedBox(height: getSize(context) / 12),
                         Flexible(
                           child: ListView.builder(
                               shrinkWrap: true,
@@ -188,8 +186,14 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                           text: 'invoice'.tr(),
                                           onPressed: () {
                                             setState(() {
-
-                                              Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentWebViewScreen(url: "https://novapolaris-stage-branche-15780489.dev.odoo.com//report/pdf/stock.report_picking/41"),));
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const PaymentWebViewScreen(
+                                                            url:
+                                                                "https://novapolaris-stage-branche-15780489.dev.odoo.com//report/pdf/stock.report_picking/41"),
+                                                  ));
                                             });
                                           },
                                           backgroundColor: AppColors.blue,
