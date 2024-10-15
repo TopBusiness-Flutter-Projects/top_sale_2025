@@ -2,18 +2,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top_sale/core/utils/get_size.dart';
-import 'package:top_sale/features/details_order/cubit/delevery_orders_cubit.dart';
-import 'package:top_sale/features/details_order/cubit/delevery_orders_state.dart';
-import 'package:top_sale/features/details_order/screens/pdf.dart';
 import 'package:top_sale/features/details_order/screens/widgets/card_from_details_order.dart';
-import 'package:top_sale/features/details_order/screens/widgets/custom_total_price.dart';
-import 'package:top_sale/features/details_order/screens/widgets/product_card.dart';
-import 'package:top_sale/features/details_order/screens/widgets/rounded_button.dart';
 import 'package:top_sale/features/login/widget/custom_button.dart';
-import '../../../config/routes/app_routes.dart';
 import '../../../core/models/get_orders_model.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_strings.dart';
+import '../cubit/details_orders_cubit.dart';
+import '../cubit/details_orders_state.dart';
 import 'widgets/custom_order_details_item.dart';
 
 class DetailsOrderShowPrice extends StatefulWidget {

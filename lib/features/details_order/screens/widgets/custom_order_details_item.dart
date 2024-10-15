@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:top_sale/features/details_order/cubit/delevery_orders_state.dart';
 
 import '../../../../core/models/order_details_model.dart';
 import '../../../../core/utils/app_colors.dart';
@@ -15,7 +14,8 @@ import '../../../basket_screen/cubit/cubit.dart';
 import '../../../direct_sell/cubit/direct_sell_cubit.dart';
 import '../../../direct_sell/cubit/direct_sell_state.dart';
 import '../../../login/widget/textfield_with_text.dart';
-import '../../cubit/delevery_orders_cubit.dart';
+import '../../cubit/details_orders_cubit.dart';
+import '../../cubit/details_orders_state.dart';
 import 'rounded_button.dart';
 
 class CustomOrderDetailsShowPriceItem extends StatefulWidget {
