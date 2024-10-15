@@ -15,3 +15,4 @@ class ProfileEmployeeError extends HomeState {
 }
 class ProfileEmployeeLoaded extends HomeState {}
 class checkLoaded extends HomeState {}
+class checkClearLoaded extends HomeState {}

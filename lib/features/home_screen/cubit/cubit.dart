@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top_sale/core/remote/service.dart';
 
+import '../../../config/routes/app_routes.dart';
 import '../../../core/models/get_employee_data_model.dart';
 import '../../../core/models/get_user_data_model.dart';
 import '../../../core/preferences/preferences.dart';
@@ -83,5 +84,29 @@ class HomeCubit extends Cubit<HomeState> {
 
     });
 emit(checkLoaded());
+  }
+  void checkClearUserOrEmplyee(BuildContext context){
+    Preferences.instance.getEmployeeId().then((value){
+      debugPrint('${value.toString()}');
+      if(value==null){
+   //     getUserData();
+        Preferences.instance.removeUserName();
+        Preferences.instance.removeEmployeeId();
+        debugPrint("user");
+        Navigator.pushNamed(context, Routes.loginRoute);
+        // name= getUserDataModel?.name.toString()??"";
+      }
+      else{
+        Preferences.instance.removeUserName();
+        Preferences.instance.removeEmployeeId();
+        debugPrint("employee");
+       // getEmployeeData();
+        Navigator.pushNamed(context, Routes.loginRoute);
+        // name= getEmployeeDataModel?.name.toString()??"";
+      }
+      emit(checkClearLoaded());
+
+    });
+    emit(checkClearLoaded());
   }
 }

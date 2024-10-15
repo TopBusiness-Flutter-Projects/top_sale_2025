@@ -152,12 +152,14 @@ class _MenuScreenWidgetState extends State<MenuScreenWidget> {
                     onclick: () {},
                     title: 'delete'.tr(),
                   ),
-                  MenuListTileWidget(
+                  BlocBuilder<HomeCubit, HomeState>(
+                    builder: (context, state) {
+                return  MenuListTileWidget(
                     iconPath: ImageAssets.logoutIcon,
                     onclick: () {
-                      Navigator.pushNamed(context, Routes.loginRoute);
+  context.read<HomeCubit>().checkClearUserOrEmplyee(context);
+    },  title: 'logout'.tr(),);
                     },
-                    title: 'logout'.tr(),
                   ),
                 ],
               ),
