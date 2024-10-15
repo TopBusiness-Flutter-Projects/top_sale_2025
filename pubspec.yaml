@@ -65,6 +65,7 @@ dependencies:
   odoo_rpc: ^0.5.4 # fer session don't change the version ^0.5.4
   share_plus: ^10.0.0
   package_info_plus: ^8.0.2
+  webview_flutter: ^4.4.4
   # package_info_plus: ^8.0.3
   # share_plus: ^10.0.3
 

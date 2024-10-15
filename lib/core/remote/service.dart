@@ -489,9 +489,11 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
-  //create and validate invoice انشاء فاتورة
+  // الدفع
   Future<Either<Failure, CreateOrderModel>> registerPayment({
     required int orderId,
+    required int journalId,
+    required String amount,
   }) async {
     String odooUrl =
         await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
@@ -503,13 +505,17 @@ class ServiceApi {
           options: Options(
             headers: {"Cookie": "session_id=$sessionId"},
           ),
-          body: {"jsonrpc": "2.0", "method": "call", "params": {}});
+          body: { "params": {
+       // "payment_date": "2024-10-10",
+        "journal_id": journalId,
+        "payment_method_id": 1, // ثابت
+        "amount": amount
+    }});
       return Right(CreateOrderModel.fromJson(response));
     } on ServerException {
       return Left(ServerFailure());
     }
   }
-
   Future<Either<Failure, GetAllJournalsModel>> getAllJournals() async {
     try {
       String? sessionId = await Preferences.instance.getSessionId();
