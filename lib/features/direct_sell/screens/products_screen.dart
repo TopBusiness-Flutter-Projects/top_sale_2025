@@ -75,6 +75,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
           appBar: AppBar(
             backgroundColor: AppColors.white,
             centerTitle: false,
+
             leading: GestureDetector(
               onTap: () {
                 Navigator.pop(context);
