@@ -392,6 +392,62 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
+// create quatation
+  Future<Either<Failure, CreateOrderModel>> updateQuotation(
+      {required int partnerId,
+      required List<ProductModelData> products}) async {
+    String odooUrl =
+        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+    String? sessionId = await Preferences.instance.getSessionId();
+    String? employeeId = await Preferences.instance.getEmployeeId();
+    String userId = await Preferences.instance.getUserId() ?? "1";
+    try {
+      // Map the ProductModelData list to order_line format
+      List<Map<String, dynamic>> orderLine = products
+          .map((product) => {
+                "product_id": product.id,
+                "product_uom_qty": product.userOrderedQuantity,
+                "price_unit": product.listPrice
+              })
+          .toList();
+
+      final response = await dio.post(odooUrl + EndPoints.updateQuotation,
+          options: Options(
+            headers: {"Cookie": "session_id=$sessionId"},
+          ),
+          body: {
+            "params": {
+              "data": {
+                "partner_id": partnerId,
+                "user_id": userId,
+                if (employeeId != null) "employee_id": employeeId,
+                    "order_line": [
+                {
+                    "line_id": 120, // ID of the existing order line to update
+                    "product_id": 6940, // Replace with your product ID
+                    "product_uom_qty": 5, // Quantity to update
+                    "price_unit": 50.0, // Unit price to update
+                    "discount": 10.0 // Discount percentage
+                },
+                {
+                    "line_id": 114, // ID of the existing order line to delete
+                    "delete": true // Set to true to delete this line
+                },
+                {
+                    "product_id": 6916, // New product to add to the quotation
+                    "product_uom_qty": 3, // Quantity of the new product
+                    "price_unit": 75.0, // Unit price of the new product
+                    "discount": 5.0 // Discount percentage
+                }
+            ]
+              }
+            }
+          });
+      return Right(CreateOrderModel.fromJson(response));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
 
   //confirm delivery  تاكيد الاستلام اللي جاي من جديدة
   Future<Either<Failure, CreateOrderModel>> confirmDelivery({

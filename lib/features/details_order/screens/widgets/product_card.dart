@@ -59,7 +59,7 @@ class ProductCard extends StatelessWidget {
               ],
             ),
              Text(
-              '40 \$',
+              '$price \$',
               style:
               TextStyle(
                 fontWeight: FontWeight.bold,
