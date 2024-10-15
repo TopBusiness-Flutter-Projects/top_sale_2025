@@ -14,7 +14,7 @@ import 'features/contact_us/cubit/contact_us_cubit.dart';
 import 'features/basket_screen/cubit/cubit.dart';
 import 'features/clients/cubit/clients_cubit.dart';
 import 'features/delevery_order/cubit/delevery_orders_cubit.dart';
-import 'features/details_order/cubit/delevery_orders_cubit.dart';
+import 'features/details_order/cubit/details_orders_cubit.dart';
 import 'features/home_screen/cubit/cubit.dart';
 import 'features/login/cubit/cubit.dart';
 import 'features/main/cubit/main_cubit.dart';
