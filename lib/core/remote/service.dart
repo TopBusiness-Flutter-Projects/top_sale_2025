@@ -491,7 +491,7 @@ class ServiceApi {
   }
   // الدفع
   Future<Either<Failure, CreateOrderModel>> registerPayment({
-    required int orderId,
+    required int invoiceId,
     required int journalId,
     required String amount,
   }) async {
@@ -501,7 +501,7 @@ class ServiceApi {
     String? sessionId = await Preferences.instance.getSessionId();
     try {
       final response =
-      await dio.post(odooUrl + EndPoints.createInvoice + '$orderId/invoice',
+      await dio.post(odooUrl + EndPoints.invoice + '$invoiceId/register_payment',
           options: Options(
             headers: {"Cookie": "session_id=$sessionId"},
           ),

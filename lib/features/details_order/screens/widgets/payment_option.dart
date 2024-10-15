@@ -87,7 +87,7 @@ void _showBottomSheet(BuildContext context, DetailsOrdersCubit cubit, String? va
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text("اجمالى الفاتورة :  60 ج", style: TextStyle(fontSize: getSize(context) / 20)),
+              Text("اجمالى الفاتورة :  ${cubit.getDetailsOrdersModel?.amountTotal ?? 0} ج", style: TextStyle(fontSize: getSize(context) / 20)),
               CustomTextFieldWithTitle(
                 title: "Paid_in_full".tr(),
                 controller: cubit.moneyController,
@@ -103,16 +103,15 @@ void _showBottomSheet(BuildContext context, DetailsOrdersCubit cubit, String? va
                   backgroundColor: AppColors.primaryColor,
                   text: 'confirm'.tr(),
                   onPressed: () {
-                    cubit.createAndValidateInvoice(orderId: cubit.getDetailsOrdersModel?.id ?? -1);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Scaffold(
-                          appBar: AppBar(title: Text(value!)),
-                          body: Center(child: Text('لقد اخترت الدفع $value')),
-                        ),
-                      ),
-                    );
+
+                    cubit.registerPayment(context,
+                      orderId:  cubit.getDetailsOrdersModel?.id ?? -1,
+                        journalId: cubit.getAllJournalsModel?.result?.first.id ?? -1,
+                        invoiceId: cubit.getDetailsOrdersModel?.invoices?.first.invoiceId ?? -1,);
+
+                    print("///////////////////////// ${cubit.getDetailsOrdersModel?.id}");
+
+
                   },
                 ),
               )

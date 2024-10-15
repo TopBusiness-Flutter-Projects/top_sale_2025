@@ -63,6 +63,12 @@ class _DetailsOrderState extends State<DetailsOrder> {
             widget.orderModel.invoiceStatus = 'invoiced';
             widget.orderModel.deliveryStatus = 'full';
           });
+        }if (state is RegisterPaymentLoadedState) {
+          setState(() {
+            widget.orderModel.state = 'sale';
+            widget.orderModel.invoiceStatus = 'invoiced';
+            widget.orderModel.deliveryStatus = 'full';
+          });
         }
         if (state is CreateAndValidateInvoiceLoadingState) {
           setState(() {
@@ -134,40 +140,20 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                 widget.orderModel.invoiceStatus ==
                                     'to invoice' &&
                                 widget.orderModel.deliveryStatus == 'full'
-                            ? Row(
-                          children: [
+                            ?
 
-                            Expanded(child:  Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: RoundedButton(
-                                text: 'payment'.tr(),
-                                onPressed: () {
-                                  setState(() {
-                                    Navigator.pushNamed(context, Routes.paymentRoute);
-                                    // cubit.createAndValidateInvoice(
-                                    //     orderId: widget.orderModel.id ?? -1);
-                                  });
-                                },
-                                backgroundColor: AppColors.blue,
-                              ),
-                            ),),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: RoundedButton(
-                                  text: 'invoice'.tr(),
-                                  onPressed: () {
-                                    setState(() {
-                                      // Navigator.pushNamed(context, Routes.paymentRoute);
-                                      // cubit.createAndValidateInvoice(
-                                      //     orderId: widget.orderModel.id ?? -1);
-                                    });
-                                  },
-                                  backgroundColor: AppColors.orange,
-                                ),
-                              ),
-                            ),
-                          ],
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: RoundedButton(
+                            text: 'Create_an_invoice'.tr(),
+                            onPressed: () {
+                              setState(() {
+                                cubit.createAndValidateInvoice(
+                                    orderId: widget.orderModel.id ?? -1);
+                              });
+                            },
+                            backgroundColor: AppColors.blue,
+                          ),
                         )
                             :
                             // جديدةةةةةةةةةةةةةةة
@@ -202,19 +188,42 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                             'full'
                                     ?
                                     // مكتملةةةةةةةةةةةة
-                                    Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: RoundedButton(
-                                          text: 'invoice'.tr(),
-                                          onPressed: () {
-                                            setState(() {
+                            Row(
+                              children: [
+                                if(cubit.getDetailsOrdersModel!.invoices!.isNotEmpty && cubit.getDetailsOrdersModel!.payments!.isEmpty)
 
-                                              Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentWebViewScreen(url: "https://novapolaris-stage-branche-15780489.dev.odoo.com//report/pdf/stock.report_picking/41"),));
-                                            });
-                                          },
-                                          backgroundColor: AppColors.blue,
-                                        ),
-                                      )
+                                Expanded(child:  Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: RoundedButton(
+                                    text: 'payment'.tr(),
+                                    onPressed: () {
+                                      setState(() {
+                                        Navigator.pushNamed(context, Routes.paymentRoute);
+                                        // cubit.createAndValidateInvoice(
+                                        //     orderId: widget.orderModel.id ?? -1);
+                                      });
+                                    },
+                                    backgroundColor: AppColors.blue,
+                                  ),
+                                ),),
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: RoundedButton(
+                                      text: 'invoice'.tr(),
+                                      onPressed: () {
+                                        setState(() {
+                                          // Navigator.pushNamed(context, Routes.paymentRoute);
+                                          // cubit.createAndValidateInvoice(
+                                          //     orderId: widget.orderModel.id ?? -1);
+                                        });
+                                      },
+                                      backgroundColor: AppColors.orange,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
                                     : const SizedBox()
                       ],
                     ),
