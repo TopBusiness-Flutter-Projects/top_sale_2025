@@ -7,9 +7,12 @@ import 'package:top_sale/features/direct_sell/screens/widgets/custom_category_se
 import 'package:top_sale/features/direct_sell/screens/widgets/custom_product_section.dart';
 import 'package:top_sale/features/direct_sell/screens/widgets/scanner.dart';
 
+import '../../../config/routes/app_routes.dart';
 import '../../../core/models/category_model.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_strings.dart';
+import '../../../core/utils/get_size.dart';
+import '../../clients/screens/clients_screen.dart';
 import '../cubit/direct_sell_cubit.dart';
 
 class DirectSellScreen extends StatefulWidget {
@@ -43,6 +46,24 @@ class _DirectSellScreenState extends State<DirectSellScreen> {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: AppColors.white,
+          actions: [
+            GestureDetector(
+              onTap: () {
+                // Navigator.pushNamed(context, Routes.clientsRoute);
+                // ClientScreen(isCart: true);
+              },
+              child:  Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Image.asset(
+                  'assets/images/basket1.png',
+                  width: getSize(context) / 15,
+                  color: cubit.currentIndex == 1
+                      ? AppColors.orange
+                      : Colors.black,
+                ),
+              ),
+            ),
+          ],
           centerTitle: false,
           title: Text(
             "direct_sell".tr(),
