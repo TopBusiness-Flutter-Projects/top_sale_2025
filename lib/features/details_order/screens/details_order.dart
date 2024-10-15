@@ -62,13 +62,15 @@ class _DetailsOrderState extends State<DetailsOrder> {
             widget.orderModel.invoiceStatus = 'invoiced';
             widget.orderModel.deliveryStatus = 'full';
           });
-        }  if (state is CreateAndValidateInvoiceLoadingState) {
+        }
+        if (state is CreateAndValidateInvoiceLoadingState) {
           setState(() {
-         const CircularProgressIndicator();
+            const CircularProgressIndicator();
           });
-        }if (state is ConfirmDeliveryLoadingState) {
+        }
+        if (state is ConfirmDeliveryLoadingState) {
           setState(() {
-         const CircularProgressIndicator();
+            const CircularProgressIndicator();
           });
         }
       }, builder: (context, state) {
@@ -105,8 +107,10 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                 return ProductCard(
                                   title: cubit.getDetailsOrdersModel
                                       ?.orderLines?[index].productName,
-                                  price:cubit.getDetailsOrdersModel
-                                      ?.orderLines?[index].priceSubtotal.toString()??'',
+                                  price: cubit.getDetailsOrdersModel
+                                          ?.orderLines?[index].priceSubtotal
+                                          .toString() ??
+                                      '',
                                   text: cubit.getDetailsOrdersModel
                                           ?.orderLines?[index].productName ??
                                       '',
@@ -135,7 +139,8 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                   text: 'Create_an_invoice'.tr(),
                                   onPressed: () {
                                     setState(() {
-                                      Navigator.pushNamed(context, Routes.paymentRoute);
+                                      Navigator.pushNamed(
+                                          context, Routes.paymentRoute);
                                       // cubit.createAndValidateInvoice(
                                       //     orderId: widget.orderModel.id ?? -1);
                                     });
