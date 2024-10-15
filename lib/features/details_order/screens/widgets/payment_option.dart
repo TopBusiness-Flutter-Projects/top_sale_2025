@@ -30,69 +30,48 @@ class _PaymentOptionsState extends State<PaymentOptions> {
   @override
   Widget build(BuildContext context) {
     var cubit = context.read<DetailsOrdersCubit>();
-    final List<Result>? paymentMethods = cubit.getAllJournalsModel?.result;
+    return BlocBuilder<DetailsOrdersCubit, DetailsOrdersState>(
+      builder: (context, state) {
+        if (state is GetAllJournalsLoadingState) {
+          // Show a single CircularProgressIndicator for loading state
+          return Center(
+            child: CircularProgressIndicator(
+              color: AppColors.primaryColor,
+            ),
+          );
+        }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Adding the 'آجل' option
-        RadioListTile<String>(
-          title: Text('آجل', style: getBoldStyle()), // Option for "آجل"
-          value: 'آجل',
-          groupValue: selectedOption,
-          onChanged: (value) {
-            setState(() {
-              selectedOption = value;
-            });
-            if (selectedOption == 'آجل') {
-              // Perform action when "آجل" is selected
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Scaffold(
-                    appBar: AppBar(title: const Text('آجل')),
-                    body: const Center(child: Text('لقد اخترت الدفع الآجل')),
-                  ),
-                ),
+        // After loading, display the list of payment methods
+        final List<Result>? paymentMethods = cubit.getAllJournalsModel?.result;
+
+        if (paymentMethods != null && paymentMethods.isNotEmpty) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: paymentMethods.map((method) {
+              return RadioListTile<String>(
+                title: Text(method.displayName!, style: getBoldStyle()), // Display payment method name
+                value: method.displayName!,
+                groupValue: selectedOption,
+                onChanged: (value) {
+                  setState(() {
+                    selectedOption = value;
+                  });
+                  if (selectedOption != null) {
+                    _showBottomSheet(context, cubit, value);
+                  }
+                },
               );
-            }
-          },
-        ),
-
-        // List of other payment methods
-        if (paymentMethods != null && paymentMethods.isNotEmpty)
-          ...paymentMethods.map((method) {
-            return BlocBuilder<DetailsOrdersCubit, DetailsOrdersState>(
-              builder: (context, state) {
-                return (cubit.getAllJournalsModel?.result?.length == 0)?
-                CircularProgressIndicator(
-                  color: AppColors.primaryColor,):
-                RadioListTile<String>(
-                  title: Text(method.displayName!, style: getBoldStyle()), // Display payment method name
-                  value: method.displayName!,
-                  groupValue: selectedOption,
-                  onChanged: (value) {
-                    setState(() {
-                      selectedOption = value;
-                    });
-                    if (selectedOption != 'آجل') {
-
-                      _showBottomSheet(context, cubit,value);
-
-
-                    }
-                  },
-                );
-              },
-            );
-          })
-        else
-          const Center(child: Text("No payment methods available")),
-      ],
+            }).toList(),
+          );
+        } else {
+          return const Center(child: Text("No payment methods available"));
+        }
+      },
     );
   }
 }
-void _showBottomSheet(BuildContext context, DetailsOrdersCubit cubit,String ? value) {
+
+void _showBottomSheet(BuildContext context, DetailsOrdersCubit cubit, String? value) {
   showModalBottomSheet(
     isScrollControlled: true,
     context: context,
@@ -108,7 +87,7 @@ void _showBottomSheet(BuildContext context, DetailsOrdersCubit cubit,String ? va
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text("اجمالى الفاتورة :  60 ج",style: TextStyle(fontSize: getSize(context) / 20),),
+              Text("اجمالى الفاتورة :  60 ج", style: TextStyle(fontSize: getSize(context) / 20)),
               CustomTextFieldWithTitle(
                 title: "Paid_in_full".tr(),
                 controller: cubit.moneyController,
@@ -119,21 +98,18 @@ void _showBottomSheet(BuildContext context, DetailsOrdersCubit cubit,String ? va
                 height: getSize(context) / 30,
               ),
               Padding(
-                padding: EdgeInsets.only(
-                    left: getSize(context) / 20,
-                    right: getSize(context) / 20),
+                padding: EdgeInsets.only(left: getSize(context) / 20, right: getSize(context) / 20),
                 child: RoundedButton(
                   backgroundColor: AppColors.primaryColor,
                   text: 'confirm'.tr(),
                   onPressed: () {
-                    cubit.createAndValidateInvoice(
-                        orderId: cubit.getDetailsOrdersModel?.id ?? -1);
+                    cubit.createAndValidateInvoice(orderId: cubit.getDetailsOrdersModel?.id ?? -1);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => Scaffold(
-                          appBar: AppBar(title:  Text(value!)),
-                          body:  Center(child: Text('لقد اخترت الدفع ${value!}')),
+                          appBar: AppBar(title: Text(value!)),
+                          body: Center(child: Text('لقد اخترت الدفع $value')),
                         ),
                       ),
                     );

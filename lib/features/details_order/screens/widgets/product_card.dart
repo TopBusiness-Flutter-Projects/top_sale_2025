@@ -1,9 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:top_sale/core/utils/get_size.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_fonts.dart';
-import '../../../../core/utils/assets_manager.dart';
 
 class ProductCard extends StatelessWidget {
    const ProductCard({super.key,required this.text, required this.number, required this.price, required this.title});
@@ -59,14 +59,14 @@ class ProductCard extends StatelessWidget {
               ],
             ),
              Text(
-              '$price \$',
+              '$price ${"currency".tr()}',
               style:
               TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.orange,
                 fontSize: getSize(context)/28,
               ),
-              textDirection: TextDirection.rtl,
+            //  textDirection: TextDirection!.RTL,
             ),
           ],
         ),
