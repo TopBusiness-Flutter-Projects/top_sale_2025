@@ -184,7 +184,6 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                           onPressed: () {
                                             setState(() {
 
-                                              Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentWebViewScreen(url: "https://novapolaris-stage-branche-15780489.dev.odoo.com//report/pdf/stock.report_picking/41"),));
                                             });
                                           },
                                           backgroundColor: AppColors.blue,

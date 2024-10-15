@@ -22,7 +22,9 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
   void initState() {
      getSession();
     super.initState();
-   
+   _controller.clearCache();
+// CookieManager().clearCookies();
+
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(const Color(0x00000000))
