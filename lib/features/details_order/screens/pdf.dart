@@ -20,9 +20,9 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
   String? sessionId;
   @override
   void initState() {
-     getSession();
+    getSession();
     super.initState();
-   _controller.clearCache();
+    _controller.clearCache();
 // CookieManager().clearCookies();
 
     _controller = WebViewController()
@@ -46,13 +46,15 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
         // headers: {
         //   'session_id': "354afcce1c8dcf780d593eae28b36195c3f4ce1e", // Add your session ID here
         // },
-         headers: {"Cookie": "session_id=354afcce1c8dcf780d593eae28b36195c3f4ce1e"},
+        headers: {
+          "Cookie": "session_id=354afcce1c8dcf780d593eae28b36195c3f4ce1e"
+        },
       );
   }
 
   getSession() async {
     setState(() async {
-      sessionId =await Preferences.instance.getSessionId();
+      sessionId = await Preferences.instance.getSessionId();
     });
     // sessionId = await Preferences.instance.getSessionId();
     print("ssssss $sessionId");

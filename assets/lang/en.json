@@ -109,5 +109,7 @@
   "discount_rate": "Discount Rate",
   "invoice": "Invoice",
   "Enter_the_amount":"Enter the amount",
-  "Paid_in_full": "Paid in full"
+  "Paid_in_full": "Paid in full",
+  "make_order":"Confirm Sale Order"
+
 }
