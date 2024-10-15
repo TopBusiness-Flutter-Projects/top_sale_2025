@@ -32,7 +32,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
   @override
   void initState() {
     context.read<DirectSellCubit>().currentIndex = -1;
-    
+     scrollController.addListener(_scrollListener);
     // TODO: implement initState
     if (widget.catId != '-1') {
       context

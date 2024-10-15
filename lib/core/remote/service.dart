@@ -283,7 +283,7 @@ class ServiceApi {
       final response = await dio.get(
         odooUrl +
             EndPoints.saleOrder +
-            '?query={id,user_id,partner_id,display_name,state,write_date,amount_total,invoice_status,delivery_status}&page_size=20&page=1',
+            '?query={id,user_id,partner_id{id,name,phone,partner_latitude,partner_longitude},display_name,state,write_date,amount_total,invoice_status,delivery_status,employee_id{id,name}}&page_size=20&page=1',
         // '?query={id,partner_id,display_name,state,write_date,amount_total}&filter=[["user_id", "=",1]]',
         options: Options(
           headers: {"Cookie": "session_id=$sessionId"},
@@ -360,21 +360,20 @@ class ServiceApi {
   }) async {
     String odooUrl =
         await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
-
     String? sessionId = await Preferences.instance.getSessionId();
     String? employeeId = await Preferences.instance.getEmployeeId();
+    String userId = await Preferences.instance.getUserId() ?? "1";
     try {
-      final response =
-          await dio.post(odooUrl + EndPoints.createQuotation ,
-              options: Options(
-                headers: {"Cookie": "session_id=$sessionId"},
-              ),
-              body: {
+      final response = await dio.post(odooUrl + EndPoints.createQuotation,
+          options: Options(
+            headers: {"Cookie": "session_id=$sessionId"},
+          ),
+          body: {
             "params": {
               "data": {
                 "partner_id": partnerId,
-                if(employeeId != null)
-                "employee_id": employeeId,
+                "user_id": userId,
+                if (employeeId != null) "employee_id": employeeId,
                 "order_line": [
                   {
                     "product_id": 6939,
@@ -432,6 +431,33 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
+  //register payment
+  Future<Either<Failure, CreateOrderModel>> registerPayment({
+    required int invoiceId,
+  }) async {
+    String odooUrl =
+        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+
+    String? sessionId = await Preferences.instance.getSessionId();
+    try {
+      final response = await dio
+          .post(odooUrl + EndPoints.invoice + '$invoiceId/register_payment',
+              options: Options(
+                headers: {"Cookie": "session_id=$sessionId"},
+              ),
+              body: {
+            "params": {
+              // "payment_date": "2024-10-10",
+              "journal_id": 11,
+              "payment_method_id": 1,
+              "amount": 560
+            }
+          });
+      return Right(CreateOrderModel.fromJson(response));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
 
   Future<Either<Failure, GetAllJournalsModel>> getAllJournals() async {
     try {
@@ -448,6 +474,40 @@ class ServiceApi {
         ),
       );
       return Right(GetAllJournalsModel.fromJson(response));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
+
+  Future<Either<Failure, CreateOrderModel>> createPartner({
+    required String name,
+    required String mobile,
+    required String street,
+    required double lat,
+    required double long,
+  }) async {
+    String? sessionId = await Preferences.instance.getSessionId();
+    String odooUrl =
+        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+    try {
+      final response =
+          await dio.post(odooUrl + EndPoints.getAllPartners + 'create',
+              options: Options(
+                headers: {"Cookie": "session_id=$sessionId"},
+              ),
+              body: {
+            "params": {
+              "data": {
+                "name": name,
+                "mobile": mobile,
+                "street": street,
+                "latitude": lat,
+                "longitude": long
+                // "user_id": authModel.result!.userContext!.uid
+              }
+            }
+          });
+      return Right(CreateOrderModel.fromJson(response));
     } on ServerException {
       return Left(ServerFailure());
     }

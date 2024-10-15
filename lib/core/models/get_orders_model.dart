@@ -54,14 +54,15 @@ class GetOrdersModel {
 class OrderModel {
   int? id;
   int? userId;
-  int? partnerId;
+   PartnerId? partnerId;
   String? displayName;
   String? state;
   String? writeDate;
   dynamic? amountTotal;
   String? invoiceStatus;
   dynamic deliveryStatus;
-  PartnerModel? partnerModel;
+   EmployeeId? employeeId;
+  // PartnerModel? partnerModel;
   OrderModel({
     this.id,
     this.userId,
@@ -70,31 +71,85 @@ class OrderModel {
     this.state,
     this.writeDate,
     this.amountTotal,
-    this.invoiceStatus,
-    this.deliveryStatus,this.partnerModel
+    this.invoiceStatus,this.employeeId,
+    this.deliveryStatus,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) => OrderModel(
         id: json["id"],
         userId: json["user_id"],
-        partnerId: json["partner_id"],
+        partnerId: json["partner_id"] == null ? null : PartnerId.fromJson(json["partner_id"]),
         displayName: json["display_name"],
         state: json["state"],
         writeDate: json["write_date"],
         amountTotal: json["amount_total"],
         invoiceStatus: json["invoice_status"],
         deliveryStatus: json["delivery_status"],
+                employeeId: json["employee_id"] == null ? null : EmployeeId.fromJson(json["employee_id"]),
+
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "user_id": userId,
-        "partner_id": partnerId,
+         "partner_id": partnerId?.toJson(),
         "display_name": displayName,
         "state": state,
         "write_date": writeDate,
         "amount_total": amountTotal,
         "invoice_status": invoiceStatus,
         "delivery_status": deliveryStatus,
+        "employee_id": employeeId?.toJson(),
       };
+}
+class EmployeeId {
+    dynamic id;
+    dynamic name;
+
+    EmployeeId({
+        this.id,
+        this.name,
+    });
+
+    factory EmployeeId.fromJson(Map<String, dynamic> json) => EmployeeId(
+        id: json["id"],
+        name: json["name"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+    };
+}
+
+class PartnerId {
+    int? id;
+    dynamic name;
+    dynamic phone;
+    dynamic partnerLatitude;
+    dynamic partnerLongitude;
+
+    PartnerId({
+        this.id,
+        this.name,
+        this.phone,
+        this.partnerLatitude,
+        this.partnerLongitude,
+    });
+
+    factory PartnerId.fromJson(Map<String, dynamic> json) => PartnerId(
+        id: json["id"],
+        name: json["name"],
+        phone: json["phone"],
+        partnerLatitude: json["partner_latitude"],
+        partnerLongitude: json["partner_longitude"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "phone": phone,
+        "partner_latitude": partnerLatitude,
+        "partner_longitude": partnerLongitude,
+    };
 }

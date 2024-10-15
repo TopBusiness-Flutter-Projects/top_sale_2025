@@ -149,7 +149,7 @@ class CardDetailsOrders extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       AutoSizeText(
-                        orderModel.partnerModel!.name ?? '',
+                        orderModel.partnerId!.name ?? '',
                         maxLines: 1,
                         style: TextStyle(
                             fontSize: getSize(context) / 25,
@@ -157,9 +157,9 @@ class CardDetailsOrders extends StatelessWidget {
                             fontWeight: FontWeight.bold),
                       ),
                       AutoSizeText(
-                        (orderModel.partnerModel?.phone.toString() == "false")
+                        (orderModel.partnerId?.phone.toString() == "false")
                             ? '000000001/100000000'
-                            : orderModel.partnerModel?.phone ?? '',
+                            : orderModel.partnerId?.phone ?? '',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
