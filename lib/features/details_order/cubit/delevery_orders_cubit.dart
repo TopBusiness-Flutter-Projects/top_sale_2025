@@ -27,18 +27,31 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
   }
 
   CreateOrderModel? createOrderModel;
-  void confirmDelivery({required int pickingId, required int orderId}) async {
+  void confirmDelivery(BuildContext context,
+      {required int pickingId, required int orderId}) async {
     emit(ConfirmDeliveryLoadingState());
     final result = await api.confirmDelivery(pickingId: pickingId);
     result.fold(
-      (failure) =>
-          emit(ConfirmDeliveryErrorState('Error loading  data: $failure')),
-      (r) {
-        createOrderModel = r;
-        emit(ConfirmDeliveryLoadedState());
-        getDetailsOrders(orderId: orderId);
-      },
-    );
+        (failure) =>
+            emit(ConfirmDeliveryErrorState('Error loading  data: $failure')),
+        (r) {
+      if (r.result != null) {
+        if (r.result!.message != null) {
+          successGetBar(r.result!.message);
+          emit(ConfirmDeliveryLoadedState());
+          Navigator.pop(context);
+          getDetailsOrders(orderId: orderId);
+        } else {
+          emit(RegisterPaymentErrorState('Error loading  data: '));
+
+          errorGetBar("error");
+        }
+      } else {
+        emit(RegisterPaymentErrorState('Error loading  data: '));
+
+        errorGetBar("error");
+      }
+    });
   }
 
   void registerPayment(BuildContext context,
@@ -56,7 +69,6 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
         Navigator.pop(context);
         Navigator.pop(context);
         errorGetBar("error");
-
         emit(RegisterPaymentErrorState('Error loading  data: $failure'));
       },
       (r) {
@@ -84,17 +96,35 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
     );
   }
 
-  void createAndValidateInvoice({required int orderId}) async {
+  void createAndValidateInvoice(BuildContext context,{required int orderId}) async {
     emit(CreateAndValidateInvoiceLoadingState());
     final result = await api.createAndValidateInvoice(orderId: orderId);
     result.fold(
       (failure) => emit(
           CreateAndValidateInvoiceErrorState('Error loading  data: $failure')),
-      (r) {
-        createOrderModel = r;
-        emit(CreateAndValidateInvoiceLoadedState());
-        getDetailsOrders(orderId: orderId);
+          (r) {
+        Navigator.pop(context);
+        Navigator.pop(context);
+        if (r.result != null) {
+          if (r.result!.message != null) {
+            successGetBar(r.result!.message);
+            emit(CreateAndValidateInvoiceLoadedState());
+            Navigator.pop(context);
+            getDetailsOrders(orderId: orderId);
+          } else {
+            emit(RegisterPaymentErrorState('Error loading  data: '));
+
+            errorGetBar("error");
+          }
+        } else {
+          emit(RegisterPaymentErrorState('Error loading  data: '));
+
+          errorGetBar("error");
+        }
+
+        moneyController.clear();
       },
+
     );
   }
 
