@@ -175,20 +175,19 @@ class DirectSellCubit extends Cubit<DirectSellState> {
       emit(LoadedCreateQuotation());
     });
   }
+
   TextEditingController searchController = TextEditingController();
-  AllProductsModel? searchedproductsModel;
+  AllProductsModel? searchedProductsModel;
 
   // Search products by name
   searchProducts(
-      {int pageId = 1,
-      bool isGetMore = false,
-      required String productName,
-      bool isBarcode = false}) async {
-    final response = await api.searchProducts(pageId, productName, isBarcode);
+      {int pageId = 1, bool isGetMore = false, bool isBarcode = false}) async {
+    final response =
+        await api.searchProducts(pageId, searchController.text, isBarcode);
     response.fold((l) => emit(ErrorProduct()), (r) {
-      searchedproductsModel = r;
+      searchedProductsModel = r;
       // final updatedResults = _updateUserOrderedQuantity(r.result!);
-      updateUserOrderedQuantities(searchedproductsModel!);
+      updateUserOrderedQuantities(searchedProductsModel!);
       // searchedproductsModel = AllProductsModel(
       //   count: r.count,
       //   next: r.next,

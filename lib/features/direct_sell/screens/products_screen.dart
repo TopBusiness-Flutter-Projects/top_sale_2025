@@ -6,6 +6,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:top_sale/core/utils/app_fonts.dart';
 import 'package:top_sale/core/utils/get_size.dart';
 import 'package:top_sale/features/direct_sell/cubit/direct_sell_state.dart';
+import 'package:top_sale/features/direct_sell/screens/widgets/custom_product_section.dart';
 import 'package:top_sale/features/direct_sell/screens/widgets/scanner.dart';
 import '../../../config/routes/app_routes.dart';
 import '../../../core/utils/app_colors.dart';
@@ -108,87 +109,108 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6),
               child: Column(children: [
                 const CustomSearchWidget(),
-                SizedBox(
-                  height: 15.h,
-                ),
-                if (widget.categoryName == "products".tr())
-                  SizedBox(
-                    height: 50.h,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            cubit.changeIndex(-1, 0);
-                          },
-                          child: CustomCategoryText(
-                              text: "all".tr(),
-                              isSelected: cubit.currentIndex == -1),
-                        ),
-                        SizedBox(
-                          width: 10.w,
-                        ),
-                        Flexible(
-                          child: ListView.separated(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: 10,
-                            separatorBuilder: (context, index) => SizedBox(
-                              width: 10.w,
-                            ),
-                            itemBuilder: (context, index) => GestureDetector(
+                cubit.searchController.text.isNotEmpty ?
+                Expanded(
+                  child: ListView(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: CustomProductSection(
+                            isSearch: true,
+                            result: cubit.searchedProductsModel?.result ??
+                                []),
+                      ),
+                    ]
+                  ),
+                )
+                    :
+              Expanded(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 15.h,
+                    ),
+                    if (widget.categoryName == "products".tr())
+                      SizedBox(
+                        height: 50.h,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            GestureDetector(
                               onTap: () {
-                                cubit.changeIndex(index,
-                                    cubit.catogriesModel?.result?[index].id);
+                                cubit.changeIndex(-1, 0);
                               },
                               child: CustomCategoryText(
-                                  text: cubit.catogriesModel?.result?[index]
-                                          .name ??
-                                      "",
-                                  isSelected: cubit.currentIndex == index),
+                                  text: "all".tr(),
+                                  isSelected: cubit.currentIndex == -1),
                             ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                if (cubit.allProductsModel.result == [] ||
-                    cubit.allProductsModel == null ||
-                    cubit.allProductsModel.result?.length == 0)
-                  Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          ImageAssets.nodata,
-                          width: getSize(context) / 8,
+                            SizedBox(
+                              width: 10.w,
+                            ),
+                            Flexible(
+                              child: ListView.separated(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: 10,
+                                separatorBuilder: (context, index) => SizedBox(
+                                  width: 10.w,
+                                ),
+                                itemBuilder: (context, index) => GestureDetector(
+                                  onTap: () {
+                                    cubit.changeIndex(index,
+                                        cubit.catogriesModel?.result?[index].id);
+                                  },
+                                  child: CustomCategoryText(
+                                      text: cubit.catogriesModel?.result?[index]
+                                          .name ??
+                                          "",
+                                      isSelected: cubit.currentIndex == index),
+                                ),
+                              ),
+                            )
+                          ],
                         ),
-                        Text("no_data".tr()),
-                        SizedBox(height: 20.h),
-                      ],
-                    ),
-                  )
-                else
-                  Expanded(
-                    child: SingleChildScrollView(
-                                          controller: scrollController,
-
-                      child: cubit.allProductsModel.result == null
-                          ? Container()
-                          : StaggeredGrid.count(
+                      ),
+                    if (cubit.allProductsModel.result == [] ||
+                        cubit.allProductsModel == null ||
+                        cubit.allProductsModel.result?.length == 0)
+                      Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              ImageAssets.nodata,
+                              width: getSize(context) / 8,
+                            ),
+                            Text("no_data".tr()),
+                            SizedBox(height: 20.h),
+                          ],
+                        ),
+                      )
+                    else
+                      Expanded(
+                        child: SingleChildScrollView(
+                          controller: scrollController,
+                
+                          child: cubit.allProductsModel.result == null
+                              ? Container()
+                              : StaggeredGrid.count(
                               crossAxisCount: 2,
                               mainAxisSpacing: 10.h,
                               crossAxisSpacing: 10.w,
                               children: List.generate(
                                 cubit.allProductsModel.result!.length ?? 0,
-                                (index) => Padding(
+                                    (index) => Padding(
                                   padding: const EdgeInsets.all(4.0),
                                   child: CustomProductWidget(
                                       product: cubit
                                           .allProductsModel!.result![index]),
                                 ),
                               )),
-                    ),
-                  )
+                        ),
+                      )
+                  ],
+                ),
+              )
               ])));
     });
   }

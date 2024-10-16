@@ -7,6 +7,7 @@ import 'package:flutter_stepindicator/flutter_stepindicator.dart';
 import 'package:top_sale/core/utils/get_size.dart';
 import 'package:top_sale/features/details_order/cubit/details_orders_cubit.dart';
 import 'package:top_sale/features/details_order/cubit/details_orders_state.dart';
+import 'package:top_sale/features/details_order/screens/pdf.dart';
 import 'package:top_sale/features/details_order/screens/widgets/card_from_details_order.dart';
 import 'package:top_sale/features/details_order/screens/widgets/custom_total_price.dart';
 import 'package:top_sale/features/details_order/screens/widgets/product_card.dart';
@@ -340,6 +341,10 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                                     text: 'invoice'.tr(),
                                                     onPressed: () {
                                                       setState(() {
+                                                        Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                                          return PdfViewerPage(id: widget.orderModel.id.toString(),);
+                                                          // return PaymentWebViewScreen(url: "",);
+                                                        },));
                                                         // Navigator.pushNamed(context, Routes.paymentRoute);
                                                         // cubit.createAndValidateInvoice(
                                                         //     orderId: widget.orderModel.id ?? -1);
