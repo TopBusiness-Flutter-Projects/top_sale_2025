@@ -69,7 +69,7 @@ dependencies:
   package_info_plus: ^8.0.2
   webview_flutter: ^4.4.4
   syncfusion_flutter_pdfviewer:
-  geolocator: ^13.0.1
+  geolocator: ^12.0.0
   location: ^6.0.2
   # package_info_plus: ^8.0.3
   # share_plus: ^10.0.3
