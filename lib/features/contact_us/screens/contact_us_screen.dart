@@ -22,42 +22,25 @@ class ContactUsScreen extends StatelessWidget {
         child: BlocBuilder<ContactUsCubit, ContactUsState>(
             builder: (context, state) {
           return Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
-                height: getSize(context) / 10,
+          //    SizedBox(height: getSize(context) / 10,),
+              Image.asset(ImageAssets.topBusinessLogo,scale: 4,),
+              SizedBox(height: getSize(context) / 40),
+              SizedBox(height: getSize(context) / 40),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(child: Text("تطبيق Deals هو أداة تكنولوجية مصممة لمساعدة مندوبي المبيعات في إدارة عمليات البيع، التواصل مع العملاء، وتسهيل جميع المهام المتعلقة بدورة المبيعات. ",textAlign: TextAlign.center,)),
               ),
-              Image.asset(ImageAssets.contactUs),
               SizedBox(height: getSize(context) / 10),
-              Column(
-                children: [
-                  CustomTextFieldWithTitle(
-                    hint: "ثناء عادل",
-                    controller: cubit.nameController,
-                    title: "name".tr(),
-                    keyboardType: TextInputType.name,
-                  ),
-                  SizedBox(height: getSize(context) / 30),
-                  CustomTextFieldWithTitle(
-                    hint: "enter_subject".tr(),
-                    controller: cubit.subjectController,
-                    title: "subject".tr(),
-                    keyboardType: TextInputType.text,
-                  ),
-                  SizedBox(height: getSize(context) / 30),
-                  CustomTextFieldWithTitle(
-                    // maxLines: 5,
-                    hint: "write_your_message".tr(),
-                    controller: cubit.messageController,
-                    title: "message".tr(),
-                    keyboardType: TextInputType.text,
-                  ),
-                ],
-              ),
-              SizedBox(height: getSize(context) / 30),
-              CustomButton(
-                title: "send".tr(),
-                onTap: () {},
-              )
+SizedBox(
+  height: 400.h,
+  child: ListView.builder(itemBuilder: (BuildContext context, int index) {
+    return CustomClient(image: '', text: 'dsjkbcjsb',);
+  },itemCount: 3,),
+)
+
             ],
           );
         }),
@@ -76,7 +59,7 @@ class ContactUsScreen extends StatelessWidget {
         ),
         // //leadingWidth: 20,
         title: Text(
-          "leave_your_message".tr(),
+          "contact".tr(),
           style: getBoldStyle(
             fontSize: 20.sp,
           ),
@@ -85,3 +68,28 @@ class ContactUsScreen extends StatelessWidget {
     );
   }
 }
+class CustomClient extends StatelessWidget {
+   CustomClient({super.key,required this.image,required this.text});
+String image;
+String text;
+  @override
+  Widget build(BuildContext context) {
+    return  Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Image.asset(ImageAssets.callIcon),
+              SizedBox(width: 20.w,),
+              Text(text),
+
+            ],),
+          SizedBox(height: getSize(context) / 40),
+
+        ],
+      ),
+    );
+  }
+}
+

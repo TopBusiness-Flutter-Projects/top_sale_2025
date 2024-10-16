@@ -3,7 +3,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart';
 import 'package:top_sale/core/preferences/preferences.dart';
+import 'package:top_sale/features/clients/cubit/clients_cubit.dart';
 import 'package:top_sale/features/login/cubit/cubit.dart';
 import '../../../core/utils/assets_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -150,7 +152,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
-
+context.read<ClientsCubit>().checkAndRequestLocationPermission();
     _startDelay();
   }
 

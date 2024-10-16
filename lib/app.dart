@@ -94,11 +94,15 @@ class _MyAppState extends State<MyApp> {
           minTextAdapt: true,
           splitScreenMode: true,
           child: GetMaterialApp(
+
             supportedLocales: context.supportedLocales,
             locale: context.locale,
-            theme: appTheme(),
+            theme: appTheme(
+            ),
             themeMode: ThemeMode.light,
-            darkTheme: ThemeData.light(),
+            darkTheme: ThemeData.light(
+              useMaterial3: true
+            ),
             // standard dark theme
             localizationsDelegates: context.localizationDelegates,
             debugShowCheckedModeBanner: false,
