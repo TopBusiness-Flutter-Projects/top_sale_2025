@@ -14,6 +14,7 @@ class EndPoints {
   static String allProducts = '/api/product.product/';
   static String getUserData = '/api/res.users/';
   static String getAllPartners = '/api/res.partner/';
+  static String createPartner = '/api/partner/';
   static String saleOrder = '/api/sale.order/';
   static String resPartner = '/api/res.partner/';
   static String objectSaleOrder = '/object/sale.order/';
