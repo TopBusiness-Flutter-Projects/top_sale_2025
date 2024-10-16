@@ -642,11 +642,11 @@ class ServiceApi {
               body: {
             "params": {
               "data": {
-                "name": name,
-                "mobile": mobile,
-                "street": street,
-                "latitude": lat,
-                "longitude": long
+                "name": "name",
+                "mobile": "787",
+                "street": "street",
+                "latitude": 454545,
+                "longitude": 565656
                 // "user_id": authModel.result!.userContext!.uid
               }
             }
@@ -656,26 +656,4 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
-
-
-
-  Future<Either<Failure, OrderDetailsModel>> getPDF(
-      {required int orderId}) async {
-    String odooUrl =
-        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
-    String? sessionId = await Preferences.instance.getSessionId();
-    try {
-      final response = await dio.get(
-        odooUrl + EndPoints.saleOrder + '$orderId/details',
-        options: Options(
-          headers: {"Cookie": "session_id=$sessionId"},
-        ),
-      );
-      return Right(OrderDetailsModel.fromJson(response));
-    } on ServerException {
-      return Left(ServerFailure());
-    }
-  }
-
-
 }
