@@ -25,10 +25,12 @@ class _ClientScreenState extends State<ClientScreen> {
   @override
   void initState() {
     scrollController.addListener(_scrollListener);
-    if(context.read<ClientsCubit>().allPartnersModel == null){
-    context.read<ClientsCubit>().getAllPartnersForReport();}
+    if (context.read<ClientsCubit>().allPartnersModel == null) {
+      context.read<ClientsCubit>().getAllPartnersForReport();
+    }
     super.initState();
   }
+
   //
   late final ScrollController scrollController = ScrollController();
 
@@ -38,10 +40,7 @@ class _ClientScreenState extends State<ClientScreen> {
       if (context.read<ClientsCubit>().allPartnersModel!.next != null) {
         context.read<ClientsCubit>().getAllPartnersForReport(
             isGetMore: true,
-            page: context
-                .read<ClientsCubit>()
-                .allPartnersModel
-                ?.next ?? 1);
+            page: context.read<ClientsCubit>().allPartnersModel?.next ?? 1);
         debugPrint('new posts');
       }
     }
@@ -123,7 +122,7 @@ class _ClientScreenState extends State<ClientScreen> {
                                 child: Text('no_data'.tr()),
                               )
                             : ListView.builder(
-                      controller:scrollController ,
+                                controller: scrollController,
                                 itemCount:
                                     cubit.allPartnersModel!.result!.length,
                                 shrinkWrap: true,
@@ -185,7 +184,7 @@ class _ClientScreenState extends State<ClientScreen> {
                       title: "phone".tr(),
                       controller: cubit.phoneController,
                       hint: "enter_phone".tr(),
-                                       keyboardType: TextInputType.phone,
+                      keyboardType: TextInputType.phone,
                     ),
                     SizedBox(
                       height: getSize(context) / 30,
