@@ -1,9 +1,12 @@
 import 'package:ai_barcode_scanner/ai_barcode_scanner.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top_sale/core/widgets/custom_text_form_field.dart';
 
 import '../../../../core/utils/app_colors.dart';
+import '../../cubit/direct_sell_cubit.dart';
 
 class CustomSearchWidget extends StatefulWidget {
   const CustomSearchWidget({super.key,  this.isHome = false});
@@ -16,24 +19,26 @@ class _CustomSearchWidgetState extends State<CustomSearchWidget> {
   String barcode = '';
   @override
   Widget build(BuildContext context) {
+    var cubit = context.read<DirectSellCubit>();
     return Column(
       children: [
         Row(
           children: [
             Flexible(
               child: CustomTextField(
+                controller: cubit.searchController,
                 onChanged: (keyValue) {
                   if (keyValue.isEmpty) {
-                    // cubit.getAllProducts();
+                    cubit.getAllProducts();
                   } else {
-                    // EasyDebounce.debounce(
-                    //     'search', // <-- An ID for this particular debouncer
-                    //     Duration(
-                    //         seconds: 1), // <-- The debounce duration
-                    //     () => cubit.searchProducts(
-                    //           productName: keyValue,
-                    //         ) // <-- The target method
-                    //     );
+                    EasyDebounce.debounce(
+                        'search', // <-- An ID for this particular debouncer
+                        const Duration(
+                            seconds: 1), // <-- The debounce duration
+                        () => cubit.searchProducts(
+
+                            ) // <-- The target method
+                        );
                   }
                 },
                 labelText: "search_product".tr(),
