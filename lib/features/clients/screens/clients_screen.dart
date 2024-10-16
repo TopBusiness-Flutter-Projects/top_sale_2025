@@ -24,8 +24,27 @@ class ClientScreen extends StatefulWidget {
 class _ClientScreenState extends State<ClientScreen> {
   @override
   void initState() {
-    context.read<ClientsCubit>().getAllPartnersForReport();
+    scrollController.addListener(_scrollListener);
+    if(context.read<ClientsCubit>().allPartnersModel == null){
+    context.read<ClientsCubit>().getAllPartnersForReport();}
     super.initState();
+  }
+  //
+  late final ScrollController scrollController = ScrollController();
+
+  _scrollListener() {
+    if (scrollController.position.maxScrollExtent == scrollController.offset) {
+      print('dddddddddbottom');
+      if (context.read<ClientsCubit>().allPartnersModel!.next != null) {
+        context.read<ClientsCubit>().getAllPartnersForReport(
+            isGetMore: true,
+            page: context
+                .read<ClientsCubit>()
+                .allPartnersModel
+                ?.next ?? 1);
+        debugPrint('new posts');
+      }
+    }
   }
 
   @override
@@ -103,6 +122,7 @@ class _ClientScreenState extends State<ClientScreen> {
                                 child: Text('no_data'.tr()),
                               )
                             : ListView.builder(
+                      controller:scrollController ,
                                 itemCount:
                                     cubit.allPartnersModel!.result!.length,
                                 shrinkWrap: true,
@@ -166,7 +186,7 @@ class _ClientScreenState extends State<ClientScreen> {
                       title: "phone".tr(),
                       controller: cubit.phoneController,
                       hint: "enter_phone".tr(),
-                                       keyboardType: TextInputType.text,
+                                       keyboardType: TextInputType.phone,
                     ),
                     SizedBox(
                       height: getSize(context) / 30,
@@ -175,7 +195,7 @@ class _ClientScreenState extends State<ClientScreen> {
                       title: "email".tr(),
                       controller: cubit.emailController,
                       hint: "enter_email".tr(),
-                      keyboardType: TextInputType.text,
+                      keyboardType: TextInputType.emailAddress,
                     ),
                     SizedBox(
                       height: getSize(context) / 30,
