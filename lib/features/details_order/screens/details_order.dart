@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart' as tr;
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_stepindicator/flutter_stepindicator.dart';
@@ -139,31 +140,33 @@ class _DetailsOrderState extends State<DetailsOrder> {
                             // alignment: Alignment.center,
 
                             children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  AutoSizeText('show_price'.tr(),
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w600)),
-                                  AutoSizeText('new'.tr(),
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w600)),
-                                  AutoSizeText('delivered'.tr(),
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w600)),
-                                  AutoSizeText('complete'.tr(),
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w600)),
-                                ],
+                              Flexible(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    AutoSizeText('show_price'.tr(),
+                                        style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.w600)),
+                                    AutoSizeText('new'.tr(),
+                                        style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.w600)),
+                                    AutoSizeText('delivered'.tr(),
+                                        style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.w600)),
+                                    AutoSizeText('complete'.tr(),
+                                        style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.w600)),
+                                  ],
+                                ),
                               ),
                               SizedBox(
                                 height: 12.h,

@@ -275,9 +275,19 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
     result.fold((l) {
       emit(ErrorConfirmQuotation());
     }, (r) {
+      context.read<DeleveryOrdersCubit>().getOrders();
       //! Make confirm quotation
       Navigator.pop(context);
       emit(LoadedConfirmQuotation());
     });
+  }
+
+  TextEditingController newPriceController = TextEditingController();
+
+  onChnagePriceOfUnit(OrderLine item, BuildContext context) {
+    item.priceUnit = double.parse(newPriceController.text.toString());
+    Navigator.pop(context);
+    newPriceController.clear();
+    emit(OnChangeUnitPriceOfItem());
   }
 }

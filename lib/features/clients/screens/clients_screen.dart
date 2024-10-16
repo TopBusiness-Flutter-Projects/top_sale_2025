@@ -43,9 +43,9 @@ class _ClientScreenState extends State<ClientScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
                     onTap: () {
-                      if(cubit.currentLocation!=null){
+                      if (cubit.currentLocation != null) {
                         _showBottomSheet(context, cubit);
-                      }else{
+                      } else {
                         cubit.checkAndRequestLocationPermission();
                       }
                     },
@@ -98,7 +98,8 @@ class _ClientScreenState extends State<ClientScreen> {
                         ? const Center(
                             child: CircularProgressIndicator(),
                           )
-                        :( cubit.allPartnersModel==null||cubit.allPartnersModel?.result==[])
+                        : (cubit.allPartnersModel == null ||
+                                cubit.allPartnersModel?.result == [])
                             ? Center(
                                 child: Text('no_data'.tr()),
                               )
@@ -111,14 +112,13 @@ class _ClientScreenState extends State<ClientScreen> {
                                   //! cubit.allPartnersModel!.result![index]
                                   return GestureDetector(
                                       onTap: () {
-                                       if( widget.isCart){
-                                         print("true client");
-                                         Navigator.pushNamed(
-                                             context, Routes.basketScreenRoute,
-                                             arguments: cubit.allPartnersModel!
-                                                 .result![index]);
-                                       }
-
+                                        if (widget.isCart) {
+                                          print("true client");
+                                          Navigator.pushNamed(
+                                              context, Routes.basketScreenRoute,
+                                              arguments: cubit.allPartnersModel!
+                                                  .result![index]);
+                                        }
                                       },
                                       child: CustomCardClient(
                                         partner: cubit
@@ -143,12 +143,12 @@ class _ClientScreenState extends State<ClientScreen> {
       ),
       builder: (context) {
         return BlocBuilder<ClientsCubit, ClientsState>(
-        builder: (context, state) {
-          return  Padding(
+            builder: (context, state) {
+          return Padding(
             padding: EdgeInsets.all(getSize(context) / 20),
             child: SingleChildScrollView(
               child: Form(
-                key:cubit.formKey,
+                key: cubit.formKey,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -157,7 +157,6 @@ class _ClientScreenState extends State<ClientScreen> {
                       controller: cubit.clientNameController,
                       hint: "enter_name".tr(),
                       keyboardType: TextInputType.text,
-
                     ),
                     SizedBox(
                       height: getSize(context) / 30,
@@ -166,7 +165,7 @@ class _ClientScreenState extends State<ClientScreen> {
                       title: "phone".tr(),
                       controller: cubit.phoneController,
                       hint: "enter_phone".tr(),
-                                       keyboardType: TextInputType.text,
+                      keyboardType: TextInputType.text,
                     ),
                     SizedBox(
                       height: getSize(context) / 30,
@@ -194,20 +193,19 @@ class _ClientScreenState extends State<ClientScreen> {
                           left: getSize(context) / 20,
                           right: getSize(context) / 20),
                       child: RoundedButton(
-                        backgroundColor: AppColors.primaryColor,
-                        text: 'confirm'.tr(),
-                        onPressed: () {
-                          // if (cubit.formKey.currentState!.validate()) {
-                          // // إذا كان التحقق ناجحًا، قم باستدعاء الميثود لإنشاء العميل
-                          // cubit.createClient(context);
-                          // } else {
-                          // // إذا فشل التحقق، يمكنك إضافة معالجة للأخطاء هنا
-                          // print("Validation failed");
-                          // }
-                          // },
-                          cubit.createClient(context);
-                        }
-                      ),
+                          backgroundColor: AppColors.primaryColor,
+                          text: 'confirm'.tr(),
+                          onPressed: () {
+                            // if (cubit.formKey.currentState!.validate()) {
+                            // // إذا كان التحقق ناجحًا، قم باستدعاء الميثود لإنشاء العميل
+                            // cubit.createClient(context);
+                            // } else {
+                            // // إذا فشل التحقق، يمكنك إضافة معالجة للأخطاء هنا
+                            // print("Validation failed");
+                            // }
+                            // },
+                            cubit.createClient(context);
+                          }),
                     )
                   ],
                 ),

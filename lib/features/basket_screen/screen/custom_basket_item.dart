@@ -10,6 +10,7 @@ import '../../../core/utils/app_fonts.dart';
 import '../../../core/utils/assets_manager.dart';
 import '../../../core/utils/get_size.dart';
 import '../../../core/widgets/decode_image.dart';
+import '../../details_order/screens/widgets/custom_order_details_item.dart';
 import '../../details_order/screens/widgets/rounded_button.dart';
 import '../../direct_sell/cubit/direct_sell_cubit.dart';
 import '../../direct_sell/cubit/direct_sell_state.dart';
@@ -80,23 +81,36 @@ class _CustomBasketItemState extends State<CustomBasketItem> {
                               width: getSize(context) / 14,
                             ),
                           ),
-                          //! delete Product
                           Padding(
-                              padding:
-                                  const EdgeInsetsDirectional.only(start: 5.0),
-                              child: IconButton(
-                                  onPressed: () async {
-                                    cubit2.basket.removeWhere((element) {
-                                      return element.id == widget.item.id;
-                                    });
-                                    setState(() {});
+                            padding: const EdgeInsetsDirectional.symmetric(
+                                horizontal: 5.0),
+                            child: InkWell(
+                                onTap: () {
+                                  cubit2.newPriceController.text =
+                                      widget.item.listPrice.toString();
 
-                                    ///!
-                                  },
-                                  icon: Icon(
-                                    CupertinoIcons.delete_solid,
-                                    color: AppColors.red,
-                                  )))
+                                  customPriceShowBottomSheet(
+                                      context, cubit2.newPriceController, () {
+                                    cubit2.onChnagePriceOfUnit(
+                                        widget.item, context);
+                                  });
+                                },
+                                child: Image.asset(
+                                  ImageAssets.edit2Icon,
+                                  width: getSize(context) / 18,
+                                )),
+                          ),
+                          //! delete Product
+                          IconButton(
+                              onPressed: () async {
+                                cubit2.deleteFromBasket(widget.item.id!);
+
+                                ///!
+                              },
+                              icon: Icon(
+                                CupertinoIcons.delete_solid,
+                                color: AppColors.red,
+                              ))
                         ],
                       ),
                       Flexible(

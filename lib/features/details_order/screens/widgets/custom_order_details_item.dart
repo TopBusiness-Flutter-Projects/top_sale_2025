@@ -94,16 +94,32 @@ class _CustomOrderDetailsShowPriceItemState
                               width: getSize(context) / 14,
                             ),
                           ),
-                          //! delete Product
                           Padding(
-                              padding:
-                                  const EdgeInsetsDirectional.only(start: 5.0),
-                              child: IconButton(
-                                  onPressed: widget.onPressed,
-                                  icon: Icon(
-                                    CupertinoIcons.delete_solid,
-                                    color: AppColors.red,
-                                  )))
+                            padding: const EdgeInsetsDirectional.symmetric(
+                                horizontal: 5.0),
+                            child: InkWell(
+                                onTap: () {
+                                  cubit2.newPriceController.text =
+                                      widget.item.priceUnit.toString();
+
+                                  customPriceShowBottomSheet(
+                                      context, cubit2.newPriceController, () {
+                                    cubit2.onChnagePriceOfUnit(
+                                        widget.item, context);
+                                  });
+                                },
+                                child: Image.asset(
+                                  ImageAssets.edit2Icon,
+                                  width: getSize(context) / 18,
+                                )),
+                          ),
+                          //! delete Product
+                          IconButton(
+                              onPressed: widget.onPressed,
+                              icon: Icon(
+                                CupertinoIcons.delete_solid,
+                                color: AppColors.red,
+                              ))
                         ],
                       ),
                       Flexible(
@@ -243,6 +259,48 @@ void customShowBottomSheet(BuildContext context, BasketCubit cubit) {
                   backgroundColor: AppColors.primaryColor,
                   text: 'confirm'.tr(),
                   onPressed: () {},
+                ),
+              )
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
+
+//! edit Price
+void customPriceShowBottomSheet(BuildContext context,
+    TextEditingController controller, void Function() onPressed) {
+  showModalBottomSheet(
+    isScrollControlled: true,
+    context: context,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    ),
+    builder: (context) {
+      return Padding(
+        padding: EdgeInsets.all(getSize(context) / 20),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CustomTextFieldWithTitle(
+                title: "price".tr(),
+                controller: controller,
+                hint: "price".tr(),
+                keyboardType: TextInputType.number,
+              ),
+              SizedBox(
+                height: getSize(context) / 30,
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                    left: getSize(context) / 20, right: getSize(context) / 20),
+                child: RoundedButton(
+                  backgroundColor: AppColors.primaryColor,
+                  text: 'confirm'.tr(),
+                  onPressed: onPressed,
                 ),
               )
             ],

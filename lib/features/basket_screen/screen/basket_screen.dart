@@ -156,9 +156,7 @@ class _BasketScreenState extends State<BasketScreen> {
                     itemCount: cubit2.basket.length,
                     itemBuilder: (context, index) {
                       var item = cubit2.basket[index];
-                      return CustomBasketItem(
-                        item: item,
-                      );
+                      return CustomBasketItem(item: item);
                     },
                   ),
                   SizedBox(height: 32.h),
@@ -167,14 +165,16 @@ class _BasketScreenState extends State<BasketScreen> {
                       ? const Center(
                           child: CircularProgressIndicator(),
                         )
-                      : CustomButton(
-                          title: 'show_price'.tr(),
-                          onTap: () {
-                            cubit2.createQuotation(
-                                context: context,
-                                partnerId: widget.partner?.id ?? -1);
-                            //!
-                          })
+                      : cubit2.basket.isEmpty
+                          ? Container()
+                          : CustomButton(
+                              title: 'show_price'.tr(),
+                              onTap: () {
+                                cubit2.createQuotation(
+                                    context: context,
+                                    partnerId: widget.partner?.id ?? -1);
+                                //!
+                              })
                 ],
               );
             }),
