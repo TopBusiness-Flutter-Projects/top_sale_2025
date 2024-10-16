@@ -46,23 +46,32 @@ class _SplashScreenState extends State<SplashScreen>
           (route) => false,
         );
       } else {
-        if (await Preferences.instance.getEmployeeId() == null) {
-          Navigator.pushNamedAndRemoveUntil(
-            context,
-            Routes.loginRoute,
-            (route) => false,
-          );
-        } else {
+
           if (await Preferences.instance.getMasterUserName() == null ||
               await Preferences.instance.getMasterUserPass() == null) {
             if (await Preferences.instance.getUserName() == null ||
                 await Preferences.instance.getUserPass() == null) {
+              if (await Preferences.instance.getEmployeeId() == null) {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  Routes.loginRoute,
+                      (route) => false,
+                );
+              }else{
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  Routes.mainRoute,
+                      (route) => false,
+                );
+
+              }
               Navigator.pushNamedAndRemoveUntil(
                 context,
                 Routes.loginRoute,
                 (route) => false,
               );
             } else {
+
               String session = await context.read<LoginCubit>().setSessionId(
                   phoneOrMail: await Preferences.instance.getUserName() ?? '',
                   password: await Preferences.instance.getUserPass() ?? '',
@@ -75,19 +84,29 @@ class _SplashScreenState extends State<SplashScreen>
               }
             }
           } else {
-            String session = await context.read<LoginCubit>().setSessionId(
-                phoneOrMail:
-                    await Preferences.instance.getMasterUserName() ?? '',
-                password: await Preferences.instance.getMasterUserPass() ?? '',
-                baseUrl: await Preferences.instance.getOdooUrl() ?? '',
-                database: await Preferences.instance.getDataBaseName() ?? '');
-            if (session != "error") {
-              Navigator.pushReplacementNamed(context, Routes.mainRoute);
-            } else {
-              Navigator.pushReplacementNamed(context, Routes.loginRoute);
+
+            if (await Preferences.instance.getEmployeeId() == null) {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                Routes.loginRoute,
+                    (route) => false,
+              );
+            }else{
+              String session = await context.read<LoginCubit>().setSessionId(
+                  phoneOrMail:
+                  await Preferences.instance.getMasterUserName() ?? '',
+                  password: await Preferences.instance.getMasterUserPass() ?? '',
+                  baseUrl: await Preferences.instance.getOdooUrl() ?? '',
+                  database: await Preferences.instance.getDataBaseName() ?? '');
+              if (session != "error") {
+                Navigator.pushReplacementNamed(context, Routes.mainRoute);
+              } else {
+                Navigator.pushReplacementNamed(context, Routes.loginRoute);
+              }
             }
+
           }
-        }
+
       }
     } else {
       Navigator.pushNamedAndRemoveUntil(
@@ -98,54 +117,7 @@ class _SplashScreenState extends State<SplashScreen>
     }
   }
 
-  // void navigateToHome() async {
-  //   Future.delayed(
-  //     const Duration(seconds: 3),
-  //     () {
-  //       String userName = '';
-  //       String userPass = '';
 
-  //       Preferences.instance.getIsFirstTime(key: 'onBoarding').then((value) {
-  //         if (value != null && value == true) {
-  //           Preferences.instance.getUserName().then((value) async {
-  //             if (value != null) {
-  //               userName = value;
-
-  //               Preferences.instance.getUserPass().then((value) async {
-  //                 if (value != null) {
-  //                   userPass = value;
-  //                   String session = await context
-  //                       .read<LoginCubit>()
-  //                       .setSessionId(
-  //                           phoneOrMail: userName, password: userPass);
-  //                   if (session != "error") {
-  //                     Navigator.pushReplacementNamed(context, Routes.mainRoute);
-  //                   } else {
-  //                     Navigator.pushReplacementNamed(
-  //                         context, Routes.loginRoute);
-  //                   }
-  //                 }
-  //               }).catchError((error) {
-  //                 debugPrint("ffffffffff" + error.toString());
-  //               });
-  //             } else {
-  //               Navigator.pushReplacementNamed(context, Routes.loginRoute);
-  //             }
-  //           }).catchError((error) {
-  //             debugPrint("ffffffffff" + error.toString());
-  //           });
-
-  //           print('not first time');
-  //         } else {
-  //           Navigator.pushReplacementNamed(context, Routes.onBoarding);
-  //           print('first time');
-  //         }
-  //       }).catchError((error) {
-  //         print(error.toString());
-  //       });
-  //     },
-  //   );
-  // }
 
   @override
   void initState() {

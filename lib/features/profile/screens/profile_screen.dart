@@ -6,6 +6,7 @@ import 'package:top_sale/core/utils/get_size.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_fonts.dart';
 import '../../../core/utils/assets_manager.dart';
+import '../../home_screen/cubit/cubit.dart';
 import '../../login/widget/textfield_with_text.dart';
 import '../cubit/profile_cubit.dart';
 import '../cubit/profile_state.dart';
@@ -18,11 +19,13 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
-  void initState() {
+ void initState() {
     // TODO: implement initState
-
-    context.read<ProfileCubit>().name.text = "nehal";
-    context.read<ProfileCubit>().phone.text = "01288143936";
+    context.read<ProfileCubit>().nameController.text=context.read<HomeCubit>().nameOfUser.toString()??"";
+    context.read<ProfileCubit>().phoneController.text=context.read<HomeCubit>().phoneOfUser.toString()??"";
+    debugPrint("nonos"+'${context.read<ProfileCubit>().phoneController.text.toString()}');
+    debugPrint("nonos"+'${context.read<HomeCubit>().phoneOfUser.toString()}');
+    super.initState();
   }
 
   @override
@@ -56,9 +59,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 height: getSize(context) / 30,
               ),
               CustomTextFieldWithTitle(
-                hint: "نهوله",
+                hint: "name".tr(),
                 isModify: true,
-                controller: cubit.name,
+                controller: cubit.nameController,
                 title: "name".tr(),
                 keyboardType: TextInputType.name,
                 readonly: true,
@@ -67,8 +70,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 height: getSize(context) / 30,
               ),
               CustomTextFieldWithTitle(
-                hint: "01288143936",
-                controller: cubit.phone,
+                hint:"phone".tr(),
+                controller: cubit.phoneController,
                 title: "phone".tr(),
                 readonly: true,
                 isModify: true,
