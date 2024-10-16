@@ -216,11 +216,14 @@ class ServiceApi {
       int page, String name, bool isBarcode) async {
     try {
       String? sessionId = await Preferences.instance.getSessionId();
+
+      String odooUrl =
+          await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
       final response = await dio.get(
         isBarcode
-            ? EndPoints.allProducts +
+            ? odooUrl + EndPoints.allProducts +
                 '?filter=[["detailed_type","=","product"],["barcode","=","$name"]]&query={id,name,image_1920,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id}&page_size=10&limit=10&page=$page'
-            : EndPoints.allProducts +
+            : odooUrl + EndPoints.allProducts +
                 '?filter=[["detailed_type","=","product"],["name", "=like", "%$name%"]]&query={id,name,image_1920,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id}&page_size=10&limit=10&page=$page',
         options: Options(
           headers: {"Cookie": "frontend_lang=en_US;session_id=$sessionId"},
@@ -323,7 +326,7 @@ class ServiceApi {
   }
 
   Future<Either<Failure, GetAllPartnersModel>> searchUsers(
-      int page, String name) async {
+      { required int page, required String name}) async {
     try {
       String odooUrl =
           await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
@@ -639,9 +642,9 @@ class ServiceApi {
               body: {
             "params": {
               "data": {
-                "name": "name",
-                "mobile": "mobile",
-                "street": "street",
+                "name": name,
+                "mobile": mobile,
+                "street": street,
                 "latitude": lat,
                 "longitude": long
                 // "user_id": authModel.result!.userContext!.uid

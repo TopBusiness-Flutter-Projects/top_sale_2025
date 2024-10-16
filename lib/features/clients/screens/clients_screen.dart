@@ -43,7 +43,11 @@ class _ClientScreenState extends State<ClientScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
                     onTap: () {
-                      _showBottomSheet(context, cubit);
+                      if(cubit.currentLocation!=null){
+                        _showBottomSheet(context, cubit);
+                      }else{
+                        cubit.checkAndRequestLocationPermission();
+                      }
                     },
                     child: Container(
                       height: 30.sp,
@@ -81,20 +85,7 @@ class _ClientScreenState extends State<ClientScreen> {
                 children: [
                   CustomTextField(
                     controller: cubit.searchController,
-                    onChanged: (keyValue) {
-                      if (keyValue.isEmpty) {
-                        // cubit.getAllProducts();
-                      } else {
-                        // EasyDebounce.debounce(
-                        //     'search', // <-- An ID for this particular debouncer
-                        //     Duration(
-                        //         seconds: 1), // <-- The debounce duration
-                        //     () => cubit.searchProducts(
-                        //           productName: keyValue,
-                        //         ) // <-- The target method
-                        //     );
-                      }
-                    },
+                    onChanged: cubit.onChangeSearch,
                     labelText: "search_product".tr(),
                     prefixIcon: Icon(
                       Icons.search_rounded,
@@ -118,12 +109,16 @@ class _ClientScreenState extends State<ClientScreen> {
                                 itemBuilder: (context, index) {
                                   //! we will padd partner data
                                   //! cubit.allPartnersModel!.result![index]
-                                  return InkWell(
+                                  return GestureDetector(
                                       onTap: () {
-                                        Navigator.pushNamed(
-                                            context, Routes.basketScreenRoute,
-                                            arguments: cubit.allPartnersModel!
-                                                .result![index]);
+                                       if( widget.isCart){
+                                         print("true client");
+                                         Navigator.pushNamed(
+                                             context, Routes.basketScreenRoute,
+                                             arguments: cubit.allPartnersModel!
+                                                 .result![index]);
+                                       }
+
                                       },
                                       child: CustomCardClient(
                                         partner: cubit
@@ -147,62 +142,79 @@ class _ClientScreenState extends State<ClientScreen> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
-        return Padding(
-          padding: EdgeInsets.all(getSize(context) / 20),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CustomTextFieldWithTitle(
-                  title: "name".tr(),
-                  controller: cubit.clientNameController,
-                  hint: "enter_name".tr(),
-                  keyboardType: TextInputType.text,
+        return BlocBuilder<ClientsCubit, ClientsState>(
+        builder: (context, state) {
+          return  Padding(
+            padding: EdgeInsets.all(getSize(context) / 20),
+            child: SingleChildScrollView(
+              child: Form(
+                key:cubit.formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CustomTextFieldWithTitle(
+                      title: "name".tr(),
+                      controller: cubit.clientNameController,
+                      hint: "enter_name".tr(),
+                      keyboardType: TextInputType.text,
+
+                    ),
+                    SizedBox(
+                      height: getSize(context) / 30,
+                    ),
+                    CustomTextFieldWithTitle(
+                      title: "phone".tr(),
+                      controller: cubit.phoneController,
+                      hint: "enter_phone".tr(),
+                                       keyboardType: TextInputType.text,
+                    ),
+                    SizedBox(
+                      height: getSize(context) / 30,
+                    ),
+                    CustomTextFieldWithTitle(
+                      title: "email".tr(),
+                      controller: cubit.emailController,
+                      hint: "enter_email".tr(),
+                      keyboardType: TextInputType.text,
+                    ),
+                    SizedBox(
+                      height: getSize(context) / 30,
+                    ),
+                    CustomTextFieldWithTitle(
+                      title: "address".tr(),
+                      controller: cubit.addressController,
+                      hint: "enter_address".tr(),
+                      keyboardType: TextInputType.text,
+                    ),
+                    SizedBox(
+                      height: getSize(context) / 30,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: getSize(context) / 20,
+                          right: getSize(context) / 20),
+                      child: RoundedButton(
+                        backgroundColor: AppColors.primaryColor,
+                        text: 'confirm'.tr(),
+                        onPressed: () {
+                          // if (cubit.formKey.currentState!.validate()) {
+                          // // إذا كان التحقق ناجحًا، قم باستدعاء الميثود لإنشاء العميل
+                          // cubit.createClient(context);
+                          // } else {
+                          // // إذا فشل التحقق، يمكنك إضافة معالجة للأخطاء هنا
+                          // print("Validation failed");
+                          // }
+                          // },
+                          cubit.createClient(context);
+                        }
+                      ),
+                    )
+                  ],
                 ),
-                SizedBox(
-                  height: getSize(context) / 30,
-                ),
-                CustomTextFieldWithTitle(
-                  title: "phone".tr(),
-                  controller: cubit.phoneController,
-                  hint: "enter_phone".tr(),
-                  keyboardType: TextInputType.text,
-                ),
-                SizedBox(
-                  height: getSize(context) / 30,
-                ),
-                CustomTextFieldWithTitle(
-                  title: "email".tr(),
-                  controller: cubit.emailController,
-                  hint: "enter_email".tr(),
-                  keyboardType: TextInputType.text,
-                ),
-                SizedBox(
-                  height: getSize(context) / 30,
-                ),
-                CustomTextFieldWithTitle(
-                  title: "address".tr(),
-                  controller: cubit.addressController,
-                  hint: "enter_address".tr(),
-                  keyboardType: TextInputType.text,
-                ),
-                SizedBox(
-                  height: getSize(context) / 30,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                      left: getSize(context) / 20,
-                      right: getSize(context) / 20),
-                  child: RoundedButton(
-                    backgroundColor: AppColors.primaryColor,
-                    text: 'confirm'.tr(),
-                    onPressed: () {},
-                  ),
-                )
-              ],
+              ),
             ),
-          ),
-        );
+          );
+        });
       },
     );
   }

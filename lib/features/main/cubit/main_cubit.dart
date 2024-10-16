@@ -15,7 +15,8 @@ class MainCubit extends Cubit<MainStates> {
   List<Widget> navigationBarViews = [
     const HomeScreen(),
     ClientScreen(isCart: true),
-    const DeleveryOrderScreen(),
+ //   const DeleveryOrderScreen(),
+    Container(color: Colors.white,),
     const SizedBox()
   ];
   void getHomePage() {
