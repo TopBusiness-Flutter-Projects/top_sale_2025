@@ -2,18 +2,35 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+
 import 'package:top_sale/core/utils/get_size.dart';
 import 'package:top_sale/features/update_profile/cubit/update_profile_cubit.dart';
 import 'package:top_sale/features/update_profile/cubit/update_profile_state.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_fonts.dart';
 import '../../../core/utils/assets_manager.dart';
+import '../../home_screen/cubit/cubit.dart';
 import '../../login/widget/custom_button.dart';
 import '../../login/widget/textfield_with_text.dart';
 
-class UpdateProfileScreen extends StatelessWidget {
+class UpdateProfileScreen extends StatefulWidget {
   const UpdateProfileScreen({super.key});
 
+  @override
+  State<UpdateProfileScreen> createState() => _UpdateProfileScreenState();
+}
+
+class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+   context.read<UpdateProfileCubit>().nameController.text =context.read<HomeCubit>().nameOfUser??"";
+   context.read<UpdateProfileCubit>().phoneController.text =context.read<HomeCubit>().phoneOfUser??"";
+   context.read<UpdateProfileCubit>().emailController.text =context.read<HomeCubit>().emailOfUser??"";
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     var cubit = context.read<UpdateProfileCubit>();
@@ -33,15 +50,25 @@ class UpdateProfileScreen extends StatelessWidget {
                 children: [
                   Stack(
                     children: [
+
                       CircleAvatar(
                         radius: 50.sp,
-                        backgroundImage: const AssetImage(ImageAssets.user),
+
+                        backgroundImage: cubit.profileImage == null
+                            ? const AssetImage(ImageAssets.user)
+                            : FileImage(File(cubit.profileImage!.path)) as ImageProvider,
+
                       ),
-                      const Positioned(
+                       Positioned(
                         bottom: 0,
                         right: 0,
-                        child: Icon(
-                          Icons.camera_alt,
+                        child: InkWell(
+                          onTap: (){
+                            cubit.pickImage(ImageSource.gallery);
+                          },
+                          child: Icon(
+                            Icons.camera_alt,
+                          ),
                         ),
                       )
                     ],
@@ -52,7 +79,7 @@ class UpdateProfileScreen extends StatelessWidget {
                 height: getSize(context) / 30,
               ),
               CustomTextFieldWithTitle(
-                hint: "ثناء عادل",
+                hint: "name".tr(),
                 controller: cubit.nameController,
                 title: "name".tr(),
                 keyboardType: TextInputType.name,
@@ -61,7 +88,7 @@ class UpdateProfileScreen extends StatelessWidget {
                 height: getSize(context) / 30,
               ),
               CustomTextFieldWithTitle(
-                hint: "000000000000",
+                hint: "phone".tr(),
                 controller: cubit.phoneController,
                 title: "phone".tr(),
                 keyboardType: TextInputType.phone,
@@ -70,7 +97,7 @@ class UpdateProfileScreen extends StatelessWidget {
                 height: getSize(context) / 30,
               ),
               CustomTextFieldWithTitle(
-                hint: "sanaa@gmail.com",
+                hint: "email".tr(),
                 controller: cubit.emailController,
                 title: "email".tr(),
                 keyboardType: TextInputType.emailAddress,
@@ -80,7 +107,9 @@ class UpdateProfileScreen extends StatelessWidget {
               ),
               CustomButton(
                 title: "modify".tr(),
-                onTap: () {},
+                onTap: () {
+                  cubit.checkEmployeeOrUser(context);
+                },
               )
             ],
           );

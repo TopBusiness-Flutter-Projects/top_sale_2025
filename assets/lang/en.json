@@ -73,9 +73,11 @@
 
   "ll": "",
   "modify": "Modify",
+  "modify": "Modify",
   "leave_your_message": "Leave your message",
   "update_profile": "Update Profile",
   "name": "Name",
+  "update_sucess": "Update Sucess",
   "send": "send",
   "message": "Message",
   "write_your_message": "Write your message",
