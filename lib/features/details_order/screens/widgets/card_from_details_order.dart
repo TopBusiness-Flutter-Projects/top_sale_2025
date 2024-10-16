@@ -1,13 +1,15 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:top_sale/app.dart';
 import 'package:top_sale/core/models/get_orders_model.dart';
+import 'package:top_sale/features/details_order/cubit/details_orders_cubit.dart';
 import '../../../../core/models/order_details_model.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/assets_manager.dart';
 import '../../../../core/utils/get_size.dart';
-import '../../../../core/widgets/decode_image.dart';
 
 class CardDetailsOrders extends StatelessWidget {
   CardDetailsOrders(
@@ -41,27 +43,42 @@ class CardDetailsOrders extends StatelessWidget {
                 Expanded(
                   child: Row(
                     children: [
-                      AutoSizeText(
-                        "shipment_number".tr(),
-                        style: TextStyle(
-                          fontFamily: "cairo",
-                          color: AppColors.blue,
-                          fontSize: getSize(context) / 25,
-                        ),
-                      ),
-                      SizedBox(width: getSize(context) / 60),
                       Expanded(
-                        child: AutoSizeText(
-                          orderDetailsModel.name ?? '',
-                          maxLines: 1,
-                          style: TextStyle(
-                            overflow: TextOverflow.ellipsis,
-                            fontFamily: "cairo",
-                            color: AppColors.black,
-                            fontSize: getSize(context) / 28,
-                          ),
+                        child: Row(
+                          children: [
+                            AutoSizeText(
+                              "shipment_number".tr(),
+                              style: TextStyle(
+                                fontFamily: "cairo",
+                                color: AppColors.blue,
+                                fontSize: getSize(context) / 25,
+                              ),
+                            ),
+                            SizedBox(width: getSize(context) / 60),
+                            AutoSizeText(
+                              orderDetailsModel.name ?? '',
+                              maxLines: 1,
+                              style: TextStyle(
+                                overflow: TextOverflow.ellipsis,
+                                fontFamily: "cairo",
+                                color: AppColors.black,
+                                fontSize: getSize(context) / 28,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
+                      GestureDetector(
+                          onTap: () {
+                        context.read<DetailsOrdersCubit>().openGoogleMapsRoute(
+                            context.read<DetailsOrdersCubit>().lat ?? 0.0,
+                            context.read<DetailsOrdersCubit>().lang ??  0.0,
+                            context.read<DetailsOrdersCubit>().getDetailsOrdersModel?.partnerLatitude ?? 0.0,
+                            context.read<DetailsOrdersCubit>().getDetailsOrdersModel?.partnerLongitude ?? 0.0,
+                        );
+                          },
+                          child: Image.asset(ImageAssets.addressIcon,width: 25.w,))
+
                     ],
                   ),
                 ),
