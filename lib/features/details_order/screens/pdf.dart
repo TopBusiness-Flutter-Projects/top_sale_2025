@@ -1,94 +1,118 @@
-import 'package:easy_localization/easy_localization.dart';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart' as http;
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:printing/printing.dart';
+import 'package:pdf/pdf.dart';
 import 'package:top_sale/core/preferences/preferences.dart';
-import 'package:top_sale/features/details_order/cubit/details_orders_cubit.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:top_sale/core/utils/app_strings.dart'; // Import PdfPageFormat here
 
-import '../../../core/utils/get_size.dart';
-import '../cubit/details_orders_state.dart';
-
-class PaymentWebViewScreen extends StatefulWidget {
-  const PaymentWebViewScreen({super.key, this.url});
-  final String? url;
+class PdfViewerPage extends StatefulWidget {
+  const PdfViewerPage({super.key, required this.id});
+final String id;
   @override
-  State<PaymentWebViewScreen> createState() => _PaymentWebViewScreenState();
+  _PdfViewerPageState createState() => _PdfViewerPageState();
 }
 
-class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
-  late final WebViewController _controller;
-  String? sessionId;
+class _PdfViewerPageState extends State<PdfViewerPage> {
+  late Uint8List pdfBytes;
+  bool isLoading = true;
+
   @override
   void initState() {
-    getSession();
     super.initState();
-    _controller.clearCache();
-// CookieManager().clearCookies();
-
-    _controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setBackgroundColor(const Color(0x00000000))
-      ..setNavigationDelegate(NavigationDelegate(
-          onProgress: (int progress) {},
-          onPageStarted: (String url) {},
-          onPageFinished: (String url) {
-            // Navigator.pop(context);
-          },
-          onWebResourceError: (WebResourceError error) {},
-          onNavigationRequest: (NavigationRequest request) {
-            if (request.url.startsWith('https://www.youtube.com/')) {
-              return NavigationDecision.prevent;
-            }
-            return NavigationDecision.navigate;
-          }))
-      ..loadRequest(
-        Uri.parse(widget.url ?? 'https://flutter.dev'),
-        // headers: {
-        //   'session_id': "354afcce1c8dcf780d593eae28b36195c3f4ce1e", // Add your session ID here
-        // },
-        headers: {
-          "Cookie": "session_id=354afcce1c8dcf780d593eae28b36195c3f4ce1e"
-        },
-      );
+    fetchPdfWithSession();
   }
 
-  getSession() async {
-    setState(() async {
-      sessionId = await Preferences.instance.getSessionId();
-    });
-    // sessionId = await Preferences.instance.getSessionId();
-    print("ssssss $sessionId");
+  Future<void> fetchPdfWithSession() async {
+  String? sessionId = await Preferences.instance.getSessionId();
+    String odooUrl =
+        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+ String cookie = 'session_id=$sessionId';
+//  String cookie = 'session_id=6283d59dcd6abfa4a82380e5dedebf4398b1fe8c';
+      // String cookie = loginResponse.headers['set-cookie'] ?? '';
+      print("ccccc $cookie");
+
+      // Step 3: Fetch the PDF using the session cookie
+      final pdfResponse = await http.get(
+        Uri.parse(
+           odooUrl+ '/report/pdf/stock.report_picking/${widget.id}'),
+        headers: {
+          'Cookie': cookie, // Pass the session cookie
+        },
+      );
+      if (pdfResponse.statusCode == 200) {
+        setState(() {
+          pdfBytes = pdfResponse.bodyBytes;
+          isLoading = false;
+        });
+      } else {
+        // Handle error
+        print('Failed to load PDF');
+      }
+
+    // // Step 1: Authenticate with Odoo
+    // final loginResponse = await http.post(
+    //   Uri.parse(
+    //       'https://novapolaris-stage-branche-15780489.dev.odoo.com/web/session/authenticate'),
+    //   headers: <String, String>{
+    //     'Content-Type': 'application/json; charset=UTF-8',
+    //   },
+    //   body:
+    //       '{"params":{"db":"novapolaris-stage-branche-15780489","login":"master@gmail.com","password":"master"}}',
+    // );
+
+    // if (loginResponse.statusCode == 200) {
+    //   // Step 2: Extract session cookies from the login response
+    //   String cookie = 'session_id=6283d59dcd6abfa4a82380e5dedebf4398b1fe8c';
+    //   // String cookie = loginResponse.headers['set-cookie'] ?? '';
+    //   print("ccccc $cookie");
+
+    //   // Step 3: Fetch the PDF using the session cookie
+    //   final pdfResponse = await http.get(
+    //     Uri.parse(
+    //         'https://novapolaris-stage-branche-15780489.dev.odoo.com/report/pdf/stock.report_picking/41'),
+    //     headers: {
+    //       'Cookie': cookie, // Pass the session cookie
+    //     },
+    //   );
+    //   if (pdfResponse.statusCode == 200) {
+    //     setState(() {
+    //       pdfBytes = pdfResponse.bodyBytes;
+    //       isLoading = false;
+    //     });
+    //   } else {
+    //     // Handle error
+    //     print('Failed to load PDF');
+    //   }
+    // } else {
+    //   // Handle login failure
+    //   print('Failed to authenticate');
+    // }
+  }
+
+  void printPdf() async {
+    await Printing.layoutPdf(
+      onLayout: (PdfPageFormat format) async => pdfBytes,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    // OrdersCubit cubit = context.read<OrdersCubit>();
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'payment'.tr(),
-            style: TextStyle(
-              fontSize: getSize(context) / 32,
-            ),
+      appBar: AppBar(
+        title: Text('PDF Viewer'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.print),
+            onPressed:
+                isLoading ? null : printPdf, // Disable the button while loading
           ),
-        ),
-        body: SafeArea(
-            child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: BlocConsumer<DetailsOrdersCubit, DetailsOrdersState>(
-              listener: (context, state) {},
-              builder: (context, state) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SfPdfViewer.network(
-                    'https://cdn.syncfusion.com/content/PDFViewer/flutter-succinctly.pdf',
-                    canShowPaginationDialog: true,
-                    pageLayoutMode: PdfPageLayoutMode.continuous,
-                  ),
-                );
-                // return WebViewWidget(controller: _controller);
-              }),
-        )));
+        ],
+      ),
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : SfPdfViewer.memory(pdfBytes),
+    );
   }
 }

@@ -6,6 +6,7 @@ import 'package:flutter_stepindicator/flutter_stepindicator.dart';
 import 'package:top_sale/core/utils/get_size.dart';
 import 'package:top_sale/features/details_order/cubit/details_orders_cubit.dart';
 import 'package:top_sale/features/details_order/cubit/details_orders_state.dart';
+import 'package:top_sale/features/details_order/screens/pdf.dart';
 import 'package:top_sale/features/details_order/screens/widgets/card_from_details_order.dart';
 import 'package:top_sale/features/details_order/screens/widgets/custom_total_price.dart';
 import 'package:top_sale/features/details_order/screens/widgets/product_card.dart';
@@ -101,15 +102,15 @@ class _DetailsOrderState extends State<DetailsOrder> {
           setState(() {
             const CircularProgressIndicator();
           });
-        }},
-          builder: (context, state) {
+        }
+      }, builder: (context, state) {
         return Stack(
           children: [
             Positioned(
               bottom: -10.h,
               left: 0.w,
               right: 0.w,
-              child:  Container(
+              child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(15.sp),
@@ -121,9 +122,10 @@ class _DetailsOrderState extends State<DetailsOrder> {
                       offset: const Offset(0, 3),
                     ),
                   ],
-                    ),
+                ),
                 child: Padding(
-                  padding:  EdgeInsets.only(left: 10.w, right: 10.w,top: 15.h,bottom: 10.h),
+                  padding: EdgeInsets.only(
+                      left: 10.w, right: 10.w, top: 15.h, bottom: 10.h),
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: SizedBox(
@@ -140,7 +142,8 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                 division: 3,
                                 height: 28,
                                 positiveColor: AppColors.orange,
-                                negativeColor: const Color.fromRGBO(213, 213, 213, 1),
+                                negativeColor:
+                                    const Color.fromRGBO(213, 213, 213, 1),
                                 list: cubit.list,
                                 onChange: (i) {},
                                 positiveCheck: const Icon(
@@ -151,25 +154,41 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                 page: cubit.page,
                                 disableAutoScroll: true,
                               ),
-
                               Positioned(
                                 bottom: 70.h,
                                 left: 0.w,
-                                child: Text('show_price'.tr(),  style: TextStyle(color: Colors.grey,fontSize: 16.sp,fontWeight: FontWeight.w600)),
+                                child: Text('show_price'.tr(),
+                                    style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w600)),
                               ),
                               Positioned(
                                 bottom: 70.h,
                                 left: 110.w,
-                                child: Text('new'.tr(),  style: TextStyle(color: Colors.grey,fontSize: 16.sp,fontWeight: FontWeight.w600)),
+                                child: Text('new'.tr(),
+                                    style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w600)),
                               ),
                               Positioned(
                                 bottom: 70.h,
                                 left: 220.w,
-                                child: Text('delivered'.tr(),  style: TextStyle(color: Colors.grey,fontSize: 16.sp,fontWeight: FontWeight.w600)),
-                              ), Positioned(
+                                child: Text('delivered'.tr(),
+                                    style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w600)),
+                              ),
+                              Positioned(
                                 bottom: 70.h,
                                 left: 340.w,
-                                child: Text('complete'.tr(), style: TextStyle(color: Colors.grey,fontSize: 16.sp,fontWeight: FontWeight.w600)),
+                                child: Text('complete'.tr(),
+                                    style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w600)),
                               ),
                             ],
                           ),
@@ -178,8 +197,9 @@ class _DetailsOrderState extends State<DetailsOrder> {
                     ),
                   ),
                 ),
-              ),),
-                   Column(
+              ),
+            ),
+            Column(
               children: [
                 SizedBox(
                   height: getSize(context) / 33,
@@ -187,7 +207,8 @@ class _DetailsOrderState extends State<DetailsOrder> {
                 Expanded(
                     child: Padding(
                   padding: EdgeInsets.only(
-                      left: getSize(context) / 30, right: getSize(context) / 30),
+                      left: getSize(context) / 30,
+                      right: getSize(context) / 30),
                   child: (cubit.getDetailsOrdersModel == null)
                       ? const Center(
                           child: CircularProgressIndicator(),
@@ -206,8 +227,8 @@ class _DetailsOrderState extends State<DetailsOrder> {
                             Flexible(
                               child: ListView.builder(
                                   shrinkWrap: true,
-                                  itemCount: cubit
-                                      .getDetailsOrdersModel!.orderLines!.length,
+                                  itemCount: cubit.getDetailsOrdersModel!
+                                      .orderLines!.length,
                                   itemBuilder: (context, index) {
                                     return ProductCard(
                                       title: cubit.getDetailsOrdersModel
@@ -216,8 +237,10 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                               ?.orderLines?[index].priceSubtotal
                                               .toString() ??
                                           '',
-                                      text: cubit.getDetailsOrdersModel
-                                              ?.orderLines?[index].productName ??
+                                      text: cubit
+                                              .getDetailsOrdersModel
+                                              ?.orderLines?[index]
+                                              .productName ??
                                           '',
                                       number: cubit.getDetailsOrdersModel
                                               ?.orderLines?[index].productUomQty
@@ -244,8 +267,10 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                       text: 'Create_an_invoice'.tr(),
                                       onPressed: () {
                                         setState(() {
-                                          cubit.createAndValidateInvoice(context,
-                                              orderId: widget.orderModel.id ?? -1);
+                                          cubit.createAndValidateInvoice(
+                                              context,
+                                              orderId:
+                                                  widget.orderModel.id ?? -1);
                                         });
                                       },
                                       backgroundColor: AppColors.blue,
@@ -266,7 +291,8 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                             setState(() {
                                               cubit.confirmDelivery(context,
                                                   orderId:
-                                                      widget.orderModel.id ?? -1,
+                                                      widget.orderModel.id ??
+                                                          -1,
                                                   pickingId: cubit
                                                           .getDetailsOrdersModel
                                                           ?.pickings?[0]
@@ -293,14 +319,16 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                                 Expanded(
                                                   child: Padding(
                                                     padding:
-                                                        const EdgeInsets.all(10.0),
+                                                        const EdgeInsets.all(
+                                                            10.0),
                                                     child: RoundedButton(
                                                       text: 'payment'.tr(),
                                                       onPressed: () {
                                                         setState(() {
                                                           Navigator.pushNamed(
                                                               context,
-                                                              Routes.paymentRoute);
+                                                              Routes
+                                                                  .paymentRoute);
                                                           // cubit.createAndValidateInvoice(
                                                           //     orderId: widget.orderModel.id ?? -1);
                                                         });
@@ -312,12 +340,16 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                                 ),
                                               Expanded(
                                                 child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(10.0),
+                                                  padding: const EdgeInsets.all(
+                                                      10.0),
                                                   child: RoundedButton(
                                                     text: 'invoice'.tr(),
                                                     onPressed: () {
                                                       setState(() {
+                                                        Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                                          return PdfViewerPage(id: widget.orderModel.id.toString(),);
+                                                          // return PaymentWebViewScreen(url: "",);
+                                                        },));
                                                         // Navigator.pushNamed(context, Routes.paymentRoute);
                                                         // cubit.createAndValidateInvoice(
                                                         //     orderId: widget.orderModel.id ?? -1);
@@ -333,14 +365,11 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                         : const SizedBox(),
 
                             const Expanded(child: SizedBox()),
-
-
                           ],
                         ),
                 ))
               ],
             ),
-
           ],
         );
       }),
