@@ -323,7 +323,7 @@ class ServiceApi {
   }
 
   Future<Either<Failure, GetAllPartnersModel>> searchUsers(
-      int page, String name) async {
+      { required int page, required String name}) async {
     try {
       String odooUrl =
           await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
@@ -639,11 +639,11 @@ class ServiceApi {
               body: {
             "params": {
               "data": {
-                "name": name,
-                "mobile": mobile,
-                "street": street,
-                "latitude": lat,
-                "longitude": long
+                "name": "name",
+                "mobile": "787",
+                "street": "street",
+                "latitude": 454545,
+                "longitude": 565656
                 // "user_id": authModel.result!.userContext!.uid
               }
             }
