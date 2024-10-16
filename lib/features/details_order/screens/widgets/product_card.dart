@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -36,12 +37,17 @@ class ProductCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children:  [
-                    Text(
-                     text,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: getSize(context) / 25,
-                        color: Colors.black,
+                    SizedBox(
+                      width: getSize(context)/1.8,
+                      child: AutoSizeText(
+                       text,
+                        maxLines: 1,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: getSize(context) / 30,
+
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                     SizedBox(height: getSize(context)/50),

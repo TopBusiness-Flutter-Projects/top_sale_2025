@@ -71,3 +71,4 @@ class LoadedConfirmQuotation extends DetailsOrdersState {}
 
 class ErrorConfirmQuotation extends DetailsOrdersState {}
 class OnChangeUnitPriceOfItem extends DetailsOrdersState {}
+class GetLatLongSuccess extends DetailsOrdersState {}

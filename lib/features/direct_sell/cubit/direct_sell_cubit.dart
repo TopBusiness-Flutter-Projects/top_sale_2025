@@ -67,13 +67,13 @@ class DirectSellCubit extends Cubit<DirectSellState> {
             prev: right.prev,
             result: [...allProductsModel.result!, ...right.result!],
           );
+          updateUserOrderedQuantities(allProductsModel);
         } else {
           allProductsModel = right;
         }
         updateUserOrderedQuantities(allProductsModel);
       }
       print("loaded");
-
       emit(LoadedProduct(allProductmodel: allProductsModel));
     });
   }

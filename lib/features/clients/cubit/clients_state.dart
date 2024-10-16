@@ -1,3 +1,5 @@
+import '../../../core/models/all_partners_for_reports_model.dart';
+
 abstract class ClientsState {}
 
 class ClientsInitial extends ClientsState {}
@@ -5,8 +7,12 @@ class ClientsInitial extends ClientsState {}
 class ErrorGetPartnersState extends ClientsState {}
 
 class LoadingGetPartnersState extends ClientsState {}
+class LoadingMorePartnersState extends ClientsState {}
 
-class SucessGetPartnersState extends ClientsState {}
+class SucessGetPartnersState extends ClientsState {
+  GetAllPartnersModel? allPartnersModel;
+  SucessGetPartnersState({required this.allPartnersModel});
+}
 //create client
 class CreateClientLoading extends ClientsState {}
 class CreateClientLoaded extends ClientsState {}

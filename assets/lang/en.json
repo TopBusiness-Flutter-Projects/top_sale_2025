@@ -83,10 +83,9 @@
   "message": "Message",
   "write_your_message": "Write your message",
   "subject": "Subject",
-  "enter_subject": "Enter subject"
-
-
-,  "menu": "Menu",
+  "enter_subject": "Enter subject",
+  "menu": "Menu",
+  "add_client": "Add client Sucess",
   "hr": "HRM",
   "basket": "Basket",
   "home": "Home",

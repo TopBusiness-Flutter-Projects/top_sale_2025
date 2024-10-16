@@ -312,7 +312,7 @@ class ServiceApi {
       final response = await dio.get(
         odooUrl +
             EndPoints.getAllPartners +
-            '?page_size=$pageSize&page=$page&query={name,id,phone}',
+            '?page_size=30&page=$page&query={name,id,phone}',
         // '?page_size=$pageSize&page=$page&query={name,id,phone,total_overdue,total_due,total_invoiced,credit_to_invoice,sale_order_ids}',
         // 'page_size=$pageSize&page=$page&filter=[["user_id", "=",${authModel.result!.userContext!.uid}]]&query={name,id,phone,total_overdue,total_due,total_invoiced,credit_to_invoice,sale_order_ids}',
         options: Options(
@@ -635,18 +635,18 @@ class ServiceApi {
         await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
     try {
       final response =
-          await dio.post(odooUrl + EndPoints.getAllPartners + 'create',
+          await dio.post(odooUrl + EndPoints.createPartner + 'create',
               options: Options(
                 headers: {"Cookie": "session_id=$sessionId"},
               ),
               body: {
             "params": {
               "data": {
-                "name": "name",
-                "mobile": "787",
-                "street": "street",
-                "latitude": 454545,
-                "longitude": 565656
+                "name": name,
+                "phone":mobile,
+                "street": street,
+                "latitude": lat,
+                "longitude": long
                 // "user_id": authModel.result!.userContext!.uid
               }
             }
