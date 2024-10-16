@@ -32,7 +32,7 @@ class DeleveryOrdersCubit extends Cubit<DeleveryOrdersState> {
   List<OrderModel> newOrders = []; // pending   الطلبات الجديدة
   List<OrderModel> deliveredOrders = []; // تم التسليم
   GetOrdersModel getOrdersModel = GetOrdersModel();
-  void getOrders() async {
+  Future<void> getOrders() async {
     emit(OrdersLoadingState());
     completeOrders = []; // الطلبات السابقة
     currentOrders = []; // الطلبات الحالية كلها
