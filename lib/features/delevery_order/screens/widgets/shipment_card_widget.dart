@@ -72,6 +72,7 @@ class ShipmentCardWidget extends StatelessWidget {
                     ],
                   ),
                 ),
+
                 Container(
                     height: getSize(context) / 15,
                     width: getSize(context) / 5,
