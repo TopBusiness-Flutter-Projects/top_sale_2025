@@ -57,7 +57,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         image: ImageAssets.directSale),
                     CardHome(
                         onPressed: () {
-                          Navigator.pushNamed(context, Routes.contactUsRoute);
+                        //  Navigator.pushNamed(context, Routes.contactUsRoute);
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>Container(color: Colors.white,)));
                         },
                         text: "serali_line".tr(),
                         image: ImageAssets.line),
