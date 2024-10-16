@@ -67,6 +67,7 @@ dependencies:
   share_plus: ^10.0.0
   package_info_plus: ^8.0.2
   webview_flutter: ^4.4.4
+  syncfusion_flutter_pdfviewer:
   # package_info_plus: ^8.0.3
   # share_plus: ^10.0.3
 

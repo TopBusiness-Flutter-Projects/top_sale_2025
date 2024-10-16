@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:top_sale/core/preferences/preferences.dart';
 import 'package:top_sale/features/details_order/cubit/details_orders_cubit.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -78,7 +79,15 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
           child: BlocConsumer<DetailsOrdersCubit, DetailsOrdersState>(
               listener: (context, state) {},
               builder: (context, state) {
-                return WebViewWidget(controller: _controller);
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SfPdfViewer.network(
+                    'https://cdn.syncfusion.com/content/PDFViewer/flutter-succinctly.pdf',
+                    canShowPaginationDialog: true,
+                    pageLayoutMode: PdfPageLayoutMode.continuous,
+                  ),
+                );
+                // return WebViewWidget(controller: _controller);
               }),
         )));
   }

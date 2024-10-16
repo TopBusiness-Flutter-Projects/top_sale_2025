@@ -6,8 +6,8 @@ import 'package:top_sale/core/widgets/custom_text_form_field.dart';
 import '../../../../core/utils/app_colors.dart';
 
 class CustomSearchWidget extends StatefulWidget {
-  const CustomSearchWidget({super.key});
-
+  const CustomSearchWidget({super.key,  this.isHome = false});
+  final bool isHome;
   @override
   State<CustomSearchWidget> createState() => _CustomSearchWidgetState();
 }

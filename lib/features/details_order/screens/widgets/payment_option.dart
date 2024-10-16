@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top_sale/core/models/all_journals_model.dart';
 import 'package:top_sale/core/utils/app_fonts.dart';
+import 'package:top_sale/features/details_order/cubit/details_orders_state.dart';
 import 'package:top_sale/features/details_order/screens/widgets/rounded_button.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/get_size.dart';
