@@ -47,7 +47,8 @@ class DirectSellCubit extends Cubit<DirectSellState> {
 
   AllProductsModel allProductsModel = AllProductsModel();
   AllProductsModel homeProductsModel = AllProductsModel();
-  Future<void> getAllProducts({bool isHome = false,bool isGetMore = false, int pageId = 1}) async {
+  Future<void> getAllProducts(
+      {bool isHome = false, bool isGetMore = false, int pageId = 1}) async {
     emit(LoadingProduct());
     final response = await api.getAllProducts(pageId);
     //
@@ -59,24 +60,18 @@ class DirectSellCubit extends Cubit<DirectSellState> {
         homeProductsModel = right;
         updateUserOrderedQuantities(homeProductsModel);
       } else {
-    if (isGetMore) {
-        allProductsModel = AllProductsModel(
-          count: right.count,
-          next: right.next,
-          prev: right.prev,
-          result: [...allProductsModel.result!, ...right.result!],
-        );
-        updateUserOrderedQuantities(allProductsModel);
-
-      } else {
-        allProductsModel = right;
-        updateUserOrderedQuantities(allProductsModel);
-      }
-
-
-
-       
-        
+        if (isGetMore) {
+          allProductsModel = AllProductsModel(
+            count: right.count,
+            next: right.next,
+            prev: right.prev,
+            result: [...allProductsModel.result!, ...right.result!],
+          );
+          updateUserOrderedQuantities(allProductsModel);
+        } else {
+          allProductsModel = right;
+          updateUserOrderedQuantities(allProductsModel);
+        }
       }
       print("loaded");
 
@@ -180,11 +175,30 @@ class DirectSellCubit extends Cubit<DirectSellState> {
       emit(LoadedCreateQuotation());
     });
   }
+  TextEditingController searchController = TextEditingController();
+  AllProductsModel? searchedproductsModel;
 
+  // Search products by name
+  searchProducts(
+      {int pageId = 1,
+      bool isGetMore = false,
+      required String productName,
+      bool isBarcode = false}) async {
+    final response = await api.searchProducts(pageId, productName, isBarcode);
+    response.fold((l) => emit(ErrorProduct()), (r) {
+      searchedproductsModel = r;
+      // final updatedResults = _updateUserOrderedQuantity(r.result!);
+      updateUserOrderedQuantities(searchedproductsModel!);
+      // searchedproductsModel = AllProductsModel(
+      //   count: r.count,
+      //   next: r.next,
+      //   prev: r.prev,
+      //   result: updatedResults,
+      // );
 
-
-
-  
+      emit(LoadedProduct(allProductmodel: allProductsModel));
+    });
+  }
 }
 
 //
