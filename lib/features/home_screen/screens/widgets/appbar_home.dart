@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_common/get_reset.dart';
 import 'package:top_sale/core/utils/assets_manager.dart';
 import 'package:top_sale/core/widgets/decode_image.dart';
 
@@ -39,7 +41,7 @@ class _AppbarHomeState extends State<AppbarHome> {
                     // )
                   CircleAvatar(backgroundImage: AssetImage(ImageAssets.logo2Image),),
                     SizedBox(width: getSize(context)/33,),
-                    Text(context.read<HomeCubit>().nameOfUser??"",style: TextStyle(color: AppColors.black,fontWeight: FontWeight.bold),),
+                    Text("hi".tr()+" " +'${context.read<HomeCubit>().nameOfUser??""}',style: TextStyle(color: AppColors.black,fontWeight: FontWeight.bold),),
 
                   ],
                 ),

@@ -24,15 +24,30 @@ class ClientsCubit extends Cubit<ClientsState> {
 //get partner
   getAllPartnersForReport({
     int page = 1,
-    int pageSize = 20,
+    int pageSize = 20,//num of products at one page
+    bool isGetMore = false
   }) async {
+     isGetMore ?
+
+    emit(LoadingMorePartnersState()):
     emit(LoadingGetPartnersState());
     final result = await api.getAllPartnersForReport(page, pageSize);
     result.fold(
           (l) => emit(ErrorGetPartnersState()),
           (r) {
-        allPartnersModel = r;
-        emit(SucessGetPartnersState());
+            if (isGetMore) {
+              allPartnersModel = GetAllPartnersModel(
+                count: r.count,
+                next: r.next,
+                prev: r.prev,
+                result: [...allPartnersModel!.result!, ...r.result!],
+              );
+            }
+            else {
+              allPartnersModel = r;
+            }
+            print("loaded");
+            emit(SucessGetPartnersState( allPartnersModel: allPartnersModel));
       },
     );
   }
@@ -89,16 +104,28 @@ class ClientsCubit extends Cubit<ClientsState> {
   CreateOrderModel? createOrderModel;
   void createClient( BuildContext context) async {
     emit(CreateClientLoading());
-    final result = await api.createPartner(name:clientNameController.text??"", mobile:phoneController.text??"", street: addressController.text??"", lat:38.9071929, long: -77.0368727);
+    final result = await api.createPartner(name:clientNameController.text??"", mobile:phoneController.text??"", street: addressController.text??"", lat:double.parse(currentLocation?.latitude.toString()??""), long: double.parse(currentLocation?.longitude.toString()??""));
     result.fold((l) {
       emit(CreateClientError());
     }, (r) {
-      createOrderModel = r;
-      successGetBar("update_sucess".tr());
-      emit(CreateClientLoaded());
-      getAllPartnersForReport();
-      Navigator.pop(context);
 
+      if (r.result != null) {
+        if (r.result!.message != null) {
+         // successGetBar(r.result!.message);
+          successGetBar("add_client".tr());
+          createOrderModel = r;
+          getAllPartnersForReport();
+          clientNameController.clear();
+          phoneController.clear();
+          addressController.clear();
+          emit(CreateClientLoaded());
+          Navigator.pop(context);
+        } else {
+          emit(CreateClientError());
+
+          errorGetBar("error");
+        }
+      }
     }
       //!}
     );}
