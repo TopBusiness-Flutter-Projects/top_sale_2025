@@ -49,8 +49,8 @@ class _DirectSellScreenState extends State<DirectSellScreen> {
           actions: [
             GestureDetector(
               onTap: () {
-                // Navigator.pushNamed(context, Routes.clientsRoute);
-                // ClientScreen(isCart: true);
+                Navigator.pushNamed(context, Routes.clientsRoute, arguments:true);
+
               },
               child:  Padding(
                 padding: const EdgeInsets.all(15.0),

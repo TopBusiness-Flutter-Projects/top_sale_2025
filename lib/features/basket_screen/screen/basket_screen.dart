@@ -19,6 +19,7 @@ import '../../direct_sell/cubit/direct_sell_cubit.dart';
 import '../../direct_sell/cubit/direct_sell_state.dart';
 import '../../login/widget/textfield_with_text.dart';
 import '../cubit/state.dart';
+import 'custom_basket_item.dart';
 
 class BasketScreen extends StatefulWidget {
   const BasketScreen({required this.partner, super.key});
@@ -110,7 +111,7 @@ class _BasketScreenState extends State<BasketScreen> {
                         InkWell(
                           onTap: () {
                             //! add discount
-                            _showBottomSheet(context, cubit);
+                            customShowBottomSheet(context, cubit);
                           },
                           child: Image.asset(
                             ImageAssets.discount,
@@ -155,192 +156,8 @@ class _BasketScreenState extends State<BasketScreen> {
                     itemCount: cubit2.basket.length,
                     itemBuilder: (context, index) {
                       var item = cubit2.basket[index];
-                      return Container(
-                        height: getSize(context) / 4,
-                        padding: const EdgeInsets.all(8),
-                        margin: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                offset: const Offset(2, 2),
-                                color: AppColors.grey2Color,
-                              )
-                            ],
-                            color: AppColors.white,
-                            borderRadius: BorderRadius.circular(5)),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CustomDecodedImage(
-                              base64String: item.image1920,
-                              context: context,
-                              width: getSize(context) / 8,
-                              height: getSize(context) / 8,
-                            ),
-                            Flexible(
-                              fit: FlexFit.tight,
-                              child: Padding(
-                                padding: const EdgeInsetsDirectional.only(
-                                    start: 5.0),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Flexible(
-                                          fit: FlexFit.tight,
-                                          child: Text(
-                                            item.name ?? '_',
-                                            maxLines: 1,
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 16.sp,
-                                            ),
-                                          ),
-                                        ),
-
-                                        InkWell(
-                                          onTap: () {
-                                            //! add discount
-
-                                            _showBottomSheet(context, cubit);
-                                          },
-                                          child: Image.asset(
-                                            ImageAssets.discount,
-                                            width: getSize(context) / 14,
-                                          ),
-                                        ),
-                                        //! delete Product
-                                        Padding(
-                                            padding: const EdgeInsetsDirectional
-                                                .only(start: 5.0),
-                                            child: IconButton(
-                                                onPressed: () async {
-                                                  cubit2.basket
-                                                      .removeWhere((element) {
-                                                    return element.id ==
-                                                        item.id;
-                                                  });
-                                                  setState(() {});
-
-                                                  ///!
-                                                },
-                                                icon: Icon(
-                                                  CupertinoIcons.delete_solid,
-                                                  color: AppColors.red,
-                                                )))
-                                      ],
-                                    ),
-                                    Flexible(
-                                      child: Container(
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                              flex: 5,
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  color: AppColors.white,
-                                                  border: Border.all(
-                                                      color: AppColors
-                                                          .orangeThirdPrimary,
-                                                      width: 1.8),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          getSize(context) /
-                                                              22),
-                                                ),
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 12.0,
-                                                      vertical: 4),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          cubit2
-                                                              .addAndRemoveToBasket(
-                                                                  product: item,
-                                                                  isAdd: true);
-                                                          // Navigator.pop(context);
-                                                        },
-                                                        child: Icon(
-                                                          Icons.add,
-                                                          color: AppColors
-                                                              .orangeThirdPrimary,
-                                                          size: 30.w,
-                                                        ),
-                                                      ),
-                                                      //SizedBox(width: 8.w),
-                                                      Text(
-                                                          item.userOrderedQuantity
-                                                                  .toString() ??
-                                                              '0',
-                                                          style: getBoldStyle(
-                                                              color: AppColors
-                                                                  .primary,
-                                                              fontHeight: 1.3)),
-                                                      //SizedBox(width: 8.w),
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          cubit2
-                                                              .addAndRemoveToBasket(
-                                                                  product: item,
-                                                                  isAdd: false);
-                                                          // Navigator.pop(context);
-                                                        },
-                                                        child: Icon(
-                                                          Icons.remove,
-                                                          color: AppColors
-                                                              .orangeThirdPrimary,
-                                                          size: 30.w,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 4,
-                                              child: Container(
-                                                  alignment: Alignment.center,
-                                                  margin:
-                                                      const EdgeInsetsDirectional
-                                                          .only(start: 10),
-                                                  decoration: BoxDecoration(
-                                                    color: AppColors.white,
-                                                    border: Border.all(
-                                                        color: AppColors
-                                                            .orangeThirdPrimary,
-                                                        width: 1.8),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            getSize(context) /
-                                                                22),
-                                                  ),
-                                                  child: Text(
-                                                    '${((item.listPrice ?? 1) * item.userOrderedQuantity).toString() ?? '-1'} ج',
-                                                    style: TextStyle(
-                                                      color: AppColors
-                                                          .orangeThirdPrimary,
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                    ),
-                                                  )),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                      return CustomBasketItem(
+                        item: item,
                       );
                     },
                   ),
@@ -361,48 +178,6 @@ class _BasketScreenState extends State<BasketScreen> {
                 ],
               );
             }),
-          ),
-        );
-      },
-    );
-  }
-
-  //! add discount
-  void _showBottomSheet(BuildContext context, BasketCubit cubit) {
-    showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) {
-        return Padding(
-          padding: EdgeInsets.all(getSize(context) / 20),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CustomTextFieldWithTitle(
-                  title: "discount_rate".tr(),
-                  controller: cubit.controllerPercent,
-                  hint: "enter_the_percentage".tr(),
-                  keyboardType: TextInputType.text,
-                ),
-                SizedBox(
-                  height: getSize(context) / 30,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                      left: getSize(context) / 20,
-                      right: getSize(context) / 20),
-                  child: RoundedButton(
-                    backgroundColor: AppColors.primaryColor,
-                    text: 'confirm'.tr(),
-                    onPressed: () {},
-                  ),
-                )
-              ],
-            ),
           ),
         );
       },

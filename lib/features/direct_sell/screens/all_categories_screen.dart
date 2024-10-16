@@ -31,6 +31,7 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen> {
       var cubit = context.read<DirectSellCubit>();
       return Scaffold(
         appBar: AppBar(
+
           backgroundColor: AppColors.white,
           centerTitle: false,
           leading: GestureDetector(

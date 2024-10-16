@@ -16,14 +16,16 @@ class ShipmentCardWidget extends StatelessWidget {
     // print('image ::${order.partnerId.!.image1920}::imageeeeeeeeeeee');
     return GestureDetector(
       onTap: () {
-        print( "order.state ::${order.state}::stateeeeeeeeeeee");
-         order.state == 'draft'?
-        Navigator.pushNamed(context, Routes.basketScreenRoute):
-        Navigator.pushNamed(context, Routes.detailsOrder, arguments: order);
+        print("order.state ::${order.state}::stateeeeeeeeeeee");
+        order.state == 'draft'
+            ? Navigator.pushNamed(context, Routes.detailsOrderShowPrice,
+                arguments: order)
+            : Navigator.pushNamed(context, Routes.detailsOrder,
+                arguments: order);
       },
       child: Container(
         width: getSize(context),
-        decoration: BoxDecoration(
+        decoration: BoxDecoration(     
           boxShadow: [
             BoxShadow(
               color:
@@ -106,9 +108,9 @@ class ShipmentCardWidget extends StatelessWidget {
                                                   "to invoice" &&
                                               order.deliveryStatus == "pending"
                                           ? "new".tr()
-                                          : order.state == "draft" ?
-                              "show_price".tr():
-                              "",
+                                          : order.state == "draft"
+                                              ? "show_price".tr()
+                                              : "",
                               style: TextStyle(
                                 color: order.state == "sale" &&
                                         order.invoiceStatus == "to invoice" &&
@@ -187,7 +189,6 @@ class ShipmentCardWidget extends StatelessWidget {
             ),
             Row(
               children: [
-
                 Center(
                     child: Image.asset(
                   ImageAssets.user,

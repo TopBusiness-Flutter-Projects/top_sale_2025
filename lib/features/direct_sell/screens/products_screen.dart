@@ -9,6 +9,7 @@ import 'package:top_sale/core/utils/get_size.dart';
 import 'package:top_sale/features/direct_sell/cubit/direct_sell_state.dart';
 import 'package:top_sale/features/direct_sell/screens/widgets/scanner.dart';
 
+import '../../../config/routes/app_routes.dart';
 import '../../../core/models/all_products_model.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/assets_manager.dart';
@@ -69,7 +70,24 @@ class _ProductsScreenState extends State<ProductsScreen> {
           appBar: AppBar(
             backgroundColor: AppColors.white,
             centerTitle: false,
+            actions: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, Routes.clientsRoute, arguments:true);
 
+                },
+                child:  Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Image.asset(
+                    'assets/images/basket1.png',
+                    width: getSize(context) / 15,
+                    color: cubit.currentIndex == 1
+                        ? AppColors.orange
+                        : Colors.black,
+                  ),
+                ),
+              ),
+            ],
             leading: GestureDetector(
               onTap: () {
                 Navigator.pop(context);
