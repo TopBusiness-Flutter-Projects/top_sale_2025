@@ -31,11 +31,13 @@ class _DirectSellScreenState extends State<DirectSellScreen> {
 
     context.read<DirectSellCubit>().getCategries();
     context.read<DirectSellCubit>().getAllProducts(isHome: true);
+
   }
 
   @override
   @override
   Widget build(BuildContext context) {
+
     return BlocBuilder<DirectSellCubit, DirectSellState>(
         builder: (context, state) {
       // if (state is LoadingCatogries) {
@@ -90,7 +92,10 @@ class _DirectSellScreenState extends State<DirectSellScreen> {
                     ? Center(
                         child:
                             CircularProgressIndicator(color: AppColors.primary))
-                    : SingleChildScrollView(
+                    :
+
+                cubit.searchController.text.isEmpty ?
+                SingleChildScrollView(
                         physics:
                             const AlwaysScrollableScrollPhysics(), // Ensures the RefreshIndicator works even if the list is not scrollable
                         child: Padding(
@@ -113,12 +118,28 @@ class _DirectSellScreenState extends State<DirectSellScreen> {
                                   ? const Center(
                                       child: CircularProgressIndicator())
                                   : CustomProductSection(
+                                  isSearch: false,
                                       result: cubit.homeProductsModel?.result ??
                                           []),
                             ],
                           ),
                         ),
-                      ),
+                      ):
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        const CustomSearchWidget(),
+                        SizedBox(height: 25.h),
+                        CustomProductSection(
+                          isSearch: true,
+                            result: cubit.searchedProductsModel?.result ??
+                                []),
+                      ],
+                    ),
+                  ),
+                ),
               ),
       );
     });
