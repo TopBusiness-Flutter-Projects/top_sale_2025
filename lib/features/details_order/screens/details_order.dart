@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart' as tr;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -134,12 +135,42 @@ class _DetailsOrderState extends State<DetailsOrder> {
                         padding: const EdgeInsets.symmetric(horizontal: 7),
                         child: Directionality(
                           textDirection: TextDirection.ltr,
-                          child: Stack(
-                            alignment: Alignment.center,
+                          child: Column(
+                            // alignment: Alignment.center,
+
                             children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  AutoSizeText('show_price'.tr(),
+                                      style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w600)),
+                                  AutoSizeText('new'.tr(),
+                                      style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w600)),
+                                  AutoSizeText('delivered'.tr(),
+                                      style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w600)),
+                                  AutoSizeText('complete'.tr(),
+                                      style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w600)),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 12.h,
+                              ),
                               FlutterStepIndicator(
                                 division: 3,
-                                height: 28,
+                                height: 28.h,
                                 positiveColor: AppColors.orange,
                                 negativeColor:
                                     const Color.fromRGBO(213, 213, 213, 1),
@@ -152,42 +183,6 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                 ),
                                 page: cubit.page,
                                 disableAutoScroll: true,
-                              ),
-                              Positioned(
-                                bottom: 70.h,
-                                left: 0.w,
-                                child: Text('show_price'.tr(),
-                                    style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w600)),
-                              ),
-                              Positioned(
-                                bottom: 70.h,
-                                left: 110.w,
-                                child: Text('new'.tr(),
-                                    style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w600)),
-                              ),
-                              Positioned(
-                                bottom: 70.h,
-                                left: 220.w,
-                                child: Text('delivered'.tr(),
-                                    style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w600)),
-                              ),
-                              Positioned(
-                                bottom: 70.h,
-                                left: 340.w,
-                                child: Text('complete'.tr(),
-                                    style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w600)),
                               ),
                             ],
                           ),
