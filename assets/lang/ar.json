@@ -92,5 +92,6 @@
   "show_price": "عرض السعر",
   "no_data": "لا يوجد بيانات",
   "Enter_the_amount": "ادخل المبلغ",
-  "Paid_in_full": "المبلغ المدفوع"
+  "Paid_in_full": "المبلغ المدفوع",
+  "make_order":"تأكيد أمر البيع"
 }

@@ -16,6 +16,7 @@ import '../../core/utils/app_strings.dart';
 import 'package:page_transition/page_transition.dart';
 import '../../features/basket_screen/screen/basket_screen.dart';
 import '../../features/details_order/screens/details_order.dart';
+import '../../features/details_order/screens/details_order_show_price.dart';
 import '../../features/details_order/screens/widgets/payment.dart';
 import '../../features/delevery_order/screens/delevery_order_screen.dart';
 import '../../features/login/screens/login_screen.dart';
@@ -29,6 +30,7 @@ class Routes {
   static const String clientsRoute = '/clients';
   static const String homeRoute = '/home';
   static const String detailsOrder = '/orderDetails';
+  static const String detailsOrderShowPrice = '/detailsOrderShowPrice';
   static const String paymentRoute = '/payment';
   static const String deleveryOrderRoute = '/deleveryOrderRoute';
   static const String onboardingPageScreenRoute = '/onboardingPageScreenRoute';
@@ -96,6 +98,13 @@ class AppRoutes {
         final OrderModel orderModel = settings.arguments as OrderModel;
         return MaterialPageRoute(
           builder: (context) => DetailsOrder(
+            orderModel: orderModel,
+          ),
+        );
+      case Routes.detailsOrderShowPrice:
+        final OrderModel orderModel = settings.arguments as OrderModel;
+        return MaterialPageRoute(
+          builder: (context) => DetailsOrderShowPrice(
             orderModel: orderModel,
           ),
         );

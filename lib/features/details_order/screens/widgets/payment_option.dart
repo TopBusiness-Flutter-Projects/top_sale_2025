@@ -4,12 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top_sale/core/models/all_journals_model.dart';
 import 'package:top_sale/core/utils/app_fonts.dart';
 import 'package:top_sale/features/details_order/screens/widgets/rounded_button.dart';
-
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/get_size.dart';
 import '../../../login/widget/textfield_with_text.dart';
-import '../../cubit/delevery_orders_cubit.dart';
-import '../../cubit/delevery_orders_state.dart';
+import '../../cubit/details_orders_cubit.dart';
+import '../../cubit/details_orders_state.dart';
 
 class PaymentOptions extends StatefulWidget {
   const PaymentOptions({super.key});
@@ -49,7 +48,8 @@ class _PaymentOptionsState extends State<PaymentOptions> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: paymentMethods.map((method) {
               return RadioListTile<String>(
-                title: Text(method.displayName!, style: getBoldStyle()), // Display payment method name
+                title: Text(method.displayName!,
+                    style: getBoldStyle()), // Display payment method name
                 value: method.displayName!,
                 groupValue: selectedOption,
                 onChanged: (value) {
@@ -71,7 +71,8 @@ class _PaymentOptionsState extends State<PaymentOptions> {
   }
 }
 
-void _showBottomSheet(BuildContext context, DetailsOrdersCubit cubit, String? value) {
+void _showBottomSheet(
+    BuildContext context, DetailsOrdersCubit cubit, String? value) {
   showModalBottomSheet(
     isScrollControlled: true,
     context: context,
@@ -87,7 +88,9 @@ void _showBottomSheet(BuildContext context, DetailsOrdersCubit cubit, String? va
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text("اجمالى الفاتورة :  ${cubit.getDetailsOrdersModel?.amountTotal ?? 0} ج", style: TextStyle(fontSize: getSize(context) / 20)),
+              Text(
+                  "اجمالى الفاتورة :  ${cubit.getDetailsOrdersModel?.amountTotal ?? 0} ج",
+                  style: TextStyle(fontSize: getSize(context) / 20)),
               CustomTextFieldWithTitle(
                 title: "Paid_in_full".tr(),
                 controller: cubit.moneyController,
@@ -98,20 +101,24 @@ void _showBottomSheet(BuildContext context, DetailsOrdersCubit cubit, String? va
                 height: getSize(context) / 30,
               ),
               Padding(
-                padding: EdgeInsets.only(left: getSize(context) / 20, right: getSize(context) / 20),
+                padding: EdgeInsets.only(
+                    left: getSize(context) / 20, right: getSize(context) / 20),
                 child: RoundedButton(
                   backgroundColor: AppColors.primaryColor,
                   text: 'confirm'.tr(),
                   onPressed: () {
+                    cubit.registerPayment(
+                      context,
+                      orderId: cubit.getDetailsOrdersModel?.id ?? -1,
+                      journalId:
+                          cubit.getAllJournalsModel?.result?.first.id ?? -1,
+                      invoiceId: cubit.getDetailsOrdersModel?.invoices?.first
+                              .invoiceId ??
+                          -1,
+                    );
 
-                    cubit.registerPayment(context,
-                      orderId:  cubit.getDetailsOrdersModel?.id ?? -1,
-                        journalId: cubit.getAllJournalsModel?.result?.first.id ?? -1,
-                        invoiceId: cubit.getDetailsOrdersModel?.invoices?.first.invoiceId ?? -1,);
-
-                    print("///////////////////////// ${cubit.getDetailsOrdersModel?.id}");
-
-
+                    print(
+                        "///////////////////////// ${cubit.getDetailsOrdersModel?.id}");
                   },
                 ),
               )
