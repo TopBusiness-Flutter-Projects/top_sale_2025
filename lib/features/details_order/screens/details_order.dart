@@ -492,10 +492,7 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                                         ],
                                                       ),
                                                       onPressed: () {
-                                                        if (cubit
-                                                            .getDetailsOrdersModel!
-                                                            .invoices!
-                                                            .isNotEmpty) {
+                                                      
                                                           Navigator.push(
                                                               context,
                                                               MaterialPageRoute(
@@ -507,7 +504,7 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                                               // return PaymentWebViewScreen(url: "",);
                                                             },
                                                           ));
-                                                        }
+                                                        
                                                         // Navigator.pushNamed(context, Routes.paymentRoute);
                                                         // cubit.createAndValidateInvoice(
                                                         //     orderId: widget.orderModel.id ?? -1);
