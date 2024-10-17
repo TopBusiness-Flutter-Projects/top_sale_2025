@@ -1,6 +1,7 @@
 import 'package:ai_barcode_scanner/ai_barcode_scanner.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,7 +11,7 @@ import '../../../../core/utils/app_colors.dart';
 import '../../cubit/direct_sell_cubit.dart';
 
 class CustomSearchWidget extends StatefulWidget {
-  const CustomSearchWidget({super.key,  this.isHome = false});
+  const CustomSearchWidget({super.key, this.isHome = false});
   final bool isHome;
   @override
   State<CustomSearchWidget> createState() => _CustomSearchWidgetState();
@@ -34,11 +35,8 @@ class _CustomSearchWidgetState extends State<CustomSearchWidget> {
                   } else {
                     EasyDebounce.debounce(
                         'search', // <-- An ID for this particular debouncer
-                        const Duration(
-                            seconds: 1), // <-- The debounce duration
-                        () => cubit.searchProducts(
-
-                            ) // <-- The target method
+                        const Duration(seconds: 1), // <-- The debounce duration
+                        () => cubit.searchProducts() // <-- The target method
                         );
                   }
                 },
@@ -71,8 +69,7 @@ class _CustomSearchWidgetState extends State<CustomSearchWidget> {
                           cubit.searchController.text = scannedValue!;
 
                           debugPrint("Barcode scanned: $scannedValue");
-                          cubit.searchProducts(
-                              isBarcode: true);
+                          cubit.searchProducts(isBarcode: true);
                           setState(() {
                             barcode = scannedValue!;
                             print("llll ${barcode}");
@@ -137,11 +134,11 @@ class Scanner extends StatelessWidget {
           color: AppColors.secondPrimary,
           borderRadius: BorderRadius.all(Radius.circular(12))),
       child: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: EdgeInsets.all(15.0.w),
         child: Icon(
-          Icons.document_scanner_outlined,
+          CupertinoIcons.barcode_viewfinder,
           color: AppColors.white,
-          size: 30,
+          size: 30.w,
         ),
       ),
     );

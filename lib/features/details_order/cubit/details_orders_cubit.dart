@@ -4,9 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:screenshot/screenshot.dart';
-import 'package:share/share.dart';
+import 'package:top_sale/config/routes/app_routes.dart';
 import 'package:top_sale/core/remote/service.dart';
 import 'package:top_sale/core/utils/appwidget.dart';
 import 'package:top_sale/core/utils/dialogs.dart';
@@ -15,6 +13,7 @@ import 'package:top_sale/features/details_order/cubit/details_orders_state.dart'
 import 'package:url_launcher/url_launcher.dart';
 import '../../../core/models/all_journals_model.dart';
 import '../../../core/models/create_order_model.dart';
+import '../../../core/models/get_orders_model.dart';
 import '../../../core/models/order_details_model.dart';
 
 class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
@@ -29,6 +28,7 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
     page = index;
     emit(ChangePageState());
   }
+
   double? lat;
   double? lang;
   Future<void> getLatLong() async {
@@ -71,6 +71,7 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
       throw 'Could not launch $url';
     }
   }
+
   TextEditingController moneyController = TextEditingController();
   void getDetailsOrders({required int orderId}) async {
     emit(GetDetailsOrdersLoadingState());
@@ -80,6 +81,10 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
           emit(GetDetailsOrdersErrorState('Error loading  data: $failure')),
       (r) {
         getDetailsOrdersModel = r;
+      if(  r.payments!.isNotEmpty )
+
+        page = 4;
+      print("55555555555555555555 ${r.payments!.isNotEmpty}");
         emit(GetDetailsOrdersLoadedState());
       },
     );
@@ -293,8 +298,11 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
 
   // List<OrderLine> basket = [];
   CreateOrderModel? updatreOrderModel;
-  updateQuotation(
-      {required int partnerId, required BuildContext context}) async {
+  updateQuotation({
+    required int partnerId,
+    required BuildContext context,
+    required OrderModel orderModel,
+  }) async {
     emit(LoadingUpdateQuotation());
     final result = await api.updateQuotation(
         partnerId: partnerId,
@@ -312,13 +320,30 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
       debugPrint("Success Update Quotation");
       getDetailsOrdersModel!.orderLines?.clear();
       //! Nav to
-      confirmQuotation(orderId: getDetailsOrdersModel!.id!, context: context);
+      confirmQuotation(
+        orderId: getDetailsOrdersModel!.id!,
+        context: context,
+        orderModel: OrderModel(
+            amountTotal: orderModel.amountTotal,
+            deliveryStatus: 'pending',
+            displayName: orderModel.displayName,
+            employeeId: orderModel.employeeId,
+            id: orderModel.id,
+            invoiceStatus: 'to invoice',
+            partnerId: orderModel.partnerId,
+            state: 'sale',
+            userId: orderModel.userId,
+            writeDate: orderModel.writeDate),
+      );
       emit(LoadedUpdateQuotation());
     });
   }
 
-  confirmQuotation(
-      {required int orderId, required BuildContext context}) async {
+  confirmQuotation({
+    required int orderId,
+    required OrderModel orderModel,
+    required BuildContext context,
+  }) async {
     emit(LoadingConfirmQuotation());
     final result = await api.confirmQuotation(orderId: orderId);
     result.fold((l) {
@@ -326,7 +351,8 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
     }, (r) {
       context.read<DeleveryOrdersCubit>().getOrders();
       //! Make confirm quotation
-      Navigator.pop(context);
+      Navigator.pushReplacementNamed(context, Routes.detailsOrder,
+          arguments: orderModel);
       emit(LoadedConfirmQuotation());
     });
   }
@@ -339,17 +365,13 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
     newPriceController.clear();
     emit(OnChangeUnitPriceOfItem());
   }
-    ScreenshotController screenshotController = ScreenshotController();
 
-   captureScreenshot() async {
+  TextEditingController newDiscountController = TextEditingController();
 
-    Uint8List? imageInUnit8List = await screenshotController.capture();// store unit8List image here ;
-    final tempDir = await getTemporaryDirectory();
-    File file = await File('${tempDir.path}/image.png').create();
-    file.writeAsBytesSync(imageInUnit8List!.toList(growable: true));
-
-
-    Share.shareFiles([file.path],text: "share receipt ",);
-    emit(ScreenshootState());
+  onChnageDiscountOfUnit(OrderLine item, BuildContext context) {
+    item.discount = double.parse(newDiscountController.text.toString());
+    Navigator.pop(context);
+    newDiscountController.clear();
+    emit(OnChangeUnitPriceOfItem());
   }
 }

@@ -15,6 +15,7 @@ import '../../core/models/get_orders_model.dart';
 import '../../core/utils/app_strings.dart';
 import 'package:page_transition/page_transition.dart';
 import '../../features/basket_screen/screen/basket_screen.dart';
+import '../../features/clients/screens/profile_client.dart';
 import '../../features/details_order/screens/details_order.dart';
 import '../../features/details_order/screens/details_order_show_price.dart';
 import '../../features/details_order/screens/widgets/payment.dart';
@@ -45,6 +46,7 @@ class Routes {
   static const String basketScreenRoute = '/basketScreen';
   static const String updateprofileRoute = '/updateprofile';
   static const String profileRoute = '/profileRoute';
+  static const String profileClientRoute = '/profileClientRoute';
 }
 
 class AppRoutes {
@@ -80,7 +82,7 @@ class AppRoutes {
         );
       case Routes.contactRoute:
         return PageTransition(
-          child: const ContactUsScreen(),
+          child:  ContactUsScreen(),
           type: PageTransitionType.fade,
           alignment: Alignment.center,
           duration: const Duration(milliseconds: 800),
@@ -141,16 +143,15 @@ class AppRoutes {
             catId: categoryName[1],
           ),
         );
-      case Routes.contactUsRoute:
-        return MaterialPageRoute(
-          builder: (context) => const ContactUsScreen(),
-        );
       case Routes.updateProfileRoute:
         return MaterialPageRoute(
             builder: (context) => const UpdateProfileScreen());
       case Routes.categoriesRoute:
         return MaterialPageRoute(
           builder: (context) => AllCategoriesScreen(),
+        );   case Routes.profileClientRoute:
+        return MaterialPageRoute(
+          builder: (context) => ProfileClient(),
         );
       case Routes.basketScreenRoute:
         AllPartnerResults? partner = settings.arguments as AllPartnerResults?;

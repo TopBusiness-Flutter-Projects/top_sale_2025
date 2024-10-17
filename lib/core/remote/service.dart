@@ -85,15 +85,14 @@ class ServiceApi {
     required dynamic image,
     required String name,
     required String mobile,
-     required String email,
+    required String email,
   }) async {
-      String? sessionId = await Preferences.instance.getSessionId();
-      String odooUrl =
-          await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+    String? sessionId = await Preferences.instance.getSessionId();
+    String odooUrl =
+        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
     String userId = await Preferences.instance.getUserId() ?? "1";
     try {
-      final response = await dio.put(
-       odooUrl+ EndPoints.resUsers,
+      final response = await dio.put(odooUrl + EndPoints.resUsers,
           options: Options(
             headers: {"Cookie": "session_id=$sessionId"},
           ),
@@ -107,11 +106,11 @@ class ServiceApi {
                 ]
               ],
               "data": {
-                 "image_1920": image, //base_64
+                "image_1920": image, //base_64
                 "phone": mobile,
                 "name": name,
                 "email": email,
-               // "password": password
+                // "password": password
               }
             }
           });
@@ -120,37 +119,41 @@ class ServiceApi {
       return Left(ServerFailure(message: e.toString()));
     }
   }
-    Future<Either<Failure, DefaultModel>> updateEmployeeData({
+
+  Future<Either<Failure, DefaultModel>> updateEmployeeData({
     required dynamic image,
     required String name,
     required String mobile,
     required String email,
   }) async {
-      String? sessionId = await Preferences.instance.getSessionId();
-      String odooUrl =
-          await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
- String employeeId = await Preferences.instance.getEmployeeId() ?? "1";    try {
-      final response = await dio.put(
-       odooUrl+ EndPoints.checkEmployee,
+    String? sessionId = await Preferences.instance.getSessionId();
+    String odooUrl =
+        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+    String employeeId = await Preferences.instance.getEmployeeId() ?? "1";
+    try {
+      final response = await dio.put(odooUrl + EndPoints.checkEmployee,
           options: Options(
             headers: {"Cookie": "session_id=$sessionId"},
           ),
           body: {
-    "params": {
-        "filter": [["id", "=",employeeId ]],
-        "data": {
-           "name":name,
-            "work_phone":mobile,
-            "image_1920":image,//base_64
-            "work_email": email             
-        }
-    }
-});
+            "params": {
+              "filter": [
+                ["id", "=", employeeId]
+              ],
+              "data": {
+                "name": name,
+                "work_phone": mobile,
+                "image_1920": image, //base_64
+                "work_email": email
+              }
+            }
+          });
       return Right(DefaultModel.fromJson(response));
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.toString()));
     }
   }
+
   Future<Either<Failure, CheckEmployeeModel>> checkEmployee(
       {required String employeeId, required String password}) async {
     try {
@@ -222,10 +225,12 @@ class ServiceApi {
           await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
       final response = await dio.get(
         isBarcode
-            ? odooUrl + EndPoints.allProducts +
-                '?filter=[["detailed_type","=","product"],["barcode","=","$name"]]&query={id,name,image_1920,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id}&page_size=10&limit=10&page=$page'
-            : odooUrl + EndPoints.allProducts +
-                '?filter=[["detailed_type","=","product"],["name", "=like", "%$name%"]]&query={id,name,image_1920,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id}&page_size=10&limit=10&page=$page',
+            ? odooUrl +
+                EndPoints.allProducts +
+                '?filter=[["detailed_type","=","product"],["barcode","=","$name"]]&query={id,name,image_1920,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id,currency_id{name}}&page_size=10&limit=10&page=$page'
+            : odooUrl +
+                EndPoints.allProducts +
+                '?filter=[["detailed_type","=","product"],["name", "=like", "%$name%"]]&query={id,name,image_1920,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id,currency_id{name}}&page_size=10&limit=10&page=$page',
         options: Options(
           headers: {"Cookie": "frontend_lang=en_US;session_id=$sessionId"},
         ),
@@ -264,7 +269,7 @@ class ServiceApi {
       final response = await dio.get(
         odooUrl +
             EndPoints.allProducts +
-            '?filter=[["detailed_type","=","product"]]&query={id,name,image_1920,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id}&page_size=10&limit=10&page=$page',
+            '?filter=[["detailed_type","=","product"]]&query={id,name,image_1920,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id,currency_id{name}}&page_size=10&limit=10&page=$page',
         // '?filter=[["detailed_type","=","product"],["virtual_available","!=",0.0]]&query={id,name,image_1920,categ_id,list_price,currency_id,taxes_id,uom_name,uom_id,description_sale,virtual_available,image_1920}&page_size=10&limit=10&page=$page',
         options: Options(
           headers: {"Cookie": "frontend_lang=en_US;session_id=$sessionId"},
@@ -285,7 +290,7 @@ class ServiceApi {
       final response = await dio.get(
         odooUrl +
             EndPoints.allProducts +
-            '?filter=[["detailed_type","=","product"],["categ_id", "=", $categoryId]]&query={id,name,image_1920,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id}&page_size=10&limit=10&page=$page',
+            '?filter=[["detailed_type","=","product"],["categ_id", "=", $categoryId]]&query={id,name,image_1920,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id,currency_id{name}}&page_size=10&limit=10&page=$page',
         // '?filter=[["detailed_type","=","product"],["virtual_available","!=",0.0]]&query={id,name,image_1920,categ_id,list_price,currency_id,taxes_id,uom_name,uom_id,description_sale,virtual_available,image_1920}&page_size=10&limit=10&page=$page',
 
         // queryParameters: {
@@ -327,7 +332,7 @@ class ServiceApi {
   }
 
   Future<Either<Failure, GetAllPartnersModel>> searchUsers(
-      { required int page, required String name}) async {
+      {required int page, required String name}) async {
     try {
       String odooUrl =
           await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
@@ -357,7 +362,7 @@ class ServiceApi {
       final response = await dio.get(
         odooUrl +
             EndPoints.saleOrder +
-            '?query={id,user_id,partner_id{id,name,phone,partner_latitude,partner_longitude},display_name,state,write_date,amount_total,invoice_status,delivery_status,employee_id{id,name}}&page_size=20&page=1',
+            '?query={id,user_id,partner_id{id,name,phone,partner_latitude,partner_longitude},currency_id{name},display_name,state,write_date,amount_total,invoice_status,delivery_status,employee_id{id,name}}&page_size=20&page=1',
         // '?query={id,partner_id,display_name,state,write_date,amount_total}&filter=[["user_id", "=",1]]',
         options: Options(
           headers: {"Cookie": "session_id=$sessionId"},
@@ -377,13 +382,19 @@ class ServiceApi {
     try {
       final response = await dio.get(
         odooUrl +
-            EndPoints.createPartner +
+            EndPoints.partners +
             '?partner_id=$partnerId',
         options: Options(
           headers: {"Cookie": "session_id=$sessionId"},
         ),
       );
-      return Right(PartnerModel.fromJson(response));
+      if(response.isNotEmpty){
+        return Right(PartnerModel.fromJson(response.first));
+      }else{
+        return Left(ServerFailure());
+      }
+
+
     } on ServerException {
       return Left(ServerFailure());
     }
@@ -430,6 +441,7 @@ class ServiceApi {
 // create quatation
   Future<Either<Failure, CreateOrderModel>> createQuotation(
       {required int partnerId,
+      required String warehouseId,
       required List<ProductModelData> products}) async {
     String odooUrl =
         await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
@@ -442,7 +454,8 @@ class ServiceApi {
           .map((product) => {
                 "product_id": product.id,
                 "product_uom_qty": product.userOrderedQuantity,
-                "price_unit": product.listPrice
+                "price_unit": product.listPrice,
+                "discount": product.discount
               })
           .toList();
 
@@ -454,6 +467,7 @@ class ServiceApi {
             "params": {
               "data": {
                 "partner_id": partnerId,
+                "warehouse_id": 1,
                 "user_id": userId,
                 if (employeeId != null) "employee_id": employeeId,
                 "order_line": orderLine
@@ -586,17 +600,19 @@ class ServiceApi {
 
     String? sessionId = await Preferences.instance.getSessionId();
     try {
-      final response =
-      await dio.post(odooUrl + EndPoints.invoice + '$invoiceId/register_payment',
-          options: Options(
-            headers: {"Cookie": "session_id=$sessionId"},
-          ),
-          body: { "params": {
-       // "payment_date": "2024-10-10",
-        "journal_id": journalId,
-        "payment_method_id": 1, // ثابت
-        "amount": amount
-    }});
+      final response = await dio
+          .post(odooUrl + EndPoints.invoice + '$invoiceId/register_payment',
+              options: Options(
+                headers: {"Cookie": "session_id=$sessionId"},
+              ),
+              body: {
+            "params": {
+              // "payment_date": "2024-10-10",
+              "journal_id": journalId,
+              "payment_method_id": 1, // ثابت
+              "amount": amount
+            }
+          });
       return Right(CreateOrderModel.fromJson(response));
     } on ServerException {
       return Left(ServerFailure());
@@ -643,7 +659,7 @@ class ServiceApi {
             "params": {
               "data": {
                 "name": name,
-                "phone":mobile,
+                "phone": mobile,
                 "street": street,
                 "latitude": lat,
                 "longitude": long

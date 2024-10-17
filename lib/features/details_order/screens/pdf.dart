@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'dart:io'; // لإضافة التعامل مع الملفات
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
@@ -6,15 +7,14 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:printing/printing.dart';
 import 'package:pdf/pdf.dart';
 import 'package:top_sale/core/preferences/preferences.dart';
-import 'package:top_sale/core/utils/app_strings.dart'; // Import PdfPageFormat here
-import 'package:screenshot/screenshot.dart';
-import 'dart:typed_data';
-import 'package:share/share.dart';
-import 'package:top_sale/features/details_order/cubit/details_orders_cubit.dart';
+import 'package:top_sale/core/utils/app_strings.dart';
+import 'package:share_plus/share_plus.dart'; // استيراد مكتبة المشاركة
+import 'package:path_provider/path_provider.dart'; // للتعامل مع الملفات المؤقتة
 
 class PdfViewerPage extends StatefulWidget {
-  const PdfViewerPage({super.key, required this.id});
-  final String id;
+  const PdfViewerPage({super.key, required this.baseUrl});
+  final String baseUrl;
+
   @override
   _PdfViewerPageState createState() => _PdfViewerPageState();
 }
@@ -33,65 +33,35 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
     String odooUrl =
         await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
     String cookie = 'session_id=$sessionId';
-//  String cookie = 'session_id=6283d59dcd6abfa4a82380e5dedebf4398b1fe8c';
-    // String cookie = loginResponse.headers['set-cookie'] ?? '';
-    print("ccccc $cookie");
 
-    // Step 3: Fetch the PDF using the session cookie
     final pdfResponse = await http.get(
-      Uri.parse(odooUrl + '/report/pdf/account.report_invoice_with_payments/${widget.id}'),
+      Uri.parse(odooUrl + widget.baseUrl),
       headers: {
         'Cookie': cookie, // Pass the session cookie
       },
     );
+
     if (pdfResponse.statusCode == 200) {
       setState(() {
         pdfBytes = pdfResponse.bodyBytes;
         isLoading = false;
       });
     } else {
-      // Handle error
       print('Failed to load PDF');
     }
+  }
 
-    // // Step 1: Authenticate with Odoo
-    // final loginResponse = await http.post(
-    //   Uri.parse(
-    //       'https://novapolaris-stage-branche-15780489.dev.odoo.com/web/session/authenticate'),
-    //   headers: <String, String>{
-    //     'Content-Type': 'application/json; charset=UTF-8',
-    //   },
-    //   body:
-    //       '{"params":{"db":"novapolaris-stage-branche-15780489","login":"master@gmail.com","password":"master"}}',
-    // );
+  // وظيفة المشاركة
+  void sharePdf() async {
+    final tempDir = await getTemporaryDirectory(); // الحصول على المسار المؤقت
+    final file = File('${tempDir.path}/document.pdf');
+    await file.writeAsBytes(pdfBytes); // كتابة ملف PDF مؤقت
 
-    // if (loginResponse.statusCode == 200) {
-    //   // Step 2: Extract session cookies from the login response
-    //   String cookie = 'session_id=6283d59dcd6abfa4a82380e5dedebf4398b1fe8c';
-    //   // String cookie = loginResponse.headers['set-cookie'] ?? '';
-    //   print("ccccc $cookie");
+    // تحويل المسار إلى XFile
+    final xFile = XFile(file.path);
 
-    //   // Step 3: Fetch the PDF using the session cookie
-    //   final pdfResponse = await http.get(
-    //     Uri.parse(
-    //         'https://novapolaris-stage-branche-15780489.dev.odoo.com/report/pdf/stock.report_picking/41'),
-    //     headers: {
-    //       'Cookie': cookie, // Pass the session cookie
-    //     },
-    //   );
-    //   if (pdfResponse.statusCode == 200) {
-    //     setState(() {
-    //       pdfBytes = pdfResponse.bodyBytes;
-    //       isLoading = false;
-    //     });
-    //   } else {
-    //     // Handle error
-    //     print('Failed to load PDF');
-    //   }
-    // } else {
-    //   // Handle login failure
-    //   print('Failed to authenticate');
-    // }
+    // مشاركة الملف باستخدام share_plus
+    await Share.shareXFiles([xFile], text: 'Check out this PDF document!');
   }
 
   void printPdf() async {
@@ -110,19 +80,12 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
         actions: [
           IconButton(
             icon: Icon(Icons.print),
-            onPressed:
-                isLoading ? null : printPdf, // Disable the button while loading
+            onPressed: isLoading ? null : printPdf, // تعطيل الزر أثناء التحميل
           ),
-          SizedBox(
-            width: 8,
-          ),
+          SizedBox(width: 5),
           IconButton(
             icon: Icon(Icons.share),
-            onPressed: isLoading
-                ? null
-                : () {
-              // share
-                  }, // Disable the button while loading
+            onPressed: isLoading ? null : sharePdf, // مشاركة PDF
           ),
         ],
       ),

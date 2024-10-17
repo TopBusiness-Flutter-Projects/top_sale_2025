@@ -9,6 +9,7 @@ import 'package:top_sale/features/direct_sell/cubit/direct_sell_state.dart';
 import 'package:top_sale/features/direct_sell/screens/widgets/custom_product_section.dart';
 import 'package:top_sale/features/direct_sell/screens/widgets/scanner.dart';
 import '../../../config/routes/app_routes.dart';
+import '../../../core/models/all_products_model.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/assets_manager.dart';
 import '../cubit/direct_sell_cubit.dart';
@@ -177,8 +178,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                 ),
                               ),
                             if (cubit.allProductsModel.result == [] ||
-                                cubit.allProductsModel == null ||
-                                cubit.allProductsModel.result!.isEmpty)
+                                cubit.allProductsModel == AllProductsModel())
                               Center(
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -193,32 +193,34 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                 ),
                               )
                             else
-                              Expanded(
-                                child: SingleChildScrollView(
-                                  controller: scrollController,
-                                  child: state is LoadingProduct
-                                      ? const Center(
-                                          child: CircularProgressIndicator())
-                                      : cubit.allProductsModel.result == null
-                                          ? Container()
-                                          : StaggeredGrid.count(
-                                              crossAxisCount: 2,
-                                              mainAxisSpacing: 10.h,
-                                              crossAxisSpacing: 10.w,
-                                              children: List.generate(
-                                                cubit.allProductsModel.result!
-                                                    .length,
-                                                (index) => Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(4.0),
-                                                  child: CustomProductWidget(
-                                                      product: cubit
-                                                          .allProductsModel
-                                                          .result![index]),
-                                                ),
-                                              )),
-                                ),
-                              )
+                              state is LoadingProduct
+                                  ? const Center(
+                                      child: CircularProgressIndicator())
+                                  : Expanded(
+                                      child: SingleChildScrollView(
+                                        controller: scrollController,
+                                        child: cubit.allProductsModel.result ==
+                                                null
+                                            ? Container()
+                                            : StaggeredGrid.count(
+                                                crossAxisCount: 2,
+                                                mainAxisSpacing: 10.h,
+                                                crossAxisSpacing: 10.w,
+                                                children: List.generate(
+                                                  cubit.allProductsModel.result!
+                                                      .length,
+                                                  (index) => Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            4.0),
+                                                    child: CustomProductWidget(
+                                                        product: cubit
+                                                            .allProductsModel
+                                                            .result![index]),
+                                                  ),
+                                                )),
+                                      ),
+                                    )
                           ],
                         ),
                       )

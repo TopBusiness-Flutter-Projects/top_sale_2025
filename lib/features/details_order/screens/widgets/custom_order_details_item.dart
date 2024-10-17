@@ -3,16 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../../core/models/order_details_model.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_fonts.dart';
 import '../../../../core/utils/assets_manager.dart';
 import '../../../../core/utils/get_size.dart';
-import '../../../../core/widgets/decode_image.dart';
 import '../../../basket_screen/cubit/cubit.dart';
-import '../../../direct_sell/cubit/direct_sell_cubit.dart';
-import '../../../direct_sell/cubit/direct_sell_state.dart';
 import '../../../login/widget/textfield_with_text.dart';
 import '../../cubit/details_orders_cubit.dart';
 import '../../cubit/details_orders_state.dart';
@@ -43,12 +39,12 @@ class _CustomOrderDetailsShowPriceItemState
           height: getSize(context) / 4,
           padding: const EdgeInsets.all(8),
           margin: const EdgeInsets.all(8),
-          decoration: BoxDecoration(boxShadow: [
-            BoxShadow(
+          decoration: BoxDecoration(boxShadow: [BoxShadow(
               offset: const Offset(2, 2),
               color: AppColors.grey2Color,
-            )
-          ], color: AppColors.white, borderRadius: BorderRadius.circular(5)),
+            )],
+              color: AppColors.white,
+              borderRadius: BorderRadius.circular(5)),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -85,9 +81,17 @@ class _CustomOrderDetailsShowPriceItemState
 
                           InkWell(
                             onTap: () {
-                              //! add discount
+                              cubit2.newDiscountController.text =
+                                  widget.item.discount.toString();
 
-                              customShowBottomSheet(context, cubit);
+                              customShowBottomSheet(
+                                  context, cubit2.newDiscountController,
+                                  onPressed: () {
+                                cubit2.onChnageDiscountOfUnit(
+                                    widget.item, context);
+                              });
+
+                              //! add discount
                             },
                             child: Image.asset(
                               ImageAssets.discount,
@@ -205,7 +209,8 @@ class _CustomOrderDetailsShowPriceItemState
                                           getSize(context) / 22),
                                     ),
                                     child: Text(
-                                      '${((widget.item.priceUnit ?? 1) * widget.item.productUomQty).toString() ?? '-1'} ج',
+                                      '${calculateDiscountedPrice(widget.item.discount, widget.item.priceUnit, widget.item.productUomQty)} ج',
+                                      maxLines: 1,
                                       style: TextStyle(
                                         color: AppColors.orangeThirdPrimary,
                                         fontWeight: FontWeight.w700,
@@ -228,8 +233,17 @@ class _CustomOrderDetailsShowPriceItemState
   }
 }
 
+String calculateDiscountedPrice(
+    dynamic discountPercentage, dynamic priceUnit, dynamic productUomQty) {
+  double totalPrice =
+      (priceUnit * productUomQty) * (1 - discountPercentage / 100);
+  return totalPrice.toStringAsFixed(2);
+}
+
 //! add discount
-void customShowBottomSheet(BuildContext context, BasketCubit cubit) {
+void customShowBottomSheet(
+    BuildContext context, TextEditingController controllerPercent,
+    {required void Function() onPressed}) {
   showModalBottomSheet(
     isScrollControlled: true,
     context: context,
@@ -245,7 +259,7 @@ void customShowBottomSheet(BuildContext context, BasketCubit cubit) {
             children: [
               CustomTextFieldWithTitle(
                 title: "discount_rate".tr(),
-                controller: cubit.controllerPercent,
+                controller: controllerPercent,
                 hint: "enter_the_percentage".tr(),
                 keyboardType: TextInputType.text,
               ),
@@ -258,7 +272,7 @@ void customShowBottomSheet(BuildContext context, BasketCubit cubit) {
                 child: RoundedButton(
                   backgroundColor: AppColors.primaryColor,
                   text: 'confirm'.tr(),
-                  onPressed: () {},
+                  onPressed: onPressed,
                 ),
               )
             ],
