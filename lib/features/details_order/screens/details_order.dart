@@ -15,6 +15,7 @@ import 'package:top_sale/features/details_order/screens/widgets/rounded_button.d
 import '../../../config/routes/app_routes.dart';
 import '../../../core/api/end_points.dart';
 import '../../../core/models/get_orders_model.dart';
+import '../../../core/models/order_details_model.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_strings.dart';
 
@@ -166,11 +167,13 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                       );
                                     }),
                               ),
+
                               CustomTotalPrice(
-                                price:
-                                    '${cubit.getDetailsOrdersModel?.amountTotal}' +
-                                        ' ${widget.orderModel.currencyId?.name}',
-                              ),
+                                  currency:
+                                      widget.orderModel.currencyId?.name ?? '',
+                                  price: calculateTotalDiscountedPrice(
+                                      cubit.getDetailsOrdersModel?.orderLines ??
+                                          [])),
                               // SizedBox(
                               //   height: getSize(context) / 12,
                               // ),
@@ -609,4 +612,21 @@ class _DetailsOrderState extends State<DetailsOrder> {
       }),
     );
   }
+}
+
+String calculateTotalDiscountedPrice(List<OrderLine> items) {
+  double total = items.fold(0.0, (sum, item) {
+    dynamic priceUnit = item.priceUnit;
+    dynamic quantity = item.productUomQty;
+    dynamic discount = item.discount;
+
+    // Calculate the total price with the discount applied for the current item
+    double totalPrice = (priceUnit * quantity) * (1 - discount / 100);
+
+    // Add to the running total
+    return sum + totalPrice;
+  });
+
+  // Return the total formatted to 2 decimal places
+  return total.toStringAsFixed(2);
 }

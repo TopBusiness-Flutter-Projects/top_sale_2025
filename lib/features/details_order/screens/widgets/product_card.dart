@@ -8,12 +8,18 @@ import '../../../../core/utils/app_fonts.dart';
 import '../../../../core/models/get_orders_model.dart';
 
 class ProductCard extends StatelessWidget {
-    ProductCard({super.key,required this.text, required this.number, required this.price, required this.title,required this.order});
-    String text;
-    String number;
-    String price;
-    String title;
-    OrderModel order;
+  ProductCard(
+      {super.key,
+      required this.text,
+      required this.number,
+      required this.price,
+      required this.title,
+      required this.order});
+  String text;
+  String number;
+  String price;
+  String title;
+  OrderModel order;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -26,60 +32,52 @@ class ProductCard extends StatelessWidget {
               children: [
                 // Product details
                 CircleAvatar(
-                 backgroundColor: AppColors.orange,
-                  child:
-                  Center(
-                    child: Text(
-                        title.length > 5 ? title.substring(0, 3) : title,
-                        style: getBoldStyle(
-                            color: AppColors.white, fontSize: 18.sp)),
-                  )
-                ),
-                 SizedBox(width: getSize(context)/50),
+                    backgroundColor: AppColors.orange,
+                    child: Center(
+                      child: Text(
+                          title.length > 5 ? title.substring(0, 3) : title,
+                          style: getBoldStyle(
+                              color: AppColors.white, fontSize: 18.sp)),
+                    )),
+                SizedBox(width: getSize(context) / 50),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children:  [
+                  children: [
                     SizedBox(
-                      width: getSize(context)/1.8,
+                      width: getSize(context) / 1.8,
                       child: AutoSizeText(
-                       text,
+                        text,
                         maxLines: 1,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: getSize(context) / 30,
-
                           color: Colors.black,
                         ),
                       ),
                     ),
-                    SizedBox(height: getSize(context)/50),
-                    Text(
-                      'عدد : $number',
-                      style:
-                     TextStyle(  fontWeight: FontWeight.bold,
-                       color: AppColors.orange,
-                       fontSize: getSize(context) / 28,)
-                    ),
+                    SizedBox(height: getSize(context) / 50),
+                    Text('عدد : $number',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.orange,
+                          fontSize: getSize(context) / 28,
+                        )),
                   ],
                 ),
-
-
               ],
             ),
-             Text(
-              '$price ${order.currencyId?.name} ',
-              style:
-              TextStyle(
+            Text(
+              '$price ${order.currencyId?.name ?? '\$'} ',
+              style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.orange,
-                fontSize: getSize(context)/28,
+                fontSize: getSize(context) / 28,
               ),
-            //  textDirection: TextDirection!.RTL,
+              //  textDirection: TextDirection!.RTL,
             ),
           ],
         ),
-
-         Padding(
+        Padding(
           padding: EdgeInsets.symmetric(vertical: getSize(context) / 50),
           child: Divider(thickness: 1, color: AppColors.gray.withOpacity(0.5)),
         ),

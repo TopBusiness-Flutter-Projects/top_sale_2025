@@ -12,6 +12,7 @@ import 'package:top_sale/features/login/widget/custom_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/models/all_partners_for_reports_model.dart';
+import '../../../core/models/all_products_model.dart';
 import '../../../core/utils/app_fonts.dart';
 import '../../../core/widgets/decode_image.dart';
 import '../../details_order/screens/widgets/rounded_button.dart';
@@ -108,16 +109,16 @@ class _BasketScreenState extends State<BasketScreen> {
                             ),
                           ),
                         ),
-                        InkWell(
-                          onTap: () {
-                            //! add discount
-                            customShowBottomSheet(context, cubit);
-                          },
-                          child: Image.asset(
-                            ImageAssets.discount,
-                            width: getSize(context) / 12,
-                          ),
-                        ),
+                        // InkWell(
+                        //   onTap: () {
+                        //     //!total discount add discount
+                        //     // customShowBottomSheet(context, cubit);
+                        //   },
+                        //   child: Image.asset(
+                        //     ImageAssets.discount,
+                        //     width: getSize(context) / 12,
+                        //   ),
+                        // ),
                         Padding(
                           padding: const EdgeInsetsDirectional.only(start: 5.0),
                           child: Column(
@@ -131,7 +132,7 @@ class _BasketScreenState extends State<BasketScreen> {
                                 ),
                               ),
                               Text(
-                                '${cubit2.totalBasket()} ج',
+                                '${calculateTotalDiscountedPrice(cubit2.basket)} ج',
                                 maxLines: 1,
                                 style: TextStyle(
                                   fontWeight: FontWeight.w700,
@@ -160,7 +161,6 @@ class _BasketScreenState extends State<BasketScreen> {
                     },
                   ),
                   SizedBox(height: 32.h),
-
                   (state is LoadingCreateQuotation)
                       ? const Center(
                           child: CircularProgressIndicator(),
@@ -171,6 +171,7 @@ class _BasketScreenState extends State<BasketScreen> {
                               title: 'show_price'.tr(),
                               onTap: () {
                                 cubit2.createQuotation(
+                                    warehouseId: '1',
                                     context: context,
                                     partnerId: widget.partner?.id ?? -1);
                                 //!
@@ -189,5 +190,22 @@ class _BasketScreenState extends State<BasketScreen> {
     if (!await launchUrl(phoneUri)) {
       throw 'Could not launch phone dialer for $phoneNumber';
     }
+  }
+
+  String calculateTotalDiscountedPrice(List<ProductModelData> items) {
+    double total = items.fold(0.0, (sum, item) {
+      dynamic priceUnit = item.listPrice;
+      dynamic quantity = item.userOrderedQuantity;
+      dynamic discount = item.discount;
+
+      // Calculate the total price with the discount applied for the current item
+      double totalPrice = (priceUnit * quantity) * (1 - discount / 100);
+
+      // Add to the running total
+      return sum + totalPrice;
+    });
+
+    // Return the total formatted to 2 decimal places
+    return total.toStringAsFixed(2);
   }
 }

@@ -152,11 +152,14 @@ class DirectSellCubit extends Cubit<DirectSellState> {
   }
 
   CreateOrderModel? createOrderModel;
-  createQuotation(
-      {required int partnerId, required BuildContext context}) async {
+  createQuotation({
+    required int partnerId,
+    required BuildContext context,
+    required String warehouseId,
+  }) async {
     emit(LoadingCreateQuotation());
-    final result =
-        await api.createQuotation(partnerId: partnerId, products: basket);
+    final result = await api.createQuotation(
+        partnerId: partnerId, products: basket, warehouseId: warehouseId);
 
     result.fold((l) {
       emit(ErrorCreateQuotation());
@@ -164,9 +167,9 @@ class DirectSellCubit extends Cubit<DirectSellState> {
       createOrderModel = r;
       successGetBar('Success Create Quotation');
       debugPrint("Success Create Quotation");
-      basket.clear();
+      basket = [];
       //! Nav to
-      Navigator.pushNamed(context, Routes.deleveryOrderRoute);
+      Navigator.pushReplacementNamed(context, Routes.deleveryOrderRoute);
       emit(LoadedCreateQuotation());
     });
   }
@@ -209,6 +212,15 @@ class DirectSellCubit extends Cubit<DirectSellState> {
     });
     print('|||||||||::${basket.length}::|||||||||');
     emit(OnDeleteItemFromBasket());
+  }
+
+  TextEditingController newDiscountController = TextEditingController();
+
+  onChnageDiscountOfUnit(ProductModelData item, BuildContext context) {
+    item.discount = double.parse(newDiscountController.text.toString());
+    Navigator.pop(context);
+    newDiscountController.clear();
+    emit(OnChangeUnitPriceOfItem());
   }
 }
 

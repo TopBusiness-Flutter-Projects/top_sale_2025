@@ -70,15 +70,28 @@ class CardDetailsOrders extends StatelessWidget {
                       ),
                       GestureDetector(
                           onTap: () {
-                        context.read<DetailsOrdersCubit>().openGoogleMapsRoute(
-                            context.read<DetailsOrdersCubit>().lat ?? 0.0,
-                            context.read<DetailsOrdersCubit>().lang ??  0.0,
-                            context.read<DetailsOrdersCubit>().getDetailsOrdersModel?.partnerLatitude ?? 0.0,
-                            context.read<DetailsOrdersCubit>().getDetailsOrdersModel?.partnerLongitude ?? 0.0,
-                        );
+                            context
+                                .read<DetailsOrdersCubit>()
+                                .openGoogleMapsRoute(
+                                  context.read<DetailsOrdersCubit>().lat ?? 0.0,
+                                  context.read<DetailsOrdersCubit>().lang ??
+                                      0.0,
+                                  context
+                                          .read<DetailsOrdersCubit>()
+                                          .getDetailsOrdersModel
+                                          ?.partnerLatitude ??
+                                      0.0,
+                                  context
+                                          .read<DetailsOrdersCubit>()
+                                          .getDetailsOrdersModel
+                                          ?.partnerLongitude ??
+                                      0.0,
+                                );
                           },
-                          child: Image.asset(ImageAssets.addressIcon,width: 25.w,))
-
+                          child: Image.asset(
+                            ImageAssets.addressIcon,
+                            width: 25.w,
+                          ))
                     ],
                   ),
                 ),
@@ -125,7 +138,7 @@ class CardDetailsOrders extends StatelessWidget {
                       ),
                       SizedBox(width: getSize(context) / 60),
                       AutoSizeText(
-                        "${orderDetailsModel.amountTotal} ${orderModel.currencyId?.name}",
+                        "${calculateTotalDiscountedPrice(orderDetailsModel.orderLines ?? [])} ${orderModel.currencyId?.name ?? ''}",
                         style: TextStyle(
                           fontFamily: "cairo",
                           color: AppColors.black,
@@ -194,5 +207,22 @@ class CardDetailsOrders extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String calculateTotalDiscountedPrice(List<OrderLine> items) {
+    double total = items.fold(0.0, (sum, item) {
+      dynamic priceUnit = item.priceUnit;
+      dynamic quantity = item.productUomQty;
+      dynamic discount = item.discount;
+
+      // Calculate the total price with the discount applied for the current item
+      double totalPrice = (priceUnit * quantity) * (1 - discount / 100);
+
+      // Add to the running total
+      return sum + totalPrice;
+    });
+
+    // Return the total formatted to 2 decimal places
+    return total.toStringAsFixed(2);
   }
 }

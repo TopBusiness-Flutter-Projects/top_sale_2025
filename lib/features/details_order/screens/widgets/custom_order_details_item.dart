@@ -81,9 +81,17 @@ class _CustomOrderDetailsShowPriceItemState
 
                           InkWell(
                             onTap: () {
-                              //! add discount
+                              cubit2.newDiscountController.text =
+                                  widget.item.discount.toString();
 
-                              customShowBottomSheet(context, cubit);
+                              customShowBottomSheet(
+                                  context, cubit2.newDiscountController,
+                                  onPressed: () {
+                                cubit2.onChnageDiscountOfUnit(
+                                    widget.item, context);
+                              });
+
+                              //! add discount
                             },
                             child: Image.asset(
                               ImageAssets.discount,
@@ -119,78 +127,12 @@ class _CustomOrderDetailsShowPriceItemState
                         ],
                       ),
                       Flexible(
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: 5,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: AppColors.white,
-                                  border: Border.all(
-                                      color: AppColors.orangeThirdPrimary,
-                                      width: 1.8),
-                                  borderRadius: BorderRadius.circular(
-                                      getSize(context) / 22),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12.0, vertical: 4),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          cubit2.addAndRemoveToBasket(
-                                              isAdd: true,
-                                              product: widget.item);
-                                          // cubit2.addAndRemoveToBasket(
-                                          //     product: widget.item,
-                                          //     isAdd: true);
-                                          // Navigator.pop(context);
-                                        },
-                                        child: Icon(
-                                          Icons.add,
-                                          color: AppColors.orangeThirdPrimary,
-                                          size: 30.w,
-                                        ),
-                                      ),
-                                      //SizedBox(width: 8.w),
-                                      Text(
-                                          widget.item.productUomQty
-                                                  .toString() ??
-                                              '0',
-                                          style: getBoldStyle(
-                                              color: AppColors.primary,
-                                              fontHeight: 1.3)),
-                                      //SizedBox(width: 8.w),
-                                      GestureDetector(
-                                        onTap: () {
-                                          cubit2.addAndRemoveToBasket(
-                                              isAdd: false,
-                                              product: widget.item);
-                                          // cubit2.addAndRemoveToBasket(
-                                          //     product: widget.item,
-                                          //     isAdd: false);
-                                          // Navigator.pop(context);
-                                        },
-                                        child: Icon(
-                                          Icons.remove,
-                                          color: AppColors.orangeThirdPrimary,
-                                          size: 30.w,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 4,
-                              child: Container(
-                                  alignment: Alignment.center,
-                                  margin: const EdgeInsetsDirectional.only(
-                                      start: 10),
+                        child: Container(
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 5,
+                                child: Container(
                                   decoration: BoxDecoration(
                                     color: AppColors.white,
                                     border: Border.all(
@@ -199,15 +141,84 @@ class _CustomOrderDetailsShowPriceItemState
                                     borderRadius: BorderRadius.circular(
                                         getSize(context) / 22),
                                   ),
-                                  child: Text(
-                                    '${((widget.item.priceUnit ?? 1) * widget.item.productUomQty).toString() ?? '-1'}',
-                                    style: TextStyle(
-                                      color: AppColors.orangeThirdPrimary,
-                                      fontWeight: FontWeight.w700,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 12.0, vertical: 4),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            cubit2.addAndRemoveToBasket(
+                                                isAdd: true,
+                                                product: widget.item);
+                                            // cubit2.addAndRemoveToBasket(
+                                            //     product: widget.item,
+                                            //     isAdd: true);
+                                            // Navigator.pop(context);
+                                          },
+                                          child: Icon(
+                                            Icons.add,
+                                            color: AppColors.orangeThirdPrimary,
+                                            size: 30.w,
+                                          ),
+                                        ),
+                                        //SizedBox(width: 8.w),
+                                        Text(
+                                            widget.item.productUomQty
+                                                    .toString() ??
+                                                '0',
+                                            style: getBoldStyle(
+                                                color: AppColors.primary,
+                                                fontHeight: 1.3)),
+                                        //SizedBox(width: 8.w),
+                                        GestureDetector(
+                                          onTap: () {
+                                            cubit2.addAndRemoveToBasket(
+                                                isAdd: false,
+                                                product: widget.item);
+                                            // cubit2.addAndRemoveToBasket(
+                                            //     product: widget.item,
+                                            //     isAdd: false);
+                                            // Navigator.pop(context);
+                                          },
+                                          child: Icon(
+                                            Icons.remove,
+                                            color: AppColors.orangeThirdPrimary,
+                                            size: 30.w,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  )),
-                            ),
-                          ],
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 4,
+                                child: Container(
+                                    alignment: Alignment.center,
+                                    margin: const EdgeInsetsDirectional.only(
+                                        start: 10),
+                                    decoration: BoxDecoration(
+                                      color: AppColors.white,
+                                      border: Border.all(
+                                          color: AppColors.orangeThirdPrimary,
+                                          width: 1.8),
+                                      borderRadius: BorderRadius.circular(
+                                          getSize(context) / 22),
+                                    ),
+                                    child: Text(
+                                      '${calculateDiscountedPrice(widget.item.discount, widget.item.priceUnit, widget.item.productUomQty)} ج',
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                        color: AppColors.orangeThirdPrimary,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    )),
+                              ),
+                            ],
+                          ),
                         ),
                       )
                     ],
@@ -222,8 +233,17 @@ class _CustomOrderDetailsShowPriceItemState
   }
 }
 
+String calculateDiscountedPrice(
+    dynamic discountPercentage, dynamic priceUnit, dynamic productUomQty) {
+  double totalPrice =
+      (priceUnit * productUomQty) * (1 - discountPercentage / 100);
+  return totalPrice.toStringAsFixed(2);
+}
+
 //! add discount
-void customShowBottomSheet(BuildContext context, BasketCubit cubit) {
+void customShowBottomSheet(
+    BuildContext context, TextEditingController controllerPercent,
+    {required void Function() onPressed}) {
   showModalBottomSheet(
     isScrollControlled: true,
     context: context,
@@ -239,7 +259,7 @@ void customShowBottomSheet(BuildContext context, BasketCubit cubit) {
             children: [
               CustomTextFieldWithTitle(
                 title: "discount_rate".tr(),
-                controller: cubit.controllerPercent,
+                controller: controllerPercent,
                 hint: "enter_the_percentage".tr(),
                 keyboardType: TextInputType.text,
               ),
@@ -252,7 +272,7 @@ void customShowBottomSheet(BuildContext context, BasketCubit cubit) {
                 child: RoundedButton(
                   backgroundColor: AppColors.primaryColor,
                   text: 'confirm'.tr(),
-                  onPressed: () {},
+                  onPressed: onPressed,
                 ),
               )
             ],
