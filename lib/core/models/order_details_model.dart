@@ -19,12 +19,16 @@ class OrderDetailsModel {
   dynamic currencyId;
   dynamic partnerName;
   dynamic mobile;
+  dynamic partnerLongitude;
+  dynamic partnerLatitude;
   List<OrderLine>? orderLines;
   List<Invoice>? invoices;
   List<Picking>? pickings;
-  List<dynamic>? payments;
+  List<Payment>? payments;
 
   OrderDetailsModel({
+    this.partnerLatitude,
+    this.partnerLongitude,
     this.id,
     this.name,
     this.dateOrder,
@@ -41,6 +45,8 @@ class OrderDetailsModel {
 
   factory OrderDetailsModel.fromJson(Map<String, dynamic> json) =>
       OrderDetailsModel(
+        partnerLatitude: json["partner_latitude"],
+        partnerLongitude: json["partner_longitude"],
         id: json["id"],
         name: json["name"],
         dateOrder: json["date_order"],
@@ -63,12 +69,15 @@ class OrderDetailsModel {
                 json["pickings"]!.map((x) => Picking.fromJson(x))),
         payments: json["payments"] == null
             ? []
-            : List<dynamic>.from(json["payments"]!.map((x) => x)),
+            :List<Payment>.from(
+            json["payments"]!.map((x) => Payment.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
+        "partner_latitude": partnerLatitude,
+        "partner_longitude": partnerLongitude,
         "date_order": dateOrder?.toIso8601String(),
         "amount_total": amountTotal,
         "state": state,
@@ -226,6 +235,37 @@ class OrderLine {
       };
 }
 
+class Payment {
+  int? paymentId;
+  dynamic? amount;
+  dynamic? paymentDate;
+  dynamic? paymentMethod;
+  dynamic? state;
+
+  Payment({
+    this.paymentId,
+    this.amount,
+    this.paymentDate,
+    this.paymentMethod,
+    this.state,
+  });
+
+  factory Payment.fromJson(Map<String, dynamic> json) => Payment(
+    paymentId: json["payment_id"],
+    amount: json["amount"],
+    paymentDate: json["payment_date"],
+    paymentMethod: json["payment_method"],
+    state: json["state"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "payment_id": paymentId,
+    "amount": amount,
+    "payment_date": paymentDate,
+    "payment_method": paymentMethod,
+    "state": state,
+  };
+}
 class Picking {
   int? pickingId;
   dynamic name;

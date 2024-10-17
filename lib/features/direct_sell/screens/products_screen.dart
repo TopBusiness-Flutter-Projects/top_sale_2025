@@ -9,6 +9,7 @@ import 'package:top_sale/features/direct_sell/cubit/direct_sell_state.dart';
 import 'package:top_sale/features/direct_sell/screens/widgets/custom_product_section.dart';
 import 'package:top_sale/features/direct_sell/screens/widgets/scanner.dart';
 import '../../../config/routes/app_routes.dart';
+import '../../../core/models/all_products_model.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/assets_manager.dart';
 import '../cubit/direct_sell_cubit.dart';
@@ -24,12 +25,15 @@ class ProductsScreen extends StatefulWidget {
 }
 
 class _ProductsScreenState extends State<ProductsScreen> {
-    late final ScrollController scrollController = ScrollController();
+  late final ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-      scrollController.addListener(_scrollListener);
+    //! listen pangination
+    scrollController.addListener(_scrollListener);
+
+    ///!
     context.read<DirectSellCubit>().currentIndex = -1;
     // TODO: implement initState
     if (widget.catId != '-1') {
@@ -37,15 +41,15 @@ class _ProductsScreenState extends State<ProductsScreen> {
           .read<DirectSellCubit>()
           .getAllProductsByCatogrey(id: int.parse(widget.catId));
     } else {
-        context.read<DirectSellCubit>().getAllProducts();
-        context.read<DirectSellCubit>().currentIndex == -1;
-    
-      }
-    
+      context.read<DirectSellCubit>().getAllProducts();
+      context.read<DirectSellCubit>().currentIndex == -1;
+    }
   }
- _scrollListener() {
+
+  _scrollListener() {
     if (scrollController.position.maxScrollExtent == scrollController.offset) {
       print('dddddddddbottom');
+      //! pagination
       if (context.read<DirectSellCubit>().allProductsModel.next != null) {
         context.read<DirectSellCubit>().getAllProducts(
             isGetMore: true,
@@ -71,10 +75,10 @@ class _ProductsScreenState extends State<ProductsScreen> {
             actions: [
               GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, Routes.clientsRoute, arguments:true);
-
+                  Navigator.pushNamed(context, Routes.clientsRoute,
+                      arguments: true);
                 },
-                child:  Padding(
+                child: Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: Image.asset(
                     'assets/images/basket1.png',
@@ -109,108 +113,117 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6),
               child: Column(children: [
                 const CustomSearchWidget(),
-                cubit.searchController.text.isNotEmpty ?
-                Expanded(
-                  child: ListView(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: CustomProductSection(
-                            isSearch: true,
-                            result: cubit.searchedProductsModel?.result ??
-                                []),
-                      ),
-                    ]
-                  ),
-                )
-                    :
-              Expanded(
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 15.h,
-                    ),
-                    if (widget.categoryName == "products".tr())
-                      SizedBox(
-                        height: 50.h,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                cubit.searchController.text.isNotEmpty
+                    ? Expanded(
+                        child: ListView(children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: CustomProductSection(
+                                isSearch: true,
+                                result:
+                                    cubit.searchedProductsModel?.result ?? []),
+                          ),
+                        ]),
+                      )
+                    : Expanded(
+                        child: Column(
                           children: [
-                            GestureDetector(
-                              onTap: () {
-                                cubit.changeIndex(-1, 0);
-                              },
-                              child: CustomCategoryText(
-                                  text: "all".tr(),
-                                  isSelected: cubit.currentIndex == -1),
-                            ),
                             SizedBox(
-                              width: 10.w,
+                              height: 15.h,
                             ),
-                            Flexible(
-                              child: ListView.separated(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: 10,
-                                separatorBuilder: (context, index) => SizedBox(
-                                  width: 10.w,
-                                ),
-                                itemBuilder: (context, index) => GestureDetector(
-                                  onTap: () {
-                                    cubit.changeIndex(index,
-                                        cubit.catogriesModel?.result?[index].id);
-                                  },
-                                  child: CustomCategoryText(
-                                      text: cubit.catogriesModel?.result?[index]
-                                          .name ??
-                                          "",
-                                      isSelected: cubit.currentIndex == index),
+                            if (widget.categoryName == "products".tr())
+                              SizedBox(
+                                height: 50.h,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        cubit.changeIndex(-1, 0);
+                                      },
+                                      child: CustomCategoryText(
+                                          text: "all".tr(),
+                                          isSelected: cubit.currentIndex == -1),
+                                    ),
+                                    SizedBox(
+                                      width: 10.w,
+                                    ),
+                                    Flexible(
+                                      child: ListView.separated(
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: cubit
+                                            .catogriesModel!.result!.length,
+                                        separatorBuilder: (context, index) =>
+                                            SizedBox(
+                                          width: 10.w,
+                                        ),
+                                        itemBuilder: (context, index) =>
+                                            GestureDetector(
+                                          onTap: () {
+                                            cubit.changeIndex(
+                                                index,
+                                                cubit.catogriesModel
+                                                    ?.result?[index].id);
+                                          },
+                                          child: CustomCategoryText(
+                                              text: cubit.catogriesModel
+                                                      ?.result?[index].name ??
+                                                  "",
+                                              isSelected:
+                                                  cubit.currentIndex == index),
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 ),
                               ),
-                            )
-                          ],
-                        ),
-                      ),
-                    if (cubit.allProductsModel.result == [] ||
-                        cubit.allProductsModel == null ||
-                        cubit.allProductsModel.result?.length == 0)
-                      Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              ImageAssets.nodata,
-                              width: getSize(context) / 8,
-                            ),
-                            Text("no_data".tr()),
-                            SizedBox(height: 20.h),
-                          ],
-                        ),
-                      )
-                    else
-                      Expanded(
-                        child: SingleChildScrollView(
-                          controller: scrollController,
-                
-                          child: cubit.allProductsModel.result == null
-                              ? Container()
-                              : StaggeredGrid.count(
-                              crossAxisCount: 2,
-                              mainAxisSpacing: 10.h,
-                              crossAxisSpacing: 10.w,
-                              children: List.generate(
-                                cubit.allProductsModel.result!.length ?? 0,
-                                    (index) => Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: CustomProductWidget(
-                                      product: cubit
-                                          .allProductsModel!.result![index]),
+                            if (cubit.allProductsModel.result == [] ||
+                                cubit.allProductsModel == AllProductsModel())
+                              Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      ImageAssets.nodata,
+                                      width: getSize(context) / 8,
+                                    ),
+                                    Text("no_data".tr()),
+                                    SizedBox(height: 20.h),
+                                  ],
                                 ),
-                              )),
+                              )
+                            else
+                              state is LoadingProduct
+                                  ? const Center(
+                                      child: CircularProgressIndicator())
+                                  : Expanded(
+                                      child: SingleChildScrollView(
+                                        controller: scrollController,
+                                        child: cubit.allProductsModel.result ==
+                                                null
+                                            ? Container()
+                                            : StaggeredGrid.count(
+                                                crossAxisCount: 2,
+                                                mainAxisSpacing: 10.h,
+                                                crossAxisSpacing: 10.w,
+                                                children: List.generate(
+                                                  cubit.allProductsModel.result!
+                                                      .length,
+                                                  (index) => Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            4.0),
+                                                    child: CustomProductWidget(
+                                                        product: cubit
+                                                            .allProductsModel
+                                                            .result![index]),
+                                                  ),
+                                                )),
+                                      ),
+                                    )
+                          ],
                         ),
                       )
-                  ],
-                ),
-              )
               ])));
     });
   }

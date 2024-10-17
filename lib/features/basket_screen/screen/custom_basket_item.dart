@@ -10,6 +10,7 @@ import '../../../core/utils/app_fonts.dart';
 import '../../../core/utils/assets_manager.dart';
 import '../../../core/utils/get_size.dart';
 import '../../../core/widgets/decode_image.dart';
+import '../../details_order/screens/widgets/custom_order_details_item.dart';
 import '../../details_order/screens/widgets/rounded_button.dart';
 import '../../direct_sell/cubit/direct_sell_cubit.dart';
 import '../../direct_sell/cubit/direct_sell_state.dart';
@@ -71,32 +72,64 @@ class _CustomBasketItemState extends State<CustomBasketItem> {
 
                           InkWell(
                             onTap: () {
+                              cubit2.newDiscountController.text =
+                                  widget.item.discount.toString();
+
+                              customShowBottomSheet(
+                                  context, cubit2.newDiscountController,
+                                  onPressed: () {
+                                cubit2.onChnageDiscountOfUnit(
+                                    widget.item, context);
+                              });
+
                               //! add discount
 
-                              customShowBottomSheet(context, cubit);
+                              // customShowBottomSheet(
+                              //   context,
+                              //   cubit.controllerPercent,
+                              //   onPressed: () {
+                              //     //! set dis count to model
+                              //     //! cal the new value of price
+                              //     //! case all discout remove discount of itms first then make all and loop on them
+                              //     //! clear controller
+                              //   },
+                              // );
                             },
                             child: Image.asset(
                               ImageAssets.discount,
                               width: getSize(context) / 14,
                             ),
                           ),
-                          //! delete Product
                           Padding(
-                              padding:
-                                  const EdgeInsetsDirectional.only(start: 5.0),
-                              child: IconButton(
-                                  onPressed: () async {
-                                    cubit2.basket.removeWhere((element) {
-                                      return element.id == widget.item.id;
-                                    });
-                                    setState(() {});
+                            padding: const EdgeInsetsDirectional.symmetric(
+                                horizontal: 5.0),
+                            child: InkWell(
+                                onTap: () {
+                                  cubit2.newPriceController.text =
+                                      widget.item.listPrice.toString();
 
-                                    ///!
-                                  },
-                                  icon: Icon(
-                                    CupertinoIcons.delete_solid,
-                                    color: AppColors.red,
-                                  )))
+                                  customPriceShowBottomSheet(
+                                      context, cubit2.newPriceController, () {
+                                    cubit2.onChnagePriceOfUnit(
+                                        widget.item, context);
+                                  });
+                                },
+                                child: Image.asset(
+                                  ImageAssets.edit2Icon,
+                                  width: getSize(context) / 18,
+                                )),
+                          ),
+                          //! delete Product
+                          IconButton(
+                              onPressed: () async {
+                                cubit2.deleteFromBasket(widget.item.id!);
+
+                                ///!
+                              },
+                              icon: Icon(
+                                CupertinoIcons.delete_solid,
+                                color: AppColors.red,
+                              ))
                         ],
                       ),
                       Flexible(
@@ -176,7 +209,7 @@ class _CustomBasketItemState extends State<CustomBasketItem> {
                                           getSize(context) / 22),
                                     ),
                                     child: Text(
-                                      '${((widget.item.listPrice ?? 1) * widget.item.userOrderedQuantity).toString() ?? '-1'} ج',
+                                      '${calculateDiscountedPrice(widget.item.discount, widget.item.listPrice, widget.item.userOrderedQuantity)} ${widget.item.currencyId?.name ?? ''}',
                                       style: TextStyle(
                                         color: AppColors.orangeThirdPrimary,
                                         fontWeight: FontWeight.w700,
@@ -200,7 +233,9 @@ class _CustomBasketItemState extends State<CustomBasketItem> {
 }
 
 //! add discount
-void customShowBottomSheet(BuildContext context, BasketCubit cubit) {
+void customShowBottomSheet(
+    BuildContext context, TextEditingController controllerPercent,
+    {required void Function() onPressed}) {
   showModalBottomSheet(
     isScrollControlled: true,
     context: context,
@@ -216,7 +251,7 @@ void customShowBottomSheet(BuildContext context, BasketCubit cubit) {
             children: [
               CustomTextFieldWithTitle(
                 title: "discount_rate".tr(),
-                controller: cubit.controllerPercent,
+                controller: controllerPercent,
                 hint: "enter_the_percentage".tr(),
                 keyboardType: TextInputType.text,
               ),
@@ -229,7 +264,7 @@ void customShowBottomSheet(BuildContext context, BasketCubit cubit) {
                 child: RoundedButton(
                   backgroundColor: AppColors.primaryColor,
                   text: 'confirm'.tr(),
-                  onPressed: () {},
+                  onPressed: onPressed,
                 ),
               )
             ],

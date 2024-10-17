@@ -49,25 +49,26 @@ class ProductModelData {
   dynamic categId;
   dynamic uomName;
   int? uomId;
-
+  CurrencyId? currencyId;
   int userOrderedQuantity;
   dynamic qtyAvailable;
   List<int>? taxesId;
 
   dynamic image1920;
-
+  double discount;
   ProductModelData({
     this.id,
     this.name,
     this.listPrice,
-    // this.currencyId,
     this.taxesId,
     this.uomName,
     this.uomId,
     this.categId,
     this.qtyAvailable,
     this.image1920 = false,
+    this.currencyId,
     this.userOrderedQuantity = 0,
+    this.discount = 0,
   });
 
   factory ProductModelData.fromJson(Map<String, dynamic> json) =>
@@ -75,7 +76,9 @@ class ProductModelData {
         id: json["id"],
         name: json["name"],
         listPrice: json["list_price"]?.toDouble(),
-        // currencyId: json["currency_id"],
+        currencyId: json["currency_id"] == null
+            ? null
+            : CurrencyId.fromJson(json["currency_id"]),
         uomName: json["uom_name"],
         uomId: json["uom_id"],
         taxesId: json["taxes_id"] == null
@@ -90,7 +93,7 @@ class ProductModelData {
         "id": id,
         "name": name,
         "list_price": listPrice,
-        // "currency_id": currencyId,
+        "currency_id": currencyId?.toJson(),
         "uom_name": uomName,
         "qty_available": qtyAvailable,
         "uom_id": uomId,
@@ -98,5 +101,21 @@ class ProductModelData {
         "taxes_id":
             taxesId == null ? [] : List<dynamic>.from(taxesId!.map((x) => x)),
         "image_1920": image1920,
+      };
+}
+
+class CurrencyId {
+  String? name;
+
+  CurrencyId({
+    this.name,
+  });
+
+  factory CurrencyId.fromJson(Map<String, dynamic> json) => CurrencyId(
+        name: json["name"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "name": name,
       };
 }

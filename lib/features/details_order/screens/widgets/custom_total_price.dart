@@ -6,14 +6,19 @@ import 'package:top_sale/core/utils/get_size.dart';
 import '../../../../core/utils/app_fonts.dart';
 
 class CustomTotalPrice extends StatelessWidget {
-  CustomTotalPrice({super.key, required this.price});
+  CustomTotalPrice({
+    super.key,
+    required this.price,
+    required this.currency,
+  });
   String price;
+  String currency;
   @override
   Widget build(BuildContext context) {
     return Container(
         margin: const EdgeInsets.all(16.0),
         padding: const EdgeInsets.all(16.0),
-        height: getSize(context) / 6,
+        // height: getSize(context) / 6,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5.0),
           boxShadow: [
@@ -30,7 +35,7 @@ class CustomTotalPrice extends StatelessWidget {
               style: getBoldStyle(),
             ),
             Text(
-              "${"currency".tr()} $price",
+              "$price $currency",
               style: getBoldStyle(),
             ),
           ],

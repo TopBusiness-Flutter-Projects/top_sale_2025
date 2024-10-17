@@ -21,7 +21,7 @@
   "current_orders": "Current Orders",
   "last_orders": "Last Orders",
   "choose_filter": "Choose Filter",
-  "new": "New",
+  "new": "Confirm",
   "delivered": "Delivered",
   "complete": "Complete",
   "login": "Login",
@@ -55,7 +55,8 @@
   "products": "Products",
   "search_product": "Searh for a product",
   "search_client": "Searh for a client",
-  "currency": "EGP",
+  "currency": "EGP",  "price":"price"
+,
 
 
   "register": "New Account",
@@ -118,6 +119,11 @@
   "invoice": "Invoice",
   "Enter_the_amount":"Enter the amount",
   "Paid_in_full": "Paid in full",
-  "make_order":"Confirm Sale Order"
+  "make_order":"Confirm Sale Order",
+  "order_sales":" Order Sales",
+  "delivery_order":"Delivery Order",
+
+  "receipt_voucher":"Receipt Voucher"
+
 
 }

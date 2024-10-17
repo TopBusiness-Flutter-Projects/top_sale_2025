@@ -4,46 +4,41 @@
 
 import 'dart:convert';
 
-CreateOrderModel createOrderModelFromJson(String str) => CreateOrderModel.fromJson(json.decode(str));
+CreateOrderModel createOrderModelFromJson(String str) =>
+    CreateOrderModel.fromJson(json.decode(str));
 
-String createOrderModelToJson(CreateOrderModel data) => json.encode(data.toJson());
+String createOrderModelToJson(CreateOrderModel data) =>
+    json.encode(data.toJson());
 
 class CreateOrderModel {
+  Result? result;
 
-    Result? result;
+  CreateOrderModel({
+    this.result,
+  });
 
-    CreateOrderModel({
-
-        this.result,
-    });
-
-    factory CreateOrderModel.fromJson(Map<String, dynamic> json) => CreateOrderModel(
-
+  factory CreateOrderModel.fromJson(Map<String, dynamic> json) =>
+      CreateOrderModel(
         result: json["result"] == null ? null : Result.fromJson(json["result"]),
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
-
+  Map<String, dynamic> toJson() => {
         "result": result?.toJson(),
-    };
+      };
 }
 
 class Result {
-   
-    String? message;
+  String? message;
 
-    Result({
-       
-        this.message,
-    });
+  Result({
+    this.message,
+  });
 
-    factory Result.fromJson(Map<String, dynamic> json) => Result(
-       
+  factory Result.fromJson(Map<String, dynamic> json) => Result(
         message: json["message"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
-       
+  Map<String, dynamic> toJson() => {
         "message": message,
-    };
+      };
 }
