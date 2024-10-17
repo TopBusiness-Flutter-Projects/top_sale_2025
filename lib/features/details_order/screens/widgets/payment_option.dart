@@ -23,6 +23,7 @@ class _PaymentOptionsState extends State<PaymentOptions> {
 
   @override
   void initState() {
+    context.read<DetailsOrdersCubit>().moneyController.text= context.read<DetailsOrdersCubit>().getDetailsOrdersModel?.amountTotal;
     context.read<DetailsOrdersCubit>().getAllJournals();
     super.initState();
   }
@@ -90,7 +91,7 @@ void _showBottomSheet(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                  "اجمالى الفاتورة :  ${cubit.getDetailsOrdersModel?.amountTotal ?? 0} ج",
+                  "اجمالى الفاتورة :  ${cubit.getDetailsOrdersModel?.amountTotal ?? 0} ",
                   style: TextStyle(fontSize: getSize(context) / 20)),
               CustomTextFieldWithTitle(
                 title: "Paid_in_full".tr(),

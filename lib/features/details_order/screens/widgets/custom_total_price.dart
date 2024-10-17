@@ -30,7 +30,7 @@ class CustomTotalPrice extends StatelessWidget {
               style: getBoldStyle(),
             ),
             Text(
-              "${"currency".tr()} $price",
+              "$price",
               style: getBoldStyle(),
             ),
           ],

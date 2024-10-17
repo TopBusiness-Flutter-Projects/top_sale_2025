@@ -356,7 +356,7 @@ class ServiceApi {
       final response = await dio.get(
         odooUrl +
             EndPoints.saleOrder +
-            '?query={id,user_id,partner_id{id,name,phone,partner_latitude,partner_longitude},display_name,state,write_date,amount_total,invoice_status,delivery_status,employee_id{id,name}}&page_size=20&page=1',
+            '?query={id,user_id,partner_id{id,name,phone,partner_latitude,partner_longitude},currency_id{name},display_name,state,write_date,amount_total,invoice_status,delivery_status,employee_id{id,name}}&page_size=20&page=1',
         // '?query={id,partner_id,display_name,state,write_date,amount_total}&filter=[["user_id", "=",1]]',
         options: Options(
           headers: {"Cookie": "session_id=$sessionId"},

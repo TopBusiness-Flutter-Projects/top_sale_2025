@@ -74,6 +74,10 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
           emit(GetDetailsOrdersErrorState('Error loading  data: $failure')),
       (r) {
         getDetailsOrdersModel = r;
+      if(  r.payments!.isNotEmpty )
+
+        page = 4;
+      print("55555555555555555555 ${r.payments!.isNotEmpty}");
         emit(GetDetailsOrdersLoadedState());
       },
     );

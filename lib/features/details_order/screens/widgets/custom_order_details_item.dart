@@ -3,16 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../../core/models/order_details_model.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_fonts.dart';
 import '../../../../core/utils/assets_manager.dart';
 import '../../../../core/utils/get_size.dart';
-import '../../../../core/widgets/decode_image.dart';
 import '../../../basket_screen/cubit/cubit.dart';
-import '../../../direct_sell/cubit/direct_sell_cubit.dart';
-import '../../../direct_sell/cubit/direct_sell_state.dart';
 import '../../../login/widget/textfield_with_text.dart';
 import '../../cubit/details_orders_cubit.dart';
 import '../../cubit/details_orders_state.dart';
@@ -43,12 +39,12 @@ class _CustomOrderDetailsShowPriceItemState
           height: getSize(context) / 4,
           padding: const EdgeInsets.all(8),
           margin: const EdgeInsets.all(8),
-          decoration: BoxDecoration(boxShadow: [
-            BoxShadow(
+          decoration: BoxDecoration(boxShadow: [BoxShadow(
               offset: const Offset(2, 2),
               color: AppColors.grey2Color,
-            )
-          ], color: AppColors.white, borderRadius: BorderRadius.circular(5)),
+            )],
+              color: AppColors.white,
+              borderRadius: BorderRadius.circular(5)),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -123,12 +119,78 @@ class _CustomOrderDetailsShowPriceItemState
                         ],
                       ),
                       Flexible(
-                        child: Container(
-                          child: Row(
-                            children: [
-                              Expanded(
-                                flex: 5,
-                                child: Container(
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 5,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: AppColors.white,
+                                  border: Border.all(
+                                      color: AppColors.orangeThirdPrimary,
+                                      width: 1.8),
+                                  borderRadius: BorderRadius.circular(
+                                      getSize(context) / 22),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12.0, vertical: 4),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          cubit2.addAndRemoveToBasket(
+                                              isAdd: true,
+                                              product: widget.item);
+                                          // cubit2.addAndRemoveToBasket(
+                                          //     product: widget.item,
+                                          //     isAdd: true);
+                                          // Navigator.pop(context);
+                                        },
+                                        child: Icon(
+                                          Icons.add,
+                                          color: AppColors.orangeThirdPrimary,
+                                          size: 30.w,
+                                        ),
+                                      ),
+                                      //SizedBox(width: 8.w),
+                                      Text(
+                                          widget.item.productUomQty
+                                                  .toString() ??
+                                              '0',
+                                          style: getBoldStyle(
+                                              color: AppColors.primary,
+                                              fontHeight: 1.3)),
+                                      //SizedBox(width: 8.w),
+                                      GestureDetector(
+                                        onTap: () {
+                                          cubit2.addAndRemoveToBasket(
+                                              isAdd: false,
+                                              product: widget.item);
+                                          // cubit2.addAndRemoveToBasket(
+                                          //     product: widget.item,
+                                          //     isAdd: false);
+                                          // Navigator.pop(context);
+                                        },
+                                        child: Icon(
+                                          Icons.remove,
+                                          color: AppColors.orangeThirdPrimary,
+                                          size: 30.w,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 4,
+                              child: Container(
+                                  alignment: Alignment.center,
+                                  margin: const EdgeInsetsDirectional.only(
+                                      start: 10),
                                   decoration: BoxDecoration(
                                     color: AppColors.white,
                                     border: Border.all(
@@ -137,83 +199,15 @@ class _CustomOrderDetailsShowPriceItemState
                                     borderRadius: BorderRadius.circular(
                                         getSize(context) / 22),
                                   ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 12.0, vertical: 4),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            cubit2.addAndRemoveToBasket(
-                                                isAdd: true,
-                                                product: widget.item);
-                                            // cubit2.addAndRemoveToBasket(
-                                            //     product: widget.item,
-                                            //     isAdd: true);
-                                            // Navigator.pop(context);
-                                          },
-                                          child: Icon(
-                                            Icons.add,
-                                            color: AppColors.orangeThirdPrimary,
-                                            size: 30.w,
-                                          ),
-                                        ),
-                                        //SizedBox(width: 8.w),
-                                        Text(
-                                            widget.item.productUomQty
-                                                    .toString() ??
-                                                '0',
-                                            style: getBoldStyle(
-                                                color: AppColors.primary,
-                                                fontHeight: 1.3)),
-                                        //SizedBox(width: 8.w),
-                                        GestureDetector(
-                                          onTap: () {
-                                            cubit2.addAndRemoveToBasket(
-                                                isAdd: false,
-                                                product: widget.item);
-                                            // cubit2.addAndRemoveToBasket(
-                                            //     product: widget.item,
-                                            //     isAdd: false);
-                                            // Navigator.pop(context);
-                                          },
-                                          child: Icon(
-                                            Icons.remove,
-                                            color: AppColors.orangeThirdPrimary,
-                                            size: 30.w,
-                                          ),
-                                        ),
-                                      ],
+                                  child: Text(
+                                    '${((widget.item.priceUnit ?? 1) * widget.item.productUomQty).toString() ?? '-1'}',
+                                    style: TextStyle(
+                                      color: AppColors.orangeThirdPrimary,
+                                      fontWeight: FontWeight.w700,
                                     ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 4,
-                                child: Container(
-                                    alignment: Alignment.center,
-                                    margin: const EdgeInsetsDirectional.only(
-                                        start: 10),
-                                    decoration: BoxDecoration(
-                                      color: AppColors.white,
-                                      border: Border.all(
-                                          color: AppColors.orangeThirdPrimary,
-                                          width: 1.8),
-                                      borderRadius: BorderRadius.circular(
-                                          getSize(context) / 22),
-                                    ),
-                                    child: Text(
-                                      '${((widget.item.priceUnit ?? 1) * widget.item.productUomQty).toString() ?? '-1'} ج',
-                                      style: TextStyle(
-                                        color: AppColors.orangeThirdPrimary,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    )),
-                              ),
-                            ],
-                          ),
+                                  )),
+                            ),
+                          ],
                         ),
                       )
                     ],
