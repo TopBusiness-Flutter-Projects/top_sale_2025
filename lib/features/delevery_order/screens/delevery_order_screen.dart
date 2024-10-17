@@ -32,7 +32,7 @@ class _DeleveryOrderScreenState extends State<DeleveryOrderScreen> {
         appBar: AppBar(
           backgroundColor: AppColors.white,
           centerTitle: false,
-          leadingWidth: 20,
+          // leadingWidth: 20,
           title: Text(
             "delevery_order".tr(),
             style: TextStyle(
@@ -44,73 +44,78 @@ class _DeleveryOrderScreenState extends State<DeleveryOrderScreen> {
         backgroundColor: AppColors.white,
         body: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        cubit.changeIndex(0);
-                      },
-                      child: Container(
-                        height: getSize(context) / 9,
-                        width: getSize(context) / 2.5,
-                        decoration: BoxDecoration(
-                          color: cubit.currentIndex == 0
-                              ? AppColors.orange
-                              : AppColors.gray1,
-                          borderRadius:
-                              BorderRadius.circular(getSize(context) / 20),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "current_orders".tr(),
-                            maxLines: 1,
-                            style: TextStyle(
-                              fontFamily: "Tajawal",
-                              color: cubit.currentIndex == 0
-                                  ? AppColors.white
-                                  : AppColors.grayLite,
-                              fontSize: getSize(context) / 20,
+            RefreshIndicator(
+              onRefresh: () async{
+              await   cubit.getOrders();
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          cubit.changeIndex(0);
+                        },
+                        child: Container(
+                          height: getSize(context) / 9,
+                          width: getSize(context) / 2.5,
+                          decoration: BoxDecoration(
+                            color: cubit.currentIndex == 0
+                                ? AppColors.orange
+                                : AppColors.gray1,
+                            borderRadius:
+                                BorderRadius.circular(getSize(context) / 20),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "current_orders".tr(),
+                              maxLines: 1,
+                              style: TextStyle(
+                                fontFamily: "Tajawal",
+                                color: cubit.currentIndex == 0
+                                    ? AppColors.white
+                                    : AppColors.grayLite,
+                                fontSize: getSize(context) / 20,
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(width: getSize(context) / 20),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        cubit.changeIndex(1);
-                      },
-                      child: Container(
-                        height: getSize(context) / 9,
-                        width: getSize(context) / 2.5,
-                        decoration: BoxDecoration(
-                          color: cubit.currentIndex == 1
-                              ? AppColors.orange
-                              : AppColors.gray1,
-                          borderRadius:
-                              BorderRadius.circular(getSize(context) / 20),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "last_orders".tr(),
-                            style: TextStyle(
-                              fontFamily: "Tajawal",
-                              color: cubit.currentIndex == 1
-                                  ? AppColors.white
-                                  : AppColors.grayLite,
-                              fontSize: getSize(context) / 20,
+                    SizedBox(width: getSize(context) / 20),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          cubit.changeIndex(1);
+                        },
+                        child: Container(
+                          height: getSize(context) / 9,
+                          width: getSize(context) / 2.5,
+                          decoration: BoxDecoration(
+                            color: cubit.currentIndex == 1
+                                ? AppColors.orange
+                                : AppColors.gray1,
+                            borderRadius:
+                                BorderRadius.circular(getSize(context) / 20),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "last_orders".tr(),
+                              style: TextStyle(
+                                fontFamily: "Tajawal",
+                                color: cubit.currentIndex == 1
+                                    ? AppColors.white
+                                    : AppColors.grayLite,
+                                fontSize: getSize(context) / 20,
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             SizedBox(height: getSize(context) / 20),
@@ -146,7 +151,6 @@ class _DeleveryOrderScreenState extends State<DeleveryOrderScreen> {
                                                   child: ShipmentCardWidget(
                                                     order: cubit
                                                         .currentOrders[index],
-
                                                   ),
                                                 );
                                               },
@@ -178,7 +182,6 @@ class _DeleveryOrderScreenState extends State<DeleveryOrderScreen> {
                                                       child: ShipmentCardWidget(
                                                         order: cubit
                                                             .draftOrders[index],
-
                                                       ),
                                                     );
                                                   },
@@ -212,7 +215,6 @@ class _DeleveryOrderScreenState extends State<DeleveryOrderScreen> {
                                                             order:
                                                                 cubit.newOrders[
                                                                     index],
-
                                                           ),
                                                         );
                                                       },
@@ -270,7 +272,6 @@ class _DeleveryOrderScreenState extends State<DeleveryOrderScreen> {
                               padding: EdgeInsets.all(getSize(context) / 50),
                               child: ShipmentCardWidget(
                                 order: cubit.completeOrders[index],
-
                               ),
                             );
                           },

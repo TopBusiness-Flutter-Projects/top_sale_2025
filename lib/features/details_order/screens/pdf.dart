@@ -54,6 +54,23 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
       // Handle error
       print('Failed to load PDF');
     }
+      // Step 3: Fetch the PDF using the session cookie
+      final pdfResponse = await http.get(
+        Uri.parse(
+           odooUrl+ '/report/pdf/account.report_invoice_with_payments/${widget.id}'),
+        headers: {
+          'Cookie': cookie, // Pass the session cookie
+        },
+      );
+      if (pdfResponse.statusCode == 200) {
+        setState(() {
+          pdfBytes = pdfResponse.bodyBytes;
+          isLoading = false;
+        });
+      } else {
+        // Handle error
+        print('Failed to load PDF');
+      }
 
     // // Step 1: Authenticate with Odoo
     // final loginResponse = await http.post(

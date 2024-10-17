@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top_sale/core/remote/service.dart';
 import '../../../core/models/get_orders_model.dart';
@@ -32,7 +31,7 @@ class DeleveryOrdersCubit extends Cubit<DeleveryOrdersState> {
   List<OrderModel> newOrders = []; // pending   الطلبات الجديدة
   List<OrderModel> deliveredOrders = []; // تم التسليم
   GetOrdersModel getOrdersModel = GetOrdersModel();
-  void getOrders() async {
+  Future<void> getOrders() async {
     emit(OrdersLoadingState());
     completeOrders = []; // الطلبات السابقة
     currentOrders = []; // الطلبات الحالية كلها
@@ -43,7 +42,6 @@ class DeleveryOrdersCubit extends Cubit<DeleveryOrdersState> {
     result.fold(
       (failure) => emit(OrdersErrorState('Error loading  data: $failure')),
       (r) async {
-       
         for (var element in r.result!) {
           if (element.state.toString() == 'sale' &&
               element.invoiceStatus.toString() == 'invoiced' &&

@@ -19,6 +19,8 @@ class LoadedCatogries extends DirectSellState {
 //product
 class LoadingProduct extends DirectSellState {}
 
+class Loading2Product extends DirectSellState {}
+
 class ErrorProduct extends DirectSellState {}
 
 class LoadedProduct extends DirectSellState {
@@ -47,3 +49,9 @@ class LoadingCreateQuotation extends DirectSellState {}
 class LoadedCreateQuotation extends DirectSellState {}
 
 class ErrorCreateQuotation extends DirectSellState {}
+
+class OnChangeCountOfProducts extends DirectSellState {}
+
+class OnChangeUnitPriceOfItem extends DirectSellState {}
+
+class OnDeleteItemFromBasket extends DirectSellState {}

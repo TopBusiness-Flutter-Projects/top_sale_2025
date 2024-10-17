@@ -49,7 +49,7 @@ class DirectSellCubit extends Cubit<DirectSellState> {
   AllProductsModel homeProductsModel = AllProductsModel();
   Future<void> getAllProducts(
       {bool isHome = false, bool isGetMore = false, int pageId = 1}) async {
-    emit(LoadingProduct());
+    isGetMore ? emit(Loading2Product()) : emit(LoadingProduct());
     final response = await api.getAllProducts(pageId);
     //
     response.fold((l) {
@@ -68,11 +68,10 @@ class DirectSellCubit extends Cubit<DirectSellState> {
             result: [...allProductsModel.result!, ...right.result!],
           );
           updateUserOrderedQuantities(allProductsModel);
-        }
-        else {
+        } else {
           allProductsModel = right;
-          updateUserOrderedQuantities(allProductsModel);
         }
+        updateUserOrderedQuantities(allProductsModel);
       }
       print("loaded");
       emit(LoadedProduct(allProductmodel: allProductsModel));
@@ -89,12 +88,9 @@ class DirectSellCubit extends Cubit<DirectSellState> {
     return total;
   }
 
-  addAndRemoveToBasket({
-    required bool isAdd,
-    required ProductModelData product,
-  }) {
+  addAndRemoveToBasket(
+      {required bool isAdd, required ProductModelData product}) {
     emit(LoadingTheQuantityCount());
-
     if (isAdd) {
       bool existsInBasket = basket.any((item) => item.id == product.id);
       if (!existsInBasket) {
@@ -106,7 +102,7 @@ class DirectSellCubit extends Cubit<DirectSellState> {
             basket.firstWhere((item) => item.id == product.id);
         existingProduct.userOrderedQuantity++;
         emit(IncreaseTheQuantityCount());
-        debugPrint('::::::::: ${existingProduct.userOrderedQuantity}');
+        debugPrint('::::||:::: ${existingProduct.userOrderedQuantity}');
       }
     } else {
       if (product.userOrderedQuantity == 0) {
@@ -117,6 +113,9 @@ class DirectSellCubit extends Cubit<DirectSellState> {
         emit(DecreaseTheQuantityCount());
       }
     }
+    emit(OnChangeCountOfProducts());
+    // updateUserOrderedQuantities(allProductsModel);
+    // updateUserOrderedQuantities(homeProductsModel);
     totalBasket();
   }
 
@@ -127,16 +126,12 @@ class DirectSellCubit extends Cubit<DirectSellState> {
     final response = await api.getAllProductsByCategory(1, categoryId: id!);
     //
     response.fold((l) {
-      print("errorr change 2");
-
       emit(ErrorProductByCatogrey());
     }, (right) async {
-      print("sucess cubit");
       allProductsModel = right;
-      for (var element in allProductsModel.result!) {}
+      // for (var element in allProductsModel.result!) {}
       updateUserOrderedQuantities(allProductsModel);
       updateUserOrderedQuantities(homeProductsModel);
-      print("loaded");
       emit(LoadedProductByCatogrey(allProductmodel: allProductsModel));
     });
   }
@@ -144,15 +139,15 @@ class DirectSellCubit extends Cubit<DirectSellState> {
   //!
   //! Method to update userOrderedQuantity based on items in the basket
   void updateUserOrderedQuantities(AllProductsModel allProductsModes) {
-    // Iterate through each product in the basket
     for (var basketItem in basket) {
-      // Check in allProductsModel
       for (ProductModelData product in allProductsModes.result ?? []) {
         if (product.id == basketItem.id) {
           product.userOrderedQuantity =
-              basketItem.userOrderedQuantity; // Update quantity
+              basketItem.userOrderedQuantity; //! Update quantity
         }
       }
+
+      // emit(OnChangeCountOfProducts());
     }
   }
 
@@ -197,6 +192,23 @@ class DirectSellCubit extends Cubit<DirectSellState> {
 
       emit(LoadedProduct(allProductmodel: allProductsModel));
     });
+  }
+
+  TextEditingController newPriceController = TextEditingController();
+
+  onChnagePriceOfUnit(ProductModelData item, BuildContext context) {
+    item.listPrice = double.parse(newPriceController.text.toString());
+    Navigator.pop(context);
+    newPriceController.clear();
+    emit(OnChangeUnitPriceOfItem());
+  }
+
+  deleteFromBasket(int id) {
+    basket.removeWhere((element) {
+      return element.id == id;
+    });
+    print('|||||||||::${basket.length}::|||||||||');
+    emit(OnDeleteItemFromBasket());
   }
 }
 

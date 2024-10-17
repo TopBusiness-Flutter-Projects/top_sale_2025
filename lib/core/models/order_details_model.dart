@@ -19,12 +19,16 @@ class OrderDetailsModel {
   dynamic currencyId;
   dynamic partnerName;
   dynamic mobile;
+  dynamic partnerLongitude;
+  dynamic partnerLatitude;
   List<OrderLine>? orderLines;
   List<Invoice>? invoices;
   List<Picking>? pickings;
   List<dynamic>? payments;
 
   OrderDetailsModel({
+    this.partnerLatitude,
+    this.partnerLongitude,
     this.id,
     this.name,
     this.dateOrder,
@@ -41,6 +45,8 @@ class OrderDetailsModel {
 
   factory OrderDetailsModel.fromJson(Map<String, dynamic> json) =>
       OrderDetailsModel(
+        partnerLatitude: json["partner_latitude"],
+        partnerLongitude: json["partner_longitude"],
         id: json["id"],
         name: json["name"],
         dateOrder: json["date_order"],
@@ -69,6 +75,8 @@ class OrderDetailsModel {
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
+        "partner_latitude": partnerLatitude,
+        "partner_longitude": partnerLongitude,
         "date_order": dateOrder?.toIso8601String(),
         "amount_total": amountTotal,
         "state": state,

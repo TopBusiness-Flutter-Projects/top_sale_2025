@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share/share.dart';
@@ -11,6 +12,7 @@ import 'package:top_sale/core/utils/appwidget.dart';
 import 'package:top_sale/core/utils/dialogs.dart';
 import 'package:top_sale/features/delevery_order/cubit/delevery_orders_cubit.dart';
 import 'package:top_sale/features/details_order/cubit/details_orders_state.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../core/models/all_journals_model.dart';
 import '../../../core/models/create_order_model.dart';
 import '../../../core/models/order_details_model.dart';
@@ -27,7 +29,48 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
     page = index;
     emit(ChangePageState());
   }
+  double? lat;
+  double? lang;
+  Future<void> getLatLong() async {
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+      lat = position.latitude;
+      lang = position.longitude;
 
+      print('laaaaaaaaaaaaaa : $lat');
+      print('laaaaaaaaaaaaaa : $lang');
+      // await getAddress(lat: position.latitude, lang: position.longitude);
+    } catch (e) {
+      print('laaaaaaaaaaaaaa Error getting location: $e');
+    }
+
+    emit(GetLatLongSuccess());
+  }
+
+  DateTime convertTimestampToDateTime(int timestamp) {
+    //1650265974
+    //1713736800000
+    if (timestamp.toString().length > 11) {
+      var dt = DateTime.fromMillisecondsSinceEpoch(timestamp);
+      return dt;
+    } else {
+      var dt = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+      return dt;
+    }
+  }
+
+  void openGoogleMapsRoute(double originLat, double originLng,
+      double destinationLat, double destinationLng) async {
+    final url =
+        'https://www.google.com/maps/dir/?api=1&origin=$originLat,$originLng&destination=$destinationLat,$destinationLng';
+
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
   TextEditingController moneyController = TextEditingController();
   void getDetailsOrders({required int orderId}) async {
     emit(GetDetailsOrdersLoadingState());
@@ -281,10 +324,20 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
     result.fold((l) {
       emit(ErrorConfirmQuotation());
     }, (r) {
+      context.read<DeleveryOrdersCubit>().getOrders();
       //! Make confirm quotation
       Navigator.pop(context);
       emit(LoadedConfirmQuotation());
     });
+  }
+
+  TextEditingController newPriceController = TextEditingController();
+
+  onChnagePriceOfUnit(OrderLine item, BuildContext context) {
+    item.priceUnit = double.parse(newPriceController.text.toString());
+    Navigator.pop(context);
+    newPriceController.clear();
+    emit(OnChangeUnitPriceOfItem());
   }
     ScreenshotController screenshotController = ScreenshotController();
 

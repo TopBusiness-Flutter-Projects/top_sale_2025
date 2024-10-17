@@ -101,15 +101,18 @@ class _DetailsOrderShowPriceState extends State<DetailsOrderShowPrice> {
                     ? const Center(
                         child: CircularProgressIndicator(),
                       )
-                    : CustomButton(
-                        title: 'make_order'.tr(),
-                        onTap: () {
-                          cubit.updateQuotation(
-                              context: context,
-                              partnerId: widget.orderModel.partnerId?.id ?? -1);
-                          //! api of update quotaion
-                        },
-                      )
+                    : cubit.getDetailsOrdersModel?.orderLines?.length == 0
+                        ? Container()
+                        : CustomButton(
+                            title: 'make_order'.tr(),
+                            onTap: () {
+                              cubit.updateQuotation(
+                                  context: context,
+                                  partnerId:
+                                      widget.orderModel.partnerId?.id ?? -1);
+                              //! api of update quotaion
+                            },
+                          )
               ],
             ));
       },
