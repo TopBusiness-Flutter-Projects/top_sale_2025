@@ -257,24 +257,30 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                                     child: RoundedButton(
                                                       text: 'invoice'.tr(),
                                                       onPressed: () {
-                                                        setState(() {
+                                                        if (cubit
+                                                            .getDetailsOrdersModel!
+                                                            .invoices!
+                                                            .isNotEmpty) {
                                                           Navigator.push(
                                                               context,
                                                               MaterialPageRoute(
                                                             builder: (context) {
                                                               return PdfViewerPage(
-                                                                id: widget
-                                                                    .orderModel
-                                                                    .id
+                                                                id: cubit
+                                                                    .getDetailsOrdersModel!
+                                                                    .invoices!
+                                                                    .first
+                                                                    .invoiceId
+                                                                    .toString()
                                                                     .toString(),
                                                               );
                                                               // return PaymentWebViewScreen(url: "",);
                                                             },
                                                           ));
-                                                          // Navigator.pushNamed(context, Routes.paymentRoute);
-                                                          // cubit.createAndValidateInvoice(
-                                                          //     orderId: widget.orderModel.id ?? -1);
-                                                        });
+                                                        }
+                                                        // Navigator.pushNamed(context, Routes.paymentRoute);
+                                                        // cubit.createAndValidateInvoice(
+                                                        //     orderId: widget.orderModel.id ?? -1);
                                                       },
                                                       backgroundColor:
                                                           AppColors.orange,
