@@ -188,7 +188,7 @@ class CardDetailsOrders extends StatelessWidget {
                       ),
                       AutoSizeText(
                         (orderModel.partnerId?.phone.toString() == "false")
-                            ? '000000001/100000000'
+                            ? ''
                             : orderModel.partnerId?.phone ?? '',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

@@ -1,17 +1,19 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:top_sale/core/utils/get_size.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_fonts.dart';
+import '../../../../core/models/get_orders_model.dart';
 
 class ProductCard extends StatelessWidget {
-   const ProductCard({super.key,required this.text, required this.number, required this.price, required this.title});
-   final String text;
-   final String number;
-   final String price;
-   final String title;
+    ProductCard({super.key,required this.text, required this.number, required this.price, required this.title,required this.order});
+    String text;
+    String number;
+    String price;
+    String title;
+    OrderModel order;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -65,7 +67,7 @@ class ProductCard extends StatelessWidget {
               ],
             ),
              Text(
-              '$price ${"currency".tr()}',
+              '$price ${order.currencyId?.name} ',
               style:
               TextStyle(
                 fontWeight: FontWeight.bold,

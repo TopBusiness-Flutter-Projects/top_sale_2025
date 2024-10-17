@@ -173,7 +173,7 @@ class ShipmentCardWidget extends StatelessWidget {
                       ),
                       SizedBox(width: getSize(context) / 60),
                       AutoSizeText(
-                        "${order.amountTotal} \$",
+                        "${order.amountTotal} ${order.currencyId?.name}",
                         style: TextStyle(
                           fontFamily: "cairo",
                           color: AppColors.black,

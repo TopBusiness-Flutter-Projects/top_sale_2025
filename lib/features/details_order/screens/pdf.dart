@@ -8,8 +8,8 @@ import 'package:top_sale/core/preferences/preferences.dart';
 import 'package:top_sale/core/utils/app_strings.dart'; // Import PdfPageFormat here
 
 class PdfViewerPage extends StatefulWidget {
-  const PdfViewerPage({super.key, required this.id});
-final String id;
+  const PdfViewerPage({super.key, required this.baseUrl});
+final String baseUrl;
   @override
   _PdfViewerPageState createState() => _PdfViewerPageState();
 }
@@ -36,7 +36,7 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
       // Step 3: Fetch the PDF using the session cookie
       final pdfResponse = await http.get(
         Uri.parse(
-           odooUrl+ '/report/pdf/account.report_invoice_with_payments/${widget.id}'),
+          odooUrl + widget.baseUrl),
         headers: {
           'Cookie': cookie, // Pass the session cookie
         },

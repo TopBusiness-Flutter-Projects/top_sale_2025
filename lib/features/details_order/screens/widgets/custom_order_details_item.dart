@@ -3,16 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../../core/models/order_details_model.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_fonts.dart';
 import '../../../../core/utils/assets_manager.dart';
 import '../../../../core/utils/get_size.dart';
-import '../../../../core/widgets/decode_image.dart';
 import '../../../basket_screen/cubit/cubit.dart';
-import '../../../direct_sell/cubit/direct_sell_cubit.dart';
-import '../../../direct_sell/cubit/direct_sell_state.dart';
 import '../../../login/widget/textfield_with_text.dart';
 import '../../cubit/details_orders_cubit.dart';
 import '../../cubit/details_orders_state.dart';
@@ -43,12 +39,12 @@ class _CustomOrderDetailsShowPriceItemState
           height: getSize(context) / 4,
           padding: const EdgeInsets.all(8),
           margin: const EdgeInsets.all(8),
-          decoration: BoxDecoration(boxShadow: [
-            BoxShadow(
+          decoration: BoxDecoration(boxShadow: [BoxShadow(
               offset: const Offset(2, 2),
               color: AppColors.grey2Color,
-            )
-          ], color: AppColors.white, borderRadius: BorderRadius.circular(5)),
+            )],
+              color: AppColors.white,
+              borderRadius: BorderRadius.circular(5)),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [

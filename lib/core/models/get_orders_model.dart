@@ -57,7 +57,7 @@ class OrderModel {
    PartnerId? partnerId;
   String? displayName;
   String? state;
-  String? writeDate;
+  String? writeDate;CurrencyId? currencyId;
   dynamic? amountTotal;
   String? invoiceStatus;
   dynamic deliveryStatus;
@@ -69,7 +69,7 @@ class OrderModel {
     this.partnerId,
     this.displayName,
     this.state,
-    this.writeDate,
+    this.writeDate,this.currencyId,
     this.amountTotal,
     this.invoiceStatus,this.employeeId,
     this.deliveryStatus,
@@ -80,7 +80,7 @@ class OrderModel {
         userId: json["user_id"],
         partnerId: json["partner_id"] == null ? null : PartnerId.fromJson(json["partner_id"]),
         displayName: json["display_name"],
-        state: json["state"],
+        state: json["state"],currencyId: json["currency_id"] == null ? null : CurrencyId.fromJson(json["currency_id"]),
         writeDate: json["write_date"],
         amountTotal: json["amount_total"],
         invoiceStatus: json["invoice_status"],
@@ -94,13 +94,28 @@ class OrderModel {
         "user_id": userId,
          "partner_id": partnerId?.toJson(),
         "display_name": displayName,
-        "state": state,
+        "state": state,"currency_id": currencyId?.toJson(),
         "write_date": writeDate,
         "amount_total": amountTotal,
         "invoice_status": invoiceStatus,
         "delivery_status": deliveryStatus,
         "employee_id": employeeId?.toJson(),
       };
+}
+class CurrencyId {
+  dynamic name;
+
+  CurrencyId({
+    this.name,
+  });
+
+  factory CurrencyId.fromJson(Map<String, dynamic> json) => CurrencyId(
+    name: json["name"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "name": name,
+  };
 }
 class EmployeeId {
     dynamic id;

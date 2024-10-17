@@ -13,6 +13,7 @@ import 'package:top_sale/features/details_order/screens/widgets/custom_total_pri
 import 'package:top_sale/features/details_order/screens/widgets/product_card.dart';
 import 'package:top_sale/features/details_order/screens/widgets/rounded_button.dart';
 import '../../../config/routes/app_routes.dart';
+import '../../../core/api/end_points.dart';
 import '../../../core/models/get_orders_model.dart';
 import '../../../core/models/order_details_model.dart';
 import '../../../core/utils/app_colors.dart';
@@ -93,6 +94,7 @@ class _DetailsOrderState extends State<DetailsOrder> {
             widget.orderModel.invoiceStatus = 'invoiced';
             widget.orderModel.deliveryStatus = 'full';
           });
+          cubit.changePage(4);
         }
         if (state is CreateAndValidateInvoiceLoadingState) {
           setState(() {
@@ -142,6 +144,7 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                         ?.orderLines!.length,
                                     itemBuilder: (context, index) {
                                       return ProductCard(
+                                        order: widget.orderModel,
                                         title: cubit.getDetailsOrdersModel
                                             ?.orderLines?[index].productName,
                                         price: cubit
@@ -177,20 +180,83 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                       widget.orderModel.invoiceStatus ==
                                           'to invoice' &&
                                       widget.orderModel.deliveryStatus == 'full'
-                                  ? Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: RoundedButton(
-                                        text: 'Create_an_invoice'.tr(),
-                                        onPressed: () {
-                                          setState(() {
-                                            cubit.createAndValidateInvoice(
-                                                context,
-                                                orderId:
-                                                    widget.orderModel.id ?? -1);
-                                          });
-                                        },
-                                        backgroundColor: AppColors.blue,
-                                      ),
+                                  ? Row(
+                                      children: [
+                                        Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(10.0),
+                                            child: RoundedButton(
+                                              text: 'Create_an_invoice'.tr(),
+                                              onPressed: () {
+                                                setState(() {
+                                                  cubit
+                                                      .createAndValidateInvoice(
+                                                          context,
+                                                          orderId: widget
+                                                                  .orderModel
+                                                                  .id ??
+                                                              -1);
+                                                });
+                                              },
+                                              backgroundColor: AppColors.blue,
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(10.0),
+                                            child: ElevatedButton(
+                                              style: ButtonStyle(
+                                                backgroundColor:
+                                                    MaterialStateProperty.all(
+                                                        AppColors.orange),
+                                              ),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Icon(
+                                                    Icons.print,
+                                                    color: AppColors.white,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 5.w,
+                                                  ),
+                                                  AutoSizeText(
+                                                    'delivery_order'.tr(),
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 20.sp,
+                                                        color: AppColors.white),
+                                                  ),
+                                                ],
+                                              ),
+                                              onPressed: () {
+                                                setState(() {
+                                                  if (cubit
+                                                      .getDetailsOrdersModel!
+                                                      .pickings!
+                                                      .isNotEmpty) {
+                                                    Navigator.push(context,
+                                                        MaterialPageRoute(
+                                                      builder: (context) {
+                                                        return PdfViewerPage(
+                                                          baseUrl:
+                                                              '${EndPoints.printPicking}${cubit.getDetailsOrdersModel!.pickings![0].pickingId.toString()}',
+                                                        );
+                                                        // return PaymentWebViewScreen(url: "",);
+                                                      },
+                                                    ));
+                                                  }
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     )
                                   :
                                   // جديدةةةةةةةةةةةةةةة
@@ -199,25 +265,95 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                               'to invoice' &&
                                           widget.orderModel.deliveryStatus ==
                                               'pending'
-                                      ? Padding(
-                                          padding: const EdgeInsets.all(10.0),
-                                          child: RoundedButton(
-                                            text: 'delivery_confirmation'.tr(),
-                                            onPressed: () {
-                                              setState(() {
-                                                cubit.confirmDelivery(context,
-                                                    orderId:
-                                                        widget.orderModel.id ??
-                                                            -1,
-                                                    pickingId: cubit
-                                                            .getDetailsOrdersModel
-                                                            ?.pickings?[0]
-                                                            .pickingId ??
-                                                        -1);
-                                              });
-                                            },
-                                            backgroundColor: AppColors.orange,
-                                          ),
+                                      ? Row(
+                                          children: [
+                                            Expanded(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(10.0),
+                                                child: RoundedButton(
+                                                  text: 'delivery_confirmation'
+                                                      .tr(),
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      cubit.confirmDelivery(
+                                                          context,
+                                                          orderId: widget
+                                                                  .orderModel
+                                                                  .id ??
+                                                              -1,
+                                                          pickingId: cubit
+                                                                  .getDetailsOrdersModel
+                                                                  ?.pickings?[0]
+                                                                  .pickingId ??
+                                                              -1);
+                                                    });
+                                                  },
+                                                  backgroundColor:
+                                                      AppColors.blue,
+                                                ),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(10.0),
+                                                child: ElevatedButton(
+                                                  style: ButtonStyle(
+                                                    backgroundColor:
+                                                        MaterialStateProperty
+                                                            .all(AppColors
+                                                                .orange),
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Icon(
+                                                        Icons.print,
+                                                        color: AppColors.white,
+                                                      ),
+                                                      SizedBox(
+                                                        width: 5.w,
+                                                      ),
+                                                      Text(
+                                                        'order_sales'.tr(),
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 20.sp,
+                                                            color: AppColors
+                                                                .white),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      if (cubit
+                                                              .getDetailsOrdersModel!
+                                                              .id !=
+                                                          null) {
+                                                        Navigator.push(context,
+                                                            MaterialPageRoute(
+                                                          builder: (context) {
+                                                            return PdfViewerPage(
+                                                              baseUrl:
+                                                                  '/report/pdf/sale.report_saleorder/${cubit.getDetailsOrdersModel!.id.toString()}',
+                                                            );
+                                                            // return PaymentWebViewScreen(url: "",);
+                                                          },
+                                                        ));
+                                                      }
+                                                    });
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         )
                                       : widget.orderModel.state == 'sale' &&
                                               widget.orderModel.invoiceStatus ==
@@ -229,39 +365,130 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                           // مكتملةةةةةةةةةةةة
                                           Row(
                                               children: [
-                                                if (cubit.getDetailsOrdersModel!
-                                                        .invoices!.isNotEmpty &&
-                                                    cubit.getDetailsOrdersModel!
-                                                        .payments!.isEmpty)
-                                                  Expanded(
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              10.0),
-                                                      child: RoundedButton(
-                                                        text: 'payment'.tr(),
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            Navigator.pushNamed(
-                                                                context,
-                                                                Routes
-                                                                    .paymentRoute);
-                                                            // cubit.createAndValidateInvoice(
-                                                            //     orderId: widget.orderModel.id ?? -1);
-                                                          });
-                                                        },
-                                                        backgroundColor:
-                                                            AppColors.blue,
+                                                (cubit
+                                                            .getDetailsOrdersModel!
+                                                            .invoices!
+                                                            .isNotEmpty &&
+                                                        cubit
+                                                            .getDetailsOrdersModel!
+                                                            .payments!
+                                                            .isEmpty)
+                                                    ? Expanded(
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(10.0),
+                                                          child: RoundedButton(
+                                                            text:
+                                                                'payment'.tr(),
+                                                            onPressed: () {
+                                                              setState(() {
+                                                                Navigator.pushNamed(
+                                                                    context,
+                                                                    Routes
+                                                                        .paymentRoute);
+                                                                // cubit.createAndValidateInvoice(
+                                                                //     orderId: widget.orderModel.id ?? -1);
+                                                              });
+                                                            },
+                                                            backgroundColor:
+                                                                AppColors.blue,
+                                                          ),
+                                                        ),
+                                                      )
+                                                    : Expanded(
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(10.0),
+                                                          child: ElevatedButton(
+                                                            style: ButtonStyle(
+                                                              backgroundColor:
+                                                                  MaterialStateProperty
+                                                                      .all(AppColors
+                                                                          .blue),
+                                                            ),
+                                                            child: Row(
+                                                              children: [
+                                                                Icon(
+                                                                  Icons.print,
+                                                                  color:
+                                                                      AppColors
+                                                                          .white,
+                                                                ),
+                                                                SizedBox(
+                                                                  width: 5.w,
+                                                                ),
+                                                                AutoSizeText(
+                                                                    'receipt_voucher'
+                                                                        .tr(),
+                                                                    style:
+                                                                        TextStyle(
+                                                                      color: AppColors
+                                                                          .white,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      fontSize:
+                                                                          20.sp,
+                                                                    )),
+                                                              ],
+                                                            ),
+                                                            onPressed: () {
+                                                              if (cubit
+                                                                  .getDetailsOrdersModel!
+                                                                  .payments!
+                                                                  .isNotEmpty) {
+                                                                Navigator.push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) {
+                                                                    return PdfViewerPage(
+                                                                      baseUrl:
+                                                                          '${EndPoints.printPayment}${cubit.getDetailsOrdersModel!.payments![0].paymentId.toString()}',
+                                                                    );
+                                                                    // return PaymentWebViewScreen(url: "",);
+                                                                  },
+                                                                ));
+                                                              }
+                                                            },
+                                                          ),
+                                                        ),
                                                       ),
-                                                    ),
-                                                  ),
                                                 Expanded(
                                                   child: Padding(
                                                     padding:
                                                         const EdgeInsets.all(
                                                             10.0),
-                                                    child: RoundedButton(
-                                                      text: 'invoice'.tr(),
+                                                    child: ElevatedButton(
+                                                      style: ButtonStyle(
+                                                        backgroundColor:
+                                                            MaterialStateProperty
+                                                                .all(AppColors
+                                                                    .orange),
+                                                      ),
+                                                      child: Row(
+                                                        children: [
+                                                          Icon(
+                                                            Icons.print,
+                                                            color:
+                                                                AppColors.white,
+                                                          ),
+                                                          SizedBox(
+                                                            width: 5.w,
+                                                          ),
+                                                          Text('invoice'.tr(),
+                                                              style: TextStyle(
+                                                                color: AppColors
+                                                                    .white,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 20.sp,
+                                                              )),
+                                                        ],
+                                                      ),
                                                       onPressed: () {
                                                         if (cubit
                                                             .getDetailsOrdersModel!
@@ -272,12 +499,9 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                                               MaterialPageRoute(
                                                             builder: (context) {
                                                               return PdfViewerPage(
-                                                                  id: cubit
-                                                                      .getDetailsOrdersModel!
-                                                                      .invoices!
-                                                                      .first
-                                                                      .invoiceId
-                                                                      .toString());
+                                                                baseUrl:
+                                                                    '/report/pdf/account.report_invoice_with_payments/${cubit.getDetailsOrdersModel!.invoices!.first.invoiceId.toString()}',
+                                                              );
                                                               // return PaymentWebViewScreen(url: "",);
                                                             },
                                                           ));
@@ -286,8 +510,6 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                                         // cubit.createAndValidateInvoice(
                                                         //     orderId: widget.orderModel.id ?? -1);
                                                       },
-                                                      backgroundColor:
-                                                          AppColors.orange,
                                                     ),
                                                   ),
                                                 ),
