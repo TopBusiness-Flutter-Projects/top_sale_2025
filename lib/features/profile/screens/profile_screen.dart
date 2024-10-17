@@ -19,12 +19,15 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
- void initState() {
+  void initState() {
     // TODO: implement initState
-    context.read<ProfileCubit>().nameController.text=context.read<HomeCubit>().nameOfUser.toString()??"";
-    context.read<ProfileCubit>().phoneController.text=context.read<HomeCubit>().phoneOfUser.toString()??"";
-    debugPrint("nonos"+'${context.read<ProfileCubit>().phoneController.text.toString()}');
-    debugPrint("nonos"+'${context.read<HomeCubit>().phoneOfUser.toString()}');
+    context.read<ProfileCubit>().nameController.text =
+        context.read<HomeCubit>().nameOfUser.toString() ?? "";
+    context.read<ProfileCubit>().phoneController.text =
+        context.read<HomeCubit>().phoneOfUser.toString() ?? "";
+    debugPrint("nonos" +
+        '${context.read<ProfileCubit>().phoneController.text.toString()}');
+    debugPrint("nonos" + '${context.read<HomeCubit>().phoneOfUser.toString()}');
     super.initState();
   }
 
@@ -70,7 +73,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 height: getSize(context) / 30,
               ),
               CustomTextFieldWithTitle(
-                hint:"phone".tr(),
+                hint: "phone".tr(),
                 controller: cubit.phoneController,
                 title: "phone".tr(),
                 readonly: true,

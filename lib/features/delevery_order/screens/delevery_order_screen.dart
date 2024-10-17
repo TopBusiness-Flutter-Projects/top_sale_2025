@@ -32,7 +32,7 @@ class _DeleveryOrderScreenState extends State<DeleveryOrderScreen> {
         appBar: AppBar(
           backgroundColor: AppColors.white,
           centerTitle: false,
-          leadingWidth: 20,
+          // leadingWidth: 20,
           title: Text(
             "delevery_order".tr(),
             style: TextStyle(
@@ -151,7 +151,6 @@ class _DeleveryOrderScreenState extends State<DeleveryOrderScreen> {
                                                   child: ShipmentCardWidget(
                                                     order: cubit
                                                         .currentOrders[index],
-
                                                   ),
                                                 );
                                               },
@@ -183,7 +182,6 @@ class _DeleveryOrderScreenState extends State<DeleveryOrderScreen> {
                                                       child: ShipmentCardWidget(
                                                         order: cubit
                                                             .draftOrders[index],
-
                                                       ),
                                                     );
                                                   },
@@ -217,7 +215,6 @@ class _DeleveryOrderScreenState extends State<DeleveryOrderScreen> {
                                                             order:
                                                                 cubit.newOrders[
                                                                     index],
-
                                                           ),
                                                         );
                                                       },
@@ -275,7 +272,6 @@ class _DeleveryOrderScreenState extends State<DeleveryOrderScreen> {
                               padding: EdgeInsets.all(getSize(context) / 50),
                               child: ShipmentCardWidget(
                                 order: cubit.completeOrders[index],
-
                               ),
                             );
                           },

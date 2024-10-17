@@ -6,6 +6,7 @@ class ImageAssets {
   // images
   static const String logoImage = '$imagePath/1.png';
   static const String logo2Image = '$imagePath/1-1.png';
+  static const String topBusinessLogo = '$imagePath/topBusinessLogo.png';
   static const String topbusinessImage = '$imagePath/topbusiness.png';
   static const String introBackgroundImage = '$imagePath/on1.png';
   static const String introBackgroundImage2 = '$imagePath/on2.png';
@@ -16,6 +17,7 @@ class ImageAssets {
   static const String user = '$imagePath/default_user.png';
   static const String directSale = '$imagePath/direct_sale.png';
   static const String deleveryOrder = '$imagePath/delevery_order.png';
+  static const String edit2Icon = '$imagePath/edit_icon.png';
   static const String line = '$imagePath/line.png';
   static const String profileIconPng = '$imagePath/profile_icon.png';
   static const String clients = '$imagePath/clients.png';
@@ -37,6 +39,7 @@ class ImageAssets {
   static const String editIcon = '$iconsPath/edit.svg';
   static const String deleteIcon = '$iconsPath/delete.svg';
   static const String logoutIcon = '$iconsPath/logout.svg';
+  static const String callIcon = '$iconsPath/phoneIcon.png';
 
   // Lottie
   static const String noLessons = '$lottiePath/no_lessons.json';

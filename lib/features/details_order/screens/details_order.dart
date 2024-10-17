@@ -1,6 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart' as tr;
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_stepindicator/flutter_stepindicator.dart';
@@ -33,20 +35,20 @@ class _DetailsOrderState extends State<DetailsOrder> {
         .read<DetailsOrdersCubit>()
         .getDetailsOrders(orderId: widget.orderModel.id ?? -1);
     context.read<DetailsOrdersCubit>().changePage(
-        // تم السليم
+      // تم السليم
         widget.orderModel.state == 'sale' &&
-                widget.orderModel.invoiceStatus == 'to invoice' &&
-                widget.orderModel.deliveryStatus == 'full'
+            widget.orderModel.invoiceStatus == 'to invoice' &&
+            widget.orderModel.deliveryStatus == 'full'
             ? 2
             : widget.orderModel.state == 'sale' &&
-                    widget.orderModel.invoiceStatus == 'invoiced' &&
-                    widget.orderModel.deliveryStatus == 'full'
-                ? 3
-                : widget.orderModel.state == 'sale' &&
-                        widget.orderModel.invoiceStatus == 'to invoice' &&
-                        widget.orderModel.deliveryStatus == 'pending'
-                    ? 1
-                    : 0);
+            widget.orderModel.invoiceStatus == 'invoiced' &&
+            widget.orderModel.deliveryStatus == 'full'
+            ? 3
+            : widget.orderModel.state == 'sale' &&
+            widget.orderModel.invoiceStatus == 'to invoice' &&
+            widget.orderModel.deliveryStatus == 'pending'
+            ? 1
+            : 0);
     super.initState();
   }
 
@@ -69,45 +71,44 @@ class _DetailsOrderState extends State<DetailsOrder> {
       ),
       body: BlocConsumer<DetailsOrdersCubit, DetailsOrdersState>(
           listener: (context, state) {
-        if (state is ConfirmDeliveryLoadedState) {
-          setState(() {
-            // تم السليم
-            widget.orderModel.state = 'sale';
-            widget.orderModel.invoiceStatus = 'to invoice';
-            widget.orderModel.deliveryStatus = 'full';
-          });
-          cubit.changePage(2);
-        }
-        if (state is CreateAndValidateInvoiceLoadedState) {
-          // مكتملة
-          setState(() {
-            widget.orderModel.state = 'sale';
-            widget.orderModel.invoiceStatus = 'invoiced';
-            widget.orderModel.deliveryStatus = 'full';
-          });
-          cubit.changePage(3);
-        }
-        if (state is RegisterPaymentLoadedState) {
-          setState(() {
-            widget.orderModel.state = 'sale';
-            widget.orderModel.invoiceStatus = 'invoiced';
-            widget.orderModel.deliveryStatus = 'full';
-          });
-        }
-        if (state is CreateAndValidateInvoiceLoadingState) {
-          setState(() {
-            const CircularProgressIndicator();
-          });
-        }
-        if (state is ConfirmDeliveryLoadingState) {
-          setState(() {
-            const CircularProgressIndicator();
-          });
-        }
-      }, builder: (context, state) {
-        return Stack(
+            if (state is ConfirmDeliveryLoadedState) {
+              setState(() {
+                // تم السليم
+                widget.orderModel.state = 'sale';
+                widget.orderModel.invoiceStatus = 'to invoice';
+                widget.orderModel.deliveryStatus = 'full';
+              });
+              cubit.changePage(2);
+            }
+            if (state is CreateAndValidateInvoiceLoadedState) {
+              // مكتملة
+              setState(() {
+                widget.orderModel.state = 'sale';
+                widget.orderModel.invoiceStatus = 'invoiced';
+                widget.orderModel.deliveryStatus = 'full';
+              });
+              cubit.changePage(3);
+            }
+            if (state is RegisterPaymentLoadedState) {
+              setState(() {
+                widget.orderModel.state = 'sale';
+                widget.orderModel.invoiceStatus = 'invoiced';
+                widget.orderModel.deliveryStatus = 'full';
+              });
+            }
+            if (state is CreateAndValidateInvoiceLoadingState) {
+              setState(() {
+                const CircularProgressIndicator();
+              });
+            }
+            if (state is ConfirmDeliveryLoadingState) {
+              setState(() {
+                const CircularProgressIndicator();
+              });
+            }
+          }, builder: (context, state) {
+        return Column(
           children: [
-
             Flexible(
               child: Column(
                 children: [
@@ -116,253 +117,268 @@ class _DetailsOrderState extends State<DetailsOrder> {
                   ),
                   Expanded(
                       child: Padding(
-                    padding: EdgeInsets.only(
-                        left: getSize(context) / 30,
-                        right: getSize(context) / 30),
-                    child: (cubit.getDetailsOrdersModel == null)
-                        ? const Center(
-                            child: CircularProgressIndicator(),
-                          )
-                        : Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              CardDetailsOrders(
-                                orderModel: widget.orderModel,
-                                orderDetailsModel: cubit.getDetailsOrdersModel!,
-                              ),
-                              SizedBox(
-                                height: getSize(context) / 12,
-                              ),
-                              ListView.builder(
+                        padding: EdgeInsets.only(
+                            left: getSize(context) / 30,
+                            right: getSize(context) / 30),
+                        child: (cubit.getDetailsOrdersModel == null)
+                            ? const Center(
+                          child: CircularProgressIndicator(),
+                        )
+                            : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            CardDetailsOrders(
+                              orderModel: widget.orderModel,
+                              orderDetailsModel: cubit.getDetailsOrdersModel!,
+                            ),
+                            SizedBox(
+                              height: getSize(context) / 12,
+                            ),
+                            Flexible(
+                              fit: FlexFit.tight,
+                              child: ListView.builder(
                                   shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: cubit.getDetailsOrdersModel!
-                                      .orderLines!.length,
-
+                                  physics: const ClampingScrollPhysics(),
+                                  itemCount: cubit.getDetailsOrdersModel
+                                      ?.orderLines!.length,
                                   itemBuilder: (context, index) {
                                     return ProductCard(
                                       title: cubit.getDetailsOrdersModel
                                           ?.orderLines?[index].productName,
-                                      price: cubit.getDetailsOrdersModel
-                                              ?.orderLines?[index].priceSubtotal
-                                              .toString() ??
+                                      price: cubit
+                                          .getDetailsOrdersModel
+                                          ?.orderLines?[index]
+                                          .priceSubtotal
+                                          .toString() ??
                                           '',
                                       text: cubit
-                                              .getDetailsOrdersModel
-                                              ?.orderLines?[index]
-                                              .productName ??
+                                          .getDetailsOrdersModel
+                                          ?.orderLines?[index]
+                                          .productName ??
                                           '',
-                                      number: cubit.getDetailsOrdersModel
-                                              ?.orderLines?[index].productUomQty
-                                              .toString() ??
+                                      number: cubit
+                                          .getDetailsOrdersModel
+                                          ?.orderLines?[index]
+                                          .productUomQty
+                                          .toString() ??
                                           '',
                                     );
                                   }),
-                              CustomTotalPrice(
-                                price: cubit.getDetailsOrdersModel?.amountTotal
-                                        .toString() ??
-                                    '',
+                            ),
+                            CustomTotalPrice(
+                              price: cubit.getDetailsOrdersModel?.amountTotal
+                                  .toString() ??
+                                  '',
+                            ),
+                            // SizedBox(
+                            //   height: getSize(context) / 12,
+                            // ),
+                            //     تم التسليييييييييييييم
+                            widget.orderModel.state == 'sale' &&
+                                widget.orderModel.invoiceStatus ==
+                                    'to invoice' &&
+                                widget.orderModel.deliveryStatus == 'full'
+                                ? Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: RoundedButton(
+                                text: 'Create_an_invoice'.tr(),
+                                onPressed: () {
+                                  setState(() {
+                                    cubit.createAndValidateInvoice(
+                                        context,
+                                        orderId:
+                                        widget.orderModel.id ?? -1);
+                                  });
+                                },
+                                backgroundColor: AppColors.blue,
                               ),
-                              SizedBox(
-                                height: getSize(context) / 12,
+                            )
+                                :
+                            // جديدةةةةةةةةةةةةةةة
+                            widget.orderModel.state == 'sale' &&
+                                widget.orderModel.invoiceStatus ==
+                                    'to invoice' &&
+                                widget.orderModel.deliveryStatus ==
+                                    'pending'
+                                ? Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: RoundedButton(
+                                text: 'delivery_confirmation'.tr(),
+                                onPressed: () {
+                                  setState(() {
+                                    cubit.confirmDelivery(context,
+                                        orderId:
+                                        widget.orderModel.id ??
+                                            -1,
+                                        pickingId: cubit
+                                            .getDetailsOrdersModel
+                                            ?.pickings?[0]
+                                            .pickingId ??
+                                            -1);
+                                  });
+                                },
+                                backgroundColor: AppColors.orange,
                               ),
-                              //     تم التسليييييييييييييم
-                              widget.orderModel.state == 'sale' &&
-                                      widget.orderModel.invoiceStatus ==
-                                          'to invoice' &&
-                                      widget.orderModel.deliveryStatus == 'full'
-                                  ? Padding(
-                                      padding: const EdgeInsets.all(10.0),
+                            )
+                                : widget.orderModel.state == 'sale' &&
+                                widget.orderModel.invoiceStatus ==
+                                    'invoiced' &&
+                                widget.orderModel
+                                    .deliveryStatus ==
+                                    'full'
+                                ?
+                            // مكتملةةةةةةةةةةةة
+                            Row(
+                              children: [
+                                if (cubit.getDetailsOrdersModel!
+                                    .invoices!.isNotEmpty &&
+                                    cubit.getDetailsOrdersModel!
+                                        .payments!.isEmpty)
+                                  Expanded(
+                                    child: Padding(
+                                      padding:
+                                      const EdgeInsets.all(
+                                          10.0),
                                       child: RoundedButton(
-                                        text: 'Create_an_invoice'.tr(),
+                                        text: 'payment'.tr(),
                                         onPressed: () {
                                           setState(() {
-                                            cubit.createAndValidateInvoice(
+                                            Navigator.pushNamed(
                                                 context,
-                                                orderId:
-                                                    widget.orderModel.id ?? -1);
+                                                Routes
+                                                    .paymentRoute);
+                                            // cubit.createAndValidateInvoice(
+                                            //     orderId: widget.orderModel.id ?? -1);
                                           });
                                         },
-                                        backgroundColor: AppColors.blue,
+                                        backgroundColor:
+                                        AppColors.blue,
                                       ),
-                                    )
-                                  :
-                                  // جديدةةةةةةةةةةةةةةة
-                                  widget.orderModel.state == 'sale' &&
-                                          widget.orderModel.invoiceStatus ==
-                                              'to invoice' &&
-                                          widget.orderModel.deliveryStatus ==
-                                              'pending'
-                                      ? Padding(
-                                          padding: const EdgeInsets.all(10.0),
-                                          child: RoundedButton(
-                                            text: 'delivery_confirmation'.tr(),
-                                            onPressed: () {
-                                              setState(() {
-                                                cubit.confirmDelivery(context,
-                                                    orderId:
-                                                        widget.orderModel.id ??
-                                                            -1,
-                                                    pickingId: cubit
-                                                            .getDetailsOrdersModel
-                                                            ?.pickings?[0]
-                                                            .pickingId ??
-                                                        -1);
-                                              });
-                                            },
-                                            backgroundColor: AppColors.orange,
-                                          ),
-                                        )
-                                      : widget.orderModel.state == 'sale' &&
-                                              widget.orderModel.invoiceStatus ==
-                                                  'invoiced' &&
-                                              widget.orderModel.deliveryStatus ==
-                                                  'full'
-                                          ?
-                                          // مكتملةةةةةةةةةةةة
-                                          Row(
-                                              children: [
-                                                if (cubit.getDetailsOrdersModel!
-                                                        .invoices!.isNotEmpty &&
-                                                    cubit.getDetailsOrdersModel!
-                                                        .payments!.isEmpty)
-                                                  Expanded(
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              10.0),
-                                                      child: RoundedButton(
-                                                        text: 'payment'.tr(),
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            Navigator.pushNamed(
-                                                                context,
-                                                                Routes
-                                                                    .paymentRoute);
-                                                            // cubit.createAndValidateInvoice(
-                                                            //     orderId: widget.orderModel.id ?? -1);
-                                                          });
-                                                        },
-                                                        backgroundColor:
-                                                            AppColors.blue,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                Expanded(
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.all(
-                                                        10.0),
-                                                    child: RoundedButton(
-                                                      text: 'invoice'.tr(),
-                                                      onPressed: () {
-                                                        setState(() {
-                                                          Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                                            return PdfViewerPage(id: widget.orderModel.id.toString(),);
-                                                            // return PaymentWebViewScreen(url: "",);
-                                                          },));
-                                                          // Navigator.pushNamed(context, Routes.paymentRoute);
-                                                          // cubit.createAndValidateInvoice(
-                                                          //     orderId: widget.orderModel.id ?? -1);
-                                                        });
-                                                      },
-                                                      backgroundColor:
-                                                          AppColors.orange,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            )
-                                          : const SizedBox(),
+                                    ),
+                                  ),
+                                Expanded(
+                                  child: Padding(
+                                    padding:
+                                    const EdgeInsets.all(
+                                        10.0),
+                                    child: RoundedButton(
+                                      text: 'invoice'.tr(),
+                                      onPressed: () {
+                                        if (cubit
+                                            .getDetailsOrdersModel!
+                                            .invoices!
+                                            .isNotEmpty) {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) {
+                                                  return PdfViewerPage(
+                                                      id: cubit
+                                                          .getDetailsOrdersModel!
+                                                          .invoices!
+                                                          .first
+                                                          .invoiceId
+                                                          .toString());
+                                                  // return PaymentWebViewScreen(url: "",);
+                                                },
+                                              ));
+                                        }
+                                        // Navigator.pushNamed(context, Routes.paymentRoute);
+                                        // cubit.createAndValidateInvoice(
+                                        //     orderId: widget.orderModel.id ?? -1);
+                                      },
+                                      backgroundColor:
+                                      AppColors.orange,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                                : const SizedBox(),
 
-                              const Expanded(child: SizedBox()),
-                            ],
-                          ),
-                  ))
+                            // const Expanded(child: SizedBox()),
+                          ],
+                        ),
+                      ))
                 ],
               ),
             ),
-            Positioned(
-              bottom: -10.h,
-              left: 0.w,
-              right: 0.w,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(15.sp),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: const Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: Padding(
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(15.sp),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  height: 80.w,
                   padding: EdgeInsets.only(
                       left: 10.w, right: 10.w, top: 15.h, bottom: 10.h),
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: SizedBox(
-                      height: 80,
-                      width: double.maxFinite,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 7),
-                        child: Directionality(
-                          textDirection: TextDirection.ltr,
-                          child: Column(
-                            // alignment: Alignment.center,
+                  width: double.maxFinite,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 7),
+                    child: Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: Column(
+                        // alignment: Alignment.center,
 
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  AutoSizeText('show_price'.tr(),
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w600)),
-                                  AutoSizeText('new'.tr(),
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w600)),
-                                  AutoSizeText('delivered'.tr(),
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w600)),
-                                  AutoSizeText('complete'.tr(),
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w600)),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 12.h,
-                              ),
-                              FlutterStepIndicator(
-                                division: 3,
-                                height: 28.h,
-                                positiveColor: AppColors.orange,
-                                negativeColor:
-                                const Color.fromRGBO(213, 213, 213, 1),
-                                list: cubit.list,
-                                onChange: (i) {},
-                                positiveCheck: const Icon(
-                                  Icons.check_rounded,
-                                  size: 15,
-                                  color: Colors.white,
-                                ),
-                                page: cubit.page,
-                                disableAutoScroll: true,
-                              ),
-                            ],
+                        children: [
+                          Flexible(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                AutoSizeText('show_price'.tr(),
+                                    style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w600)),
+                                AutoSizeText('new'.tr(),
+                                    style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w600)),
+                                AutoSizeText('delivered'.tr(),
+                                    style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w600)),
+                                AutoSizeText('complete'.tr(),
+                                    style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w600)),
+                              ],
+                            ),
                           ),
-                        ),
+                          SizedBox(
+                            height: 12.h,
+                          ),
+                          FlutterStepIndicator(
+                            division: 3,
+                            height: 28.h,
+                            positiveColor: AppColors.orange,
+                            negativeColor:
+                            const Color.fromRGBO(213, 213, 213, 1),
+                            list: cubit.list,
+                            onChange: (i) {},
+                            positiveCheck: const Icon(
+                              Icons.check_rounded,
+                              size: 15,
+                              color: Colors.white,
+                            ),
+                            page: cubit.page,
+                            disableAutoScroll: true,
+                          ),
+                        ],
                       ),
                     ),
                   ),
