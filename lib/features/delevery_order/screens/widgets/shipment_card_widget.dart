@@ -72,7 +72,6 @@ class ShipmentCardWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-
                 Container(
                     height: getSize(context) / 15,
                     width: getSize(context) / 5,
@@ -101,7 +100,7 @@ class ShipmentCardWidget extends StatelessWidget {
                                       order.invoiceStatus == "to invoice" &&
                                       order.deliveryStatus == "full"
                                   ? "delivered".tr()
-                                  : order.state == "sale" &&
+                                  : order.state.toString() == "sale" &&
                                           order.invoiceStatus == "invoiced" &&
                                           order.deliveryStatus == "full"
                                       ? "complete".tr()
@@ -112,7 +111,7 @@ class ShipmentCardWidget extends StatelessWidget {
                                           ? "new".tr()
                                           : order.state == "draft"
                                               ? "show_price".tr()
-                                              : "",
+                                              : '',
                               style: TextStyle(
                                 color: order.state == "sale" &&
                                         order.invoiceStatus == "to invoice" &&

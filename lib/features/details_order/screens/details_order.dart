@@ -1,8 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart' as tr;
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_stepindicator/flutter_stepindicator.dart';
@@ -16,9 +14,9 @@ import 'package:top_sale/features/details_order/screens/widgets/product_card.dar
 import 'package:top_sale/features/details_order/screens/widgets/rounded_button.dart';
 import '../../../config/routes/app_routes.dart';
 import '../../../core/models/get_orders_model.dart';
+import '../../../core/models/order_details_model.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_strings.dart';
-import '../cubit/details_orders_state.dart';
 
 class DetailsOrder extends StatefulWidget {
   DetailsOrder({super.key, required this.orderModel});
@@ -166,11 +164,11 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                       );
                                     }),
                               ),
+
                               CustomTotalPrice(
-                                price: cubit.getDetailsOrdersModel?.amountTotal
-                                        .toString() ??
-                                    '',
-                              ),
+                                  price: calculateTotalDiscountedPrice(
+                                      cubit.getDetailsOrdersModel?.orderLines ??
+                                          [])),
                               // SizedBox(
                               //   height: getSize(context) / 12,
                               // ),
@@ -390,4 +388,21 @@ class _DetailsOrderState extends State<DetailsOrder> {
       }),
     );
   }
+}
+
+String calculateTotalDiscountedPrice(List<OrderLine> items) {
+  double total = items.fold(0.0, (sum, item) {
+    dynamic priceUnit = item.priceUnit;
+    dynamic quantity = item.productUomQty;
+    dynamic discount = item.discount;
+
+    // Calculate the total price with the discount applied for the current item
+    double totalPrice = (priceUnit * quantity) * (1 - discount / 100);
+
+    // Add to the running total
+    return sum + totalPrice;
+  });
+
+  // Return the total formatted to 2 decimal places
+  return total.toStringAsFixed(2);
 }

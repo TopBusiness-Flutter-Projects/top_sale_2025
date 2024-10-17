@@ -85,9 +85,17 @@ class _CustomOrderDetailsShowPriceItemState
 
                           InkWell(
                             onTap: () {
-                              //! add discount
+                              cubit2.newDiscountController.text =
+                                  widget.item.discount.toString();
 
-                              customShowBottomSheet(context, cubit);
+                              customShowBottomSheet(
+                                  context, cubit2.newDiscountController,
+                                  onPressed: () {
+                                cubit2.onChnageDiscountOfUnit(
+                                    widget.item, context);
+                              });
+
+                              //! add discount
                             },
                             child: Image.asset(
                               ImageAssets.discount,
@@ -205,7 +213,8 @@ class _CustomOrderDetailsShowPriceItemState
                                           getSize(context) / 22),
                                     ),
                                     child: Text(
-                                      '${((widget.item.priceUnit ?? 1) * widget.item.productUomQty).toString() ?? '-1'} ج',
+                                      '${calculateDiscountedPrice(widget.item.discount, widget.item.priceUnit, widget.item.productUomQty)} ج',
+                                      maxLines: 1,
                                       style: TextStyle(
                                         color: AppColors.orangeThirdPrimary,
                                         fontWeight: FontWeight.w700,
@@ -228,8 +237,17 @@ class _CustomOrderDetailsShowPriceItemState
   }
 }
 
+String calculateDiscountedPrice(
+    dynamic discountPercentage, dynamic priceUnit, dynamic productUomQty) {
+  double totalPrice =
+      (priceUnit * productUomQty) * (1 - discountPercentage / 100);
+  return totalPrice.toStringAsFixed(2);
+}
+
 //! add discount
-void customShowBottomSheet(BuildContext context, BasketCubit cubit) {
+void customShowBottomSheet(
+    BuildContext context, TextEditingController controllerPercent,
+    {required void Function() onPressed}) {
   showModalBottomSheet(
     isScrollControlled: true,
     context: context,
@@ -245,7 +263,7 @@ void customShowBottomSheet(BuildContext context, BasketCubit cubit) {
             children: [
               CustomTextFieldWithTitle(
                 title: "discount_rate".tr(),
-                controller: cubit.controllerPercent,
+                controller: controllerPercent,
                 hint: "enter_the_percentage".tr(),
                 keyboardType: TextInputType.text,
               ),
@@ -258,7 +276,7 @@ void customShowBottomSheet(BuildContext context, BasketCubit cubit) {
                 child: RoundedButton(
                   backgroundColor: AppColors.primaryColor,
                   text: 'confirm'.tr(),
-                  onPressed: () {},
+                  onPressed: onPressed,
                 ),
               )
             ],

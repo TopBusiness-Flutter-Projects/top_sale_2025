@@ -72,9 +72,28 @@ class _CustomBasketItemState extends State<CustomBasketItem> {
 
                           InkWell(
                             onTap: () {
+                              cubit2.newDiscountController.text =
+                                  widget.item.discount.toString();
+
+                              customShowBottomSheet(
+                                  context, cubit2.newDiscountController,
+                                  onPressed: () {
+                                cubit2.onChnageDiscountOfUnit(
+                                    widget.item, context);
+                              });
+
                               //! add discount
 
-                              customShowBottomSheet(context, cubit);
+                              // customShowBottomSheet(
+                              //   context,
+                              //   cubit.controllerPercent,
+                              //   onPressed: () {
+                              //     //! set dis count to model
+                              //     //! cal the new value of price
+                              //     //! case all discout remove discount of itms first then make all and loop on them
+                              //     //! clear controller
+                              //   },
+                              // );
                             },
                             child: Image.asset(
                               ImageAssets.discount,
@@ -190,7 +209,7 @@ class _CustomBasketItemState extends State<CustomBasketItem> {
                                           getSize(context) / 22),
                                     ),
                                     child: Text(
-                                      '${((widget.item.listPrice ?? 1) * widget.item.userOrderedQuantity).toString() ?? '-1'} ج',
+                                      '${calculateDiscountedPrice(widget.item.discount, widget.item.listPrice, widget.item.userOrderedQuantity)} ${widget.item.currencyId?.name ?? ''}',
                                       style: TextStyle(
                                         color: AppColors.orangeThirdPrimary,
                                         fontWeight: FontWeight.w700,
@@ -214,7 +233,9 @@ class _CustomBasketItemState extends State<CustomBasketItem> {
 }
 
 //! add discount
-void customShowBottomSheet(BuildContext context, BasketCubit cubit) {
+void customShowBottomSheet(
+    BuildContext context, TextEditingController controllerPercent,
+    {required void Function() onPressed}) {
   showModalBottomSheet(
     isScrollControlled: true,
     context: context,
@@ -230,7 +251,7 @@ void customShowBottomSheet(BuildContext context, BasketCubit cubit) {
             children: [
               CustomTextFieldWithTitle(
                 title: "discount_rate".tr(),
-                controller: cubit.controllerPercent,
+                controller: controllerPercent,
                 hint: "enter_the_percentage".tr(),
                 keyboardType: TextInputType.text,
               ),
@@ -243,7 +264,7 @@ void customShowBottomSheet(BuildContext context, BasketCubit cubit) {
                 child: RoundedButton(
                   backgroundColor: AppColors.primaryColor,
                   text: 'confirm'.tr(),
-                  onPressed: () {},
+                  onPressed: onPressed,
                 ),
               )
             ],
