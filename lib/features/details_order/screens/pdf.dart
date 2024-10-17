@@ -28,7 +28,6 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
     super.initState();
     fetchPdfWithSession();
   }
-
   Future<void> fetchPdfWithSession() async {
     String? sessionId = await Preferences.instance.getSessionId();
     String odooUrl =
@@ -40,7 +39,7 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
 
     // Step 3: Fetch the PDF using the session cookie
     final pdfResponse = await http.get(
-      Uri.parse(odooUrl + '/report/pdf/stock.report_picking/${widget.id}'),
+      Uri.parse(odooUrl + '/report/pdf/account.report_invoice_with_payments/${widget.id}'),
       headers: {
         'Cookie': cookie, // Pass the session cookie
       },
@@ -54,23 +53,6 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
       // Handle error
       print('Failed to load PDF');
     }
-      // Step 3: Fetch the PDF using the session cookie
-      final pdfResponse = await http.get(
-        Uri.parse(
-           odooUrl+ '/report/pdf/account.report_invoice_with_payments/${widget.id}'),
-        headers: {
-          'Cookie': cookie, // Pass the session cookie
-        },
-      );
-      if (pdfResponse.statusCode == 200) {
-        setState(() {
-          pdfBytes = pdfResponse.bodyBytes;
-          isLoading = false;
-        });
-      } else {
-        // Handle error
-        print('Failed to load PDF');
-      }
 
     // // Step 1: Authenticate with Odoo
     // final loginResponse = await http.post(
@@ -139,7 +121,7 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
             onPressed: isLoading
                 ? null
                 : () {
-                    cubit.captureScreenshot();
+              // share
                   }, // Disable the button while loading
           ),
         ],

@@ -10,6 +10,7 @@ import 'package:top_sale/core/error/failures.dart';
 import 'package:top_sale/core/models/all_journals_model.dart';
 import 'package:top_sale/core/models/all_partners_for_reports_model.dart';
 import 'package:top_sale/core/models/all_products_model.dart';
+import 'package:top_sale/core/models/all_ware_house_model.dart';
 import 'package:top_sale/core/models/category_model.dart';
 import 'package:top_sale/core/models/check_employee_model.dart';
 import 'package:top_sale/core/models/create_order_model.dart';
@@ -376,8 +377,8 @@ class ServiceApi {
     try {
       final response = await dio.get(
         odooUrl +
-            EndPoints.resPartner +
-            '$partnerId?query={id, phone,name,image_1920}',
+            EndPoints.createPartner +
+            '?partner_id=$partnerId',
         options: Options(
           headers: {"Cookie": "session_id=$sessionId"},
         ),
@@ -387,7 +388,6 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
-
   Future<Either<Failure, OrderDetailsModel>> getOrderDetails(
       {required int orderId}) async {
     String odooUrl =
@@ -656,4 +656,23 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
+
+   Future<Either<Failure, AllWareHouseModel>> getWareHouses() async {
+  
+    String? sessionId = await Preferences.instance.getSessionId();
+    try {
+      final response = await dio.get(
+        EndPoints.wareHouse +
+            '?query={id,name,}',
+        // '?query={id,partner_id,display_name,state,write_date,amount_total}&filter=[["user_id", "=",1]]',
+        options: Options(
+          headers: {"Cookie": "session_id=$sessionId"},
+        ),
+      );
+      return Right(AllWareHouseModel.fromJson(response));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
+
 }

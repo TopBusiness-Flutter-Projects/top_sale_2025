@@ -249,18 +249,20 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                                       ),
                                                     ),
                                                   ),
+                                                   if (cubit.getDetailsOrdersModel!
+                                                        .invoices!.isNotEmpty &&
+                                                    cubit.getDetailsOrdersModel!
+                                                        .invoices!.first.invoiceId != null)
                                                 Expanded(
                                                   child: Padding(
                                                     padding:
                                                         const EdgeInsets.all(
                                                             10.0),
-                                                    child: RoundedButton(
+                                                    child: 
+                                                     RoundedButton(
                                                       text: 'invoice'.tr(),
                                                       onPressed: () {
-                                                        if (cubit
-                                                            .getDetailsOrdersModel!
-                                                            .invoices!
-                                                            .isNotEmpty) {
+                                                      
                                                           Navigator.push(
                                                               context,
                                                               MaterialPageRoute(
@@ -272,12 +274,12 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                                                     .first
                                                                     .invoiceId
                                                                     .toString()
-                                                                    .toString(),
+                                                                    ,
                                                               );
                                                               // return PaymentWebViewScreen(url: "",);
                                                             },
                                                           ));
-                                                        }
+                                                        
                                                         // Navigator.pushNamed(context, Routes.paymentRoute);
                                                         // cubit.createAndValidateInvoice(
                                                         //     orderId: widget.orderModel.id ?? -1);
