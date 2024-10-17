@@ -131,13 +131,19 @@ class _ClientScreenState extends State<ClientScreen> {
                                   //! cubit.allPartnersModel!.result![index]
                                   return GestureDetector(
                                       onTap: () {
-                                        if (widget.isCart) {
-                                          print("true client");
-                                          Navigator.pushNamed(
-                                              context, Routes.basketScreenRoute,
-                                              arguments: cubit.allPartnersModel!
-                                                  .result![index]);
-                                        }
+                                       if( widget.isCart){
+                                         print("true client");
+                                         Navigator.pushNamed(
+                                             context, Routes.basketScreenRoute,
+                                             arguments: cubit.allPartnersModel!
+                                                 .result![index]);
+                                       }else{
+                                         debugPrint("nono push");
+                                         Navigator.pushNamed(
+                                             context, Routes.profileClientRoute,
+                                         );
+                                       }
+
                                       },
                                       child: CustomCardClient(
                                         partner: cubit
