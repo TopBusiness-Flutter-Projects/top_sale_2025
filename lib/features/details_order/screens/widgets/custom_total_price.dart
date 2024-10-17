@@ -13,7 +13,7 @@ class CustomTotalPrice extends StatelessWidget {
     return Container(
         margin: const EdgeInsets.all(16.0),
         padding: const EdgeInsets.all(16.0),
-        height: getSize(context) / 6,
+        // height: getSize(context) / 6,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5.0),
           boxShadow: [
