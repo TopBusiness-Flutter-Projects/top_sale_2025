@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 import 'dart:io'; // لإضافة التعامل مع الملفات
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:printing/printing.dart';
@@ -28,6 +27,7 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
     super.initState();
     fetchPdfWithSession();
   }
+
   Future<void> fetchPdfWithSession() async {
     String? sessionId = await Preferences.instance.getSessionId();
     String odooUrl =
@@ -72,8 +72,6 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
 
   @override
   Widget build(BuildContext context) {
-    var cubit = context.read<DetailsOrdersCubit>();
-
     return Scaffold(
       appBar: AppBar(
         title: Text('PDF Viewer'),
@@ -91,9 +89,7 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
       ),
       body: isLoading
           ? Center(child: CircularProgressIndicator())
-          : Screenshot(
-              controller: cubit.screenshotController,
-              child: SfPdfViewer.memory(pdfBytes)),
+          : SfPdfViewer.memory(pdfBytes),
     );
   }
 }

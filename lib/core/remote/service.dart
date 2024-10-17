@@ -674,11 +674,12 @@ class ServiceApi {
   }
 
    Future<Either<Failure, AllWareHouseModel>> getWareHouses() async {
-  
+   String odooUrl =
+        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
     String? sessionId = await Preferences.instance.getSessionId();
     try {
       final response = await dio.get(
-        EndPoints.wareHouse +
+       odooUrl + EndPoints.wareHouse +
             '?query={id,name,}',
         // '?query={id,partner_id,display_name,state,write_date,amount_total}&filter=[["user_id", "=",1]]',
         options: Options(
