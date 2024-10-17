@@ -36,7 +36,7 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
       // Step 3: Fetch the PDF using the session cookie
       final pdfResponse = await http.get(
         Uri.parse(
-           odooUrl+ '/report/pdf/stock.report_picking/${widget.id}'),
+           odooUrl+ '/report/pdf/account.report_invoice_with_payments/${widget.id}'),
         headers: {
           'Cookie': cookie, // Pass the session cookie
         },
