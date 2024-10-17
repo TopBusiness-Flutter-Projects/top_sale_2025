@@ -24,7 +24,7 @@ class OrderDetailsModel {
   List<OrderLine>? orderLines;
   List<Invoice>? invoices;
   List<Picking>? pickings;
-  List<dynamic>? payments;
+  List<Payment>? payments;
 
   OrderDetailsModel({
     this.partnerLatitude,
@@ -69,7 +69,8 @@ class OrderDetailsModel {
                 json["pickings"]!.map((x) => Picking.fromJson(x))),
         payments: json["payments"] == null
             ? []
-            : List<dynamic>.from(json["payments"]!.map((x) => x)),
+            :List<Payment>.from(
+            json["payments"]!.map((x) => Payment.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -234,6 +235,37 @@ class OrderLine {
       };
 }
 
+class Payment {
+  int? paymentId;
+  dynamic? amount;
+  dynamic? paymentDate;
+  dynamic? paymentMethod;
+  dynamic? state;
+
+  Payment({
+    this.paymentId,
+    this.amount,
+    this.paymentDate,
+    this.paymentMethod,
+    this.state,
+  });
+
+  factory Payment.fromJson(Map<String, dynamic> json) => Payment(
+    paymentId: json["payment_id"],
+    amount: json["amount"],
+    paymentDate: json["payment_date"],
+    paymentMethod: json["payment_method"],
+    state: json["state"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "payment_id": paymentId,
+    "amount": amount,
+    "payment_date": paymentDate,
+    "payment_method": paymentMethod,
+    "state": state,
+  };
+}
 class Picking {
   int? pickingId;
   dynamic name;

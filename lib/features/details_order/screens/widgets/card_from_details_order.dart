@@ -125,7 +125,7 @@ class CardDetailsOrders extends StatelessWidget {
                       ),
                       SizedBox(width: getSize(context) / 60),
                       AutoSizeText(
-                        "${orderDetailsModel.amountTotal} \$",
+                        "${orderDetailsModel.amountTotal} ${orderModel.currencyId?.name}",
                         style: TextStyle(
                           fontFamily: "cairo",
                           color: AppColors.black,
@@ -175,7 +175,7 @@ class CardDetailsOrders extends StatelessWidget {
                       ),
                       AutoSizeText(
                         (orderModel.partnerId?.phone.toString() == "false")
-                            ? '000000001/100000000'
+                            ? ''
                             : orderModel.partnerId?.phone ?? '',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
