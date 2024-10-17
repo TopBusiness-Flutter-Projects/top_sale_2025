@@ -12,6 +12,7 @@ class ImageAssets {
   static const String introBackgroundImage2 = '$imagePath/on2.png';
   static const String timeTableIcon = '$imagePath/timetable-icon.png';
   static const String arrowAr = '$imagePath/arrowAr.png';
+  static const String profileBack = '$imagePath/profile_client_back.png';
   static const String noNotificationIcon = '$imagePath/no_notification.png';
   static const String dateIcon = '$imagePath/timetable-icon.png';
   static const String user = '$imagePath/default_user.png';
@@ -39,6 +40,19 @@ class ImageAssets {
   static const String deleteIcon = '$iconsPath/delete.svg';
   static const String logoutIcon = '$iconsPath/logout.svg';
   static const String callIcon = '$iconsPath/phoneIcon.png';
+  static const String emailIcon = '$iconsPath/emailIcon.png';
+  static const String whatsAppIcon = '$iconsPath/whatsAppIcon.png';
+  static const String youtubeIcon = '$iconsPath/youtubeIcon.png';
+  static const String webIcon = '$iconsPath/webIcon.png';
+  static const String instgramIcon = '$iconsPath/instgram_icon.png';
+  static const String twitterIcon = '$iconsPath/twitter.png';
+  static const String facebookIcon = '$iconsPath/facebookIcon.png';
+  static const String addressIcon2 = '$iconsPath/address.png';
+  static const String invoiceIcon = '$iconsPath/invoice-icon.png';
+  static const String sellersIcon = '$iconsPath/sellers.png';
+  static const String buyerIcon = '$iconsPath/buyer.png';
+  static const String moneyIcon = '$iconsPath/moneyIcon.png';
+  static const String waitingMoneyIcon = '$iconsPath/waiting_money.png';
 
   // Lottie
   static const String noLessons = '$lottiePath/no_lessons.json';

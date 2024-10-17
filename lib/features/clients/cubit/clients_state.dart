@@ -24,4 +24,10 @@ class SearchError extends ClientsState {
   String ?error;
   SearchError({required this.error});
 }
+//get client profile
+class ProfileClientLoading extends ClientsState {}
+class ProfileClientLoaded extends ClientsState {}
+class ProfileClientError extends ClientsState {}
+//lat,long
+class GetLatLongSuccess extends ClientsState {}
 

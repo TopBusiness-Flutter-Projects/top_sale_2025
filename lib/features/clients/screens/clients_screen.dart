@@ -137,8 +137,12 @@ class _ClientScreenState extends State<ClientScreen> {
                                              context, Routes.basketScreenRoute,
                                              arguments: cubit.allPartnersModel!
                                                  .result![index]);
+                                       }else{
+                                         debugPrint("nono push");
+                                         Navigator.pushNamed(
+                                             context, Routes.profileClientRoute,
+                                         );
                                        }
-
                                       },
                                       child: CustomCardClient(
                                         partner: cubit

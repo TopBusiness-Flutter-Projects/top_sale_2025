@@ -2,12 +2,16 @@ import 'package:easy_debounce/easy_debounce.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:location/location.dart' as loc;
 import 'package:permission_handler/permission_handler.dart' as perm;
 import 'package:top_sale/features/clients/cubit/clients_state.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../core/models/all_partners_for_reports_model.dart';
 import '../../../core/models/create_order_model.dart';
+import '../../../core/models/partner_model.dart';
 import '../../../core/remote/service.dart';
+import '../../../core/utils/assets_manager.dart';
 import '../../../core/utils/dialogs.dart';
 
 class ClientsCubit extends Cubit<ClientsState> {
@@ -20,6 +24,9 @@ class ClientsCubit extends Cubit<ClientsState> {
   TextEditingController searchController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   GetAllPartnersModel? allPartnersModel;
+  List<String>Images=[ImageAssets.addressIcon2,ImageAssets.invoiceIcon,ImageAssets.sellersIcon,ImageAssets.buyerIcon,ImageAssets.moneyIcon,ImageAssets.waitingMoneyIcon];
+  List<String>Texts=["address","invoices","sales","payments_due","unbilled_amounts","overdue_amounts"];
+
 //get partner
   getAllPartnersForReport({
     int page = 1,
@@ -128,6 +135,64 @@ class ClientsCubit extends Cubit<ClientsState> {
     }
       //!}
     );}
+  // getPartnerDetails
+  PartnerModel? partnerModel;
+
+  void getParent() async {
+    emit(ProfileClientLoading());
+    final result = await api.getPartnerDetails(partnerId: 1);
+    result.fold((failure) => emit(ProfileClientError()),
+      (r) {
+       partnerModel = r;
+        debugPrint("the model : ${partnerModel?.name?.toString()}");
+        emit(ProfileClientLoaded());
+      },
+    );
+  }
+
+  //location
+  double? lat;
+  double? lang;
+  Future<void> getLatLong() async {
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+      lat = position.latitude;
+      lang = position.longitude;
+
+      print('laaaaaaaaaaaaaa : $lat');
+      print('laaaaaaaaaaaaaa : $lang');
+      // await getAddress(lat: position.latitude, lang: position.longitude);
+    } catch (e) {
+      print('laaaaaaaaaaaaaa Error getting location: $e');
+    }
+    emit(GetLatLongSuccess());
+  }
+
+  DateTime convertTimestampToDateTime(int timestamp) {
+    //1650265974
+    //1713736800000
+    if (timestamp.toString().length > 11) {
+      var dt = DateTime.fromMillisecondsSinceEpoch(timestamp);
+      return dt;
+    } else {
+      var dt = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+      return dt;
+    }
+  }
+
+  void openGoogleMapsRoute(double originLat, double originLng,
+      double destinationLat, double destinationLng) async {
+    final url =
+        'https://www.google.com/maps/dir/?api=1&origin=$originLat,$originLng&destination=$destinationLat,$destinationLng';
+
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   //get from search
   void getFromSearch() async {
     emit(SearchLoading());

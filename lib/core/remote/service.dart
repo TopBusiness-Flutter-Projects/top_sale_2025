@@ -376,13 +376,19 @@ class ServiceApi {
     try {
       final response = await dio.get(
         odooUrl +
-            EndPoints.resPartner +
-            '$partnerId?query={id, phone,name,image_1920}',
+            EndPoints.partners +
+            '?partner_id=$partnerId',
         options: Options(
           headers: {"Cookie": "session_id=$sessionId"},
         ),
       );
-      return Right(PartnerModel.fromJson(response));
+      if(response.isNotEmpty){
+        return Right(PartnerModel.fromJson(response.first));
+      }else{
+        return Left(ServerFailure());
+      }
+
+
     } on ServerException {
       return Left(ServerFailure());
     }

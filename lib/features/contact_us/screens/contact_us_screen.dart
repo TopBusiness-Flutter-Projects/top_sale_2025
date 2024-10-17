@@ -2,17 +2,18 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:top_sale/core/utils/app_strings.dart';
 import 'package:top_sale/core/utils/get_size.dart';
 import 'package:top_sale/features/contact_us/cubit/contact_us_cubit.dart';
 import 'package:top_sale/features/contact_us/cubit/contact_us_state.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_fonts.dart';
 import '../../../core/utils/assets_manager.dart';
-import '../../login/widget/custom_button.dart';
-import '../../login/widget/textfield_with_text.dart';
-
 class ContactUsScreen extends StatelessWidget {
-  const ContactUsScreen({super.key});
+   ContactUsScreen({super.key});
+   final String phoneNumber = '01288143936'; // replace with actual phone number
+   final String email = 'nehal123@gmail.com'; // replace with actual email
+   final String whatsAppNumber = '01288143936';
   @override
   Widget build(BuildContext context) {
     var cubit = context.read<ContactUsCubit>();
@@ -31,15 +32,59 @@ class ContactUsScreen extends StatelessWidget {
               SizedBox(height: getSize(context) / 40),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Center(child: Text("تطبيق Deals هو أداة تكنولوجية مصممة لمساعدة مندوبي المبيعات في إدارة عمليات البيع، التواصل مع العملاء، وتسهيل جميع المهام المتعلقة بدورة المبيعات. ",textAlign: TextAlign.center,)),
+                child: Text("Unlock Your Business For Potential",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                      fontFamily: AppStrings.fontFamily2,// Example: making it bold
+                    color: AppColors.primary,
+                    fontSize: 20.sp// Example: changing color to blue
+                ),),
               ),
               SizedBox(height: getSize(context) / 10),
-SizedBox(
-  height: 400.h,
-  child: ListView.builder(itemBuilder: (BuildContext context, int index) {
-    return CustomClient(image: '', text: 'dsjkbcjsb',);
-  },itemCount: 3,),
-)
+ListView.builder(
+  shrinkWrap: true,
+  itemBuilder: (BuildContext context, int index) {
+  return GestureDetector(
+    onTap: () {
+      if (index == 0) {
+        cubit.launchURL('tel:$phoneNumber'); // Call functionality
+      } else if (index == 1) {
+        cubit.launchEmail(); // Email functionality
+      } else if (index == 2) {
+        cubit.launchURL('https://wa.me/$whatsAppNumber'); // WhatsApp functionality
+      }
+    },
+    child: ListTile(
+      leading: Image.asset(cubit.Images[index]),
+      title: Text(cubit.Texts[index],style: TextStyle(fontWeight: FontWeight.w400,fontSize: 14.sp,fontFamily: AppStrings.fontFamily),),
+    ),
+  );
+},itemCount: 3,),
+              SizedBox(height: 100.h,),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                GestureDetector(
+              onTap: () => cubit.launchURL(cubit.links['youtube']!)
+              ,child: Image.asset(ImageAssets.youtubeIcon)),
+                SizedBox(width: 4.w,),
+                  GestureDetector(
+                      onTap: () => cubit.launchURL(cubit.links['web']!),
+                      child: Image.asset(ImageAssets.webIcon)),
+                SizedBox(width: 4.w,) ,
+                  GestureDetector(
+                      onTap: () => cubit.launchURL(cubit.links['instagram']!),
+                      child: Image.asset(ImageAssets.instgramIcon)),
+                 SizedBox(width: 4.w,),
+                  GestureDetector(
+                      onTap: () => cubit.launchURL(cubit.links['twitter']!),
+                      child: Image.asset(ImageAssets.twitterIcon)),
+                 SizedBox(width: 4.w,) ,
+                  GestureDetector(
+                      onTap: () => cubit.launchURL(cubit.links['facebook']!),
+                      child: Image.asset(ImageAssets.facebookIcon)),
+              ],)
 
             ],
           );
@@ -64,30 +109,6 @@ SizedBox(
             fontSize: 20.sp,
           ),
         ),
-      ),
-    );
-  }
-}
-class CustomClient extends StatelessWidget {
-   CustomClient({super.key,required this.image,required this.text});
-String image;
-String text;
-  @override
-  Widget build(BuildContext context) {
-    return  Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Image.asset(ImageAssets.callIcon),
-              SizedBox(width: 20.w,),
-              Text(text),
-
-            ],),
-          SizedBox(height: getSize(context) / 40),
-
-        ],
       ),
     );
   }

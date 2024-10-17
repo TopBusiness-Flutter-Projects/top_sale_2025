@@ -73,18 +73,18 @@ class DeleveryOrdersCubit extends Cubit<DeleveryOrdersState> {
     );
   }
 
-  Future<PartnerModel> getPartnerDetails({required int partnerId}) async {
-    emit(OrdersLoadingState());
-    PartnerModel? partnerModel;
-    final result = await api.getPartnerDetails(partnerId: partnerId);
-    result.fold(
-      (failure) => emit(OrdersErrorState('Error loading  data: $failure')),
-      (r) {
-        partnerModel = r;
-        print("model $getOrdersModel");
-        emit(OrdersLoadedState());
-      },
-    );
-    return partnerModel!;
-  }
+  // Future<PartnerModel> getPartnerDetails({required int partnerId}) async {
+  //   emit(OrdersLoadingState());
+  //   PartnerModel? partnerModel;
+  //   final result = await api.getPartnerDetails(partnerId: partnerId);
+  //   result.fold(
+  //     (failure) => emit(OrdersErrorState('Error loading  data: $failure')),
+  //     (r) {
+  //       partnerModel = r;
+  //       print("model $getOrdersModel");
+  //       emit(OrdersLoadedState());
+  //     },
+  //   );
+  //   return partnerModel!;
+  // }
 }
