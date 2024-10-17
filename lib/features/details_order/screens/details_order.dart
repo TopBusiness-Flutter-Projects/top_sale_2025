@@ -169,6 +169,8 @@ class _DetailsOrderState extends State<DetailsOrder> {
                               ),
 
                               CustomTotalPrice(
+                                  currency:
+                                      widget.orderModel.currencyId?.name ?? '',
                                   price: calculateTotalDiscountedPrice(
                                       cubit.getDetailsOrdersModel?.orderLines ??
                                           [])),

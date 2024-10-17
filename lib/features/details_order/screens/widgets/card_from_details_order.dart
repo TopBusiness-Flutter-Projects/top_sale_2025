@@ -138,7 +138,7 @@ class CardDetailsOrders extends StatelessWidget {
                       ),
                       SizedBox(width: getSize(context) / 60),
                       AutoSizeText(
-                        "${calculateTotalDiscountedPrice(orderDetailsModel.orderLines ?? [])} \$",
+                        "${calculateTotalDiscountedPrice(orderDetailsModel.orderLines ?? [])} ${orderModel.currencyId?.name ?? ''}",
                         style: TextStyle(
                           fontFamily: "cairo",
                           color: AppColors.black,

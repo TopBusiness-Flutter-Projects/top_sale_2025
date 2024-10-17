@@ -226,10 +226,10 @@ class ServiceApi {
         isBarcode
             ? odooUrl +
                 EndPoints.allProducts +
-                '?filter=[["detailed_type","=","product"],["barcode","=","$name"]]&query={id,name,image_1920,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id}&page_size=10&limit=10&page=$page'
+                '?filter=[["detailed_type","=","product"],["barcode","=","$name"]]&query={id,name,image_1920,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id,currency_id{name}}&page_size=10&limit=10&page=$page'
             : odooUrl +
                 EndPoints.allProducts +
-                '?filter=[["detailed_type","=","product"],["name", "=like", "%$name%"]]&query={id,name,image_1920,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id}&page_size=10&limit=10&page=$page',
+                '?filter=[["detailed_type","=","product"],["name", "=like", "%$name%"]]&query={id,name,image_1920,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id,currency_id{name}}&page_size=10&limit=10&page=$page',
         options: Options(
           headers: {"Cookie": "frontend_lang=en_US;session_id=$sessionId"},
         ),
@@ -268,7 +268,7 @@ class ServiceApi {
       final response = await dio.get(
         odooUrl +
             EndPoints.allProducts +
-            '?filter=[["detailed_type","=","product"]]&query={id,name,image_1920,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id}&page_size=10&limit=10&page=$page',
+            '?filter=[["detailed_type","=","product"]]&query={id,name,image_1920,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id,currency_id{name}}&page_size=10&limit=10&page=$page',
         // '?filter=[["detailed_type","=","product"],["virtual_available","!=",0.0]]&query={id,name,image_1920,categ_id,list_price,currency_id,taxes_id,uom_name,uom_id,description_sale,virtual_available,image_1920}&page_size=10&limit=10&page=$page',
         options: Options(
           headers: {"Cookie": "frontend_lang=en_US;session_id=$sessionId"},
@@ -289,7 +289,7 @@ class ServiceApi {
       final response = await dio.get(
         odooUrl +
             EndPoints.allProducts +
-            '?filter=[["detailed_type","=","product"],["categ_id", "=", $categoryId]]&query={id,name,image_1920,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id}&page_size=10&limit=10&page=$page',
+            '?filter=[["detailed_type","=","product"],["categ_id", "=", $categoryId]]&query={id,name,image_1920,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id,currency_id{name}}&page_size=10&limit=10&page=$page',
         // '?filter=[["detailed_type","=","product"],["virtual_available","!=",0.0]]&query={id,name,image_1920,categ_id,list_price,currency_id,taxes_id,uom_name,uom_id,description_sale,virtual_available,image_1920}&page_size=10&limit=10&page=$page',
 
         // queryParameters: {
