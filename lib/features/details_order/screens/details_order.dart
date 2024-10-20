@@ -57,6 +57,26 @@ class _DetailsOrderState extends State<DetailsOrder> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        actions: [
+          (widget.orderModel.state == 'sale' &&
+                  widget.orderModel.invoiceStatus == 'to invoice' &&
+                  widget.orderModel.deliveryStatus == 'pending')
+              ? IconButton(
+                  onPressed: () {
+                    cubit.cancelOrder(
+                        orderId: cubit.getDetailsOrdersModel?.id ?? -1,
+                        orderModel: widget.orderModel,
+                        context: context);
+                  },
+                  icon: Text("cancel".tr(),
+                      style: TextStyle(
+                        fontFamily: AppStrings.fontFamily,
+                        color: AppColors.red,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 18.sp,
+                      )))
+              : const SizedBox()
+        ],
         backgroundColor: AppColors.white,
         centerTitle: false,
         //leadingWidth: 20,
@@ -95,6 +115,12 @@ class _DetailsOrderState extends State<DetailsOrder> {
             widget.orderModel.deliveryStatus = 'full';
           });
           cubit.changePage(4);
+        }
+        if (state is LoadingCancel) {
+          setState(() {
+            widget.orderModel.state = 'cancel';
+          });
+          //cubit.changePage(4);
         }
         if (state is CreateAndValidateInvoiceLoadingState) {
           setState(() {
@@ -521,87 +547,90 @@ class _DetailsOrderState extends State<DetailsOrder> {
                 ],
               ),
             ),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(15.sp),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  height: 80.w,
-                  padding: EdgeInsets.only(
-                      left: 10.w, right: 10.w, top: 15.h, bottom: 10.h),
-                  width: double.maxFinite,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 7),
-                    child: Directionality(
-                      textDirection: TextDirection.ltr,
-                      child: Column(
-                        // alignment: Alignment.center,
+            cubit.getDetailsOrdersModel?.state == 'cancel'
+                ? const SizedBox()
+                : Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15.sp),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 5,
+                          blurRadius: 7,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        height: 80.w,
+                        padding: EdgeInsets.only(
+                            left: 10.w, right: 10.w, top: 15.h, bottom: 10.h),
+                        width: double.maxFinite,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 7),
+                          child: Directionality(
+                            textDirection: TextDirection.ltr,
+                            child: Column(
+                              // alignment: Alignment.center,
 
-                        children: [
-                          Flexible(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                AutoSizeText('show_price'.tr(),
-                                    style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w600)),
-                                AutoSizeText('new'.tr(),
-                                    style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w600)),
-                                AutoSizeText('delivered'.tr(),
-                                    style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w600)),
-                                AutoSizeText('complete'.tr(),
-                                    style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w600)),
+                                Flexible(
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      AutoSizeText('show_price'.tr(),
+                                          style: TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 16.sp,
+                                              fontWeight: FontWeight.w600)),
+                                      AutoSizeText('new'.tr(),
+                                          style: TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 16.sp,
+                                              fontWeight: FontWeight.w600)),
+                                      AutoSizeText('delivered'.tr(),
+                                          style: TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 16.sp,
+                                              fontWeight: FontWeight.w600)),
+                                      AutoSizeText('complete'.tr(),
+                                          style: TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 16.sp,
+                                              fontWeight: FontWeight.w600)),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 12.h,
+                                ),
+                                FlutterStepIndicator(
+                                  division: 3,
+                                  height: 28.h,
+                                  positiveColor: AppColors.orange,
+                                  negativeColor:
+                                      const Color.fromRGBO(213, 213, 213, 1),
+                                  list: cubit.list,
+                                  onChange: (i) {},
+                                  positiveCheck: const Icon(
+                                    Icons.check_rounded,
+                                    size: 15,
+                                    color: Colors.white,
+                                  ),
+                                  page: cubit.page,
+                                  disableAutoScroll: true,
+                                ),
                               ],
                             ),
                           ),
-                          SizedBox(
-                            height: 12.h,
-                          ),
-                          FlutterStepIndicator(
-                            division: 3,
-                            height: 28.h,
-                            positiveColor: AppColors.orange,
-                            negativeColor:
-                                const Color.fromRGBO(213, 213, 213, 1),
-                            list: cubit.list,
-                            onChange: (i) {},
-                            positiveCheck: const Icon(
-                              Icons.check_rounded,
-                              size: 15,
-                              color: Colors.white,
-                            ),
-                            page: cubit.page,
-                            disableAutoScroll: true,
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ),
-            ),
           ],
         );
       }),

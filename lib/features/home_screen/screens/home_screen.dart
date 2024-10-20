@@ -7,6 +7,7 @@ import 'package:top_sale/core/utils/get_size.dart';
 import 'package:top_sale/features/home_screen/screens/widgets/appbar_home.dart';
 import 'package:top_sale/features/home_screen/screens/widgets/card_home.dart';
 import '../../../config/routes/app_routes.dart';
+import '../../clients/cubit/clients_cubit.dart';
 import '../cubit/cubit.dart';
 import '../cubit/state.dart';
 
@@ -67,8 +68,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         image: ImageAssets.clients,
                         onPressed: () {
                           Navigator.pushNamed(context, Routes.clientsRoute,
+                              arguments: ClientsRouteEnum.details);
+                        }),
+                    CardHome(
+                        text: "receipt_voucher".tr(),
+                        image: ImageAssets.receiptVoucherIcon,
+                        onPressed: () {
+                          Navigator.pushNamed(context, Routes.receiptVoucherRoute,
                               arguments: false);
-                        })
+                        }),
                   ],
                 ),
                 // TextButton(

@@ -528,6 +528,27 @@ class ServiceApi {
     }
   }
 
+  // cancel
+  Future<Either<Failure, CreateOrderModel>> cancelOrder({
+    required int orderId,
+  }) async {
+    String odooUrl =
+        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+
+    String? sessionId = await Preferences.instance.getSessionId();
+    try {
+      final response =
+          await dio.post(odooUrl + EndPoints.createInvoice + '$orderId/cancel',
+              options: Options(
+                headers: {"Cookie": "session_id=$sessionId"},
+              ),
+              body: {"jsonrpc": "2.0", "method": "call", "params": {}});
+      return Right(CreateOrderModel.fromJson(response));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
+
 // create quatation
   Future<Either<Failure, CreateOrderModel>> createQuotation(
       {required int partnerId,
