@@ -2,6 +2,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:top_sale/core/models/get_orders_model.dart';
+import '../../../../../config/routes/app_routes.dart';
 import '../../../../../core/models/partner_model.dart';
 import '../../../../../core/utils/app_colors.dart';
 import '../../../../../core/utils/assets_manager.dart';
@@ -17,11 +19,57 @@ class CustomSlalesCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
      //   print("salesOrder?.state ::${salesOrder?.state}::stateeeeeeeeeeee");
-        // salesOrder?.state == 'draft'
-        //     ? Navigator.pushNamed(context, Routes.detailsOrderShowPrice,
-        //     arguments: salesOrder?)
-        //     : Navigator.pushNamed(context, Routes.detailsOrder,
-        //     arguments: salesOrder?);
+        salesOrder?.state == 'draft'
+            ? Navigator.pushNamed(context, Routes.detailsOrderShowPrice,
+            arguments: {
+              'orderModel': OrderModel(
+                amountTotal: salesOrder?.amountTotal,
+                deliveryStatus: salesOrder?.delivery_status,
+                id: salesOrder?.id,
+                currencyId: CurrencyId(name: ""),
+                displayName: salesOrder?.name,
+                employeeId: EmployeeId(id: 1, name: ""),
+                invoiceStatus: salesOrder?.invoiceStatus,
+                partnerId: PartnerId(
+                    name: "",
+                    id: 1,
+                    partnerLatitude: 1.1,
+                    partnerLongitude: 1.1,
+                    phone: "01288143936"
+                ),
+                state: salesOrder?.state,
+                userId: 1,
+                writeDate: salesOrder?.dateOrder,
+              ),
+              'isClientOrder': true, // or false based on your logic
+            },)
+            : Navigator.pushNamed(
+          context,
+          Routes.detailsOrder,
+          arguments: {
+            'orderModel': OrderModel(
+              amountTotal: salesOrder?.amountTotal,
+              deliveryStatus: salesOrder?.delivery_status,
+              id: salesOrder?.id,
+              currencyId: CurrencyId(name: ""),
+              displayName: salesOrder?.name,
+              employeeId: EmployeeId(id: 1, name: ""),
+              invoiceStatus: salesOrder?.invoiceStatus,
+              partnerId: PartnerId(
+                  name: "",
+                  id: 1,
+                  partnerLatitude: 1.1,
+                  partnerLongitude: 1.1,
+                  phone: "01288143936"
+              ),
+              state: salesOrder?.state,
+              userId: 1,
+              writeDate: salesOrder?.dateOrder,
+            ),
+            'isClientOrder': true, // or false based on your logic
+          },
+        );
+
       },
       child: Container(
         width: getSize(context),

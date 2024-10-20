@@ -110,17 +110,25 @@ class AppRoutes {
           builder: (context) => const PaymentScreen(),
         );
       case Routes.detailsOrder:
-        final OrderModel orderModel = settings.arguments as OrderModel;
+        final Map<String, dynamic> arguments = settings.arguments as Map<String, dynamic>;
+        final OrderModel orderModel = arguments['orderModel'] as OrderModel;
+        final bool isClientOrder = arguments['isClientOrder'] as bool;
+       // final OrderModel orderModel = settings.arguments as OrderModel;
         return MaterialPageRoute(
           builder: (context) => DetailsOrder(
             orderModel: orderModel,
+              isClientOrder:isClientOrder
           ),
         );
       case Routes.detailsOrderShowPrice:
-        final OrderModel orderModel = settings.arguments as OrderModel;
+      //  final OrderModel orderModel = settings.arguments as OrderModel;
+        final Map<String, dynamic> arguments = settings.arguments as Map<String, dynamic>;
+        final OrderModel orderModel = arguments['orderModel'] as OrderModel;
+        final bool isClientOrder = arguments['isClientOrder'] as bool;
         return MaterialPageRoute(
           builder: (context) => DetailsOrderShowPrice(
             orderModel: orderModel,
+              isClientOrder:isClientOrder
           ),
         );
       case Routes.onboardingPageScreenRoute:

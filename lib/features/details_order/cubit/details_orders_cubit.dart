@@ -347,7 +347,7 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
       context.read<DeleveryOrdersCubit>().getOrders();
       //! Make confirm quotation
       Navigator.pushReplacementNamed(context, Routes.detailsOrder,
-          arguments: orderModel);
+          arguments: { 'isClientOrder':false,  'orderModel':orderModel});
       emit(LoadedConfirmQuotation());
     });
   }

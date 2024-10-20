@@ -20,8 +20,9 @@ import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_strings.dart';
 
 class DetailsOrder extends StatefulWidget {
-  DetailsOrder({super.key, required this.orderModel});
+  DetailsOrder({super.key, required this.orderModel,required this.isClientOrder});
   bool isDelivered = false;
+  bool isClientOrder;
   final OrderModel orderModel;
   @override
   State<DetailsOrder> createState() => _DetailsOrderState();
@@ -54,7 +55,8 @@ class _DetailsOrderState extends State<DetailsOrder> {
   @override
   Widget build(BuildContext context) {
     var cubit = context.read<DetailsOrdersCubit>();
-    return Scaffold(
+    return
+      Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         actions: [
@@ -210,7 +212,7 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                       widget.orderModel.deliveryStatus == 'full'
                                   ? Row(
                                       children: [
-                                        Expanded(
+                                        widget.isClientOrder==true?Expanded(child: SizedBox(),): Expanded(
                                           child: Padding(
                                             padding: const EdgeInsets.all(10.0),
                                             child: RoundedButton(
@@ -230,6 +232,7 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                             ),
                                           ),
                                         ),
+
                                         Expanded(
                                           child: Padding(
                                             padding: const EdgeInsets.all(10.0),
@@ -295,7 +298,7 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                               'pending'
                                       ? Row(
                                           children: [
-                                            Expanded(
+                                            widget.isClientOrder==true?Expanded(child: SizedBox()) :Expanded(
                                               child: Padding(
                                                 padding:
                                                     const EdgeInsets.all(10.0),
@@ -401,7 +404,8 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                                             .getDetailsOrdersModel!
                                                             .payments!
                                                             .isEmpty)
-                                                    ? Expanded(
+                                                    ?     widget.isClientOrder==true?
+                                                Expanded(child: SizedBox()): Expanded(
                                                         child: Padding(
                                                           padding:
                                                               const EdgeInsets
@@ -437,29 +441,36 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                                                           .blue),
                                                             ),
                                                             child: Row(
+                                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                                              mainAxisAlignment: MainAxisAlignment.center,
                                                               children: [
-                                                                Icon(
-                                                                  Icons.print,
-                                                                  color:
-                                                                      AppColors
-                                                                          .white,
+                                                                Center(
+                                                                  child: Icon(
+                                                                    Icons.print,
+                                                                    color:
+                                                                        AppColors
+                                                                            .white,
+                                                                  ),
                                                                 ),
                                                                 SizedBox(
                                                                   width: 5.w,
                                                                 ),
-                                                                AutoSizeText(
-                                                                    'receipt_voucher'
-                                                                        .tr(),
-                                                                    style:
-                                                                        TextStyle(
-                                                                      color: AppColors
-                                                                          .white,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      fontSize:
-                                                                          20.sp,
-                                                                    )),
+                                                                Center(
+                                                                  child: AutoSizeText(
+                                                                      'receipt_voucher'
+                                                                          .tr(),
+                                                                      textAlign:TextAlign.center,
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color: AppColors
+                                                                            .white,
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .bold,
+                                                                        fontSize:
+                                                                            20.sp,
+                                                                      )),
+                                                                ),
                                                               ],
                                                             ),
                                                             onPressed: () {
