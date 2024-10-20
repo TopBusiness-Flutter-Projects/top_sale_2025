@@ -12,6 +12,8 @@ class EndPoints {
   static String allCategoriesUrl =
       "/api/product.category?query={id,name,image}";
   static String allProducts = '/api/product.product/';
+  static String products = '/api/product/all_paginated';
+  static String productSearch = '/api/product/search';
   static String getUserData = '/api/res.users/';
   static String getAllPartners = '/api/res.partner/';
   static String saleOrder = '/api/sale.order/';
@@ -28,8 +30,12 @@ class EndPoints {
   static String printOrder = '/report/pdf/sale.report_saleorder/';
   static String printPicking = '/report/pdf/stock.report_picking/';
   static String printPayment = '/report/pdf/account.report_payment_receipt/';
-  static String printInvoice = '/report/pdf/account.report_invoice_with_payments/';
+  static String printInvoice =
+      '/report/pdf/account.report_invoice_with_payments/';
   static String wareHouse = '/api/stock.warehouse/';
+   static String createPayment = '/api/account.payment/';
+    // static String authWithSession = "$baseUrl/web/session/authenticate";
+
   // static String authWithSession = "$baseUrl/web/session/authenticate";
   // static String allCategoryProducts = '$baseUrl/api/product.product/';
   // static String getUsers =

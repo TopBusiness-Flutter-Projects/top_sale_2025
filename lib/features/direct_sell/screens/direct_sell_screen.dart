@@ -119,7 +119,7 @@ class _DirectSellScreenState extends State<DirectSellScreen> {
                                       child: CircularProgressIndicator())
                                   : CustomProductSection(
                                   isSearch: false,
-                                      result: cubit.homeProductsModel?.result ??
+                                      result: cubit.homeProductsModel.result!.products ??
                                           []),
                             ],
                           ),
@@ -134,7 +134,7 @@ class _DirectSellScreenState extends State<DirectSellScreen> {
                         SizedBox(height: 25.h),
                         CustomProductSection(
                           isSearch: true,
-                            result: cubit.searchedProductsModel?.result ??
+                            result: cubit.searchedProductsModel!.result!.products ??
                                 []),
                       ],
                     ),

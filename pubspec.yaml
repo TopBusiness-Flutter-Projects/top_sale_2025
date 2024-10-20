@@ -58,22 +58,22 @@ dependencies:
   easy_debounce: ^2.0.3
   flutter_stepindicator: ^0.0.2
   ai_barcode_scanner:
-
   flutter_staggered_grid_view: ^0.7.0
   # floating_bottom_navigation_bar: ^1.5.2
   flutter_zoom_drawer: ^3.0.4+1
   salomon_bottom_bar: ^3.3.2
   url_launcher: ^6.3.1
   odoo_rpc: ^0.5.4 # fer session don't change the version ^0.5.4
-  share_plus:
+  share_plus: ^10.0.0
+  share:
   package_info_plus: ^8.0.2
   webview_flutter: ^4.4.4
   geolocator: ^12.0.0
-
   http: ^1.2.2
   printing: ^5.6.0
   location: ^6.0.2
-  syncfusion_flutter_pdfviewer:
+  syncfusion_flutter_pdfviewer: ^23.2.7
+
   # package_info_plus: ^8.0.3
   # share_plus: ^10.0.3
 

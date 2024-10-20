@@ -113,5 +113,17 @@
   "chose_date": "اختر التاريخ",
   "date": "التاريخ",
   "choose_payment_method": "اختر طريقة الدفع",
-  "payment_method": "طريقة الدفع"
+  "payment_method": "طريقة الدفع",
+   "receipt_voucher":"سند القبض"
+
+
+
+
+
+
+
+   ,
+   "discount_validation":"يجب أن يكون الخصم أقل من 100",
+   "discount_invalid":"الخصم غير صالح!"
+
 }

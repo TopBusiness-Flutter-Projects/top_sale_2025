@@ -23,7 +23,7 @@ class CustomProductWidget extends StatelessWidget {
     return BlocBuilder<DirectSellCubit, DirectSellState>(
       builder: (context, state) {
         var cubit = context.read<DirectSellCubit>();
-        return Column(
+        return Stack(
           children: [
             Container(
                 decoration: BoxDecoration(
@@ -45,7 +45,7 @@ class CustomProductWidget extends StatelessWidget {
                       Container(
                         height: getSize(context) / 3,
                         decoration: BoxDecoration(
-                            color: AppColors.orangeThirdPrimary,
+                            color: AppColors.white,
                             borderRadius: BorderRadius.circular(18.r)),
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(18.r),
@@ -81,8 +81,8 @@ class CustomProductWidget extends StatelessWidget {
                           SizedBox(
                             width: 8.w,
                           ),
-                          Text(
-                              "${product.listPrice.toString()}${product.currencyId?.name ?? ''}",
+                          Text("${product.listPrice.toString()}",
+                              // "${product.listPrice.toString()}${product.currencyId?.name ?? ''}",
                               // maxLines: 2,
                               // textAlign: TextAlign.center,
                               overflow: TextOverflow.ellipsis,
@@ -145,6 +145,23 @@ class CustomProductWidget extends StatelessWidget {
                     ],
                   ),
                 )),
+            Positioned(
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 5.w,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(getSize(context) / 44),
+                  color: AppColors.orange,
+                ),
+                child: Text(
+                  product.stockQuantity.toString(),
+                  style: TextStyle(
+                    color: AppColors.white,
+                  ),
+                ),
+              ),
+            )
           ],
         );
       },

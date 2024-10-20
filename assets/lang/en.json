@@ -133,5 +133,11 @@
   "payment_method": "Payment Method",
   "receipt_voucher":"Receipt Voucher"
 
+  
+  ,
+  "discount_validation":"discount must be less than 100",
+
+  "discount_invalid":"discount is not valid!"
+
 
 }

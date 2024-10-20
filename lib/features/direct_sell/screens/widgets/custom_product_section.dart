@@ -14,9 +14,10 @@ import '../../../../core/models/all_products_model.dart';
 import '../../cubit/direct_sell_cubit.dart';
 
 class CustomProductSection extends StatefulWidget {
-  CustomProductSection({super.key, required this.result,required this.isSearch});
+  CustomProductSection(
+      {super.key, required this.result, required this.isSearch});
   List<ProductModelData>? result;
- final  bool isSearch;
+  final bool isSearch;
 
   @override
   State<CustomProductSection> createState() => _CustomProductSectionState();
@@ -30,39 +31,41 @@ class _CustomProductSectionState extends State<CustomProductSection> {
 
     return Column(
       children: [
-        widget.isSearch?Container():
-        Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    print(context.read<DirectSellCubit>().basket.length);
-                  },
-                  child: Text(
-                    "products".tr(),
-                    style: getBoldStyle(
-                        color: AppColors.secondPrimary, fontSize: 20.sp),
+        widget.isSearch
+            ? Container()
+            : Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          print(context.read<DirectSellCubit>().basket.length);
+                        },
+                        child: Text(
+                          "products".tr(),
+                          style: getBoldStyle(
+                              color: AppColors.secondPrimary, fontSize: 20.sp),
+                        ),
+                      ),
+                      GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, Routes.productsRoute,
+                                arguments: ["products".tr(), '-1']);
+                          },
+                          child: Text(
+                            "all".tr(),
+                            style: getRegularStyle(
+                                color: AppColors.orangeThirdPrimary,
+                                fontSize: 18.sp),
+                          )),
+                    ],
                   ),
-                ),
-                GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, Routes.productsRoute,
-                          arguments: ["products".tr(), '-1']);
-                    },
-                    child: Text(
-                      "all".tr(),
-                      style: getRegularStyle(
-                          color: AppColors.orangeThirdPrimary, fontSize: 18.sp),
-                    )),
-              ],
-            ),
-            SizedBox(
-              height: 15.h,
-            ),
-          ],
-        ),
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                ],
+              ),
         StaggeredGrid.count(
             crossAxisCount: 2,
             mainAxisSpacing: 10.h,
