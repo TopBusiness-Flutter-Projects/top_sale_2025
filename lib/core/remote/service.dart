@@ -729,6 +729,40 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
+  // الدفع
+  Future<Either<Failure, DefaultModel>> partnerPayment({
+    required int partnerId,
+    required int journalId,
+    required String amount,
+    required String ref,
+    required String date,
+  }) async {
+    String odooUrl =
+        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+
+    String? sessionId = await Preferences.instance.getSessionId();
+    try {
+      final response = await dio
+          .post(odooUrl + EndPoints.createPayment ,
+              options: Options(
+                headers: {"Cookie": "session_id=$sessionId"},
+              ),
+              body: {
+            "params": {
+              "partner_id": partnerId,
+                "payment_type": "inbound",
+                "partner_type":"customer",
+                "journal_id":journalId,
+                "amount":amount,
+                "ref":ref,
+                "date": date //"2024-05-02"
+            }
+          });
+      return Right(DefaultModel.fromJson(response));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
 
   Future<Either<Failure, GetAllJournalsModel>> getAllJournals() async {
     try {

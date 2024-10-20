@@ -131,7 +131,7 @@ String allProductsModelToJson(AllProductsModel data) =>
     json.encode(data.toJson());
 
 class AllProductsModel {
-  Result? result;
+  ProductsResult? result;
 
   AllProductsModel({
     this.result,
@@ -139,7 +139,7 @@ class AllProductsModel {
 
   factory AllProductsModel.fromJson(Map<String, dynamic> json) =>
       AllProductsModel(
-        result: json["result"] == null ? null : Result.fromJson(json["result"]),
+        result: json["result"] == null ? null : ProductsResult.fromJson(json["result"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -147,14 +147,14 @@ class AllProductsModel {
       };
 }
 
-class Result {
+class ProductsResult {
   List<ProductModelData>? products;
   dynamic totalProducts;
   dynamic limit;
   dynamic page;
   dynamic totalPages;
 
-  Result({
+  ProductsResult({
     this.products,
     this.totalProducts,
     this.limit,
@@ -162,7 +162,7 @@ class Result {
     this.totalPages,
   });
 
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
+  factory ProductsResult.fromJson(Map<String, dynamic> json) => ProductsResult(
         products: json["products"] == null
             ? []
             : List<ProductModelData>.from(
