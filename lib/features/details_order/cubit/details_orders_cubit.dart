@@ -1,6 +1,3 @@
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
@@ -81,10 +78,8 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
           emit(GetDetailsOrdersErrorState('Error loading  data: $failure')),
       (r) {
         getDetailsOrdersModel = r;
-      if(  r.payments!.isNotEmpty )
-
-        page = 4;
-      print("55555555555555555555 ${r.payments!.isNotEmpty}");
+        if (r.payments!.isNotEmpty) page = 4;
+        print("55555555555555555555 ${r.payments!.isNotEmpty}");
         emit(GetDetailsOrdersLoadedState());
       },
     );
@@ -297,7 +292,7 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
   }
 
   // List<OrderLine> basket = [];
-  CreateOrderModel? updatreOrderModel;
+  CreateOrderModel? updateOrderModel;
   updateQuotation({
     required int partnerId,
     required BuildContext context,
@@ -315,7 +310,7 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
     }, (r) {
       listOfremovedItems.clear();
 
-      updatreOrderModel = r;
+      updateOrderModel = r;
       successGetBar('Success Update Quotation');
       debugPrint("Success Update Quotation");
       getDetailsOrdersModel!.orderLines?.clear();
@@ -356,6 +351,29 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
       emit(LoadedConfirmQuotation());
     });
   }
+  cancelOrder({
+    required int orderId,
+    required OrderModel orderModel,
+    required BuildContext context,
+  }) async {
+    emit(LoadingCancel());
+    final result = await api.cancelOrder(orderId: orderId);
+    result.fold((l) {
+      emit(ErrorCancel());
+    }, (r) {
+      if(r.result!.message!.contains("successfully")){
+      context.read<DeleveryOrdersCubit>().getOrders();
+      //! Make confirm quotation
+      successGetBar(r.result!.message!);
+     Navigator.pop(context);
+      emit(LoadedCancel());
+    }
+      else{
+        errorGetBar(r.result!.message!);
+        emit(ErrorCancel());
+      }}
+      );
+  }
 
   TextEditingController newPriceController = TextEditingController();
 
@@ -373,5 +391,17 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
     Navigator.pop(context);
     newDiscountController.clear();
     emit(OnChangeUnitPriceOfItem());
+  }
+
+  TextEditingController newAllDiscountController = TextEditingController();
+
+  onChnageAllDiscountOfUnit(BuildContext context) {
+    for (int i = 0; i < getDetailsOrdersModel!.orderLines!.length; i++) {
+      getDetailsOrdersModel!.orderLines![i].discount =
+          double.parse(newAllDiscountController.text.toString());
+    }
+    Navigator.pop(context);
+    newAllDiscountController.clear();
+    emit(OnChangeAllUnitPriceOfItem());
   }
 }

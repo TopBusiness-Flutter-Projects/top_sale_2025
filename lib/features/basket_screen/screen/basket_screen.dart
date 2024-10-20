@@ -4,11 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:top_sale/core/utils/app_colors.dart';
 import 'package:top_sale/core/utils/assets_manager.dart';
+import 'package:top_sale/core/utils/dialogs.dart';
 import 'package:top_sale/core/utils/get_size.dart';
 import 'package:top_sale/features/basket_screen/cubit/cubit.dart';
 import 'package:top_sale/features/login/widget/custom_button.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../../../core/models/all_partners_for_reports_model.dart';
 import '../../../core/models/all_products_model.dart';
 import '../../direct_sell/cubit/direct_sell_cubit.dart';
@@ -132,7 +132,7 @@ class _BasketScreenState extends State<BasketScreen> {
                                 ),
                               ),
                               Text(
-                                '${calculateTotalDiscountedPrice(cubit2.basket)} ${cubit2.basket.isEmpty ? '' :  ''}',
+                                '${calculateTotalDiscountedPrice(cubit2.basket)} ${cubit2.basket.isEmpty ? '' : ''}',
                                 // '${calculateTotalDiscountedPrice(cubit2.basket)} ${cubit2.basket.isEmpty ? '' : cubit2.basket.first.currencyId?.name ?? ''}',
                                 maxLines: 1,
                                 style: TextStyle(
@@ -140,6 +140,45 @@ class _BasketScreenState extends State<BasketScreen> {
                                   fontSize: 14.sp,
                                 ),
                               ),
+                              cubit2.basket.isEmpty
+                                  ? Container()
+                                  : InkWell(
+                                      onTap: () {
+                                        cubit2.newAllDiscountController.text =
+                                            '0.0'.toString();
+                                        customShowBottomSheet(context,
+                                            cubit2.newAllDiscountController,
+                                            onPressed: () {
+                                          if (double.parse(cubit2
+                                                  .newAllDiscountController.text
+                                                  .toString()) <
+                                              100) {
+                                            cubit2.onChnageAllDiscountOfUnit(
+                                                context);
+                                          } else {
+                                            errorGetBar(
+                                                'discount_validation'.tr());
+                                          }
+                                        });
+
+                                        //! add discount
+
+                                        // customShowBottomSheet(
+                                        //   context,
+                                        //   cubit.controllerPercent,
+                                        //   onPressed: () {
+                                        //     //! set dis count to model
+                                        //     //! cal the new value of price
+                                        //     //! case all discout remove discount of itms first then make all and loop on them
+                                        //     //! clear controller
+                                        //   },
+                                        // );
+                                      },
+                                      child: Image.asset(
+                                        ImageAssets.discount,
+                                        width: getSize(context) / 14,
+                                      ),
+                                    ),
                             ],
                           ),
                         )
