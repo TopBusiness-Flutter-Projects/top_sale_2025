@@ -32,16 +32,23 @@ class ReceiptVoucherScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColors.primaryColor,
         onPressed: () {
-          Navigator.pushNamed(context, Routes.clientsRoute,arguments: ClientsRouteEnum.receiptVoucher);
+          Navigator.pushNamed(context, Routes.clientsRoute,
+              arguments: ClientsRouteEnum.receiptVoucher);
         },
         child: Container(
           decoration: BoxDecoration(
             color: AppColors.primaryColor,
             shape: BoxShape.circle,
           ),
-          child: Center(child:
-          Icon(Icons.add,size: 30.sp,color: AppColors.white,),),
+          child: Center(
+            child: Icon(
+              Icons.add,
+              size: 30.sp,
+              color: AppColors.white,
+            ),
+          ),
         ),
       ),
       body: BlocBuilder<ReceiptVoucherCubit, ReceiptVoucherState>(
@@ -69,7 +76,8 @@ class ReceiptVoucherScreen extends StatelessWidget {
                     itemCount: 2,
                     itemBuilder: (context, index) {
                       return Padding(
-                        padding:  EdgeInsets.only(left: 10.0.sp, right: 10.0.sp,bottom: 10.0.sp),
+                        padding: EdgeInsets.only(
+                            left: 10.0.sp, right: 10.0.sp, bottom: 10.0.sp),
                         child: Container(
                           padding: EdgeInsets.all(10.sp),
                           decoration: BoxDecoration(
@@ -77,15 +85,15 @@ class ReceiptVoucherScreen extends StatelessWidget {
                             color: AppColors.white,
                             boxShadow: [
                               BoxShadow(
-                                color:
-                                Colors.black.withOpacity(0.1), // لون الظل مع تقليل الشفافية
+                                color: Colors.black.withOpacity(
+                                    0.1), // لون الظل مع تقليل الشفافية
                                 spreadRadius: 1, // مدى انتشار الظل
                                 blurRadius: 1, // مدى نعومة الظل
-                                offset: const Offset(0, 1), // الاتجاه الأفقي والرأسي للظل
+                                offset: const Offset(
+                                    0, 1), // الاتجاه الأفقي والرأسي للظل
                               ),
                             ],
                           ),
-
                           child: Row(
                             children: [
                               Row(
@@ -99,7 +107,8 @@ class ReceiptVoucherScreen extends StatelessWidget {
                                     width: 10.sp,
                                   ),
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
@@ -122,7 +131,11 @@ class ReceiptVoucherScreen extends StatelessWidget {
                                 ],
                               ),
                               const Spacer(),
-                              Icon(Icons.local_print_shop_outlined,color: AppColors.orange,size: 30.sp,)
+                              Icon(
+                                Icons.local_print_shop_outlined,
+                                color: AppColors.orange,
+                                size: 30.sp,
+                              )
                             ],
                           ),
                         ),

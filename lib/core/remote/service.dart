@@ -729,6 +729,7 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
+
   // الدفع
   Future<Either<Failure, DefaultModel>> partnerPayment({
     required int partnerId,
@@ -742,20 +743,19 @@ class ServiceApi {
 
     String? sessionId = await Preferences.instance.getSessionId();
     try {
-      final response = await dio
-          .post(odooUrl + EndPoints.createPayment ,
-              options: Options(
-                headers: {"Cookie": "session_id=$sessionId"},
-              ),
-              body: {
+      final response = await dio.post(odooUrl + EndPoints.createPayment,
+          options: Options(
+            headers: {"Cookie": "session_id=$sessionId"},
+          ),
+          body: {
             "params": {
               "partner_id": partnerId,
-                "payment_type": "inbound",
-                "partner_type":"customer",
-                "journal_id":journalId,
-                "amount":amount,
-                "ref":ref,
-                "date": date //"2024-05-02"
+              "payment_type": "inbound",
+              "partner_type": "customer",
+              "journal_id": journalId,
+              "amount": amount,
+              "ref": ref,
+              "date": date //"2024-05-02"
             }
           });
       return Right(DefaultModel.fromJson(response));
