@@ -82,7 +82,8 @@ class CustomProductWidget extends StatelessWidget {
                             width: 8.w,
                           ),
                           Text(
-                              "${product.listPrice.toString()}${product.currencyId?.name ?? ''}",
+                              "${product.listPrice.toString()}",
+                              // "${product.listPrice.toString()}${product.currencyId?.name ?? ''}",
                               // maxLines: 2,
                               // textAlign: TextAlign.center,
                               overflow: TextOverflow.ellipsis,

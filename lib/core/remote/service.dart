@@ -216,31 +216,6 @@ class ServiceApi {
     }
   }
 
-  Future<Either<Failure, AllProductsModel>> searchProducts(
-      int page, String name, bool isBarcode) async {
-    try {
-      String? sessionId = await Preferences.instance.getSessionId();
-
-      String odooUrl =
-          await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
-      final response = await dio.get(
-        isBarcode
-            ? odooUrl +
-                EndPoints.allProducts +
-                '?filter=[["detailed_type","=","product"],["barcode","=","$name"]]&query={id,name,image_1920,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id,currency_id{name}}&page_size=10&limit=10&page=$page'
-            : odooUrl +
-                EndPoints.allProducts +
-                '?filter=[["detailed_type","=","product"],["name", "=like", "%$name%"]]&query={id,name,image_1920,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id,currency_id{name}}&page_size=10&limit=10&page=$page',
-        options: Options(
-          headers: {"Cookie": "frontend_lang=en_US;session_id=$sessionId"},
-        ),
-      );
-      return Right(AllProductsModel.fromJson(response));
-    } on ServerException {
-      return Left(ServerFailure());
-    }
-  }
-
   Future<Either<Failure, CategoriesModel>> getAllCategories() async {
     try {
       String? sessionId = await Preferences.instance.getSessionId();
@@ -266,11 +241,19 @@ class ServiceApi {
       String? sessionId = await Preferences.instance.getSessionId();
       String odooUrl =
           await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
-      final response = await dio.get(
-        odooUrl +
-            EndPoints.allProducts +
-            '?filter=[["detailed_type","=","product"]]&query={id,name,image_1920,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id,currency_id{name}}&page_size=10&limit=10&page=$page',
+      final response = await dio.post(
+        odooUrl + EndPoints.products,
+        // '?filter=[["detailed_type","=","product"]]&query={id,name,image_1920,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id,currency_id{name}}&page_size=10&limit=10&page=$page',
         // '?filter=[["detailed_type","=","product"],["virtual_available","!=",0.0]]&query={id,name,image_1920,categ_id,list_price,currency_id,taxes_id,uom_name,uom_id,description_sale,virtual_available,image_1920}&page_size=10&limit=10&page=$page',
+        body: {
+          "params": {
+            "warehouse_id": 1,
+            "limit": 20,
+            "page": page,
+            "category_id": null,
+            "pricelist_id": null
+          }
+        },
         options: Options(
           headers: {"Cookie": "frontend_lang=en_US;session_id=$sessionId"},
         ),
@@ -287,17 +270,19 @@ class ServiceApi {
       String? sessionId = await Preferences.instance.getSessionId();
       String odooUrl =
           await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
-      final response = await dio.get(
-        odooUrl +
-            EndPoints.allProducts +
-            '?filter=[["detailed_type","=","product"],["categ_id", "=", $categoryId]]&query={id,name,image_1920,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id,currency_id{name}}&page_size=10&limit=10&page=$page',
+      final response = await dio.post(
+        odooUrl + EndPoints.products,
+        // '?filter=[["detailed_type","=","product"]]&query={id,name,image_1920,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id,currency_id{name}}&page_size=10&limit=10&page=$page',
         // '?filter=[["detailed_type","=","product"],["virtual_available","!=",0.0]]&query={id,name,image_1920,categ_id,list_price,currency_id,taxes_id,uom_name,uom_id,description_sale,virtual_available,image_1920}&page_size=10&limit=10&page=$page',
-
-        // queryParameters: {
-        //   'filter': '[["categ_id", "=", [$categoryId]]',
-        //   'query':
-        //       '{id,name,list_price,taxes_id,uom_name,uom_id,virtual_available,categ_id}'
-        // },
+        body: {
+          "params": {
+            "warehouse_id": 1,
+            "limit": 20,
+            "page": page,
+            "category_id": categoryId,
+            "pricelist_id": null
+          }
+        },
         options: Options(
           headers: {"Cookie": "frontend_lang=en_US;session_id=$sessionId"},
         ),
@@ -308,6 +293,114 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
+
+  Future<Either<Failure, AllProductsModel>> searchProducts(
+      int page, String name, bool isBarcode) async {
+    try {
+      String? sessionId = await Preferences.instance.getSessionId();
+
+      String odooUrl =
+          await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+      final response = await dio.post(
+        odooUrl + EndPoints.productSearch,
+        // '?filter=[["detailed_type","=","product"]]&query={id,name,image_1920,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id,currency_id{name}}&page_size=10&limit=10&page=$page',
+        // '?filter=[["detailed_type","=","product"],["virtual_available","!=",0.0]]&query={id,name,image_1920,categ_id,list_price,currency_id,taxes_id,uom_name,uom_id,description_sale,virtual_available,image_1920}&page_size=10&limit=10&page=$page',
+        body: {
+          "params": {
+            "data": {
+              "name": isBarcode
+                  ? null
+                  : name, // Optional: Product name or part of the name
+              "code": null, // Optional: Product code (can be null if not used)
+              "barcode": isBarcode
+                  ? name
+                  : null, // Optional: Product barcode (can be null if not used)
+              "pricelist_id":
+                  null // Optional: Price list ID to calculate product prices
+            }
+          }
+        },
+        options: Options(
+          headers: {"Cookie": "frontend_lang=en_US;session_id=$sessionId"},
+        ),
+      );
+      return Right(AllProductsModel.fromJson(response));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
+  //   Future<Either<Failure, AllProductsModel>> searchProducts(
+  //     int page, String name, bool isBarcode) async {
+  //   try {
+  //     String? sessionId = await Preferences.instance.getSessionId();
+
+  //     String odooUrl =
+  //         await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+  //     final response = await dio.get(
+  //       isBarcode
+  //           ? odooUrl +
+  //               EndPoints.allProducts +
+  //               '?filter=[["detailed_type","=","product"],["barcode","=","$name"]]&query={id,name,image_1920,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id,currency_id{name}}&page_size=10&limit=10&page=$page'
+  //           : odooUrl +
+  //               EndPoints.allProducts +
+  //               '?filter=[["detailed_type","=","product"],["name", "=like", "%$name%"]]&query={id,name,image_1920,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id,currency_id{name}}&page_size=10&limit=10&page=$page',
+  //       options: Options(
+  //         headers: {"Cookie": "frontend_lang=en_US;session_id=$sessionId"},
+  //       ),
+  //     );
+  //     return Right(AllProductsModel.fromJson(response));
+  //   } on ServerException {
+  //     return Left(ServerFailure());
+  //   }
+  // }
+// //getAllProducts
+//   Future<Either<Failure, AllProductsModel>> getAllProducts(int page) async {
+//     try {
+//       String? sessionId = await Preferences.instance.getSessionId();
+//       String odooUrl =
+//           await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+//       final response = await dio.get(
+//         odooUrl +
+//             EndPoints.allProducts +
+//             '?filter=[["detailed_type","=","product"]]&query={id,name,image_1920,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id,currency_id{name}}&page_size=10&limit=10&page=$page',
+//         // '?filter=[["detailed_type","=","product"],["virtual_available","!=",0.0]]&query={id,name,image_1920,categ_id,list_price,currency_id,taxes_id,uom_name,uom_id,description_sale,virtual_available,image_1920}&page_size=10&limit=10&page=$page',
+//         options: Options(
+//           headers: {"Cookie": "frontend_lang=en_US;session_id=$sessionId"},
+//         ),
+//       );
+//       return Right(AllProductsModel.fromJson(response));
+//     } on ServerException {
+//       return Left(ServerFailure());
+//     }
+//   }
+
+//   Future<Either<Failure, AllProductsModel>> getAllProductsByCategory(int? page,
+//       {required int categoryId}) async {
+//     try {
+//       String? sessionId = await Preferences.instance.getSessionId();
+//       String odooUrl =
+//           await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+//       final response = await dio.get(
+//         odooUrl +
+//             EndPoints.allProducts +
+//             '?filter=[["detailed_type","=","product"],["categ_id", "=", $categoryId]]&query={id,name,image_1920,list_price,taxes_id,uom_name,uom_id,qty_available,categ_id,currency_id{name}}&page_size=10&limit=10&page=$page',
+//         // '?filter=[["detailed_type","=","product"],["virtual_available","!=",0.0]]&query={id,name,image_1920,categ_id,list_price,currency_id,taxes_id,uom_name,uom_id,description_sale,virtual_available,image_1920}&page_size=10&limit=10&page=$page',
+
+//         // queryParameters: {
+//         //   'filter': '[["categ_id", "=", [$categoryId]]',
+//         //   'query':
+//         //       '{id,name,list_price,taxes_id,uom_name,uom_id,virtual_available,categ_id}'
+//         // },
+//         options: Options(
+//           headers: {"Cookie": "frontend_lang=en_US;session_id=$sessionId"},
+//         ),
+//       );
+
+//       return Right(AllProductsModel.fromJson(response));
+//     } on ServerException {
+//       return Left(ServerFailure());
+//     }
+//   }
 
   Future<Either<Failure, GetAllPartnersModel>> getAllPartnersForReport(
       int page, int pageSize) async {
@@ -381,24 +474,21 @@ class ServiceApi {
     String? sessionId = await Preferences.instance.getSessionId();
     try {
       final response = await dio.get(
-        odooUrl +
-            EndPoints.partners +
-            '?partner_id=$partnerId',
+        odooUrl + EndPoints.partners + '?partner_id=$partnerId',
         options: Options(
           headers: {"Cookie": "session_id=$sessionId"},
         ),
       );
-      if(response.isNotEmpty){
+      if (response.isNotEmpty) {
         return Right(PartnerModel.fromJson(response.first));
-      }else{
+      } else {
         return Left(ServerFailure());
       }
-
-
     } on ServerException {
       return Left(ServerFailure());
     }
   }
+
   Future<Either<Failure, OrderDetailsModel>> getOrderDetails(
       {required int orderId}) async {
     String odooUrl =
@@ -673,14 +763,13 @@ class ServiceApi {
     }
   }
 
-   Future<Either<Failure, AllWareHouseModel>> getWareHouses() async {
-   String odooUrl =
+  Future<Either<Failure, AllWareHouseModel>> getWareHouses() async {
+    String odooUrl =
         await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
     String? sessionId = await Preferences.instance.getSessionId();
     try {
       final response = await dio.get(
-       odooUrl + EndPoints.wareHouse +
-            '?query={id,name,}',
+        odooUrl + EndPoints.wareHouse + '?query={id,name,}',
         // '?query={id,partner_id,display_name,state,write_date,amount_total}&filter=[["user_id", "=",1]]',
         options: Options(
           headers: {"Cookie": "session_id=$sessionId"},
@@ -691,5 +780,4 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
-
 }
