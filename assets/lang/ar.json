@@ -106,4 +106,13 @@
   "order_sales":"امر البيع",
   "delivery_order":"امر التسليم",
    "receipt_voucher":"سند القبض"
+
+
+
+
+
+
+
+   ,
+   "discount_validation":"يجب أن يكون الخصم أقل من 100"
 }

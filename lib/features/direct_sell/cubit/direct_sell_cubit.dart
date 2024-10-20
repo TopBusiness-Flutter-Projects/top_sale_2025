@@ -222,6 +222,18 @@ class DirectSellCubit extends Cubit<DirectSellState> {
     newDiscountController.clear();
     emit(OnChangeUnitPriceOfItem());
   }
+
+  TextEditingController newAllDiscountController = TextEditingController();
+
+  onChnageAllDiscountOfUnit(BuildContext context) {
+    for (int i = 0; i < basket.length; i++) {
+      basket[i].discount =
+          double.parse(newAllDiscountController.text.toString());
+    }
+    Navigator.pop(context);
+    newAllDiscountController.clear();
+    emit(OnChangeAllUnitPriceOfItem());
+  }
 }
 
 //

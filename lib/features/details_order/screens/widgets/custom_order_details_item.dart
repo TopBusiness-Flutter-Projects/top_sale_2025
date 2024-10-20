@@ -7,6 +7,7 @@ import '../../../../core/models/order_details_model.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_fonts.dart';
 import '../../../../core/utils/assets_manager.dart';
+import '../../../../core/utils/dialogs.dart';
 import '../../../../core/utils/get_size.dart';
 import '../../../basket_screen/cubit/cubit.dart';
 import '../../../login/widget/textfield_with_text.dart';
@@ -39,12 +40,12 @@ class _CustomOrderDetailsShowPriceItemState
           height: getSize(context) / 4,
           padding: const EdgeInsets.all(8),
           margin: const EdgeInsets.all(8),
-          decoration: BoxDecoration(boxShadow: [BoxShadow(
+          decoration: BoxDecoration(boxShadow: [
+            BoxShadow(
               offset: const Offset(2, 2),
               color: AppColors.grey2Color,
-            )],
-              color: AppColors.white,
-              borderRadius: BorderRadius.circular(5)),
+            )
+          ], color: AppColors.white, borderRadius: BorderRadius.circular(5)),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -87,8 +88,15 @@ class _CustomOrderDetailsShowPriceItemState
                               customShowBottomSheet(
                                   context, cubit2.newDiscountController,
                                   onPressed: () {
-                                cubit2.onChnageDiscountOfUnit(
-                                    widget.item, context);
+                                if (double.parse(cubit2
+                                        .newDiscountController.text
+                                        .toString()) <
+                                    100) {
+                                  cubit2.onChnageDiscountOfUnit(
+                                      widget.item, context);
+                                } else {
+                                  errorGetBar('discount_validation'.tr());
+                                }
                               });
 
                               //! add discount

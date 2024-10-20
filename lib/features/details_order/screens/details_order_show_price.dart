@@ -8,6 +8,7 @@ import '../../../core/models/get_orders_model.dart';
 import '../../../core/models/order_details_model.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_strings.dart';
+import '../../../core/utils/dialogs.dart';
 import '../cubit/details_orders_cubit.dart';
 import '../cubit/details_orders_state.dart';
 import 'widgets/custom_order_details_item.dart';
@@ -31,9 +32,10 @@ class _DetailsOrderShowPriceState extends State<DetailsOrderShowPrice> {
 
   @override
   Widget build(BuildContext context) {
-    var cubit = context.read<DetailsOrdersCubit>();
     return BlocBuilder<DetailsOrdersCubit, DetailsOrdersState>(
       builder: (context, state) {
+        var cubit = context.read<DetailsOrdersCubit>();
+
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
@@ -71,6 +73,23 @@ class _DetailsOrderShowPriceState extends State<DetailsOrderShowPrice> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           CardDetailsOrders(
+                            isShowPrice: true,
+                            onTap: () {
+                              cubit.newAllDiscountController.text =
+                                  '0.0'.toString();
+                              customShowBottomSheet(
+                                  context, cubit.newAllDiscountController,
+                                  onPressed: () {
+                                if (double.parse(cubit
+                                        .newAllDiscountController.text
+                                        .toString()) <
+                                    100) {
+                                  cubit.onChnageAllDiscountOfUnit(context);
+                                } else {
+                                  errorGetBar('discount_validation'.tr());
+                                }
+                              });
+                            },
                             orderModel: widget.orderModel,
                             orderDetailsModel: cubit.getDetailsOrdersModel!,
                           ),

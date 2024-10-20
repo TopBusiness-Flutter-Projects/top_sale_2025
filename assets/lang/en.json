@@ -125,5 +125,9 @@
 
   "receipt_voucher":"Receipt Voucher"
 
+  
+  ,
+  "discount_validation":"discount must be less than 100"
+
 
 }

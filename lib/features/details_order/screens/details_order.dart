@@ -492,19 +492,17 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                                         ],
                                                       ),
                                                       onPressed: () {
-                                                      
-                                                          Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                            builder: (context) {
-                                                              return PdfViewerPage(
-                                                                baseUrl:
-                                                                    '/report/pdf/account.report_invoice_with_payments/${cubit.getDetailsOrdersModel!.invoices!.first.invoiceId.toString()}',
-                                                              );
-                                                              // return PaymentWebViewScreen(url: "",);
-                                                            },
-                                                          ));
-                                                        
+                                                        Navigator.push(context,
+                                                            MaterialPageRoute(
+                                                          builder: (context) {
+                                                            return PdfViewerPage(
+                                                              baseUrl:
+                                                                  '/report/pdf/account.report_invoice_with_payments/${cubit.getDetailsOrdersModel!.invoices!.first.invoiceId.toString()}',
+                                                            );
+                                                            // return PaymentWebViewScreen(url: "",);
+                                                          },
+                                                        ));
+
                                                         // Navigator.pushNamed(context, Routes.paymentRoute);
                                                         // cubit.createAndValidateInvoice(
                                                         //     orderId: widget.orderModel.id ?? -1);
