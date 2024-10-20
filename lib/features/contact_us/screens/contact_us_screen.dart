@@ -73,7 +73,6 @@ ListView.builder(
                       onTap: () => cubit.launchURL(cubit.links['web']!),
                       child: Image.asset(ImageAssets.webIcon)),
                 SizedBox(width: 4.w,) ,
-                  //
                   GestureDetector(
                       onTap: () => cubit.launchURL(cubit.links['instagram']!),
                       child: Image.asset(ImageAssets.instgramIcon)),

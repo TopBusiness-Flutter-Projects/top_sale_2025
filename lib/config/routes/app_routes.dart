@@ -82,7 +82,7 @@ class AppRoutes {
         );
       case Routes.contactRoute:
         return PageTransition(
-          child:  ContactUsScreen(),
+          child: ContactUsScreen(),
           type: PageTransitionType.fade,
           alignment: Alignment.center,
           duration: const Duration(milliseconds: 800),
@@ -149,14 +149,19 @@ class AppRoutes {
       case Routes.categoriesRoute:
         return MaterialPageRoute(
           builder: (context) => AllCategoriesScreen(),
-        );   case Routes.profileClientRoute:
+        );
+      case Routes.profileClientRoute:
         return MaterialPageRoute(
           builder: (context) => ProfileClient(),
         );
       case Routes.basketScreenRoute:
+        // List<dynamic>data = [];
         AllPartnerResults? partner = settings.arguments as AllPartnerResults?;
         return MaterialPageRoute(
-            builder: (context) => BasketScreen(partner: partner));
+            builder: (context) => BasketScreen(
+                  partner: partner,
+                  currency: 'EGP',
+                ));
       case Routes.notificationRoute:
         return MaterialPageRoute(
           builder: (context) => NotificationScreens(),
