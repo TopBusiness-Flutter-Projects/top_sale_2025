@@ -14,8 +14,8 @@ import '../../login/widget/textfield_with_text.dart';
 import '../cubit/clients_cubit.dart';
 
 class ClientScreen extends StatefulWidget {
-  ClientScreen({this.isCart = false, super.key});
-  bool isCart;
+  ClientScreen({required this.clientsRouteEnum, super.key});
+  ClientsRouteEnum clientsRouteEnum;
 
   @override
   State<ClientScreen> createState() => _ClientScreenState();
@@ -52,13 +52,7 @@ class _ClientScreenState extends State<ClientScreen> {
     return BlocBuilder<ClientsCubit, ClientsState>(
       builder: (context, state) {
 
-        return   state is ProfileClientLoading?
-        Center(
-          child:
-          CircularProgressIndicator(),
-        )
-            :
-        Scaffold(
+        return Scaffold(
             backgroundColor: AppColors.white,
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
@@ -138,20 +132,27 @@ class _ClientScreenState extends State<ClientScreen> {
                                   //! cubit.allPartnersModel!.result![index]
                                   return GestureDetector(
                                       onTap: () {
-                                       if( widget.isCart){
-                                         print("true client");
-                                         Navigator.pushNamed(
-                                             context, Routes.basketScreenRoute,
-                                             arguments: cubit.allPartnersModel!
-                                                 .result![index]);
-                                       }else{
-                                         debugPrint("nono push");
-                                         context.read<ClientsCubit>().getParent(id:   cubit.allPartnersModel!.result![index].id??1);
 
-                                         Navigator.pushNamed(
-                                             context, Routes.profileClientRoute,
-                                         );
-                                       }
+                                        if (widget.clientsRouteEnum ==
+                                            ClientsRouteEnum.card) {
+                                          Navigator.pushNamed(
+                                              context, Routes.basketScreenRoute,
+                                              arguments: cubit.allPartnersModel!
+                                                  .result![index]);}
+                                          if (widget.clientsRouteEnum ==
+                                              ClientsRouteEnum.receiptVoucher) {
+                                            // return _showBottomSheet(
+                                            //   context,
+                                            //   cubit,
+                                            // );
+                                          }
+                                          if (widget.clientsRouteEnum ==
+                                              ClientsRouteEnum.details) {
+                                            Navigator.pushNamed(
+                                              context,
+                                              Routes.profileClientRoute,
+                                            );
+                                          }
 
                                       },
                                       child: CustomCardClient(

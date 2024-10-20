@@ -13,6 +13,7 @@ import '../../../core/models/partner_model.dart';
 import '../../../core/remote/service.dart';
 import '../../../core/utils/assets_manager.dart';
 import '../../../core/utils/dialogs.dart';
+enum ClientsRouteEnum { card, receiptVoucher , details}
 
 class ClientsCubit extends Cubit<ClientsState> {
   ClientsCubit(this.api) : super(ClientsInitial());
@@ -26,7 +27,6 @@ class ClientsCubit extends Cubit<ClientsState> {
   GetAllPartnersModel? allPartnersModel;
   List<String>Images=[ImageAssets.addressIcon2,ImageAssets.invoiceIcon,ImageAssets.sellersIcon,ImageAssets.buyerIcon,ImageAssets.moneyIcon,ImageAssets.waitingMoneyIcon];
   List<String>Texts=["address","invoices","sales","payments_due","unbilled_amounts","overdue_amounts"];
-
 //get partner
   getAllPartnersForReport({
     int page = 1,

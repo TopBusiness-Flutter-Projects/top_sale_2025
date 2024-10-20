@@ -29,6 +29,7 @@ class ImageAssets {
   static const String contactUsRoute = '$imagePath/contact_us_icon.png';
   static const String nodata = '$imagePath/no_data.png';
   static const String addressIcon = '$imagePath/address-icon 1.png';
+  static const String receiptVoucherIcon = '$imagePath/receipt_voucher.png';
   // icons
   static const String phoneIcon = '$iconsPath/phone.svg';
   static const String numberOfBills = '$iconsPath/number_bill.svg';

@@ -96,6 +96,8 @@
   "invoices": "الفواتير",
   "sales": "المبيعات",
 
+"cancel": "الغاء",
+  "cancel_orders": " الطلبات الملغية",
   "": "",
   "ll": "",
   "enter_the_percentage": "ادخل نسبة الخصم",
@@ -109,4 +111,15 @@
   "order_sales":"امر البيع",
   "delivery_order":"امر التسليم",
    "receipt_voucher":"سند القبض"
+
+
+
+
+
+
+
+   ,
+   "discount_validation":"يجب أن يكون الخصم أقل من 100",
+   "discount_invalid":"الخصم غير صالح!"
+
 }

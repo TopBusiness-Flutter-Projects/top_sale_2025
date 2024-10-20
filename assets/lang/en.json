@@ -102,6 +102,9 @@
   "invoices": "Invoices",
   "address": "address",
   "sales": "Sales",
+  "cancel": "Cancel",
+  "cancel_orders": " Cancel Orders",
+
   "overdue_amounts": "Overdue amounts",
   "unbilled_amounts": "Unbilled amounts",
   "payments_due": "Payments Due",
@@ -127,6 +130,12 @@
   "delivery_order":"Delivery Order",
 
   "receipt_voucher":"Receipt Voucher"
+
+  
+  ,
+  "discount_validation":"discount must be less than 100",
+
+  "discount_invalid":"discount is not valid!"
 
 
 }

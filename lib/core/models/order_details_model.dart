@@ -9,7 +9,6 @@ OrderDetailsModel orderDetailsModelFromJson(String str) =>
 
 String orderDetailsModelToJson(OrderDetailsModel data) =>
     json.encode(data.toJson());
-
 class OrderDetailsModel {
   int? id;
   dynamic name;
@@ -69,8 +68,8 @@ class OrderDetailsModel {
                 json["pickings"]!.map((x) => Picking.fromJson(x))),
         payments: json["payments"] == null
             ? []
-            :List<Payment>.from(
-            json["payments"]!.map((x) => Payment.fromJson(x))),
+            : List<Payment>.from(
+                json["payments"]!.map((x) => Payment.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -251,21 +250,22 @@ class Payment {
   });
 
   factory Payment.fromJson(Map<String, dynamic> json) => Payment(
-    paymentId: json["payment_id"],
-    amount: json["amount"],
-    paymentDate: json["payment_date"],
-    paymentMethod: json["payment_method"],
-    state: json["state"],
-  );
+        paymentId: json["payment_id"],
+        amount: json["amount"],
+        paymentDate: json["payment_date"],
+        paymentMethod: json["payment_method"],
+        state: json["state"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "payment_id": paymentId,
-    "amount": amount,
-    "payment_date": paymentDate,
-    "payment_method": paymentMethod,
-    "state": state,
-  };
+        "payment_id": paymentId,
+        "amount": amount,
+        "payment_date": paymentDate,
+        "payment_method": paymentMethod,
+        "state": state,
+      };
 }
+
 class Picking {
   int? pickingId;
   dynamic name;

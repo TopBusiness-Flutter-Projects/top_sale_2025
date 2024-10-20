@@ -3,7 +3,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:top_sale/app.dart';
 import 'package:top_sale/core/models/get_orders_model.dart';
 import 'package:top_sale/features/details_order/cubit/details_orders_cubit.dart';
 import '../../../../core/models/order_details_model.dart';
@@ -13,9 +12,15 @@ import '../../../../core/utils/get_size.dart';
 
 class CardDetailsOrders extends StatelessWidget {
   CardDetailsOrders(
-      {super.key, required this.orderDetailsModel, required this.orderModel});
+      {super.key,
+      required this.orderDetailsModel,
+      required this.orderModel,
+      this.isShowPrice = false,
+      this.onTap});
   OrderDetailsModel orderDetailsModel;
+  bool isShowPrice;
   OrderModel orderModel;
+  void Function()? onTap;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -173,7 +178,8 @@ class CardDetailsOrders extends StatelessWidget {
                   height: getSize(context) / 12,
                 )),
                 SizedBox(width: getSize(context) / 60),
-                Expanded(
+                Flexible(
+                  fit: FlexFit.tight,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -200,7 +206,16 @@ class CardDetailsOrders extends StatelessWidget {
                       )
                     ],
                   ),
-                )
+                ),
+                isShowPrice
+                    ? InkWell(
+                        onTap: onTap,
+                        child: Image.asset(
+                          ImageAssets.discount,
+                          width: getSize(context) / 14,
+                        ),
+                      )
+                    : Container(),
               ],
             )
           ]),

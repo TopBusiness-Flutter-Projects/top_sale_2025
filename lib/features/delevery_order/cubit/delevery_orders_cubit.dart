@@ -30,6 +30,7 @@ class DeleveryOrdersCubit extends Cubit<DeleveryOrdersState> {
   List<OrderModel> draftOrders = []; // طلبات عرض السعر
   List<OrderModel> newOrders = []; // pending   الطلبات الجديدة
   List<OrderModel> deliveredOrders = []; // تم التسليم
+  List<OrderModel> canceledOrders = []; // الطلبات الملغية
   GetOrdersModel getOrdersModel = GetOrdersModel();
   Future<void> getOrders() async {
     emit(OrdersLoadingState());
@@ -38,30 +39,45 @@ class DeleveryOrdersCubit extends Cubit<DeleveryOrdersState> {
     draftOrders = []; // طلبات عرض السعر
     newOrders = []; // pending   الطلبات الجديدة
     deliveredOrders = []; // تم التسليم
+    canceledOrders =[];
     final result = await api.getOrders();
     result.fold(
       (failure) => emit(OrdersErrorState('Error loading  data: $failure')),
       (r) async {
         for (var element in r.result!) {
+          // Completed orders contain only fully invoiced and fully delivered orders
           if (element.state.toString() == 'sale' &&
               element.invoiceStatus.toString() == 'invoiced' &&
               element.deliveryStatus.toString() == 'full') {
             completeOrders.add(element);
-          } else {
+          }
+          // Canceled orders contain only canceled orders
+          else if (element.state.toString() == 'cancel') {
+            canceledOrders.add(element);
+          }
+          // Current orders include orders that are not completed or canceled
+          else {
             currentOrders.add(element);
+
+            // Draft orders
             if (element.state.toString() == 'draft') {
               draftOrders.add(element);
-            } else if (element.state.toString() == 'sale' &&
+            }
+            // New orders (to be invoiced, pending delivery)
+            else if (element.state.toString() == 'sale' &&
                 element.invoiceStatus.toString() == 'to invoice' &&
                 element.deliveryStatus.toString() == 'pending') {
               newOrders.add(element);
-            } else if (element.state.toString() == 'sale' &&
+            }
+            // Delivered orders (to be invoiced, fully delivered)
+            else if (element.state.toString() == 'sale' &&
                 element.invoiceStatus.toString() == 'to invoice' &&
                 element.deliveryStatus.toString() == 'full') {
               deliveredOrders.add(element);
             }
           }
         }
+
 
         getOrdersModel = r;
 
