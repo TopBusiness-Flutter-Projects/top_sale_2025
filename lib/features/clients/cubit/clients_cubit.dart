@@ -138,9 +138,9 @@ class ClientsCubit extends Cubit<ClientsState> {
   // getPartnerDetails
   PartnerModel? partnerModel;
 
-  void getParent() async {
+  void getParent({required int id}) async {
     emit(ProfileClientLoading());
-    final result = await api.getPartnerDetails(partnerId: 1);
+    final result = await api.getPartnerDetails(partnerId: id);
     result.fold((failure) => emit(ProfileClientError()),
       (r) {
        partnerModel = r;

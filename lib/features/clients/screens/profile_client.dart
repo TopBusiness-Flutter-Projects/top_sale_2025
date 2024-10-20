@@ -9,6 +9,7 @@ import 'package:top_sale/core/utils/assets_manager.dart';
 import 'package:top_sale/core/utils/hex_color.dart';
 import 'package:top_sale/features/clients/screens/widgets/custom_row_profile_client.dart';
 
+import '../../../config/routes/app_routes.dart';
 import '../cubit/clients_cubit.dart';
 import '../cubit/clients_state.dart';
 
@@ -23,7 +24,6 @@ class _ProfileClientState extends State<ProfileClient> {
   @override
   void initState() {
     // TODO: implement initState
-context.read<ClientsCubit>().getParent();
     super.initState();
   }
   @override
@@ -32,7 +32,9 @@ context.read<ClientsCubit>().getParent();
     return BlocBuilder<ClientsCubit, ClientsState>(builder: (context, state) {
       return SafeArea(
           child: Scaffold(
-        body: SingleChildScrollView(
+        body:
+
+        SingleChildScrollView(
           child:
           Column(
             children: [
@@ -150,18 +152,30 @@ context.read<ClientsCubit>().getParent();
                    image: cubit.Images[0],
                    text: cubit.Texts[0].tr(), text2: cubit.partnerModel?.street.toString(),
                  ),
-               ),  CustomROW(
-                 image: cubit.Images[1],
-                 text: cubit.Texts[1].tr(), text2:cubit.partnerModel?.invoiceCount.toString() ,
-               ),  CustomROW(
-                 image: cubit.Images[2],
-                 text: cubit.Texts[2].tr(),
-                 text2: cubit.partnerModel?.salesOrderCount.toString(),
+               ),  GestureDetector(
+                 onTap: (){
+                   Navigator.pushNamed(context, Routes.billsRoute);
+                 },
+                 child: CustomROW(
+                   image: cubit.Images[1],
+                   text: cubit.Texts[1].tr(), text2:cubit.partnerModel?.invoiceCount.toString() ,
+                 ),
+               ),  GestureDetector(
+                 onTap: (){
+                   Navigator.pushNamed(context, Routes.salesRoute);
+
+                 },
+                 child: CustomROW(
+                   image: cubit.Images[2],
+                   text: cubit.Texts[2].tr(),
+                   text2: cubit.partnerModel?.salesOrderCount.toString(),
+                 ),
                ),  CustomROW(
                  image: cubit.Images[3],
                  text: cubit.Texts[3].tr(),
                  text2: cubit.partnerModel?.dueAmount.toString(),
-               ),  CustomROW(
+               ),
+               CustomROW(
                  image: cubit.Images[4],
                  text: cubit.Texts[4].tr(),
                  text2: cubit.partnerModel?.creditToInvoice.toString(),

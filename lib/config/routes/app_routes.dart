@@ -15,6 +15,7 @@ import '../../core/models/get_orders_model.dart';
 import '../../core/utils/app_strings.dart';
 import 'package:page_transition/page_transition.dart';
 import '../../features/basket_screen/screen/basket_screen.dart';
+import '../../features/clients/screens/my_bills.dart';
 import '../../features/clients/screens/profile_client.dart';
 import '../../features/details_order/screens/details_order.dart';
 import '../../features/details_order/screens/details_order_show_price.dart';
@@ -23,6 +24,7 @@ import '../../features/delevery_order/screens/delevery_order_screen.dart';
 import '../../features/login/screens/login_screen.dart';
 import '../../features/on_boarding/screen/onboarding_screen.dart';
 import '../../features/profile/screens/profile_screen.dart';
+import '../../features/clients/screens/sales_screen.dart';
 
 class Routes {
   static const String initialRoute = '/';
@@ -47,6 +49,8 @@ class Routes {
   static const String updateprofileRoute = '/updateprofile';
   static const String profileRoute = '/profileRoute';
   static const String profileClientRoute = '/profileClientRoute';
+  static const String billsRoute = '/billsRoute';
+  static const String salesRoute = '/salesRoute';
 }
 
 class AppRoutes {
@@ -83,6 +87,12 @@ class AppRoutes {
       case Routes.contactRoute:
         return PageTransition(
           child: ContactUsScreen(),
+          type: PageTransitionType.fade,
+          alignment: Alignment.center,
+          duration: const Duration(milliseconds: 800),
+        ); case Routes.salesRoute:
+        return PageTransition(
+          child: SalesScreen(),
           type: PageTransitionType.fade,
           alignment: Alignment.center,
           duration: const Duration(milliseconds: 800),
@@ -153,6 +163,9 @@ class AppRoutes {
       case Routes.profileClientRoute:
         return MaterialPageRoute(
           builder: (context) => ProfileClient(),
+        );   case Routes.billsRoute:
+        return MaterialPageRoute(
+          builder: (context) => MyBillsScreen(),
         );
       case Routes.basketScreenRoute:
         // List<dynamic>data = [];

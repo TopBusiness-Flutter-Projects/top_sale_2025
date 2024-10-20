@@ -52,7 +52,13 @@ class _ClientScreenState extends State<ClientScreen> {
     return BlocBuilder<ClientsCubit, ClientsState>(
       builder: (context, state) {
 
-        return Scaffold(
+        return   state is ProfileClientLoading?
+        Center(
+          child:
+          CircularProgressIndicator(),
+        )
+            :
+        Scaffold(
             backgroundColor: AppColors.white,
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
@@ -140,6 +146,8 @@ class _ClientScreenState extends State<ClientScreen> {
                                                  .result![index]);
                                        }else{
                                          debugPrint("nono push");
+                                         context.read<ClientsCubit>().getParent(id:   cubit.allPartnersModel!.result![index].id??1);
+
                                          Navigator.pushNamed(
                                              context, Routes.profileClientRoute,
                                          );
