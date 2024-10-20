@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:top_sale/features/clients/cubit/clients_cubit.dart';
 import 'package:top_sale/features/contact_us/screens/contact_us_screen.dart';
+import 'package:top_sale/features/create_receipt_coucher/screens/create_receipt_coucher_screen.dart';
 import 'package:top_sale/features/direct_sell/screens/all_categories_screen.dart';
 import 'package:top_sale/features/direct_sell/screens/direct_sell_screen.dart';
 import 'package:top_sale/features/direct_sell/screens/products_screen.dart';
@@ -50,6 +51,7 @@ class Routes {
   static const String profileRoute = '/profileRoute';
   static const String profileClientRoute = '/profileClientRoute';
   static const String receiptVoucherRoute = '/receiptVoucherRoute';
+  static const String createReceiptVoucherRoute = '/createReceiptVoucherRoute';
 }
 
 class AppRoutes {
@@ -126,9 +128,11 @@ class AppRoutes {
           builder: (context) => const ZoomDrawerScreen(),
         );
       case Routes.clientsRoute:
-        ClientsRouteEnum clientsRouteEnum = settings.arguments as ClientsRouteEnum;
+        ClientsRouteEnum clientsRouteEnum =
+            settings.arguments as ClientsRouteEnum;
         return MaterialPageRoute(
-          builder: (context) => ClientScreen(clientsRouteEnum: clientsRouteEnum),
+          builder: (context) =>
+              ClientScreen(clientsRouteEnum: clientsRouteEnum),
         );
       case Routes.registerScreen:
         return MaterialPageRoute(
@@ -168,9 +172,14 @@ class AppRoutes {
       case Routes.notificationRoute:
         return MaterialPageRoute(
           builder: (context) => NotificationScreens(),
-        ); case Routes.receiptVoucherRoute:
+        );
+      case Routes.receiptVoucherRoute:
         return MaterialPageRoute(
           builder: (context) => const ReceiptVoucherScreen(),
+        );
+      case Routes.createReceiptVoucherRoute:
+        return MaterialPageRoute(
+          builder: (context) => const CreateReceiptCoucherScreen(),
         );
       //
       // case Routes.resultOfLessonExam:

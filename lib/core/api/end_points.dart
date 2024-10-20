@@ -24,16 +24,13 @@ class EndPoints {
   static String invoice = '/api/invoice/';
   static String createQuotation = '/api/quotation/';
   static String updateQuotation = '/api/quotation/update/';
-  static String getAllJournals =
-      '/api/account.journal/?query={id, display_name}';
+  static String getAllJournals = '/api/account.journal/?query={id, display_name}';
   static String printOrder = '/report/pdf/sale.report_saleorder/';
   static String printPicking = '/report/pdf/stock.report_picking/';
   static String printPayment = '/report/pdf/account.report_payment_receipt/';
-  static String printInvoice =
-      '/report/pdf/account.report_invoice_with_payments/';
+  static String printInvoice = '/report/pdf/account.report_invoice_with_payments/';
   static String wareHouse = '/api/stock.warehouse/';
   // static String authWithSession = "$baseUrl/web/session/authenticate";
-
   // static String allCategoryProducts = '$baseUrl/api/product.product/';
   // static String getUsers =
   //     '$baseUrl/api/res.partner?query={name,mobile,id, city,street,phone,is_company}';

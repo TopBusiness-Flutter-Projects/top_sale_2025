@@ -13,6 +13,7 @@ import 'package:top_sale/injector.dart' as injector;
 import 'features/contact_us/cubit/contact_us_cubit.dart';
 import 'features/basket_screen/cubit/cubit.dart';
 import 'features/clients/cubit/clients_cubit.dart';
+import 'features/create_receipt_coucher/cubit/create_receipt_coucher_cubit.dart';
 import 'features/delevery_order/cubit/delevery_orders_cubit.dart';
 import 'features/details_order/cubit/details_orders_cubit.dart';
 import 'features/home_screen/cubit/cubit.dart';
@@ -90,6 +91,8 @@ class _MyAppState extends State<MyApp> {
             create: (_) => injector.serviceLocator<ProfileCubit>(),
           ),   BlocProvider(
             create: (_) => injector.serviceLocator<ReceiptVoucherCubit>(),
+          ), BlocProvider(
+            create: (_) => injector.serviceLocator<CreateReceiptCoucherCubit>(),
           ),
         ],
         child: ScreenUtilInit(
