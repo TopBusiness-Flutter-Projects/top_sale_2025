@@ -50,10 +50,10 @@ class _ProductsScreenState extends State<ProductsScreen> {
     if (scrollController.position.maxScrollExtent == scrollController.offset) {
       print('dddddddddbottom');
       //! pagination
-      if (context.read<DirectSellCubit>().allProductsModel.next != null) {
+      if (context.read<DirectSellCubit>().allProductsModel.result!.page != null) {
         context.read<DirectSellCubit>().getAllProducts(
             isGetMore: true,
-            pageId: context.read<DirectSellCubit>().allProductsModel.next ?? 1);
+            pageId: context.read<DirectSellCubit>().allProductsModel.result!.page +1 ?? 1);
         debugPrint('new posts');
       }
     } else {
@@ -121,7 +121,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                             child: CustomProductSection(
                                 isSearch: true,
                                 result:
-                                    cubit.searchedProductsModel?.result ?? []),
+                                    cubit.searchedProductsModel?.result?.products ?? []),
                           ),
                         ]),
                       )
@@ -208,7 +208,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                 crossAxisSpacing: 10.w,
                                                 children: List.generate(
                                                   cubit.allProductsModel.result!
-                                                      .length,
+                                                      .products!.length,
                                                   (index) => Padding(
                                                     padding:
                                                         const EdgeInsets.all(
@@ -216,7 +216,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                     child: CustomProductWidget(
                                                         product: cubit
                                                             .allProductsModel
-                                                            .result![index]),
+                                                            .result!.products![index]),
                                                   ),
                                                 )),
                                       ),
