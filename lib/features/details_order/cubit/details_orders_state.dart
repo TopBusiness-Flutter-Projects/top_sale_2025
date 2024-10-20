@@ -73,3 +73,6 @@ class ErrorConfirmQuotation extends DetailsOrdersState {}
 class OnChangeUnitPriceOfItem extends DetailsOrdersState {}
 class GetLatLongSuccess extends DetailsOrdersState {}
 class ScreenshootState extends DetailsOrdersState {}
+class LoadedCancel extends DetailsOrdersState {}
+class ErrorCancel extends DetailsOrdersState {}
+class LoadingCancel extends DetailsOrdersState {}

@@ -92,7 +92,8 @@
   "message": "رسالة",
   "enter_message": "ادخل رسالتك",
   "enter_subject": "ادخل الموضوع",
-
+"cancel": "الغاء",
+  "cancel_orders": " الطلبات الملغية",
   "": "",
   "ll": "",
   "enter_the_percentage": "ادخل نسبة الخصم",

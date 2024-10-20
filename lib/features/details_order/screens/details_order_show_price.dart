@@ -1,11 +1,13 @@
-import 'package:easy_localization/easy_localization.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_stepindicator/flutter_stepindicator.dart';
 import 'package:top_sale/core/utils/get_size.dart';
 import 'package:top_sale/features/details_order/screens/widgets/card_from_details_order.dart';
 import 'package:top_sale/features/login/widget/custom_button.dart';
 import '../../../core/models/get_orders_model.dart';
-import '../../../core/models/order_details_model.dart';
+import 'package:easy_localization/easy_localization.dart' as tr;
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_strings.dart';
 import '../cubit/details_orders_cubit.dart';
@@ -37,6 +39,21 @@ class _DetailsOrderShowPriceState extends State<DetailsOrderShowPrice> {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
+            actions: [
+              (widget.orderModel.state == 'draft')  ?
+              IconButton(
+                  onPressed: () {
+                  cubit.cancelOrder(orderId: cubit.getDetailsOrdersModel!.id ?? -1, orderModel: widget.orderModel, context: context);
+                  },
+                  icon: Text("cancel".tr(),
+                      style: TextStyle(
+                        fontFamily: AppStrings.fontFamily,
+                        color: AppColors.red,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 18.sp,
+                      ))):
+              const SizedBox()
+            ],
             leading: IconButton(
                 onPressed: () {
                   cubit.onClickBack(context);
@@ -113,6 +130,86 @@ class _DetailsOrderShowPriceState extends State<DetailsOrderShowPrice> {
                             //! api of update quotaion
                           },
                         ),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15.sp),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    height: 90.w,
+                    padding: EdgeInsets.only(
+                        left: 10.w, right: 10.w, top: 15.h, bottom: 10.h),
+                    width: double.maxFinite,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 7),
+                      child: Directionality(
+                        textDirection: TextDirection.ltr,
+                        child: Column(
+                          // alignment: Alignment.center,
+                          children: [
+                            Flexible(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  AutoSizeText('show_price'.tr(),
+                                      style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w600)),
+                                  AutoSizeText('new'.tr(),
+                                      style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w600)),
+                                  AutoSizeText('delivered'.tr(),
+                                      style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w600)),
+                                  AutoSizeText('complete'.tr(),
+                                      style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w600)),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 12.h,
+                            ),
+                            FlutterStepIndicator(
+                              division: 3,
+                              height: 28.h,
+                              positiveColor: AppColors.orange,
+                              negativeColor:
+                              const Color.fromRGBO(213, 213, 213, 1),
+                              list: cubit.list,
+                              onChange: (i) {},
+                              positiveCheck: const Icon(
+                                Icons.check_rounded,
+                                size: 15,
+                                color: Colors.white,
+                              ),
+                              page:0,
+                              disableAutoScroll: true,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         );

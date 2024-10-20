@@ -99,6 +99,9 @@
   "logout": "Logout",
   "address": "address",
   "sales": "Sales",
+  "cancel": "Cancel",
+  "cancel_orders": " Cancel Orders",
+
   "overdue_amounts": "Overdue amounts",
   "unbilled_amounts": "Unbilled amounts",
   "payments_due": "Payments Due",

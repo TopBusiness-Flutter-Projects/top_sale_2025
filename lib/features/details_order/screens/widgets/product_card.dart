@@ -67,7 +67,7 @@ class ProductCard extends StatelessWidget {
               ],
             ),
             Text(
-              '$price ${order.currencyId?.name ?? '\$'} ',
+              '$price ${order.currencyId?.name ?? ''} ',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.orange,

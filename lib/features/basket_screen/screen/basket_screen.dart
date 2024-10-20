@@ -23,8 +23,14 @@ import '../cubit/state.dart';
 import 'custom_basket_item.dart';
 
 class BasketScreen extends StatefulWidget {
-  const BasketScreen({required this.partner, super.key});
+  const BasketScreen({
+    required this.partner,
+    required this.currency,
+    super.key,
+  });
   final AllPartnerResults? partner;
+
+  final String currency;
   @override
   State<BasketScreen> createState() => _BasketScreenState();
 }
@@ -132,7 +138,7 @@ class _BasketScreenState extends State<BasketScreen> {
                                 ),
                               ),
                               Text(
-                                '${calculateTotalDiscountedPrice(cubit2.basket)} ج',
+                                '${calculateTotalDiscountedPrice(cubit2.basket)} ${cubit2.basket.isEmpty ? '' : cubit2.basket.first.currencyId?.name ?? ''}',
                                 maxLines: 1,
                                 style: TextStyle(
                                   fontWeight: FontWeight.w700,
