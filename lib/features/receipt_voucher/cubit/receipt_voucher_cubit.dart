@@ -25,8 +25,22 @@ class ReceiptVoucherCubit extends Cubit<ReceiptVoucherState> {
   TextEditingController searchController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   GetAllPartnersModel? allPartnersModel;
-  List<String>Images=[ImageAssets.addressIcon2,ImageAssets.invoiceIcon,ImageAssets.sellersIcon,ImageAssets.buyerIcon,ImageAssets.moneyIcon,ImageAssets.waitingMoneyIcon];
-  List<String>Texts=["address","invoices","sales","payments_due","unbilled_amounts","overdue_amounts"];
+  List<String> Images = [
+    ImageAssets.addressIcon2,
+    ImageAssets.invoiceIcon,
+    ImageAssets.sellersIcon,
+    ImageAssets.buyerIcon,
+    ImageAssets.moneyIcon,
+    ImageAssets.waitingMoneyIcon
+  ];
+  List<String> Texts = [
+    "address",
+    "invoices",
+    "sales",
+    "payments_due",
+    "unbilled_amounts",
+    "overdue_amounts"
+  ];
 
   // onChangeSearch(String? value) {
   //   EasyDebounce.debounce(
@@ -36,4 +50,8 @@ class ReceiptVoucherCubit extends Cubit<ReceiptVoucherState> {
   //   );
   //   emit(SearchLoaded());
   // }
+
+  getAllReceiptVoucher() async {
+    // final res = await api.r
+  }
 }
