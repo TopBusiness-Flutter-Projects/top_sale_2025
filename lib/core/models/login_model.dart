@@ -30,7 +30,8 @@ class Result {
   int? partnerId;
 
 
- 
+ int? propertyWarehouseId;
+    DefaultCurrency? defaultCurrency;
 
   UserCompanies? userCompanies;
   
@@ -42,7 +43,8 @@ class Result {
     this.partnerDisplayName,
     this.partnerId,  
  
-    this.userCompanies,
+    this.userCompanies, this.propertyWarehouseId,
+        this.defaultCurrency,
    
   });
 
@@ -58,7 +60,8 @@ class Result {
         userCompanies: json["user_companies"] == null
             ? null
             : UserCompanies.fromJson(json["user_companies"]),
-       
+              propertyWarehouseId: json["property_warehouse_id"],
+        defaultCurrency: json["default_currency"] == null ? null : DefaultCurrency.fromJson(json["default_currency"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -69,11 +72,39 @@ class Result {
         "partner_display_name": partnerDisplayName,
         "partner_id": partnerId,    
         "user_companies": userCompanies?.toJson(),
-        
+        "property_warehouse_id": propertyWarehouseId,
+        "default_currency": defaultCurrency?.toJson(),
       };
 }
 
 
+class DefaultCurrency {
+    int? id;
+    dynamic name;
+    dynamic symbol;
+    dynamic position;
+
+    DefaultCurrency({
+        this.id,
+        this.name,
+        this.symbol,
+        this.position,
+    });
+
+    factory DefaultCurrency.fromJson(Map<String, dynamic> json) => DefaultCurrency(
+        id: json["id"],
+        name: json["name"],
+        symbol: json["symbol"],
+        position: json["position"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "symbol": symbol,
+        "position": position,
+    };
+}
 
 
 
