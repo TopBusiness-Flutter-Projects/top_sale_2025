@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -68,15 +69,18 @@ class _DeleveryOrderScreenState extends State<DeleveryOrderScreen> {
                                 BorderRadius.circular(getSize(context) / 20),
                           ),
                           child: Center(
-                            child: Text(
-                              "current_orders".tr(),
-                              maxLines: 1,
-                              style: TextStyle(
-                                fontFamily: "Tajawal",
-                                color: cubit.currentIndex == 0
-                                    ? AppColors.white
-                                    : AppColors.grayLite,
-                                fontSize: getSize(context) / 20,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: AutoSizeText(
+                                "current_orders".tr(),
+                                maxLines: 1,
+                                style: TextStyle(
+                                  fontFamily: "Tajawal",
+                                  color: cubit.currentIndex == 0
+                                      ? AppColors.white
+                                      : AppColors.grayLite,
+                                  fontSize: getSize(context) / 20,
+                                ),
                               ),
                             ),
                           ),
@@ -100,14 +104,51 @@ class _DeleveryOrderScreenState extends State<DeleveryOrderScreen> {
                                 BorderRadius.circular(getSize(context) / 20),
                           ),
                           child: Center(
-                            child: Text(
-                              "last_orders".tr(),
-                              style: TextStyle(
-                                fontFamily: "Tajawal",
-                                color: cubit.currentIndex == 1
-                                    ? AppColors.white
-                                    : AppColors.grayLite,
-                                fontSize: getSize(context) / 20,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: AutoSizeText(
+                                "last_orders".tr(),
+                                style: TextStyle(
+                                  fontFamily: "Tajawal",
+                                  color: cubit.currentIndex == 1
+                                      ? AppColors.white
+                                      : AppColors.grayLite,
+                                  fontSize: getSize(context) / 20,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: getSize(context) / 20),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          cubit.changeIndex(2);
+                        },
+                        child: Container(
+                          height: getSize(context) / 9,
+                          width: getSize(context) / 2.5,
+                          decoration: BoxDecoration(
+                            color: cubit.currentIndex == 2
+                                ? AppColors.orange
+                                : AppColors.gray1,
+                            borderRadius:
+                            BorderRadius.circular(getSize(context) / 20),
+                          ),
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: AutoSizeText(
+                                "cancel_orders".tr(),
+                                style: TextStyle(
+                                  fontFamily: "Tajawal",
+                                  color: cubit.currentIndex == 2
+                                      ? AppColors.white
+                                      : AppColors.grayLite,
+                                  fontSize: getSize(context) / 20,
+                                ),
                               ),
                             ),
                           ),
@@ -263,7 +304,8 @@ class _DeleveryOrderScreenState extends State<DeleveryOrderScreen> {
                             )
                           ],
                         )
-                      : ListView.builder(
+                      :cubit.currentIndex ==1 ?
+                       ListView.builder(
                           shrinkWrap: true,
                           itemCount: cubit
                               .completeOrders.length, // Number of last orders
@@ -275,7 +317,21 @@ class _DeleveryOrderScreenState extends State<DeleveryOrderScreen> {
                               ),
                             );
                           },
-                        ),
+                        ):
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: cubit
+                    .canceledOrders.length, // Number of last orders
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: EdgeInsets.all(getSize(context) / 50),
+                    child: ShipmentCardWidget(
+                      order: cubit.canceledOrders[index],
+                    ),
+                  );
+                },
+              )
+
             ),
           ],
         ),

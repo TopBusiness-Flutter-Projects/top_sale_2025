@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:top_sale/features/clients/cubit/clients_cubit.dart';
 import 'package:top_sale/features/contact_us/screens/contact_us_screen.dart';
 import 'package:top_sale/features/direct_sell/screens/all_categories_screen.dart';
 import 'package:top_sale/features/direct_sell/screens/direct_sell_screen.dart';
@@ -23,6 +24,7 @@ import '../../features/delevery_order/screens/delevery_order_screen.dart';
 import '../../features/login/screens/login_screen.dart';
 import '../../features/on_boarding/screen/onboarding_screen.dart';
 import '../../features/profile/screens/profile_screen.dart';
+import '../../features/receipt_voucher/screens/receipt_voucher_screen.dart';
 
 class Routes {
   static const String initialRoute = '/';
@@ -47,6 +49,7 @@ class Routes {
   static const String updateprofileRoute = '/updateprofile';
   static const String profileRoute = '/profileRoute';
   static const String profileClientRoute = '/profileClientRoute';
+  static const String receiptVoucherRoute = '/receiptVoucherRoute';
 }
 
 class AppRoutes {
@@ -123,9 +126,9 @@ class AppRoutes {
           builder: (context) => const ZoomDrawerScreen(),
         );
       case Routes.clientsRoute:
-        bool isCart = settings.arguments as bool;
+        ClientsRouteEnum clientsRouteEnum = settings.arguments as ClientsRouteEnum;
         return MaterialPageRoute(
-          builder: (context) => ClientScreen(isCart: isCart),
+          builder: (context) => ClientScreen(clientsRouteEnum: clientsRouteEnum),
         );
       case Routes.registerScreen:
         return MaterialPageRoute(
@@ -165,6 +168,9 @@ class AppRoutes {
       case Routes.notificationRoute:
         return MaterialPageRoute(
           builder: (context) => NotificationScreens(),
+        ); case Routes.receiptVoucherRoute:
+        return MaterialPageRoute(
+          builder: (context) => const ReceiptVoucherScreen(),
         );
       //
       // case Routes.resultOfLessonExam:

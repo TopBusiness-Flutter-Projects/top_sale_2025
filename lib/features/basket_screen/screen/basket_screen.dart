@@ -132,8 +132,8 @@ class _BasketScreenState extends State<BasketScreen> {
                                 ),
                               ),
                               Text(
-                                '${calculateTotalDiscountedPrice(cubit2.basket)} ${cubit2.basket.isEmpty ? '' :  ''}',
-                                // '${calculateTotalDiscountedPrice(cubit2.basket)} ${cubit2.basket.isEmpty ? '' : cubit2.basket.first.currencyId?.name ?? ''}',
+                                '${calculateTotalDiscountedPrice(cubit2.basket)} ${cubit2.basket.isEmpty ? '' : cubit2.basket.first.currencyId?.name ?? ''}',
+
                                 maxLines: 1,
                                 style: TextStyle(
                                   fontWeight: FontWeight.w700,

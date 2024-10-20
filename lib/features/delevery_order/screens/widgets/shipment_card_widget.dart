@@ -88,7 +88,9 @@ class ShipmentCardWidget extends StatelessWidget {
                                         order.invoiceStatus == "to invoice" &&
                                         order.deliveryStatus == "pending"
                                     ? AppColors.orange.withOpacity(0.5)
-                                    : AppColors.orange.withOpacity(0.5),
+                                    : order.state == "cancel"?
+                                    AppColors.red.withOpacity(0.5)
+                            :AppColors.orange.withOpacity(0.5),
                         borderRadius:
                             BorderRadius.circular(getSize(context) / 20)),
                     child: Center(
@@ -111,7 +113,8 @@ class ShipmentCardWidget extends StatelessWidget {
                                           ? "new".tr()
                                           : order.state == "draft"
                                               ? "show_price".tr()
-                                              : '',
+                                              : order.state == "cancel"?
+                                              "cancel".tr():"",
                               style: TextStyle(
                                 color: order.state == "sale" &&
                                         order.invoiceStatus == "to invoice" &&
@@ -127,7 +130,8 @@ class ShipmentCardWidget extends StatelessWidget {
                                                 order.deliveryStatus ==
                                                     "pending"
                                             ? AppColors.orange
-                                            : AppColors.orange,
+                                            : order.state == "cancel"?
+                                            AppColors.red:AppColors.orange,
                               ),
                             ))))
               ],
