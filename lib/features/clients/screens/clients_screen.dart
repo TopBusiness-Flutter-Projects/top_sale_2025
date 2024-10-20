@@ -132,7 +132,6 @@ class _ClientScreenState extends State<ClientScreen> {
                                   //! cubit.allPartnersModel!.result![index]
                                   return GestureDetector(
                                       onTap: () {
-
                                         if (widget.clientsRouteEnum ==
                                             ClientsRouteEnum.card) {
                                           Navigator.pushNamed(
@@ -148,6 +147,8 @@ class _ClientScreenState extends State<ClientScreen> {
                                           }
                                           if (widget.clientsRouteEnum ==
                                               ClientsRouteEnum.details) {
+                                            debugPrint("nono push");
+                                            context.read<ClientsCubit>().getParent(id:   cubit.allPartnersModel!.result![index].id??1);
                                             Navigator.pushNamed(
                                               context,
                                               Routes.profileClientRoute,
