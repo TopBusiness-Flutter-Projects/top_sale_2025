@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +8,7 @@ import '../../../core/models/all_products_model.dart';
 import '../../../core/models/category_model.dart';
 import '../../../core/models/create_order_model.dart';
 import '../../../core/remote/service.dart';
+import '../../details_order/screens/widgets/custom_order_details_item.dart';
 import 'direct_sell_state.dart';
 
 class DirectSellCubit extends Cubit<DirectSellState> {
@@ -94,13 +96,18 @@ class DirectSellCubit extends Cubit<DirectSellState> {
     if (isAdd) {
       bool existsInBasket = basket.any((item) => item.id == product.id);
       if (!existsInBasket) {
-        product.userOrderedQuantity++;
-        basket.add(product);
+        if (product.userOrderedQuantity < product.stockQuantity) {
+          product.userOrderedQuantity++;
+          basket.add(product);
+        }
+
         emit(IncreaseTheQuantityCount());
       } else {
         final existingProduct =
             basket.firstWhere((item) => item.id == product.id);
-        existingProduct.userOrderedQuantity++;
+        if (product.userOrderedQuantity < product.stockQuantity) {
+          existingProduct.userOrderedQuantity++;
+        }
         emit(IncreaseTheQuantityCount());
         debugPrint('::::||:::: ${existingProduct.userOrderedQuantity}');
       }
@@ -223,7 +230,15 @@ class DirectSellCubit extends Cubit<DirectSellState> {
   TextEditingController newDiscountController = TextEditingController();
 
   onChnageDiscountOfUnit(ProductModelData item, BuildContext context) {
-    item.discount = double.parse(newDiscountController.text.toString());
+    if (double.parse(calculateDiscountedPrice(
+            double.parse(newDiscountController.text.toString()),
+            item.listPrice,
+            item.userOrderedQuantity)) >=
+        double.parse(item.cost.toString())) {
+      item.discount = double.parse(newDiscountController.text.toString());
+    } else {
+      errorGetBar('discount_invalid'.tr());
+    }
     Navigator.pop(context);
     newDiscountController.clear();
     emit(OnChangeUnitPriceOfItem());
@@ -233,8 +248,16 @@ class DirectSellCubit extends Cubit<DirectSellState> {
 
   onChnageAllDiscountOfUnit(BuildContext context) {
     for (int i = 0; i < basket.length; i++) {
-      basket[i].discount =
-          double.parse(newAllDiscountController.text.toString());
+      if (double.parse(calculateDiscountedPrice(
+              double.parse(newAllDiscountController.text.toString()),
+              basket[i].listPrice,
+              basket[i].userOrderedQuantity)) >=
+          double.parse(basket[i].cost.toString())) {
+        basket[i].discount =
+            double.parse(newAllDiscountController.text.toString());
+      } else {
+        errorGetBar('discount_invalid'.tr());
+      }
     }
     Navigator.pop(context);
     newAllDiscountController.clear();

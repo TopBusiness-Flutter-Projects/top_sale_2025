@@ -114,5 +114,7 @@
 
 
    ,
-   "discount_validation":"يجب أن يكون الخصم أقل من 100"
+   "discount_validation":"يجب أن يكون الخصم أقل من 100",
+   "discount_invalid":"الخصم غير صالح!"
+
 }

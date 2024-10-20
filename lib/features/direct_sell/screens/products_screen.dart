@@ -50,10 +50,14 @@ class _ProductsScreenState extends State<ProductsScreen> {
     if (scrollController.position.maxScrollExtent == scrollController.offset) {
       print('dddddddddbottom');
       //! pagination
-      if (context.read<DirectSellCubit>().allProductsModel.result!.page != null) {
+      if (context.read<DirectSellCubit>().allProductsModel.result!.page !=
+          null) {
         context.read<DirectSellCubit>().getAllProducts(
             isGetMore: true,
-            pageId: context.read<DirectSellCubit>().allProductsModel.result!.page +1 ?? 1);
+            pageId:
+                context.read<DirectSellCubit>().allProductsModel.result!.page +
+                        1 ??
+                    1);
         debugPrint('new posts');
       }
     } else {
@@ -120,8 +124,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
                             padding: const EdgeInsets.all(8.0),
                             child: CustomProductSection(
                                 isSearch: true,
-                                result:
-                                    cubit.searchedProductsModel?.result?.products ?? []),
+                                result: cubit.searchedProductsModel?.result
+                                        ?.products ??
+                                    []),
                           ),
                         ]),
                       )
@@ -216,7 +221,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                     child: CustomProductWidget(
                                                         product: cubit
                                                             .allProductsModel
-                                                            .result!.products![index]),
+                                                            .result!
+                                                            .products![index]),
                                                   ),
                                                 )),
                                       ),

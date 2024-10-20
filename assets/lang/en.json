@@ -127,7 +127,9 @@
 
   
   ,
-  "discount_validation":"discount must be less than 100"
+  "discount_validation":"discount must be less than 100",
+
+  "discount_invalid":"discount is not valid!"
 
 
 }
