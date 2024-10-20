@@ -1,17 +1,15 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get_utils/src/extensions/string_extensions.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:top_sale/core/models/all_products_model.dart';
 import 'package:top_sale/core/utils/app_colors.dart';
 import 'package:top_sale/core/utils/app_fonts.dart';
+import 'package:top_sale/core/utils/assets_manager.dart';
 import 'package:top_sale/core/utils/get_size.dart';
 
-import '../../../../core/widgets/decode_image.dart';
+import '../../../../core/widgets/decode_image_with_text.dart';
 import '../../cubit/direct_sell_cubit.dart';
 import '../../cubit/direct_sell_state.dart';
 
@@ -51,16 +49,26 @@ class CustomProductWidget extends StatelessWidget {
                             borderRadius: BorderRadius.circular(18.r),
                             child: product.image1920.toString() == "false"
                                 ? Center(
-                                    child: Text(
-                                        product.name!.length > 5
-                                            ? product.name!.substring(0, 4)
-                                            : product.name ?? '',
-                                        style: getBoldStyle(
-                                            color: AppColors.white,
-                                            fontSize: 18.sp)),
-                                  )
-                                : CustomDecodedImage(
+                                    child: Stack(
+                                    children: [
+                                      Image.asset(
+                                          ImageAssets.backgroundProduct),
+                                      Text(
+                                          product.name!.length > 5
+                                              ? product.name!.substring(0, 4)
+                                              : product.name ?? '',
+                                          style: getBoldStyle(
+                                              color: AppColors.white,
+                                              fontSize: 18.sp)),
+                                    ],
+                                  ))
+                                : CustomDecodedImageWithText(
                                     context: context,
+                                    character: product.name!.length >= 4
+                                        ? product.name!.removeAllWhitespace
+                                            .substring(0, 4)
+                                            .toString()
+                                        : product.name!.removeAllWhitespace,
                                     base64String: product.image1920,
                                   )),
                       ),

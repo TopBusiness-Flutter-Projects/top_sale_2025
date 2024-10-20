@@ -51,7 +51,6 @@ class _ClientScreenState extends State<ClientScreen> {
     var cubit = context.read<ClientsCubit>();
     return BlocBuilder<ClientsCubit, ClientsState>(
       builder: (context, state) {
-
         return Scaffold(
             backgroundColor: AppColors.white,
             floatingActionButtonLocation:
@@ -132,28 +131,27 @@ class _ClientScreenState extends State<ClientScreen> {
                                   //! cubit.allPartnersModel!.result![index]
                                   return GestureDetector(
                                       onTap: () {
-
                                         if (widget.clientsRouteEnum ==
-                                            ClientsRouteEnum.card) {
+                                            ClientsRouteEnum.cart) {
                                           Navigator.pushNamed(
                                               context, Routes.basketScreenRoute,
                                               arguments: cubit.allPartnersModel!
-                                                  .result![index]);}
-                                          if (widget.clientsRouteEnum ==
-                                              ClientsRouteEnum.receiptVoucher) {
-                                            // return _showBottomSheet(
-                                            //   context,
-                                            //   cubit,
-                                            // );
-                                          }
-                                          if (widget.clientsRouteEnum ==
-                                              ClientsRouteEnum.details) {
-                                            Navigator.pushNamed(
-                                              context,
-                                              Routes.profileClientRoute,
-                                            );
-                                          }
-
+                                                  .result![index]);
+                                        }
+                                        if (widget.clientsRouteEnum ==
+                                            ClientsRouteEnum.receiptVoucher) {
+                                          // return _showBottomSheet(
+                                          //   context,
+                                          //   cubit,
+                                          // );
+                                        }
+                                        if (widget.clientsRouteEnum ==
+                                            ClientsRouteEnum.details) {
+                                          Navigator.pushNamed(
+                                            context,
+                                            Routes.profileClientRoute,
+                                          );
+                                        }
                                       },
                                       child: CustomCardClient(
                                         partner: cubit
