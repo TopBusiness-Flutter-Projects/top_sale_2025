@@ -41,6 +41,17 @@ class _CustomSearchWidgetState extends State<CustomSearchWidget> {
                   }
                 },
                 labelText: "search_product".tr(),
+                suffixIcon: GestureDetector(
+                  onTap: () {
+                    
+                    cubit.clearSearchText();
+                  },
+                  child: Icon(
+                    Icons.close,
+                    size: 35,
+                    color: AppColors.gray2,
+                  ),
+                ),
                 prefixIcon: Icon(
                   Icons.search_rounded,
                   size: 35,

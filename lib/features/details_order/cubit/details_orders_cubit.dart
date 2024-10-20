@@ -1,6 +1,3 @@
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
@@ -81,10 +78,8 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
           emit(GetDetailsOrdersErrorState('Error loading  data: $failure')),
       (r) {
         getDetailsOrdersModel = r;
-      if(  r.payments!.isNotEmpty )
-
-        page = 4;
-      print("55555555555555555555 ${r.payments!.isNotEmpty}");
+        if (r.payments!.isNotEmpty) page = 4;
+        print("55555555555555555555 ${r.payments!.isNotEmpty}");
         emit(GetDetailsOrdersLoadedState());
       },
     );
@@ -396,5 +391,17 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
     Navigator.pop(context);
     newDiscountController.clear();
     emit(OnChangeUnitPriceOfItem());
+  }
+
+  TextEditingController newAllDiscountController = TextEditingController();
+
+  onChnageAllDiscountOfUnit(BuildContext context) {
+    for (int i = 0; i < getDetailsOrdersModel!.orderLines!.length; i++) {
+      getDetailsOrdersModel!.orderLines![i].discount =
+          double.parse(newAllDiscountController.text.toString());
+    }
+    Navigator.pop(context);
+    newAllDiscountController.clear();
+    emit(OnChangeAllUnitPriceOfItem());
   }
 }

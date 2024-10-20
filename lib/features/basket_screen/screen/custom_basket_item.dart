@@ -8,6 +8,7 @@ import '../../../core/models/all_products_model.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_fonts.dart';
 import '../../../core/utils/assets_manager.dart';
+import '../../../core/utils/dialogs.dart';
 import '../../../core/utils/get_size.dart';
 import '../../../core/widgets/decode_image.dart';
 import '../../details_order/screens/widgets/custom_order_details_item.dart';
@@ -78,8 +79,15 @@ class _CustomBasketItemState extends State<CustomBasketItem> {
                               customShowBottomSheet(
                                   context, cubit2.newDiscountController,
                                   onPressed: () {
-                                cubit2.onChnageDiscountOfUnit(
-                                    widget.item, context);
+                                if (double.parse(cubit2
+                                        .newDiscountController.text
+                                        .toString()) <
+                                    100) {
+                                  cubit2.onChnageDiscountOfUnit(
+                                      widget.item, context);
+                                } else {
+                                  errorGetBar('discount_validation'.tr());
+                                }
                               });
 
                               //! add discount
@@ -209,7 +217,8 @@ class _CustomBasketItemState extends State<CustomBasketItem> {
                                           getSize(context) / 22),
                                     ),
                                     child: Text(
-                                      '${calculateDiscountedPrice(widget.item.discount, widget.item.listPrice, widget.item.userOrderedQuantity)} ${widget.item.currencyId?.name ?? ''}',
+                                      '${calculateDiscountedPrice(widget.item.discount, widget.item.listPrice, widget.item.userOrderedQuantity)} ',
+                                      // '${calculateDiscountedPrice(widget.item.discount, widget.item.listPrice, widget.item.userOrderedQuantity)} ${widget.item.currencyId?.name ?? ''}',
                                       style: TextStyle(
                                         color: AppColors.orangeThirdPrimary,
                                         fontWeight: FontWeight.w700,
