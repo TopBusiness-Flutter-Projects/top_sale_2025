@@ -248,7 +248,7 @@ class ServiceApi {
         // '?filter=[["detailed_type","=","product"],["virtual_available","!=",0.0]]&query={id,name,image_1920,categ_id,list_price,currency_id,taxes_id,uom_name,uom_id,description_sale,virtual_available,image_1920}&page_size=10&limit=10&page=$page',
         body: {
           "params": {
-            "warehouse_id": authModel.result?.propertyWarehouseId ??1,
+            "warehouse_id": authModel.result?.propertyWarehouseId ?? 1,
             "limit": 20,
             "page": page,
             "category_id": null,
@@ -278,7 +278,7 @@ class ServiceApi {
         // '?filter=[["detailed_type","=","product"],["virtual_available","!=",0.0]]&query={id,name,image_1920,categ_id,list_price,currency_id,taxes_id,uom_name,uom_id,description_sale,virtual_available,image_1920}&page_size=10&limit=10&page=$page',
         body: {
           "params": {
-           "warehouse_id": authModel.result?.propertyWarehouseId ??1,
+            "warehouse_id": authModel.result?.propertyWarehouseId ?? 1,
             "limit": 20,
             "page": page,
             "category_id": categoryId,
@@ -300,7 +300,7 @@ class ServiceApi {
       int page, String name, bool isBarcode) async {
     try {
       String? sessionId = await Preferences.instance.getSessionId();
-AuthModel? authModel = await Preferences.instance.getUserModel();
+      AuthModel? authModel = await Preferences.instance.getUserModel();
       String odooUrl =
           await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
       final response = await dio.post(
@@ -310,7 +310,7 @@ AuthModel? authModel = await Preferences.instance.getUserModel();
         body: {
           "params": {
             "data": {
-              "warehouse_id": authModel.result?.propertyWarehouseId ??1,
+              "warehouse_id": authModel.result?.propertyWarehouseId ?? 1,
               "name": isBarcode
                   ? null
                   : name, // Optional: Product name or part of the name
@@ -582,7 +582,7 @@ AuthModel? authModel = await Preferences.instance.getUserModel();
             "params": {
               "data": {
                 "partner_id": partnerId,
-                "warehouse_id": authModel.result?.propertyWarehouseId ??1,
+                "warehouse_id": authModel.result?.propertyWarehouseId ?? 1,
                 "user_id": userId,
                 if (employeeId != null) "employee_id": employeeId,
                 "order_line": orderLine
@@ -787,6 +787,7 @@ AuthModel? authModel = await Preferences.instance.getUserModel();
       return Left(ServerFailure());
     }
   }
+
   Future<Either<Failure, GetAllJournalsModel>> getAllJournals() async {
     try {
       String? sessionId = await Preferences.instance.getSessionId();
@@ -806,7 +807,7 @@ AuthModel? authModel = await Preferences.instance.getUserModel();
       return Left(ServerFailure());
     }
   }
-  
+
   Future<Either<Failure, CreateOrderModel>> createPartner({
     required String name,
     required String mobile,
