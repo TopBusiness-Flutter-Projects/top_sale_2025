@@ -23,7 +23,7 @@ class _PaymentOptionsState extends State<PaymentOptions> {
 
   @override
   void initState() {
-    context.read<DetailsOrdersCubit>().moneyController.text= context.read<DetailsOrdersCubit>().getDetailsOrdersModel?.amountTotal;
+    context.read<DetailsOrdersCubit>().moneyController.text= context.read<DetailsOrdersCubit>().getDetailsOrdersModel?.amountTotal.toString()??"";
     context.read<DetailsOrdersCubit>().getAllJournals();
     super.initState();
   }

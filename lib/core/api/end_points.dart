@@ -34,7 +34,8 @@ class EndPoints {
   static String printInvoice =
       '/report/pdf/account.report_invoice_with_payments/';
   static String wareHouse = '/api/stock.warehouse/';
-  // static String authWithSession = "$baseUrl/web/session/authenticate";
+   static String createPayment = '/api/account.payment/'; 
+    // static String authWithSession = "$baseUrl/web/session/authenticate";
 
   // static String allCategoryProducts = '$baseUrl/api/product.product/';
   // static String getUsers =
@@ -65,7 +66,7 @@ class EndPoints {
   //  static String wareHouse = '$baseUrl/api/stock.warehouse/';
   // static String saleOrderLine = '$baseUrl/api/sale.order.line';
   // static String getSaleOrder = '$baseUrl/api/sale.order/';
-  // static String createPayment = '$baseUrl/api/account.payment/';
+
   // static String createPayment2 = '$baseUrl/api/account.move/';
   // static String confirmPayment = '$baseUrl/object/account.payment/';
   // static String createInvoice = '$baseUrl/api/account.move/';

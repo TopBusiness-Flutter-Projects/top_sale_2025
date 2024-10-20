@@ -61,6 +61,12 @@ class DirectSellCubit extends Cubit<DirectSellState> {
         updateUserOrderedQuantities(homeProductsModel);
       } else {
         if (isGetMore) {
+          allProductsModel = AllProductsModel(
+           
+            result: ProductsResult(
+              products: [...allProductsModel.result!.products!, ...right.result!.products!],
+            ) ,
+          );
           // allProductsModel = AllProductsModel(
           //   count: right.count,
           //   next: right.next,

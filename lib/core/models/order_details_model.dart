@@ -9,7 +9,6 @@ OrderDetailsModel orderDetailsModelFromJson(String str) =>
 
 String orderDetailsModelToJson(OrderDetailsModel data) =>
     json.encode(data.toJson());
-
 class OrderDetailsModel {
   int? id;
   dynamic name;
