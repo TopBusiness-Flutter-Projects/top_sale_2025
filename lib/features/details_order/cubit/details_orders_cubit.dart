@@ -311,9 +311,8 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
       listOfremovedItems.clear();
 
       updateOrderModel = r;
-      successGetBar('Success Update Quotation');
+      // successGetBar('Success Update Quotation');
       debugPrint("Success Update Quotation");
-      getDetailsOrdersModel!.orderLines?.clear();
       //! Nav to
       confirmQuotation(
         orderId: getDetailsOrdersModel!.id!,
@@ -347,6 +346,8 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
       if (r.result?.message == null) {
         errorGetBar('عدم كفاية المخزون لمنتج واحد أو أكثر');
       } else {
+        getDetailsOrdersModel!.orderLines?.clear();
+
         context.read<DeleveryOrdersCubit>().getOrders();
         //! Make confirm quotation
         Navigator.pushReplacementNamed(context, Routes.detailsOrder,
