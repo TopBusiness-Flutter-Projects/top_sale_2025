@@ -764,6 +764,25 @@ class ServiceApi {
     }
   }
 
+  Future<Either<Failure, GetAllJournalsModel>> getAllPayments() async {
+    try {
+      String? sessionId = await Preferences.instance.getSessionId();
+
+      String odooUrl =
+          await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+      final response = await dio.get(
+        odooUrl +
+            EndPoints.createPayment +
+            '?query={id, partner_id{name,id,image_1920,phone}}',
+        options: Options(
+          headers: {"Cookie": "session_id=$sessionId"},
+        ),
+      );
+      return Right(GetAllJournalsModel.fromJson(response));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
   Future<Either<Failure, GetAllJournalsModel>> getAllJournals() async {
     try {
       String? sessionId = await Preferences.instance.getSessionId();
@@ -783,7 +802,7 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
-
+  
   Future<Either<Failure, CreateOrderModel>> createPartner({
     required String name,
     required String mobile,
