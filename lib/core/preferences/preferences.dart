@@ -34,17 +34,24 @@ class Preferences {
     preferences.clear();
   }
 
-  // Future<LoginModel> getUserModel() async {
-  //   SharedPreferences preferences = await SharedPreferences.getInstance();
-  //   String? jsonData = preferences.getString('user');
-  //   LoginModel userModel;
-  //   if (jsonData != null) {
-  //     userModel = LoginModel.fromJson(jsonDecode(jsonData));
-  //   } else {
-  //     userModel = LoginModel();
-  //   }
-  //   return userModel;
-  // }
+  Future<AuthModel> getUserModel() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? jsonData = preferences.getString('user');
+    AuthModel userModel;
+    if (jsonData != null) {
+      userModel = AuthModel.fromJson(jsonDecode(jsonData));
+    } else {
+      userModel = AuthModel();
+    }
+    return userModel;
+  }
+
+  Future<void> setUserModel(AuthModel user) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString(
+        'user', jsonEncode(AuthModel.fromJson(user.toJson())));
+    print(await getUserModel());
+  }
 
   Future<void> setSessionId(String sessionId) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
