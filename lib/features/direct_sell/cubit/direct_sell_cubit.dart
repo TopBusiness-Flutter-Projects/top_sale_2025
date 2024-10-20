@@ -26,7 +26,7 @@ class DirectSellCubit extends Cubit<DirectSellState> {
       getAllProductsByCatogrey(id: id);
     }
 
-    allProductsModel?.result = [];
+    allProductsModel.result?.products = [];
     print("sucess change 2");
   }
 
@@ -61,12 +61,12 @@ class DirectSellCubit extends Cubit<DirectSellState> {
         updateUserOrderedQuantities(homeProductsModel);
       } else {
         if (isGetMore) {
-          allProductsModel = AllProductsModel(
-            count: right.count,
-            next: right.next,
-            prev: right.prev,
-            result: [...allProductsModel.result!, ...right.result!],
-          );
+          // allProductsModel = AllProductsModel(
+          //   count: right.count,
+          //   next: right.next,
+          //   prev: right.prev,
+          //   result: [...allProductsModel.result!, ...right.result!],
+          // );
           updateUserOrderedQuantities(allProductsModel);
         } else {
           allProductsModel = right;
@@ -140,7 +140,8 @@ class DirectSellCubit extends Cubit<DirectSellState> {
   //! Method to update userOrderedQuantity based on items in the basket
   void updateUserOrderedQuantities(AllProductsModel allProductsModes) {
     for (var basketItem in basket) {
-      for (ProductModelData product in allProductsModes.result ?? []) {
+      for (ProductModelData product
+          in allProductsModes.result!.products ?? []) {
         if (product.id == basketItem.id) {
           product.userOrderedQuantity =
               basketItem.userOrderedQuantity; //! Update quantity
@@ -172,6 +173,11 @@ class DirectSellCubit extends Cubit<DirectSellState> {
       Navigator.pushReplacementNamed(context, Routes.deleveryOrderRoute);
       emit(LoadedCreateQuotation());
     });
+  }
+
+  clearSearchText() {
+    searchController.clear();
+    emit(ClearSearchText());
   }
 
   TextEditingController searchController = TextEditingController();

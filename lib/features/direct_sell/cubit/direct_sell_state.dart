@@ -57,3 +57,4 @@ class OnChangeUnitPriceOfItem extends DirectSellState {}
 class OnDeleteItemFromBasket extends DirectSellState {}
 
 class OnChangeAllUnitPriceOfItem extends DirectSellState {}
+class ClearSearchText extends DirectSellState {}

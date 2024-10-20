@@ -12,6 +12,8 @@ class EndPoints {
   static String allCategoriesUrl =
       "/api/product.category?query={id,name,image}";
   static String allProducts = '/api/product.product/';
+  static String products = '/api/product/all_paginated';
+  static String productSearch = '/api/product/search';
   static String getUserData = '/api/res.users/';
   static String getAllPartners = '/api/res.partner/';
   static String saleOrder = '/api/sale.order/';

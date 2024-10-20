@@ -217,7 +217,8 @@ class _CustomBasketItemState extends State<CustomBasketItem> {
                                           getSize(context) / 22),
                                     ),
                                     child: Text(
-                                      '${calculateDiscountedPrice(widget.item.discount, widget.item.listPrice, widget.item.userOrderedQuantity)} ${widget.item.currencyId?.name ?? ''}',
+                                      '${calculateDiscountedPrice(widget.item.discount, widget.item.listPrice, widget.item.userOrderedQuantity)} ',
+                                      // '${calculateDiscountedPrice(widget.item.discount, widget.item.listPrice, widget.item.userOrderedQuantity)} ${widget.item.currencyId?.name ?? ''}',
                                       style: TextStyle(
                                         color: AppColors.orangeThirdPrimary,
                                         fontWeight: FontWeight.w700,
