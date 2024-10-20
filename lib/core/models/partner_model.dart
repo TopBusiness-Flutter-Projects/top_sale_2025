@@ -150,6 +150,7 @@ class SalesOrder {
    dynamic amountTotal;
     dynamic state;
    dynamic invoiceStatus;
+   dynamic delivery_status;
 
     SalesOrder({
         this.id,
@@ -158,6 +159,7 @@ class SalesOrder {
         this.amountTotal,
         this.state,
         this.invoiceStatus,
+        this.delivery_status,
     });
 
     factory SalesOrder.fromJson(Map<String, dynamic> json) => SalesOrder(
@@ -167,6 +169,7 @@ class SalesOrder {
         amountTotal: json["amount_total"],
         state: json["state"],
         invoiceStatus: json["invoice_status"],
+        delivery_status: json["delivery_status"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -176,5 +179,6 @@ class SalesOrder {
         "amount_total": amountTotal,
         "state": state,
         "invoice_status": invoiceStatus,
+        "delivery_status": delivery_status,
     };
 }

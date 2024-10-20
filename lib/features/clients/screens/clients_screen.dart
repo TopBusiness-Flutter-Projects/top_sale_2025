@@ -51,6 +51,7 @@ class _ClientScreenState extends State<ClientScreen> {
     var cubit = context.read<ClientsCubit>();
     return BlocBuilder<ClientsCubit, ClientsState>(
       builder: (context, state) {
+
         return Scaffold(
             backgroundColor: AppColors.white,
             floatingActionButtonLocation:
@@ -131,6 +132,7 @@ class _ClientScreenState extends State<ClientScreen> {
                                   //! cubit.allPartnersModel!.result![index]
                                   return GestureDetector(
                                       onTap: () {
+
                                         if (widget.clientsRouteEnum ==
                                             ClientsRouteEnum.card) {
                                           Navigator.pushNamed(
