@@ -140,10 +140,12 @@ class _ClientScreenState extends State<ClientScreen> {
                                                   .result![index]);}
                                           if (widget.clientsRouteEnum ==
                                               ClientsRouteEnum.receiptVoucher) {
-                                            // return _showBottomSheet(
-                                            //   context,
-                                            //   cubit,
-                                            // );
+                                           Navigator.pushNamed(
+                                             context,
+                                             Routes.createReceiptVoucherRoute,
+                                             arguments: cubit.allPartnersModel!
+                                                 .result![index].id,
+                                           );
                                           }
                                           if (widget.clientsRouteEnum ==
                                               ClientsRouteEnum.details) {

@@ -102,9 +102,13 @@
   "invoices": "Invoices",
   "address": "address",
   "sales": "Sales",
+  "enter_paid": "Enter paid",
+  "chose_date": "Chose date",
+  "date": "Date",
   "cancel": "Cancel",
   "cancel_orders": " Cancel Orders",
-
+  "create_receipt_coucher":"Create Receipt Voucher",
+  "statement":"Statement",
   "overdue_amounts": "Overdue amounts",
   "unbilled_amounts": "Unbilled amounts",
   "payments_due": "Payments Due",
@@ -128,6 +132,9 @@
   "make_order":"Confirm Sale Order",
   "order_sales":" Order Sales",
   "delivery_order":"Delivery Order",
+  "choose_payment_method": "Choose payment method",
+  "payment_method": "Payment Method",
+  "do_create_receipt_coucher":"Receipt Voucher Created",
 
   "receipt_voucher":"Receipt Voucher"
 

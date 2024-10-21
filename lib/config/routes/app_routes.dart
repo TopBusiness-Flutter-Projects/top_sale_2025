@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:top_sale/features/clients/cubit/clients_cubit.dart';
 import 'package:top_sale/features/contact_us/screens/contact_us_screen.dart';
+import 'package:top_sale/features/create_receipt_coucher/screens/create_receipt_coucher_screen.dart';
 import 'package:top_sale/features/direct_sell/screens/all_categories_screen.dart';
 import 'package:top_sale/features/direct_sell/screens/direct_sell_screen.dart';
 import 'package:top_sale/features/direct_sell/screens/products_screen.dart';
@@ -54,6 +55,7 @@ class Routes {
   static const String billsRoute = '/billsRoute';
   static const String salesRoute = '/salesRoute';
   static const String receiptVoucherRoute = '/receiptVoucherRoute';
+  static const String createReceiptVoucherRoute = '/createReceiptVoucherRoute';
 }
 
 class AppRoutes {
@@ -197,6 +199,13 @@ class AppRoutes {
       case Routes.receiptVoucherRoute:
         return MaterialPageRoute(
           builder: (context) => const ReceiptVoucherScreen(),
+        );
+      case Routes.createReceiptVoucherRoute:
+        int partnerId = settings.arguments as int;
+        return MaterialPageRoute(
+          builder: (context) =>  CreateReceiptCoucherScreen(
+            partnerId: partnerId,
+          ),
         );
       //
       // case Routes.resultOfLessonExam:
