@@ -6,9 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:top_sale/core/utils/app_colors.dart';
 import 'package:top_sale/core/utils/app_strings.dart';
 import 'package:top_sale/core/utils/assets_manager.dart';
-import 'package:top_sale/core/utils/hex_color.dart';
 import 'package:top_sale/features/clients/screens/widgets/custom_row_profile_client.dart';
-
 import '../../../config/routes/app_routes.dart';
 import '../cubit/clients_cubit.dart';
 import '../cubit/clients_state.dart';
@@ -41,42 +39,6 @@ class _ProfileClientState extends State<ProfileClient> {
               Stack(
                 clipBehavior: Clip.none,
                 children: [
-                  // Container(
-                  //   decoration: BoxDecoration(
-                  //     gradient: LinearGradient(
-                  //       colors: [
-                  //         HexColor("#1E487F"),
-                  //         HexColor("#ABCFFF"), // First color (hex #1E487F)
-                  //       ],
-                  //       begin: Alignment.topCenter,
-                  //       end: Alignment.bottomCenter,
-                  //       stops: [0.1, 1], // Positions for the gradient stops
-                  //     ),
-                  //     borderRadius: BorderRadius.only(
-                  //       bottomLeft: Radius.circular(100),
-                  //       bottomRight: Radius.circular(100),
-                  //     ),
-                  //   ),
-                  //   height: 180.h,
-                  //   width: double.infinity,
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.all(16.0),
-                  //     child: Row(
-                  //       crossAxisAlignment: CrossAxisAlignment.start,
-                  //       children: [
-                  //         Icon(Icons.arrow_back, color: AppColors.white),
-                  //         SizedBox(width: 10.w),
-                  //         Text(
-                  //           "profile_account".tr(),
-                  //           style: TextStyle(
-                  //               color: AppColors.white,
-                  //               fontSize: 20.sp,
-                  //               fontWeight: FontWeight.w700),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
                   Stack(children:[
 
                     Image.asset(ImageAssets.profileBack,width: double.infinity,),

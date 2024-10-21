@@ -343,6 +343,7 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
     result.fold((l) {
       emit(ErrorConfirmQuotation());
     }, (r) {
+
       if (r.result?.message == null) {
         errorGetBar('عدم كفاية المخزون لمنتج واحد أو أكثر');
       } else {
@@ -350,8 +351,8 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
 
         context.read<DeleveryOrdersCubit>().getOrders();
         //! Make confirm quotation
-        Navigator.pushReplacementNamed(context, Routes.detailsOrder,
-            arguments: orderModel);
+Navigator.pushReplacementNamed(context, Routes.detailsOrder,
+          arguments: { 'isClientOrder':false,  'orderModel':orderModel});
       }
 
       emit(LoadedConfirmQuotation());

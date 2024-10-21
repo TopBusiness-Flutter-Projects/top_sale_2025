@@ -16,8 +16,9 @@ import '../cubit/details_orders_state.dart';
 import 'widgets/custom_order_details_item.dart';
 
 class DetailsOrderShowPrice extends StatefulWidget {
-  DetailsOrderShowPrice({super.key, required this.orderModel});
+  DetailsOrderShowPrice({super.key, required this.orderModel,required this.isClientOrder});
   bool isDelivered = false;
+  bool isClientOrder;
   final OrderModel orderModel;
   @override
   State<DetailsOrderShowPrice> createState() => _DetailsOrderShowPriceState();
@@ -39,25 +40,23 @@ class _DetailsOrderShowPriceState extends State<DetailsOrderShowPrice> {
         var cubit = context.read<DetailsOrdersCubit>();
 
         return Scaffold(
-          backgroundColor: Colors.white,
+         backgroundColor:AppColors.white,
+
           appBar: AppBar(
             actions: [
-              (widget.orderModel.state == 'draft')
-                  ? IconButton(
-                      onPressed: () {
-                        cubit.cancelOrder(
-                            orderId: cubit.getDetailsOrdersModel!.id ?? -1,
-                            orderModel: widget.orderModel,
-                            context: context);
-                      },
-                      icon: Text("cancel".tr(),
-                          style: TextStyle(
-                            fontFamily: AppStrings.fontFamily,
-                            color: AppColors.red,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 18.sp,
-                          )))
-                  : const SizedBox()
+              (widget.orderModel.state == 'draft')  ?
+              IconButton(
+                  onPressed: () {
+                  cubit.cancelOrder(orderId: cubit.getDetailsOrdersModel!.id ?? -1, orderModel: widget.orderModel, context: context);
+                  },
+                  icon: Text("cancel".tr(),
+                      style: TextStyle(
+                        fontFamily: AppStrings.fontFamily,
+                        color: AppColors.red,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 18.sp,
+                      ))):
+              const SizedBox()
             ],
             leading: IconButton(
                 onPressed: () {
@@ -139,20 +138,19 @@ class _DetailsOrderShowPriceState extends State<DetailsOrderShowPrice> {
                   ? const Center(
                       child: CircularProgressIndicator(),
                     )
-                  :
-                  //  cubit.getDetailsOrdersModel?.orderLines?.length == 0
-                  //     ? Container()
-                  //     :
-                  CustomButton(
-                      title: 'make_order'.tr(),
-                      onTap: () {
-                        cubit.updateQuotation(
-                            orderModel: widget.orderModel,
-                            context: context,
-                            partnerId: widget.orderModel.partnerId?.id ?? -1);
-                        //! api of update quotaion
-                      },
-                    ),
+                  : cubit.getDetailsOrdersModel?.orderLines?.length == 0
+                      ? Container()
+                      : widget.isClientOrder==true?SizedBox():CustomButton(
+                          title: 'make_order'.tr(),
+                          onTap: () {
+                            cubit.updateQuotation(
+                                orderModel: widget.orderModel,
+                                context: context,
+                                partnerId:
+                                    widget.orderModel.partnerId?.id ?? -1);
+                            //! api of update quotaion
+                          },
+                        ),
               Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -182,8 +180,7 @@ class _DetailsOrderShowPriceState extends State<DetailsOrderShowPrice> {
                           children: [
                             Flexible(
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   AutoSizeText('show_price'.tr(),
                                       style: TextStyle(
@@ -211,12 +208,14 @@ class _DetailsOrderShowPriceState extends State<DetailsOrderShowPrice> {
                             SizedBox(
                               height: 12.h,
                             ),
+                            // widget.isClientOrder==true?
+                            //     SizedBox():
                             FlutterStepIndicator(
                               division: 3,
                               height: 28.h,
                               positiveColor: AppColors.orange,
                               negativeColor:
-                                  const Color.fromRGBO(213, 213, 213, 1),
+                              const Color.fromRGBO(213, 213, 213, 1),
                               list: cubit.list,
                               onChange: (i) {},
                               positiveCheck: const Icon(
@@ -224,7 +223,7 @@ class _DetailsOrderShowPriceState extends State<DetailsOrderShowPrice> {
                                 size: 15,
                                 color: Colors.white,
                               ),
-                              page: 0,
+                              page:0,
                               disableAutoScroll: true,
                             ),
                           ],

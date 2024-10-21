@@ -754,13 +754,18 @@ class ServiceApi {
           ),
           body: {
             "params": {
-              "partner_id": partnerId,
-              "payment_type": "inbound",
-              "partner_type": "customer",
-              "journal_id": journalId,
-              "amount": amount,
-              "ref": ref,
-              "date": date //"2024-05-02"
+              "data": {
+
+                  "partner_id": partnerId,
+                  "payment_type": "inbound",
+                  "partner_type":"customer",
+                  "journal_id":journalId,
+                  "amount":amount,
+                  "ref":ref,
+                  "date": date //"2024-05-02"
+
+              }
+
             }
           });
       return Right(DefaultModel.fromJson(response));
