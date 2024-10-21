@@ -118,11 +118,21 @@
   "date": "التاريخ",
   "choose_payment_method": "اختر طريقة الدفع",
   "payment_method": "طريقة الدفع",
-
+  "attendance_time": "وقت الحضور",
+  "work_time": "وقت العمل",
+  "dismissal_time": "وقت الانصراف",
+  "attendance": "حضور",
   "do_create_receipt_coucher":"تم انشاء سند القبض",
    "discount_validation":"يجب أن يكون الخصم أقل من 100",
   "error_register_payment":"خطأ في تسجيل الدفع",
    "discount_invalid":"الخصم غير صالح!",
-  "error_from_create_and_validate_invoice": "خطأ في انشاء والتحقق من الفاتورة"
-
+  "work_contract": " عقد العمل ",
+  "available_holidays":"الاجازت المتاحة",
+  "Holidays": "الاجازات",
+  "months": "الشهور",
+ "monthly_salaries": "الرواتب الشهرية",
+  "attendance_and_departure": "الحضور والانصراف",
+  "error_from_create_and_validate_invoice": "خطأ في انشاء والتحقق من الفاتورة",
+"salaries": "المرتبات",
+  "search_month": "ابحث بالشهر"
 }

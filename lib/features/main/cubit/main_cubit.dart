@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/remote/service.dart';
+import '../../attendance_and_departure/screens/attendance_and_departure_screen.dart';
 import '../../clients/cubit/clients_cubit.dart';
 import '../../clients/screens/clients_screen.dart';
 import '../../home_screen/screens/home_screen.dart';
@@ -15,10 +16,7 @@ class MainCubit extends Cubit<MainStates> {
   List<Widget> navigationBarViews = [
     const HomeScreen(),
     ClientScreen(clientsRouteEnum: ClientsRouteEnum.cart),
-    //   const DeleveryOrderScreen(),
-    Container(
-      color: Colors.white,
-    ),
+    const AttendanceAndDepartureScreen(),
     const SizedBox()
   ];
   void getHomePage() {

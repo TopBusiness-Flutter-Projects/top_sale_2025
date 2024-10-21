@@ -114,9 +114,19 @@
   "error_from_create_and_validate_invoice": "Error from create and validate invoice",
   "error_register_payment":"Error register payment",
   "receipt_voucher":"Receipt Voucher",
+  "attendance_time": "Attendance Time",
+  "work_time":"Work Time",
+  "dismissal_time": "Dismissal Time",
+  "work_contract": "Work Contract",
+  "attendance": "Attendance",
+  "salaries": " Salaries ",
+  "Holidays": "Holidays",
+  "months": "Months",
+  "available_holidays":" Available Holidays ",
+  "monthly_salaries": " Monthly Salaries ",
   "discount_validation":"discount must be less than 100",
-
-  "discount_invalid":"discount is not valid!"
-
+  "attendance_and_departure": "Attendance and departure",
+  "discount_invalid":"discount is not valid!",
+  "search_month": "Search Month"
 
 }

@@ -220,7 +220,7 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                   ? Row(
                                       children: [
                                         widget.isClientOrder == true
-                                            ? Expanded(
+                                            ? const Expanded(
                                                 child: SizedBox(),
                                               )
                                             : Expanded(
@@ -311,7 +311,7 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                       ? Row(
                                           children: [
                                             widget.isClientOrder == true
-                                                ? Expanded(child: SizedBox())
+                                                ? const Expanded(child: SizedBox())
                                                 : Expanded(
                                                     child: Padding(
                                                       padding:
@@ -423,7 +423,7 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                                             .isEmpty)
                                                     ? widget.isClientOrder ==
                                                             true
-                                                        ? Expanded(
+                                                        ? const Expanded(
                                                             child: SizedBox())
                                                         : Expanded(
                                                             child: Padding(

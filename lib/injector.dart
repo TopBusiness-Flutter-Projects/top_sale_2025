@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'core/api/app_interceptors.dart';
 import 'core/api/base_api_consumer.dart';
 import 'core/api/dio_consumer.dart';
+import 'features/attendance_and_departure/cubit/attendance_and_departure_cubit.dart';
 import 'features/basket_screen/cubit/cubit.dart';
 
 import 'features/clients/cubit/clients_cubit.dart';
@@ -45,6 +46,7 @@ Future<void> setup() async {
   serviceLocator.registerFactory(() => UpdateProfileCubit(serviceLocator()));
   serviceLocator.registerFactory(() => BasketCubit(serviceLocator()));
   serviceLocator.registerFactory(() => ClientsCubit(serviceLocator()));
+  serviceLocator.registerFactory(() => AttendanceAndDepartureCubit(serviceLocator()));
 
   serviceLocator.registerFactory(() => DetailsOrdersCubit(serviceLocator()));
   serviceLocator.registerFactory(() => DeleveryOrdersCubit(serviceLocator()));

@@ -61,7 +61,7 @@ class _CustomTextFieldWithTitleState extends State<CustomTextFieldWithTitle> {
                 return null;
               }
             },
-            //
+
             readOnly: widget.readonly ?? false,
             keyboardType: widget.keyboardType,
             controller: widget.controller,
