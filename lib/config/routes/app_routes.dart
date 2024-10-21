@@ -17,6 +17,7 @@ import '../../core/models/get_orders_model.dart';
 import '../../core/utils/app_strings.dart';
 import 'package:page_transition/page_transition.dart';
 import '../../features/basket_screen/screen/basket_screen.dart';
+import '../../features/clients/screens/my_bills.dart';
 import '../../features/clients/screens/profile_client.dart';
 import '../../features/details_order/screens/details_order.dart';
 import '../../features/details_order/screens/details_order_show_price.dart';
@@ -25,6 +26,7 @@ import '../../features/delevery_order/screens/delevery_order_screen.dart';
 import '../../features/login/screens/login_screen.dart';
 import '../../features/on_boarding/screen/onboarding_screen.dart';
 import '../../features/profile/screens/profile_screen.dart';
+import '../../features/clients/screens/sales_screen.dart';
 import '../../features/receipt_voucher/screens/receipt_voucher_screen.dart';
 
 class Routes {
@@ -50,6 +52,8 @@ class Routes {
   static const String updateprofileRoute = '/updateprofile';
   static const String profileRoute = '/profileRoute';
   static const String profileClientRoute = '/profileClientRoute';
+  static const String billsRoute = '/billsRoute';
+  static const String salesRoute = '/salesRoute';
   static const String receiptVoucherRoute = '/receiptVoucherRoute';
   static const String createReceiptVoucherRoute = '/createReceiptVoucherRoute';
 }
@@ -92,6 +96,13 @@ class AppRoutes {
           alignment: Alignment.center,
           duration: const Duration(milliseconds: 800),
         );
+      case Routes.salesRoute:
+        return PageTransition(
+          child: SalesScreen(),
+          type: PageTransitionType.fade,
+          alignment: Alignment.center,
+          duration: const Duration(milliseconds: 800),
+        );
 
       case Routes.deleveryOrderRoute:
         return MaterialPageRoute(
@@ -102,17 +113,25 @@ class AppRoutes {
           builder: (context) => const PaymentScreen(),
         );
       case Routes.detailsOrder:
-        final OrderModel orderModel = settings.arguments as OrderModel;
+        final Map<String, dynamic> arguments = settings.arguments as Map<String, dynamic>;
+        final OrderModel orderModel = arguments['orderModel'] as OrderModel;
+        final bool isClientOrder = arguments['isClientOrder'] as bool;
+       // final OrderModel orderModel = settings.arguments as OrderModel;
         return MaterialPageRoute(
           builder: (context) => DetailsOrder(
             orderModel: orderModel,
+              isClientOrder:isClientOrder
           ),
         );
       case Routes.detailsOrderShowPrice:
-        final OrderModel orderModel = settings.arguments as OrderModel;
+      //  final OrderModel orderModel = settings.arguments as OrderModel;
+        final Map<String, dynamic> arguments = settings.arguments as Map<String, dynamic>;
+        final OrderModel orderModel = arguments['orderModel'] as OrderModel;
+        final bool isClientOrder = arguments['isClientOrder'] as bool;
         return MaterialPageRoute(
           builder: (context) => DetailsOrderShowPrice(
             orderModel: orderModel,
+              isClientOrder:isClientOrder
           ),
         );
       case Routes.onboardingPageScreenRoute:
@@ -160,6 +179,10 @@ class AppRoutes {
       case Routes.profileClientRoute:
         return MaterialPageRoute(
           builder: (context) => ProfileClient(),
+        );
+      case Routes.billsRoute:
+        return MaterialPageRoute(
+          builder: (context) => MyBillsScreen(),
         );
       case Routes.basketScreenRoute:
         // List<dynamic>data = [];

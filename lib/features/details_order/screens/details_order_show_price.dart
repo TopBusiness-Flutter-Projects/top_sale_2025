@@ -16,8 +16,9 @@ import '../cubit/details_orders_state.dart';
 import 'widgets/custom_order_details_item.dart';
 
 class DetailsOrderShowPrice extends StatefulWidget {
-  DetailsOrderShowPrice({super.key, required this.orderModel});
+  DetailsOrderShowPrice({super.key, required this.orderModel,required this.isClientOrder});
   bool isDelivered = false;
+  bool isClientOrder;
   final OrderModel orderModel;
   @override
   State<DetailsOrderShowPrice> createState() => _DetailsOrderShowPriceState();
@@ -39,7 +40,8 @@ class _DetailsOrderShowPriceState extends State<DetailsOrderShowPrice> {
         var cubit = context.read<DetailsOrdersCubit>();
 
         return Scaffold(
-          backgroundColor: Colors.white,
+         backgroundColor:AppColors.white,
+
           appBar: AppBar(
             actions: [
               (widget.orderModel.state == 'draft')  ?
@@ -138,7 +140,7 @@ class _DetailsOrderShowPriceState extends State<DetailsOrderShowPrice> {
                     )
                   : cubit.getDetailsOrdersModel?.orderLines?.length == 0
                       ? Container()
-                      : CustomButton(
+                      : widget.isClientOrder==true?SizedBox():CustomButton(
                           title: 'make_order'.tr(),
                           onTap: () {
                             cubit.updateQuotation(
@@ -206,6 +208,8 @@ class _DetailsOrderShowPriceState extends State<DetailsOrderShowPrice> {
                             SizedBox(
                               height: 12.h,
                             ),
+                            // widget.isClientOrder==true?
+                            //     SizedBox():
                             FlutterStepIndicator(
                               division: 3,
                               height: 28.h,

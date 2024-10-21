@@ -68,7 +68,7 @@ TextStyle getRegularStyle(
 TextStyle getMediumStyle({Color? color, double? fontHeight, double? fontSize}) {
   return _getTextStyle(
       color: color ?? AppColors.primaryText,
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w700,
       fontSize: fontSize ?? 16.sp,
       fontHeight: fontHeight);
 }

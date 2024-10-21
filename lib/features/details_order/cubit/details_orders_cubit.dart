@@ -311,9 +311,8 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
       listOfremovedItems.clear();
 
       updateOrderModel = r;
-      successGetBar('Success Update Quotation');
+      // successGetBar('Success Update Quotation');
       debugPrint("Success Update Quotation");
-      getDetailsOrdersModel!.orderLines?.clear();
       //! Nav to
       confirmQuotation(
         orderId: getDetailsOrdersModel!.id!,
@@ -344,13 +343,22 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
     result.fold((l) {
       emit(ErrorConfirmQuotation());
     }, (r) {
-      context.read<DeleveryOrdersCubit>().getOrders();
-      //! Make confirm quotation
-      Navigator.pushReplacementNamed(context, Routes.detailsOrder,
-          arguments: orderModel);
+
+      if (r.result?.message == null) {
+        errorGetBar('عدم كفاية المخزون لمنتج واحد أو أكثر');
+      } else {
+        getDetailsOrdersModel!.orderLines?.clear();
+
+        context.read<DeleveryOrdersCubit>().getOrders();
+        //! Make confirm quotation
+Navigator.pushReplacementNamed(context, Routes.detailsOrder,
+          arguments: { 'isClientOrder':false,  'orderModel':orderModel});
+      }
+
       emit(LoadedConfirmQuotation());
     });
   }
+
   cancelOrder({
     required int orderId,
     required OrderModel orderModel,
@@ -361,18 +369,17 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
     result.fold((l) {
       emit(ErrorCancel());
     }, (r) {
-      if(r.result!.message!.contains("successfully")){
-      context.read<DeleveryOrdersCubit>().getOrders();
-      //! Make confirm quotation
-      successGetBar(r.result!.message!);
-     Navigator.pop(context);
-      emit(LoadedCancel());
-    }
-      else{
+      if (r.result!.message!.contains("successfully")) {
+        context.read<DeleveryOrdersCubit>().getOrders();
+        //! Make confirm quotation
+        successGetBar(r.result!.message!);
+        Navigator.pop(context);
+        emit(LoadedCancel());
+      } else {
         errorGetBar(r.result!.message!);
         emit(ErrorCancel());
-      }}
-      );
+      }
+    });
   }
 
   TextEditingController newPriceController = TextEditingController();

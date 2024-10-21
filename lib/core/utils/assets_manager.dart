@@ -25,6 +25,7 @@ class ImageAssets {
   static const String contactUs = '$imagePath/contactUs.png';
   static const String qolasaImage = '$imagePath/qolasa.png';
   static const String discount = '$imagePath/discount.png';
+  static const String backgroundProduct = '$imagePath/background_product.png';
   static const String notificationIconPage = '$imagePath/notification_icon.png';
   static const String contactUsRoute = '$imagePath/contact_us_icon.png';
   static const String nodata = '$imagePath/no_data.png';
@@ -32,8 +33,12 @@ class ImageAssets {
   static const String receiptVoucherIcon = '$imagePath/receipt_voucher.png';
   // icons
   static const String phoneIcon = '$iconsPath/phone.svg';
+  static const String numberOfBills = '$iconsPath/number_bill.svg';
 
   static const String profileIcon = '$iconsPath/profile.svg';
+  static const String calenderIcon = '$iconsPath/calenderIcon.svg';
+  static const String totalIcon = '$iconsPath/total.svg';
+  static const String printIcon = '$iconsPath/print.svg';
   static const String shareIcon = '$iconsPath/share.svg';
   static const String notification = '$iconsPath/notification.svg';
   static const String evaluate = '$iconsPath/evaluate.svg';

@@ -3,12 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_utils/src/extensions/string_extensions.dart';
 import 'package:top_sale/config/routes/app_routes.dart';
 import 'package:top_sale/core/utils/app_colors.dart';
 import 'package:top_sale/core/utils/app_fonts.dart';
 import 'package:top_sale/core/utils/get_size.dart';
 
 import '../../../../core/widgets/decode_image.dart';
+import '../../../../core/widgets/decode_image_with_text.dart';
 
 class CustomCategoryWidget extends StatelessWidget {
   const CustomCategoryWidget({
@@ -31,7 +33,7 @@ class CustomCategoryWidget extends StatelessWidget {
         );
       },
       child: Container(
-height: getSize(context)/4,
+        height: getSize(context) / 4,
         child: Column(
           children: [
             Container(
@@ -47,12 +49,19 @@ height: getSize(context)/4,
                     child: image == "false"
                         ? Center(
                             child: Text(
-                                title.length > 5 ? title.substring(0, 3) : title,
+                                title.length > 5
+                                    ? title.substring(0, 3)
+                                    : title,
                                 style: getBoldStyle(
                                     color: AppColors.white, fontSize: 18.sp)),
                           )
-                        : CustomDecodedImage(
+                        : CustomDecodedImageWithText(
                             context: context,
+                            character: title.length >= 4
+                                ? title.removeAllWhitespace
+                                    .substring(0, 4)
+                                    .toString()
+                                : title.removeAllWhitespace,
                             base64String: image,
                             height: 50.w,
                             width: 50.w,

@@ -12,6 +12,7 @@ import '../../../config/routes/app_routes.dart';
 import '../../../core/models/all_products_model.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/assets_manager.dart';
+import '../../clients/cubit/clients_cubit.dart';
 import '../cubit/direct_sell_cubit.dart';
 import 'widgets/custom_product_widget.dart';
 
@@ -80,7 +81,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
               GestureDetector(
                 onTap: () {
                   Navigator.pushNamed(context, Routes.clientsRoute,
-                      arguments: true);
+                      arguments: ClientsRouteEnum.cart);
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(15.0),

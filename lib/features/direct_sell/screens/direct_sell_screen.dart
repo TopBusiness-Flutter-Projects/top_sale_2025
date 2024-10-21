@@ -13,6 +13,7 @@ import '../../../core/models/category_model.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_strings.dart';
 import '../../../core/utils/get_size.dart';
+import '../../clients/cubit/clients_cubit.dart';
 import '../../clients/screens/clients_screen.dart';
 import '../cubit/direct_sell_cubit.dart';
 
@@ -31,13 +32,11 @@ class _DirectSellScreenState extends State<DirectSellScreen> {
 
     context.read<DirectSellCubit>().getCategries();
     context.read<DirectSellCubit>().getAllProducts(isHome: true);
-
   }
 
   @override
   @override
   Widget build(BuildContext context) {
-
     return BlocBuilder<DirectSellCubit, DirectSellState>(
         builder: (context, state) {
       // if (state is LoadingCatogries) {
@@ -51,17 +50,16 @@ class _DirectSellScreenState extends State<DirectSellScreen> {
           actions: [
             GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, Routes.clientsRoute, arguments:true);
-
+                Navigator.pushNamed(context, Routes.clientsRoute,
+                    arguments: ClientsRouteEnum.cart);
               },
-              child:  Padding(
+              child: Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Image.asset(
                   'assets/images/basket1.png',
                   width: getSize(context) / 15,
-                  color: cubit.currentIndex == 1
-                      ? AppColors.orange
-                      : Colors.black,
+                  color:
+                      cubit.currentIndex == 1 ? AppColors.orange : Colors.black,
                 ),
               ),
             ),
@@ -92,54 +90,55 @@ class _DirectSellScreenState extends State<DirectSellScreen> {
                     ? Center(
                         child:
                             CircularProgressIndicator(color: AppColors.primary))
-                    :
-
-                cubit.searchController.text.isEmpty ?
-                SingleChildScrollView(
-                        physics:
-                            const AlwaysScrollableScrollPhysics(), // Ensures the RefreshIndicator works even if the list is not scrollable
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 12.0, vertical: 6),
-                          child: Column(
-                            children: [
-                              const CustomSearchWidget(),
-                              SizedBox(height: 25.h),
-                              state == LoadingCatogries
-                                  ? Center(
-                                      child: CircularProgressIndicator(
-                                          color: AppColors.primary))
-                                  : CustomCategorySection(
-                                      result:
-                                          cubit.catogriesModel?.result ?? [],
-                                    ),
-                              SizedBox(height: 25.h),
-                              state == LoadingProduct
-                                  ? const Center(
-                                      child: CircularProgressIndicator())
-                                  : CustomProductSection(
-                                  isSearch: false,
-                                      result: cubit.homeProductsModel.result!.products ??
+                    : cubit.searchController.text.isEmpty
+                        ? SingleChildScrollView(
+                            physics:
+                                const AlwaysScrollableScrollPhysics(), // Ensures the RefreshIndicator works even if the list is not scrollable
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12.0, vertical: 6),
+                              child: Column(
+                                children: [
+                                  const CustomSearchWidget(),
+                                  SizedBox(height: 25.h),
+                                  state == LoadingCatogries
+                                      ? Center(
+                                          child: CircularProgressIndicator(
+                                              color: AppColors.primary))
+                                      : CustomCategorySection(
+                                          result:
+                                              cubit.catogriesModel?.result ??
+                                                  [],
+                                        ),
+                                  SizedBox(height: 25.h),
+                                  state == LoadingProduct
+                                      ? const Center(
+                                          child: CircularProgressIndicator())
+                                      : CustomProductSection(
+                                          isSearch: false,
+                                          result: cubit.homeProductsModel
+                                                  .result!.products ??
+                                              []),
+                                ],
+                              ),
+                            ),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  const CustomSearchWidget(),
+                                  SizedBox(height: 25.h),
+                                  CustomProductSection(
+                                      isSearch: true,
+                                      result: cubit.searchedProductsModel!
+                                              .result!.products ??
                                           []),
-                            ],
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                      ):
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        const CustomSearchWidget(),
-                        SizedBox(height: 25.h),
-                        CustomProductSection(
-                          isSearch: true,
-                            result: cubit.searchedProductsModel!.result!.products ??
-                                []),
-                      ],
-                    ),
-                  ),
-                ),
               ),
       );
     });
