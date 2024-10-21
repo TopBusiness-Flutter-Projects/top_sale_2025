@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top_sale/features/clients/cubit/clients_state.dart';
@@ -32,7 +31,7 @@ class _SalesScreenState extends State<SalesScreen> {
       var cubit = context.read<ClientsCubit>();
     return  SafeArea(
       child:   state is ProfileClientLoading?
-        Center(
+        const Center(
         child:
         CircularProgressIndicator(),
       ):Scaffold(
@@ -49,7 +48,7 @@ class _SalesScreenState extends State<SalesScreen> {
                           child: Image.asset(ImageAssets.arrowAr)),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text("sales".tr(), style: TextStyle(
+                        child: Text("sales".tr(), style: const TextStyle(
                             fontWeight: FontWeight.w700, fontSize: 20),),
                       )
           
@@ -59,13 +58,13 @@ class _SalesScreenState extends State<SalesScreen> {
                       ? Center(
                     child: Text(
                       "no_data".tr(),
-                      style: TextStyle(color: Colors.orange),
+                      style: const TextStyle(color: Colors.orange),
                     ),
                   )
                       :
                   ListView.builder(
                     shrinkWrap: true,
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     itemCount: cubit.partnerModel?.salesOrders?.length, // Number of last orders
                     itemBuilder: (context, index) {
                       return Padding(

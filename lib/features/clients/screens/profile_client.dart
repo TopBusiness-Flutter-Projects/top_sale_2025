@@ -65,7 +65,7 @@ class _ProfileClientState extends State<ProfileClient> {
                       ),
                     ),
                   ]),
-                  Positioned(
+                  const Positioned(
                       bottom: -20,
                       left: 50,
                       right: 50,

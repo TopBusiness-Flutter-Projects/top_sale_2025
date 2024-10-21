@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:top_sale/features/attendance_and_departure/screens/attendance_and_departure_screen.dart';
 import 'package:top_sale/features/clients/cubit/clients_cubit.dart';
 import 'package:top_sale/features/contact_us/screens/contact_us_screen.dart';
 import 'package:top_sale/features/create_receipt_coucher/screens/create_receipt_coucher_screen.dart';
@@ -10,6 +11,7 @@ import 'package:top_sale/features/login/screens/system_info_screen.dart';
 import 'package:top_sale/features/home_screen/screens/home_screen.dart';
 import 'package:top_sale/features/main/screens/main_screen.dart';
 import 'package:top_sale/features/notification_screen/screens/notification_screens.dart';
+import 'package:top_sale/features/attendance_and_departure/screens/salaries_screen.dart';
 import 'package:top_sale/features/splash/screens/splash_screen.dart';
 import 'package:top_sale/features/update_profile/screens/update_profile_screen.dart';
 import '../../core/models/all_partners_for_reports_model.dart';
@@ -55,7 +57,10 @@ class Routes {
   static const String billsRoute = '/billsRoute';
   static const String salesRoute = '/salesRoute';
   static const String receiptVoucherRoute = '/receiptVoucherRoute';
+  static const String attendanceAndDepartureRoute =
+      '/attendanceAndDepartureRoute';
   static const String createReceiptVoucherRoute = '/createReceiptVoucherRoute';
+  static const String salariesRoute = '/salariesRoute';
 }
 
 class AppRoutes {
@@ -113,26 +118,24 @@ class AppRoutes {
           builder: (context) => const PaymentScreen(),
         );
       case Routes.detailsOrder:
-        final Map<String, dynamic> arguments = settings.arguments as Map<String, dynamic>;
+        final Map<String, dynamic> arguments =
+            settings.arguments as Map<String, dynamic>;
         final OrderModel orderModel = arguments['orderModel'] as OrderModel;
         final bool isClientOrder = arguments['isClientOrder'] as bool;
-       // final OrderModel orderModel = settings.arguments as OrderModel;
+        // final OrderModel orderModel = settings.arguments as OrderModel;
         return MaterialPageRoute(
           builder: (context) => DetailsOrder(
-            orderModel: orderModel,
-              isClientOrder:isClientOrder
-          ),
+              orderModel: orderModel, isClientOrder: isClientOrder),
         );
       case Routes.detailsOrderShowPrice:
-      //  final OrderModel orderModel = settings.arguments as OrderModel;
-        final Map<String, dynamic> arguments = settings.arguments as Map<String, dynamic>;
+        //  final OrderModel orderModel = settings.arguments as OrderModel;
+        final Map<String, dynamic> arguments =
+            settings.arguments as Map<String, dynamic>;
         final OrderModel orderModel = arguments['orderModel'] as OrderModel;
         final bool isClientOrder = arguments['isClientOrder'] as bool;
         return MaterialPageRoute(
           builder: (context) => DetailsOrderShowPrice(
-            orderModel: orderModel,
-              isClientOrder:isClientOrder
-          ),
+              orderModel: orderModel, isClientOrder: isClientOrder),
         );
       case Routes.onboardingPageScreenRoute:
         return MaterialPageRoute(
@@ -203,9 +206,16 @@ class AppRoutes {
       case Routes.createReceiptVoucherRoute:
         int partnerId = settings.arguments as int;
         return MaterialPageRoute(
-          builder: (context) =>  CreateReceiptCoucherScreen(
+          builder: (context) => CreateReceiptCoucherScreen(
             partnerId: partnerId,
           ),
+        );
+      case Routes.attendanceAndDepartureRoute:
+        return MaterialPageRoute(
+          builder: (context) => const AttendanceAndDepartureScreen(),
+        ); case Routes.salariesRoute:
+        return MaterialPageRoute(
+          builder: (context) => const SalariesScreen(),
         );
       //
       // case Routes.resultOfLessonExam:
