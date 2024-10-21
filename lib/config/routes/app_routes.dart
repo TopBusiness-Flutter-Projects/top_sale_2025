@@ -27,7 +27,7 @@ import '../../features/login/screens/login_screen.dart';
 import '../../features/on_boarding/screen/onboarding_screen.dart';
 import '../../features/profile/screens/profile_screen.dart';
 import '../../features/clients/screens/sales_screen.dart';
-import '../../features/receipt_voucher/screens/receipt_voucher_screen.dart';
+import '../../features/create_receipt_coucher/screens/receipt_voucher_screen.dart';
 
 class Routes {
   static const String initialRoute = '/';

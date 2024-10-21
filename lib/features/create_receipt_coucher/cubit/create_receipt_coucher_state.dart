@@ -10,3 +10,6 @@
   String error;
   GetAllJournalsErrorState(this.error);
  }
+ class GetPaymentsLoaded extends CreateReceiptCoucherState {}
+ class GetPaymentsLoading extends CreateReceiptCoucherState {}
+ class GetPaymentsError extends CreateReceiptCoucherState {}

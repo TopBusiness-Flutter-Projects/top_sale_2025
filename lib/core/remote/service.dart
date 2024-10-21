@@ -774,7 +774,7 @@ class ServiceApi {
     }
   }
 
-  Future<Either<Failure, AllPaymentsModel>> getAllPayments() async {
+  Future<Either<Failure, AllPaymentsModel>> getAllPayments(String? searchKey) async {
     try {
       String? sessionId = await Preferences.instance.getSessionId();
       String odooUrl =
@@ -785,7 +785,8 @@ class ServiceApi {
             body: {
     "params": {
         "data": {
-          //  "customer_name": "هيا هشام"
+          if(searchKey != null)
+            "customer_name": searchKey
         }
     }
 },
