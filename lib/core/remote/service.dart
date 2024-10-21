@@ -9,6 +9,7 @@ import 'package:top_sale/core/error/exceptions.dart';
 import 'package:top_sale/core/error/failures.dart';
 import 'package:top_sale/core/models/all_journals_model.dart';
 import 'package:top_sale/core/models/all_partners_for_reports_model.dart';
+import 'package:top_sale/core/models/all_payments_model.dart';
 import 'package:top_sale/core/models/all_products_model.dart';
 import 'package:top_sale/core/models/all_ware_house_model.dart';
 import 'package:top_sale/core/models/category_model.dart';
@@ -773,21 +774,26 @@ class ServiceApi {
     }
   }
 
-  Future<Either<Failure, GetAllJournalsModel>> getAllPayments() async {
+  Future<Either<Failure, AllPaymentsModel>> getAllPayments() async {
     try {
       String? sessionId = await Preferences.instance.getSessionId();
-
       String odooUrl =
           await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
-      final response = await dio.get(
+      final response = await dio.post(
         odooUrl +
-            EndPoints.createPayment +
-            '?query={id, partner_id{name,id,image_1920,phone}}',
+            '/api/payments/customer',
+            body: {
+    "params": {
+        "data": {
+          //  "customer_name": "هيا هشام"
+        }
+    }
+},
         options: Options(
           headers: {"Cookie": "session_id=$sessionId"},
         ),
       );
-      return Right(GetAllJournalsModel.fromJson(response));
+      return Right(AllPaymentsModel.fromJson(response));
     } on ServerException {
       return Left(ServerFailure());
     }
