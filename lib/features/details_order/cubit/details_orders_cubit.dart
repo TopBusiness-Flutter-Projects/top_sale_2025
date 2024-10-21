@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
@@ -34,20 +35,14 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
           desiredAccuracy: LocationAccuracy.high);
       lat = position.latitude;
       lang = position.longitude;
-
-      print('laaaaaaaaaaaaaa : $lat');
-      print('laaaaaaaaaaaaaa : $lang');
-      // await getAddress(lat: position.latitude, lang: position.longitude);
     } catch (e) {
-      print('laaaaaaaaaaaaaa Error getting location: $e');
+      print(e);
     }
 
     emit(GetLatLongSuccess());
   }
 
   DateTime convertTimestampToDateTime(int timestamp) {
-    //1650265974
-    //1713736800000
     if (timestamp.toString().length > 11) {
       var dt = DateTime.fromMillisecondsSinceEpoch(timestamp);
       return dt;
@@ -70,7 +65,7 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
   }
 
   TextEditingController moneyController = TextEditingController();
-  void getDetailsOrders({required int orderId}) async {
+  Future<void> getDetailsOrders({required int orderId}) async {
     emit(GetDetailsOrdersLoadingState());
     final result = await api.getOrderDetails(orderId: orderId);
     result.fold(
@@ -79,7 +74,6 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
       (r) {
         getDetailsOrdersModel = r;
         if (r.payments!.isNotEmpty) page = 4;
-        print("55555555555555555555 ${r.payments!.isNotEmpty}");
         emit(GetDetailsOrdersLoadedState());
       },
     );
@@ -105,13 +99,12 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
           getDetailsOrders(orderId: orderId);
         } else {
           emit(ConfirmDeliveryErrorState('Error loading  data: '));
-
-          errorGetBar("error");
+          errorGetBar("error_confirm_delivery".tr());
         }
       } else {
         emit(ConfirmDeliveryErrorState('Error loading  data: '));
 
-        errorGetBar("error");
+        errorGetBar("error_confirm_delivery".tr());
       }
     });
   }
@@ -130,7 +123,7 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
       (failure) {
         Navigator.pop(context);
         Navigator.pop(context);
-        errorGetBar("error");
+        errorGetBar("error_register_payment".tr());
         emit(RegisterPaymentErrorState('Error loading  data: $failure'));
       },
       (r) {
@@ -146,12 +139,12 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
           } else {
             emit(RegisterPaymentErrorState('Error loading  data: '));
 
-            errorGetBar("error");
+            errorGetBar("error_register_payment".tr());
           }
         } else {
           emit(RegisterPaymentErrorState('Error loading  data: '));
 
-          errorGetBar("error");
+          errorGetBar("error_register_payment".tr());
         }
 
         moneyController.clear();
@@ -183,12 +176,12 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
           } else {
             emit(CreateAndValidateInvoiceErrorState('Error loading  data: '));
 
-            errorGetBar("error");
+            errorGetBar("error_from_create_and_validate_invoice".tr());
           }
         } else {
           emit(CreateAndValidateInvoiceErrorState('Error loading  data: '));
 
-          errorGetBar("error");
+          errorGetBar("error_from_create_and_validate_invoice".tr());
         }
       },
     );
@@ -281,7 +274,6 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
         getDetailsOrdersModel!.orderLines
             ?.removeWhere((item) => item.id == product.id);
         listOfremovedItems.add(product.id);
-        print('lllll');
         emit(DecreaseTheQuantityCount());
       } else {
         product.productUomQty = int.parse(product.productUomQty.toString()) - 1;
@@ -304,7 +296,6 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
         saleOrderId: getDetailsOrdersModel!.id.toString(),
         products: getDetailsOrdersModel!.orderLines ?? [],
         listOfremovedItems: listOfremovedItems);
-
     result.fold((l) {
       emit(ErrorUpdateQuotation());
     }, (r) {
@@ -348,10 +339,9 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
         errorGetBar('عدم كفاية المخزون لمنتج واحد أو أكثر');
       } else {
         getDetailsOrdersModel!.orderLines?.clear();
-
         context.read<DeleveryOrdersCubit>().getOrders();
         //! Make confirm quotation
-Navigator.pushReplacementNamed(context, Routes.detailsOrder,
+          Navigator.pushReplacementNamed(context, Routes.detailsOrder,
           arguments: { 'isClientOrder':false,  'orderModel':orderModel});
       }
 
@@ -383,7 +373,6 @@ Navigator.pushReplacementNamed(context, Routes.detailsOrder,
   }
 
   TextEditingController newPriceController = TextEditingController();
-
   onChnagePriceOfUnit(OrderLine item, BuildContext context) {
     item.priceUnit = double.parse(newPriceController.text.toString());
     Navigator.pop(context);

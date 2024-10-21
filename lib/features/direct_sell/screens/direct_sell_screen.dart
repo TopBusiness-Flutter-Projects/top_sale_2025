@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,14 +6,12 @@ import 'package:top_sale/features/direct_sell/cubit/direct_sell_state.dart';
 import 'package:top_sale/features/direct_sell/screens/widgets/custom_category_section.dart';
 import 'package:top_sale/features/direct_sell/screens/widgets/custom_product_section.dart';
 import 'package:top_sale/features/direct_sell/screens/widgets/scanner.dart';
-
 import '../../../config/routes/app_routes.dart';
 import '../../../core/models/category_model.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_strings.dart';
 import '../../../core/utils/get_size.dart';
 import '../../clients/cubit/clients_cubit.dart';
-import '../../clients/screens/clients_screen.dart';
 import '../cubit/direct_sell_cubit.dart';
 
 class DirectSellScreen extends StatefulWidget {

@@ -24,318 +24,153 @@ class _DeleveryOrderScreenState extends State<DeleveryOrderScreen> {
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<DeleveryOrdersCubit, DeleveryOrdersState>(
         builder: (context, state) {
-      var cubit = context.read<DeleveryOrdersCubit>();
+          var cubit = context.read<DeleveryOrdersCubit>();
 
-      return Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppColors.white,
-          centerTitle: false,
-          // leadingWidth: 20,
-          title: Text(
-            "delevery_order".tr(),
-            style: TextStyle(
-                fontFamily: AppStrings.fontFamily,
-                color: AppColors.black,
-                fontWeight: FontWeight.w700),
+          return Scaffold(
+            appBar: AppBar(
+              backgroundColor: AppColors.white,
+              centerTitle: false,
+              title: Text(
+                "delevery_order".tr(),
+                style: TextStyle(
+                    fontFamily: AppStrings.fontFamily,
+                    color: AppColors.black,
+                    fontWeight: FontWeight.w700),
+              ),
+            ),
+            backgroundColor: AppColors.white,
+            body: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Tab bar for filtering current, last, and canceled orders
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      _buildTab(context, cubit, "current_orders", 0),
+                      SizedBox(width: getSize(context) / 20),
+                      _buildTab(context, cubit, "last_orders", 1),
+                      SizedBox(width: getSize(context) / 20),
+                      _buildTab(context, cubit, "cancel_orders", 2),
+                    ],
+                  ),
+                ),
+                SizedBox(height: getSize(context) / 20),
+
+                // Drop-down filter for current orders (only visible for current orders tab)
+                if (cubit.currentIndex == 0) ...[
+                  const DropDownMenuWidget(),
+                  SizedBox(height: getSize(context) / 20),
+                ],
+
+                // Orders List (Refreshable)
+                Flexible(
+                  child: cubit.getOrdersModel.result == null || state is OrdersLoadingState
+                      ? const Center(child: CircularProgressIndicator())
+                      : RefreshIndicator(
+                    onRefresh: () async {
+                      await cubit.getOrders();
+                    },
+                    child: SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      child: cubit.currentIndex == 0
+                          ? _buildCurrentOrdersList(context, cubit)
+                          : cubit.currentIndex == 1
+                          ? _buildLastOrdersList(context, cubit)
+                          : _buildCanceledOrdersList(context, cubit),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
+  // Widget to build a tab with styling based on current index
+  Widget _buildTab(BuildContext context, DeleveryOrdersCubit cubit, String label, int index) {
+    return Expanded(
+      child: GestureDetector(
+        onTap: () {
+          cubit.changeIndex(index);
+        },
+        child: Container(
+          height: getSize(context) / 9,
+          width: getSize(context) / 2.5,
+          decoration: BoxDecoration(
+            color: cubit.currentIndex == index ? AppColors.orange : AppColors.gray1,
+            borderRadius: BorderRadius.circular(getSize(context) / 20),
           ),
-        ),
-        backgroundColor: AppColors.white,
-        body: Column(
-          children: [
-            RefreshIndicator(
-              onRefresh: () async{
-              await   cubit.getOrders();
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () {
-                          cubit.changeIndex(0);
-                        },
-                        child: Container(
-                          height: getSize(context) / 9,
-                          width: getSize(context) / 2.5,
-                          decoration: BoxDecoration(
-                            color: cubit.currentIndex == 0
-                                ? AppColors.orange
-                                : AppColors.gray1,
-                            borderRadius:
-                                BorderRadius.circular(getSize(context) / 20),
-                          ),
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: AutoSizeText(
-                                "current_orders".tr(),
-                                maxLines: 1,
-                                style: TextStyle(
-                                  fontFamily: "Tajawal",
-                                  color: cubit.currentIndex == 0
-                                      ? AppColors.white
-                                      : AppColors.grayLite,
-                                  fontSize: getSize(context) / 20,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: getSize(context) / 20),
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () {
-                          cubit.changeIndex(1);
-                        },
-                        child: Container(
-                          height: getSize(context) / 9,
-                          width: getSize(context) / 2.5,
-                          decoration: BoxDecoration(
-                            color: cubit.currentIndex == 1
-                                ? AppColors.orange
-                                : AppColors.gray1,
-                            borderRadius:
-                                BorderRadius.circular(getSize(context) / 20),
-                          ),
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: AutoSizeText(
-                                "last_orders".tr(),
-                                style: TextStyle(
-                                  fontFamily: "Tajawal",
-                                  color: cubit.currentIndex == 1
-                                      ? AppColors.white
-                                      : AppColors.grayLite,
-                                  fontSize: getSize(context) / 20,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: getSize(context) / 20),
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () {
-                          cubit.changeIndex(2);
-                        },
-                        child: Container(
-                          height: getSize(context) / 9,
-                          width: getSize(context) / 2.5,
-                          decoration: BoxDecoration(
-                            color: cubit.currentIndex == 2
-                                ? AppColors.orange
-                                : AppColors.gray1,
-                            borderRadius:
-                            BorderRadius.circular(getSize(context) / 20),
-                          ),
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: AutoSizeText(
-                                "cancel_orders".tr(),
-                                style: TextStyle(
-                                  fontFamily: "Tajawal",
-                                  color: cubit.currentIndex == 2
-                                      ? AppColors.white
-                                      : AppColors.grayLite,
-                                  fontSize: getSize(context) / 20,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AutoSizeText(
+                label.tr(),
+                maxLines: 1,
+                style: TextStyle(
+                  fontFamily: "Tajawal",
+                  color: cubit.currentIndex == index ? AppColors.white : AppColors.grayLite,
+                  fontSize: getSize(context) / 20,
                 ),
               ),
             ),
-            SizedBox(height: getSize(context) / 20),
-            Expanded(
-              child: cubit.getOrdersModel.result == null
-                  ? const Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : cubit.currentIndex == 0
-                      ? Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const DropDownMenuWidget(),
-                            SizedBox(height: getSize(context) / 20),
-                            Flexible(
-                              child:
-                                  // all orders
-                                  cubit.selectedValue == "all"
-                                      ? (cubit.currentOrders.isNotEmpty)
-                                          ? ListView.builder(
-                                              shrinkWrap: true,
-                                              itemCount: cubit.currentOrders
-                                                  .length, // Number of current orders
-                                              itemBuilder: (context, index) {
-                                                return Padding(
-                                                  padding: EdgeInsets.only(
-                                                      right:
-                                                          getSize(context) / 50,
-                                                      bottom:
-                                                          getSize(context) / 50,
-                                                      left: getSize(context) /
-                                                          50),
-                                                  child: ShipmentCardWidget(
-                                                    order: cubit
-                                                        .currentOrders[index],
-                                                  ),
-                                                );
-                                              },
-                                            )
-                                          : Center(
-                                              child: Text("no_data".tr()),
-                                            )
-                                      :
-                                      // draft
-                                      cubit.selectedValue == "show_price"
-                                          ? (cubit.draftOrders.isNotEmpty)
-                                              ? ListView.builder(
-                                                  shrinkWrap: true,
-                                                  itemCount: cubit.draftOrders
-                                                      .length, // Number of current orders
-                                                  itemBuilder:
-                                                      (context, index) {
-                                                    return Padding(
-                                                      padding: EdgeInsets.only(
-                                                          right:
-                                                              getSize(context) /
-                                                                  50,
-                                                          bottom:
-                                                              getSize(context) /
-                                                                  50,
-                                                          left:
-                                                              getSize(context) /
-                                                                  50),
-                                                      child: ShipmentCardWidget(
-                                                        order: cubit
-                                                            .draftOrders[index],
-                                                      ),
-                                                    );
-                                                  },
-                                                )
-                                              : Center(
-                                                  child: Text("no_data".tr()),
-                                                )
-                                          :
-                                          // new
-                                          cubit.selectedValue == "new"
-                                              ? (cubit.newOrders.isNotEmpty)
-                                                  ? ListView.builder(
-                                                      shrinkWrap: true,
-                                                      itemCount: cubit.newOrders
-                                                          .length, // Number of current orders
-                                                      itemBuilder:
-                                                          (context, index) {
-                                                        return Padding(
-                                                          padding: EdgeInsets.only(
-                                                              right: getSize(
-                                                                      context) /
-                                                                  50,
-                                                              bottom: getSize(
-                                                                      context) /
-                                                                  50,
-                                                              left: getSize(
-                                                                      context) /
-                                                                  50),
-                                                          child:
-                                                              ShipmentCardWidget(
-                                                            order:
-                                                                cubit.newOrders[
-                                                                    index],
-                                                          ),
-                                                        );
-                                                      },
-                                                    )
-                                                  : Center(
-                                                      child: Text(
-                                                        "no_data".tr(),
-                                                      ),
-                                                    )
-                                              :
-                                              // delivered
-                                              (cubit.deliveredOrders.isNotEmpty)
-                                                  ? ListView.builder(
-                                                      shrinkWrap: true,
-                                                      itemCount: cubit
-                                                          .deliveredOrders
-                                                          .length, // Number of current orders
-                                                      itemBuilder:
-                                                          (context, index) {
-                                                        return Padding(
-                                                          padding: EdgeInsets.only(
-                                                              right: getSize(
-                                                                      context) /
-                                                                  50,
-                                                              bottom: getSize(
-                                                                      context) /
-                                                                  50,
-                                                              left: getSize(
-                                                                      context) /
-                                                                  50),
-                                                          child:
-                                                              ShipmentCardWidget(
-                                                            order: cubit
-                                                                    .deliveredOrders[
-                                                                index],
-
-                                                            // Current orders
-                                                          ),
-                                                        );
-                                                      },
-                                                    )
-                                                  : Center(
-                                                      child:
-                                                          Text("no_data".tr()),
-                                                    ),
-                            )
-                          ],
-                        )
-                      :cubit.currentIndex ==1 ?
-                       ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: cubit
-                              .completeOrders.length, // Number of last orders
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: EdgeInsets.all(getSize(context) / 50),
-                              child: ShipmentCardWidget(
-                                order: cubit.completeOrders[index],
-                              ),
-                            );
-                          },
-                        ):
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: cubit
-                    .canceledOrders.length, // Number of last orders
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: EdgeInsets.all(getSize(context) / 50),
-                    child: ShipmentCardWidget(
-                      order: cubit.canceledOrders[index],
-                    ),
-                  );
-                },
-              )
-
-            ),
-          ],
+          ),
         ),
-      );
-    });
+      ),
+    );
+  }
+
+  // Builds the list for current orders
+  Widget _buildCurrentOrdersList(BuildContext context, DeleveryOrdersCubit cubit) {
+    if (cubit.selectedValue == "all") {
+      return cubit.currentOrders.isNotEmpty
+          ? _buildOrderList(context, cubit.currentOrders)
+          : Center(child: Text("no_data".tr()));
+    } else if (cubit.selectedValue == "show_price") {
+      return cubit.draftOrders.isNotEmpty
+          ? _buildOrderList(context, cubit.draftOrders)
+          : Center(child: Text("no_data".tr()));
+    } else if (cubit.selectedValue == "new") {
+      return cubit.newOrders.isNotEmpty
+          ? _buildOrderList(context, cubit.newOrders)
+          : Center(child: Text("no_data".tr()));
+    } else {
+      return cubit.deliveredOrders.isNotEmpty
+          ? _buildOrderList(context, cubit.deliveredOrders)
+          : Center(child: Text("no_data".tr()));
+    }
+  }
+
+  // Builds the list for last orders
+  Widget _buildLastOrdersList(BuildContext context, DeleveryOrdersCubit cubit) {
+    return cubit.completeOrders.isNotEmpty
+        ? _buildOrderList(context, cubit.completeOrders)
+        : Center(child: Text("no_data".tr()));
+  }
+
+  // Builds the list for canceled orders
+  Widget _buildCanceledOrdersList(BuildContext context, DeleveryOrdersCubit cubit) {
+    return cubit.canceledOrders.isNotEmpty
+        ? _buildOrderList(context, cubit.canceledOrders)
+        : Center(child: Text("no_data".tr()));
+  }
+
+  // Builds a list of orders using ShipmentCardWidget
+  Widget _buildOrderList(BuildContext context, List orders) {
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: orders.length,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: EdgeInsets.all(getSize(context) / 50),
+          child: ShipmentCardWidget(order: orders[index]),
+        );
+      },
+    );
   }
 }

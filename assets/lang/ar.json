@@ -64,7 +64,7 @@
   "name": "اسم العميل",
   "email": "البريد الالكتروني",
   "phone": "رقم التلفون",
-  "address": "العنوان",
+
   "enter_phone": "ادخل رقم التلفون",
   "enter_email": "ادخل البريد الالكتروني",
   "confirm": "تاكيد",
@@ -74,10 +74,10 @@
   "hr":"مدير",
   "basket":"السلة",
   "home":"الرئيسية",
-  "menu": "القائمة",
-  "hr": "HR",
-  "basket": "السلة",
-  "home": "الرئيسية",
+
+
+
+
   "notification": "الاشعارات",
   "evaluate_the_application": "تقيم التطبيق",
   "contact": "تواصل معنا",
@@ -93,9 +93,9 @@
   "enter_message": "ادخل رسالتك",
   "enter_subject": "ادخل الموضوع",
   "bill_number": "رقم الفاتوره",
-  "invoices": "الفواتير",
-  "sales": "المبيعات",
 
+
+"error_confirm_delivery": "خطاء في تاكيد الطلب",
 "cancel": "الغاء",
   "cancel_orders": " الطلبات الملغية",
   "": "",
@@ -118,9 +118,11 @@
   "date": "التاريخ",
   "choose_payment_method": "اختر طريقة الدفع",
   "payment_method": "طريقة الدفع",
-   "receipt_voucher":"سند القبض",
+
   "do_create_receipt_coucher":"تم انشاء سند القبض",
    "discount_validation":"يجب أن يكون الخصم أقل من 100",
-   "discount_invalid":"الخصم غير صالح!"
+  "error_register_payment":"خطأ في تسجيل الدفع",
+   "discount_invalid":"الخصم غير صالح!",
+  "error_from_create_and_validate_invoice": "خطأ في انشاء والتحقق من الفاتورة"
 
 }

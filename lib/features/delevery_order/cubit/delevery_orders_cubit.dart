@@ -39,7 +39,7 @@ class DeleveryOrdersCubit extends Cubit<DeleveryOrdersState> {
     draftOrders = []; // طلبات عرض السعر
     newOrders = []; // pending   الطلبات الجديدة
     deliveredOrders = []; // تم التسليم
-    canceledOrders =[];
+    canceledOrders = [];
     final result = await api.getOrders();
     result.fold(
       (failure) => emit(OrdersErrorState('Error loading  data: $failure')),
@@ -77,7 +77,6 @@ class DeleveryOrdersCubit extends Cubit<DeleveryOrdersState> {
             }
           }
         }
-
 
         getOrdersModel = r;
 
