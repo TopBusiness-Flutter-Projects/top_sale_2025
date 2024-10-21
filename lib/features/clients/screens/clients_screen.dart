@@ -133,7 +133,7 @@ class _ClientScreenState extends State<ClientScreen> {
                                   return GestureDetector(
                                       onTap: () {
                                         if (widget.clientsRouteEnum ==
-                                            ClientsRouteEnum.card) {
+                                            ClientsRouteEnum.cart) {
                                           Navigator.pushNamed(
                                               context, Routes.basketScreenRoute,
                                               arguments: cubit.allPartnersModel!
