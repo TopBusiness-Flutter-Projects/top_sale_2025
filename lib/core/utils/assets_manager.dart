@@ -25,6 +25,7 @@ class ImageAssets {
   static const String contactUs = '$imagePath/contactUs.png';
   static const String qolasaImage = '$imagePath/qolasa.png';
   static const String discount = '$imagePath/discount.png';
+  static const String backgroundProduct = '$imagePath/background_product.png';
   static const String notificationIconPage = '$imagePath/notification_icon.png';
   static const String contactUsRoute = '$imagePath/contact_us_icon.png';
   static const String nodata = '$imagePath/no_data.png';

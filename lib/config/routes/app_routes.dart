@@ -93,7 +93,8 @@ class AppRoutes {
           type: PageTransitionType.fade,
           alignment: Alignment.center,
           duration: const Duration(milliseconds: 800),
-        ); case Routes.salesRoute:
+        );
+      case Routes.salesRoute:
         return PageTransition(
           child: SalesScreen(),
           type: PageTransitionType.fade,
@@ -144,9 +145,11 @@ class AppRoutes {
           builder: (context) => const ZoomDrawerScreen(),
         );
       case Routes.clientsRoute:
-        ClientsRouteEnum clientsRouteEnum = settings.arguments as ClientsRouteEnum;
+        ClientsRouteEnum clientsRouteEnum =
+            settings.arguments as ClientsRouteEnum;
         return MaterialPageRoute(
-          builder: (context) => ClientScreen(clientsRouteEnum: clientsRouteEnum),
+          builder: (context) =>
+              ClientScreen(clientsRouteEnum: clientsRouteEnum),
         );
       case Routes.registerScreen:
         return MaterialPageRoute(
@@ -174,7 +177,8 @@ class AppRoutes {
       case Routes.profileClientRoute:
         return MaterialPageRoute(
           builder: (context) => ProfileClient(),
-        );   case Routes.billsRoute:
+        );
+      case Routes.billsRoute:
         return MaterialPageRoute(
           builder: (context) => MyBillsScreen(),
         );
@@ -189,7 +193,8 @@ class AppRoutes {
       case Routes.notificationRoute:
         return MaterialPageRoute(
           builder: (context) => NotificationScreens(),
-        ); case Routes.receiptVoucherRoute:
+        );
+      case Routes.receiptVoucherRoute:
         return MaterialPageRoute(
           builder: (context) => const ReceiptVoucherScreen(),
         );

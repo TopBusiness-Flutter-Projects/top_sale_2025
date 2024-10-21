@@ -13,7 +13,8 @@ import '../../../core/models/partner_model.dart';
 import '../../../core/remote/service.dart';
 import '../../../core/utils/assets_manager.dart';
 import '../../../core/utils/dialogs.dart';
-enum ClientsRouteEnum { card, receiptVoucher , details}
+
+enum ClientsRouteEnum { cart, receiptVoucher, details }
 
 class ClientsCubit extends Cubit<ClientsState> {
   ClientsCubit(this.api) : super(ClientsInitial());
@@ -25,45 +26,59 @@ class ClientsCubit extends Cubit<ClientsState> {
   TextEditingController searchController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   GetAllPartnersModel? allPartnersModel;
-  List<String>Images=[ImageAssets.addressIcon2,ImageAssets.invoiceIcon,ImageAssets.sellersIcon,ImageAssets.buyerIcon,ImageAssets.moneyIcon,ImageAssets.waitingMoneyIcon];
-  List<String>Texts=["address","invoices","sales","payments_due","unbilled_amounts","overdue_amounts"];
+  List<String> Images = [
+    ImageAssets.addressIcon2,
+    ImageAssets.invoiceIcon,
+    ImageAssets.sellersIcon,
+    ImageAssets.buyerIcon,
+    ImageAssets.moneyIcon,
+    ImageAssets.waitingMoneyIcon
+  ];
+  List<String> Texts = [
+    "address",
+    "invoices",
+    "sales",
+    "payments_due",
+    "unbilled_amounts",
+    "overdue_amounts"
+  ];
 //get partner
-  getAllPartnersForReport({
-    int page = 1,
-    int pageSize = 20,//num of products at one page
-    bool isGetMore = false
-  }) async {
-     isGetMore ?
-
-    emit(LoadingMorePartnersState()):
-    emit(LoadingGetPartnersState());
+  getAllPartnersForReport(
+      {int page = 1,
+      int pageSize = 20, //num of products at one page
+      bool isGetMore = false}) async {
+    isGetMore
+        ? emit(LoadingMorePartnersState())
+        : emit(LoadingGetPartnersState());
     final result = await api.getAllPartnersForReport(page, pageSize);
     result.fold(
-          (l) => emit(ErrorGetPartnersState()),
-          (r) {
-            if (isGetMore) {
-              allPartnersModel = GetAllPartnersModel(
-                count: r.count,
-                next: r.next,
-                prev: r.prev,
-                result: [...allPartnersModel!.result!, ...r.result!],
-              );
-            }
-            else {
-              allPartnersModel = r;
-            }
-            print("loaded");
-            emit(SucessGetPartnersState( allPartnersModel: allPartnersModel));
+      (l) => emit(ErrorGetPartnersState()),
+      (r) {
+        if (isGetMore) {
+          allPartnersModel = GetAllPartnersModel(
+            count: r.count,
+            next: r.next,
+            prev: r.prev,
+            result: [...allPartnersModel!.result!, ...r.result!],
+          );
+        } else {
+          allPartnersModel = r;
+        }
+        print("loaded");
+        emit(SucessGetPartnersState(allPartnersModel: allPartnersModel));
       },
     );
   }
+
 //location section
   loc.LocationData? currentLocation;
 
   Future<void> checkAndRequestLocationPermission() async {
-    perm.PermissionStatus permissionStatus = await perm.Permission.location.status;
+    perm.PermissionStatus permissionStatus =
+        await perm.Permission.location.status;
     if (permissionStatus.isDenied) {
-      perm.PermissionStatus newPermissionStatus = await perm.Permission.location.request();
+      perm.PermissionStatus newPermissionStatus =
+          await perm.Permission.location.request();
       if (newPermissionStatus.isGranted) {
         await enableLocationServices();
       }
@@ -71,6 +86,7 @@ class ClientsCubit extends Cubit<ClientsState> {
       await enableLocationServices();
     }
   }
+
 // enable location
   Future<void> enableLocationServices() async {
     loc.Location location = loc.Location();
@@ -84,16 +100,18 @@ class ClientsCubit extends Cubit<ClientsState> {
       }
     }
 
-    loc.PermissionStatus permissionStatus = await loc.Location().hasPermission();
+    loc.PermissionStatus permissionStatus =
+        await loc.Location().hasPermission();
     if (permissionStatus == loc.PermissionStatus.granted) {
       getCurrentLocation();
     }
   }
+
 //get currnet
   Future<void> getCurrentLocation() async {
     loc.Location location = loc.Location();
     location.getLocation().then(
-          (location) async {
+      (location) async {
         currentLocation = location;
         // emit(GetCurrentLocationState());
         debugPrint("lat: ${currentLocation?.latitude}");
@@ -106,18 +124,23 @@ class ClientsCubit extends Cubit<ClientsState> {
       print(currentLocation);
     });
   }
+
 //create client
   CreateOrderModel? createOrderModel;
-  void createClient( BuildContext context) async {
+  void createClient(BuildContext context) async {
     emit(CreateClientLoading());
-    final result = await api.createPartner(name:clientNameController.text??"", mobile:phoneController.text??"", street: addressController.text??"", lat:double.parse(currentLocation?.latitude.toString()??""), long: double.parse(currentLocation?.longitude.toString()??""));
+    final result = await api.createPartner(
+        name: clientNameController.text ?? "",
+        mobile: phoneController.text ?? "",
+        street: addressController.text ?? "",
+        lat: double.parse(currentLocation?.latitude.toString() ?? ""),
+        long: double.parse(currentLocation?.longitude.toString() ?? ""));
     result.fold((l) {
       emit(CreateClientError());
     }, (r) {
-
       if (r.result != null) {
         if (r.result!.message != null) {
-         // successGetBar(r.result!.message);
+          // successGetBar(r.result!.message);
           successGetBar("add_client".tr());
           createOrderModel = r;
           getAllPartnersForReport();
@@ -133,17 +156,20 @@ class ClientsCubit extends Cubit<ClientsState> {
         }
       }
     }
-      //!}
-    );}
+        //!}
+        );
+  }
+
   // getPartnerDetails
   PartnerModel? partnerModel;
 
   void getParent({required int id}) async {
     emit(ProfileClientLoading());
     final result = await api.getPartnerDetails(partnerId: id);
-    result.fold((failure) => emit(ProfileClientError()),
+    result.fold(
+      (failure) => emit(ProfileClientError()),
       (r) {
-       partnerModel = r;
+        partnerModel = r;
         debugPrint("the model : ${partnerModel?.name?.toString()}");
         emit(ProfileClientLoaded());
       },
@@ -196,22 +222,23 @@ class ClientsCubit extends Cubit<ClientsState> {
   //get from search
   void getFromSearch() async {
     emit(SearchLoading());
-    final result = await api.searchUsers(page: 1, name: searchController.text.toString()??"");
+    final result = await api.searchUsers(
+        page: 1, name: searchController.text.toString() ?? "");
     result.fold(
-          (failure) =>
-          emit(SearchError(error: 'Error loading data: $failure')),
-          (r) {
-            allPartnersModel = r;
+      (failure) => emit(SearchError(error: 'Error loading data: $failure')),
+      (r) {
+        allPartnersModel = r;
         emit(SearchLoaded());
       },
     );
   }
+
   onChangeSearch(String? value) {
     EasyDebounce.debounce(
-        'my-debouncer',                 // <-- An ID for this particular debouncer
-        Duration(milliseconds: 100),    // <-- The debounce duration
-            () =>  getFromSearch()                // <-- The target method
-    );
+        'my-debouncer', // <-- An ID for this particular debouncer
+        Duration(milliseconds: 100), // <-- The debounce duration
+        () => getFromSearch() // <-- The target method
+        );
     emit(SearchLoaded());
   }
 }

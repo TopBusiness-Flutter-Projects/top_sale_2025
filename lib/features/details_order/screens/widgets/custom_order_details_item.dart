@@ -3,12 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_utils/src/extensions/string_extensions.dart';
 import '../../../../core/models/order_details_model.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_fonts.dart';
 import '../../../../core/utils/assets_manager.dart';
 import '../../../../core/utils/dialogs.dart';
 import '../../../../core/utils/get_size.dart';
+import '../../../../core/widgets/decode_image_with_text.dart';
 import '../../../basket_screen/cubit/cubit.dart';
 import '../../../login/widget/textfield_with_text.dart';
 import '../../cubit/details_orders_cubit.dart';
@@ -49,17 +51,30 @@ class _CustomOrderDetailsShowPriceItemState
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              CircleAvatar(
-                radius: getSize(context) / 13,
-                backgroundColor: AppColors.orange,
-                child: Text(
-                  widget.item.productName,
-                  maxLines: 1,
-                  style: TextStyle(
-                    color: AppColors.white,
-                  ),
-                ),
+              CustomDecodedImageWithText(
+                character: widget.item.productName.toString().length >= 2
+                    ? widget.item.productName
+                        .toString()
+                        .removeAllWhitespace
+                        .substring(0, 2)
+                        .toString()
+                    : widget.item.productName.toString().removeAllWhitespace,
+                base64String: false,
+                context: context,
+                width: getSize(context) / 8,
+                height: getSize(context) / 8,
               ),
+              // CircleAvatar(
+              //   radius: getSize(context) / 13,
+              //   backgroundColor: AppColors.orange,
+              //   child: Text(
+              //     widget.item.productName,
+              //     maxLines: 1,
+              //     style: TextStyle(
+              //       color: AppColors.white,
+              //     ),
+              //   ),
+              // ),
               Flexible(
                 fit: FlexFit.tight,
                 child: Padding(

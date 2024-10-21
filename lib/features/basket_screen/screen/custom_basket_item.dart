@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_utils/src/extensions/string_extensions.dart';
 
 import '../../../core/models/all_products_model.dart';
 import '../../../core/utils/app_colors.dart';
@@ -11,6 +12,7 @@ import '../../../core/utils/assets_manager.dart';
 import '../../../core/utils/dialogs.dart';
 import '../../../core/utils/get_size.dart';
 import '../../../core/widgets/decode_image.dart';
+import '../../../core/widgets/decode_image_with_text.dart';
 import '../../details_order/screens/widgets/custom_order_details_item.dart';
 import '../../details_order/screens/widgets/rounded_button.dart';
 import '../../direct_sell/cubit/direct_sell_cubit.dart';
@@ -45,7 +47,12 @@ class _CustomBasketItemState extends State<CustomBasketItem> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomDecodedImage(
+              CustomDecodedImageWithText(
+                character: widget.item.name!.length >= 2
+                    ? widget.item.name!.removeAllWhitespace
+                        .substring(0, 2)
+                        .toString()
+                    : widget.item.name!.removeAllWhitespace,
                 base64String: widget.item.image1920,
                 context: context,
                 width: getSize(context) / 8,

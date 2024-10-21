@@ -95,6 +95,9 @@ class LoginCubit extends Cubit<LoginState> {
         }
         Navigator.pop(context);
         Preferences.instance.setUserId(r.result!.userContext!.uid.toString());
+        Preferences.instance.setUserModel(r);
+        print("wwwwwwwwwwwwww ${r.result!.propertyWarehouseId}");
+
         if (isEmployeeType) {
           isEmplyee = true;
           Navigator.pushNamed(context, Routes.loginRoute);

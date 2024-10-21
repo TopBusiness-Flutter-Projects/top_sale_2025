@@ -15,8 +15,8 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
   @override
   State<HomeScreen> createState() => _HomeScreenState();
-
 }
+
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
@@ -58,8 +58,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         image: ImageAssets.directSale),
                     CardHome(
                         onPressed: () {
-                        //  Navigator.pushNamed(context, Routes.contactUsRoute);
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>Container(color: Colors.white,)));
+                          //  Navigator.pushNamed(context, Routes.contactUsRoute);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Container(
+                                        color: Colors.white,
+                                      )));
                         },
                         text: "serali_line".tr(),
                         image: ImageAssets.line),
@@ -74,7 +79,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         text: "receipt_voucher".tr(),
                         image: ImageAssets.receiptVoucherIcon,
                         onPressed: () {
-                          Navigator.pushNamed(context, Routes.receiptVoucherRoute,
+                          Navigator.pushNamed(
+                              context, Routes.receiptVoucherRoute,
                               arguments: false);
                         }),
                   ],
