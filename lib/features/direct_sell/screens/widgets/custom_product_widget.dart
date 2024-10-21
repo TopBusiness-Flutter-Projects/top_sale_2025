@@ -133,7 +133,7 @@ class CustomProductWidget extends StatelessWidget {
                                   style: getBoldStyle(
                                       color: AppColors.primary,
                                       fontHeight: 1.3)),
-//SizedBox(width: 8.w),
+
                               GestureDetector(
                                 onTap: () {
                                   cubit.addAndRemoveToBasket(
@@ -162,8 +162,8 @@ class CustomProductWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(getSize(context) / 44),
                   color: AppColors.orange,
                 ),
-                child: Text(
-                  product.stockQuantity.toString(),
+                child:Text(
+                  product.stockQuantity.toInt().toString(),
                   style: TextStyle(
                     color: AppColors.white,
                   ),

@@ -20,7 +20,8 @@ import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_strings.dart';
 
 class DetailsOrder extends StatefulWidget {
-  DetailsOrder({super.key, required this.orderModel,required this.isClientOrder});
+  DetailsOrder(
+      {super.key, required this.orderModel, required this.isClientOrder});
   bool isDelivered = false;
   bool isClientOrder;
   final OrderModel orderModel;
@@ -55,8 +56,7 @@ class _DetailsOrderState extends State<DetailsOrder> {
   @override
   Widget build(BuildContext context) {
     var cubit = context.read<DetailsOrdersCubit>();
-    return
-      Scaffold(
+    return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         actions: [
@@ -165,35 +165,42 @@ class _DetailsOrderState extends State<DetailsOrder> {
                               ),
                               Flexible(
                                 fit: FlexFit.tight,
-                                child: ListView.builder(
-                                    shrinkWrap: true,
-                                    physics: const ClampingScrollPhysics(),
-                                    itemCount: cubit.getDetailsOrdersModel
-                                        ?.orderLines!.length,
-                                    itemBuilder: (context, index) {
-                                      return ProductCard(
-                                        order: widget.orderModel,
-                                        title: cubit.getDetailsOrdersModel
-                                            ?.orderLines?[index].productName,
-                                        price: cubit
-                                                .getDetailsOrdersModel
-                                                ?.orderLines?[index]
-                                                .priceSubtotal
-                                                .toString() ??
-                                            '',
-                                        text: cubit
-                                                .getDetailsOrdersModel
-                                                ?.orderLines?[index]
-                                                .productName ??
-                                            '',
-                                        number: cubit
-                                                .getDetailsOrdersModel
-                                                ?.orderLines?[index]
-                                                .productUomQty
-                                                .toString() ??
-                                            '',
-                                      );
-                                    }),
+                                child: RefreshIndicator(
+                                  onRefresh: () async {
+                                    await cubit.getDetailsOrders(
+
+                                        orderId: widget.orderModel.id ?? -1);
+                                  },
+                                  child: ListView.builder(
+                                      shrinkWrap: true,
+                                      physics: const AlwaysScrollableScrollPhysics(),
+                                      itemCount: cubit.getDetailsOrdersModel
+                                          ?.orderLines!.length,
+                                      itemBuilder: (context, index) {
+                                        return ProductCard(
+                                          order: widget.orderModel,
+                                          title: cubit.getDetailsOrdersModel
+                                              ?.orderLines?[index].productName,
+                                          price: cubit
+                                                  .getDetailsOrdersModel
+                                                  ?.orderLines?[index]
+                                                  .priceSubtotal
+                                                  .toString() ??
+                                              '',
+                                          text: cubit
+                                                  .getDetailsOrdersModel
+                                                  ?.orderLines?[index]
+                                                  .productName ??
+                                              '',
+                                          number: cubit
+                                                  .getDetailsOrdersModel
+                                                  ?.orderLines?[index]
+                                                  .productUomQty
+                                                  .toString() ??
+                                              '',
+                                        );
+                                      }),
+                                ),
                               ),
 
                               CustomTotalPrice(
@@ -212,27 +219,32 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                       widget.orderModel.deliveryStatus == 'full'
                                   ? Row(
                                       children: [
-                                        widget.isClientOrder==true?Expanded(child: SizedBox(),): Expanded(
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: RoundedButton(
-                                              text: 'Create_an_invoice'.tr(),
-                                              onPressed: () {
-                                                setState(() {
-                                                  cubit
-                                                      .createAndValidateInvoice(
-                                                          context,
-                                                          orderId: widget
-                                                                  .orderModel
-                                                                  .id ??
-                                                              -1);
-                                                });
-                                              },
-                                              backgroundColor: AppColors.blue,
-                                            ),
-                                          ),
-                                        ),
-
+                                        widget.isClientOrder == true
+                                            ? Expanded(
+                                                child: SizedBox(),
+                                              )
+                                            : Expanded(
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(
+                                                      10.0),
+                                                  child: RoundedButton(
+                                                    text: 'Create_an_invoice'
+                                                        .tr(),
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        cubit.createAndValidateInvoice(
+                                                            context,
+                                                            orderId: widget
+                                                                    .orderModel
+                                                                    .id ??
+                                                                -1);
+                                                      });
+                                                    },
+                                                    backgroundColor:
+                                                        AppColors.blue,
+                                                  ),
+                                                ),
+                                              ),
                                         Expanded(
                                           child: Padding(
                                             padding: const EdgeInsets.all(10.0),
@@ -298,33 +310,38 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                               'pending'
                                       ? Row(
                                           children: [
-                                            widget.isClientOrder==true?Expanded(child: SizedBox()) :Expanded(
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(10.0),
-                                                child: RoundedButton(
-                                                  text: 'delivery_confirmation'
-                                                      .tr(),
-                                                  onPressed: () {
-                                                    setState(() {
-                                                      cubit.confirmDelivery(
-                                                          context,
-                                                          orderId: widget
-                                                                  .orderModel
-                                                                  .id ??
-                                                              -1,
-                                                          pickingId: cubit
-                                                                  .getDetailsOrdersModel
-                                                                  ?.pickings?[0]
-                                                                  .pickingId ??
-                                                              -1);
-                                                    });
-                                                  },
-                                                  backgroundColor:
-                                                      AppColors.blue,
-                                                ),
-                                              ),
-                                            ),
+                                            widget.isClientOrder == true
+                                                ? Expanded(child: SizedBox())
+                                                : Expanded(
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              10.0),
+                                                      child: RoundedButton(
+                                                        text:
+                                                            'delivery_confirmation'
+                                                                .tr(),
+                                                        onPressed: () {
+                                                          setState(() {
+                                                            cubit.confirmDelivery(
+                                                                context,
+                                                                orderId: widget
+                                                                        .orderModel
+                                                                        .id ??
+                                                                    -1,
+                                                                pickingId: cubit
+                                                                        .getDetailsOrdersModel
+                                                                        ?.pickings?[
+                                                                            0]
+                                                                        .pickingId ??
+                                                                    -1);
+                                                          });
+                                                        },
+                                                        backgroundColor:
+                                                            AppColors.blue,
+                                                      ),
+                                                    ),
+                                                  ),
                                             Expanded(
                                               child: Padding(
                                                 padding:
@@ -404,30 +421,36 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                                             .getDetailsOrdersModel!
                                                             .payments!
                                                             .isEmpty)
-                                                    ?     widget.isClientOrder==true?
-                                                Expanded(child: SizedBox()): Expanded(
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(10.0),
-                                                          child: RoundedButton(
-                                                            text:
-                                                                'payment'.tr(),
-                                                            onPressed: () {
-                                                              setState(() {
-                                                                Navigator.pushNamed(
-                                                                    context,
-                                                                    Routes
-                                                                        .paymentRoute);
-                                                                // cubit.createAndValidateInvoice(
-                                                                //     orderId: widget.orderModel.id ?? -1);
-                                                              });
-                                                            },
-                                                            backgroundColor:
-                                                                AppColors.blue,
-                                                          ),
-                                                        ),
-                                                      )
+                                                    ? widget.isClientOrder ==
+                                                            true
+                                                        ? Expanded(
+                                                            child: SizedBox())
+                                                        : Expanded(
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(
+                                                                      10.0),
+                                                              child:
+                                                                  RoundedButton(
+                                                                text: 'payment'
+                                                                    .tr(),
+                                                                onPressed: () {
+                                                                  setState(() {
+                                                                    Navigator.pushNamed(
+                                                                        context,
+                                                                        Routes
+                                                                            .paymentRoute);
+                                                                    // cubit.createAndValidateInvoice(
+                                                                    //     orderId: widget.orderModel.id ?? -1);
+                                                                  });
+                                                                },
+                                                                backgroundColor:
+                                                                    AppColors
+                                                                        .blue,
+                                                              ),
+                                                            ),
+                                                          )
                                                     : Expanded(
                                                         child: Padding(
                                                           padding:
@@ -441,15 +464,18 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                                                           .blue),
                                                             ),
                                                             child: Row(
-                                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
                                                               children: [
                                                                 Center(
                                                                   child: Icon(
                                                                     Icons.print,
-                                                                    color:
-                                                                        AppColors
-                                                                            .white,
+                                                                    color: AppColors
+                                                                        .white,
                                                                   ),
                                                                 ),
                                                                 SizedBox(
@@ -459,14 +485,15 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                                                   child: AutoSizeText(
                                                                       'receipt_voucher'
                                                                           .tr(),
-                                                                      textAlign:TextAlign.center,
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
                                                                       style:
                                                                           TextStyle(
                                                                         color: AppColors
                                                                             .white,
                                                                         fontWeight:
-                                                                            FontWeight
-                                                                                .bold,
+                                                                            FontWeight.bold,
                                                                         fontSize:
                                                                             20.sp,
                                                                       )),

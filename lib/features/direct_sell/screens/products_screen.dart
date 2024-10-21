@@ -49,7 +49,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
 
   _scrollListener() {
     if (scrollController.position.maxScrollExtent == scrollController.offset) {
-      print('dddddddddbottom');
       //! pagination
       if (context.read<DirectSellCubit>().allProductsModel.result!.page !=
           null) {
