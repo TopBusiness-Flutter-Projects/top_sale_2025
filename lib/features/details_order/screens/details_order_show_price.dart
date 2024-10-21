@@ -40,7 +40,7 @@ class _DetailsOrderShowPriceState extends State<DetailsOrderShowPrice> {
         var cubit = context.read<DetailsOrdersCubit>();
 
         return Scaffold(
-          backgroundColor:widget.isClientOrder==true? AppColors.orange:AppColors.white,
+         backgroundColor:AppColors.white,
 
           appBar: AppBar(
             actions: [
