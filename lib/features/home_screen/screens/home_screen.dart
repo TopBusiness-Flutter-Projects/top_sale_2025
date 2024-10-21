@@ -82,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.pushNamed(
                               context, Routes.receiptVoucherRoute,
                               arguments: false);
-                          context.read<HomeCubit>().getAllReceiptVoucher();
+                         
                         }),
                   ],
                 ),

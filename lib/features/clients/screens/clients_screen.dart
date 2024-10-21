@@ -104,7 +104,7 @@ class _ClientScreenState extends State<ClientScreen> {
                   CustomTextField(
                     controller: cubit.searchController,
                     onChanged: cubit.onChangeSearch,
-                    labelText: "search_product".tr(),
+                    labelText: "search_client".tr(),
                     prefixIcon: Icon(
                       Icons.search_rounded,
                       size: 35,

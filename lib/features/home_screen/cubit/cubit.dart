@@ -110,16 +110,5 @@ emit(checkLoaded());
     });
     emit(checkClearLoaded());
   }
-    AllPaymentsModel allPaymentsModel = AllPaymentsModel();
-  getAllReceiptVoucher() async {
-    emit(ProfileClientLoading());
-    final result = await api.getAllPayments();
-    result.fold(
-      (failure) => emit(ProfileClientError()),
-      (r) {
-        allPaymentsModel = r;
-        emit(ProfileClientLoaded());
-      },
-    );
-  }
+
 }

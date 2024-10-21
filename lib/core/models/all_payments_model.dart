@@ -33,14 +33,14 @@ class AllPaymentsModel {
 }
 
 class Result {
-    List<Payment>? payments;
+    List<PaymentModel>? payments;
 
     Result({
         this.payments,
     });
 
     factory Result.fromJson(Map<String, dynamic> json) => Result(
-        payments: json["payments"] == null ? [] : List<Payment>.from(json["payments"]!.map((x) => Payment.fromJson(x))),
+        payments: json["payments"] == null ? [] : List<PaymentModel>.from(json["payments"]!.map((x) => PaymentModel.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
@@ -48,7 +48,7 @@ class Result {
     };
 }
 
-class Payment {
+class PaymentModel {
     int? paymentId;
     String? name;
     dynamic paymentDate;
@@ -59,7 +59,7 @@ class Payment {
     dynamic partnerName;
     dynamic journalName;
 
-    Payment({
+    PaymentModel({
         this.paymentId,
         this.name,
         this.paymentDate,
@@ -71,7 +71,7 @@ class Payment {
         this.journalName,
     });
 
-    factory Payment.fromJson(Map<String, dynamic> json) => Payment(
+    factory PaymentModel.fromJson(Map<String, dynamic> json) => PaymentModel(
         paymentId: json["payment_id"],
         name: json["name"],
         paymentDate: json["payment_date"] ,
