@@ -39,7 +39,6 @@ class _ReceiptVoucherScreenState extends State<ReceiptVoucherScreen> {
         context.read<CreateReceiptCoucherCubit>().getAllReceiptVoucher();
       }
     }
-
     super.initState();
   }
 
