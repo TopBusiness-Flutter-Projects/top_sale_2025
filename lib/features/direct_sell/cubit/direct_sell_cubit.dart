@@ -64,17 +64,14 @@ class DirectSellCubit extends Cubit<DirectSellState> {
       } else {
         if (isGetMore) {
           allProductsModel = AllProductsModel(
-           
             result: ProductsResult(
-              products: [...allProductsModel.result!.products!, ...right.result!.products!],
-            ) ,
+              products: [
+                ...allProductsModel.result!.products!,
+                ...right.result!.products!
+              ],
+            ),
           );
-          // allProductsModel = AllProductsModel(
-          //   count: right.count,
-          //   next: right.next,
-          //   prev: right.prev,
-          //   result: [...allProductsModel.result!, ...right.result!],
-          // );
+
           updateUserOrderedQuantities(allProductsModel);
         } else {
           allProductsModel = right;
@@ -96,45 +93,155 @@ class DirectSellCubit extends Cubit<DirectSellState> {
     return total;
   }
 
-  addAndRemoveToBasket(
-      {required bool isAdd, required ProductModelData product}) {
+  void addAndRemoveToBasket({
+    required bool isAdd,
+    required ProductModelData product,
+  }) {
     emit(LoadingTheQuantityCount());
+    print('Current userOrderedQuantity: ${product.userOrderedQuantity}');
+
     if (isAdd) {
+      // **Add Product to Basket**
       bool existsInBasket = basket.any((item) => item.id == product.id);
+
       if (!existsInBasket) {
         if (product.userOrderedQuantity < product.stockQuantity) {
           product.userOrderedQuantity++;
           basket.add(product);
+          emit(IncreaseTheQuantityCount());
+          print(
+              'Product added to basket: ${product.id}, Quantity: ${product.userOrderedQuantity}');
+        } else {
+          print(
+              'Cannot add more. Stock limit reached for product: ${product.id}');
         }
-
-        emit(IncreaseTheQuantityCount());
       } else {
         final existingProduct =
             basket.firstWhere((item) => item.id == product.id);
-        if (product.userOrderedQuantity < product.stockQuantity) {
+
+        if (existingProduct.userOrderedQuantity <
+            existingProduct.stockQuantity) {
           existingProduct.userOrderedQuantity++;
+          emit(IncreaseTheQuantityCount());
+          debugPrint(
+              'Updated quantity for product ${existingProduct.id}: ${existingProduct.userOrderedQuantity}');
+        } else {
+          print(
+              'Cannot add more. Stock limit reached for product: ${existingProduct.id}');
         }
-        emit(IncreaseTheQuantityCount());
-        debugPrint('::::||:::: ${existingProduct.userOrderedQuantity}');
       }
     } else {
-      if (product.userOrderedQuantity == 0) {
-        basket.removeWhere((item) => item.id == product.id);
-        emit(DecreaseTheQuantityCount());
-      } else {
+      // **Remove Product from Basket**
+      print(
+          "Removing product. Current userOrderedQuantity: ${product.userOrderedQuantity}");
+
+      if (product.userOrderedQuantity > 0) {
         product.userOrderedQuantity--;
         emit(DecreaseTheQuantityCount());
+        print(
+            'Product quantity decreased: ${product.id}, New Quantity: ${product.userOrderedQuantity}');
+
+        if (product.userOrderedQuantity == 0) {
+          basket.removeWhere((item) => item.id == product.id);
+          debugPrint('Product removed from basket: ${product.id}');
+        }
+      } else {
+        print(
+            'Cannot remove. Product quantity is already zero for product: ${product.id}');
       }
     }
+
+    // **Update Quantities Across All Relevant Models**
+    updateUserOrderedQuantities(homeProductsModel);
+    updateUserOrderedQuantities(allProductsModel);
+
+    updateUserOrderedQuantities(searchedProductsModel);
+
     emit(OnChangeCountOfProducts());
-    // updateUserOrderedQuantities(allProductsModel);
-    // updateUserOrderedQuantities(homeProductsModel);
     totalBasket();
   }
 
+  // addAndRemoveToBasket(
+  //     {required bool isAdd, required ProductModelData product}) {
+  //   emit(LoadingTheQuantityCount());
+  //   if (isAdd) {
+  //     bool existsInBasket = basket.any((item) => item.id == product.id);
+  //     if (!existsInBasket) {
+  //       if (product.userOrderedQuantity < product.stockQuantity) {
+  //         product.userOrderedQuantity++;
+  //         basket.add(product);
+  //       }
+
+  //       emit(IncreaseTheQuantityCount());
+  //     } else {
+  //       final existingProduct =
+  //           basket.firstWhere((item) => item.id == product.id);
+  //       if (product.userOrderedQuantity < product.stockQuantity) {
+  //         existingProduct.userOrderedQuantity++;
+  //       }
+  //       emit(IncreaseTheQuantityCount());
+  //       debugPrint('::::||:::: ${existingProduct.userOrderedQuantity}');
+  //     }
+  //   } else {
+  //     if (product.userOrderedQuantity == 0) {
+  //       basket.removeWhere((item) => item.id == product.id);
+  //       emit(DecreaseTheQuantityCount());
+  //     } else {
+  //       product.userOrderedQuantity--;
+  //       emit(DecreaseTheQuantityCount());
+  //     }
+  //   }
+  //   emit(OnChangeCountOfProducts());
+  //   // updateUserOrderedQuantities(allProductsModel);
+  //   // updateUserOrderedQuantities(homeProductsModel);
+  //   totalBasket();
+  // }
+  // addAndRemoveToBasket(
+  //     {required bool isAdd, required ProductModelData product}) {
+  //   emit(LoadingTheQuantityCount());
+  //   print(product.userOrderedQuantity);
+  //   if (isAdd) {
+  //     bool existsInBasket = basket.any((item) => item.id == product.id);
+  //     if (!existsInBasket) {
+  //       if (product.userOrderedQuantity < product.stockQuantity) {
+  //         product.userOrderedQuantity++;
+  //         basket.add(product);
+  //         emit(IncreaseTheQuantityCount());
+  //       }
+  //     } else {
+  //       final existingProduct =
+  //           basket.firstWhere((item) => item.id == product.id);
+  //       if (existingProduct.userOrderedQuantity <
+  //           existingProduct.stockQuantity) {
+  //         existingProduct.userOrderedQuantity++;
+  //         emit(IncreaseTheQuantityCount());
+  //         debugPrint('::::||:::: ${existingProduct.userOrderedQuantity}');
+  //       }
+  //     }
+  //   } else {
+  //     if (product.userOrderedQuantity > 0) {
+  //       product.userOrderedQuantity--;
+  //       emit(DecreaseTheQuantityCount());
+  //       if (product.userOrderedQuantity == 0) {
+  //         basket.removeWhere((item) => item.id == product.id);
+  //         debugPrint('Product removed from basket: ${product.id}');
+  //       }
+  //     }
+  //   }
+  //   updateUserOrderedQuantities(homeProductsModel);
+  //   updateUserOrderedQuantities(allProductsModel);
+  //   // if (searchedProductsModel != null) {
+  //   //   updateUserOrderedQuantities(searchedProductsModel!);
+  //   // }
+
+  //   emit(OnChangeCountOfProducts());
+  //   // updateUserOrderedQuantities(allProductsModel);
+  //   // updateUserOrderedQuantities(homeProductsModel);
+  //   totalBasket();
+  // }
+
   Future<void> getAllProductsByCatogrey({required int? id}) async {
     print("sucess change 3");
-
     emit(LoadingProductByCatogrey());
     final response = await api.getAllProductsByCategory(1, categoryId: id!);
     //
@@ -145,11 +252,14 @@ class DirectSellCubit extends Cubit<DirectSellState> {
       // for (var element in allProductsModel.result!) {}
       updateUserOrderedQuantities(allProductsModel);
       updateUserOrderedQuantities(homeProductsModel);
+      // updateUserOrderedQuantities(s);
+
+      updateUserOrderedQuantities(searchedProductsModel);
+
       emit(LoadedProductByCatogrey(allProductmodel: allProductsModel));
     });
   }
 
-  //!
   //! Method to update userOrderedQuantity based on items in the basket
   void updateUserOrderedQuantities(AllProductsModel allProductsModes) {
     for (var basketItem in basket) {
@@ -194,7 +304,7 @@ class DirectSellCubit extends Cubit<DirectSellState> {
   }
 
   TextEditingController searchController = TextEditingController();
-  AllProductsModel? searchedProductsModel;
+  AllProductsModel searchedProductsModel = AllProductsModel();
 
   // Search products by name
   searchProducts(
@@ -204,7 +314,7 @@ class DirectSellCubit extends Cubit<DirectSellState> {
     response.fold((l) => emit(ErrorProduct()), (r) {
       searchedProductsModel = r;
       // final updatedResults = _updateUserOrderedQuantity(r.result!);
-      updateUserOrderedQuantities(searchedProductsModel!);
+      updateUserOrderedQuantities(searchedProductsModel);
       // searchedproductsModel = AllProductsModel(
       //   count: r.count,
       //   next: r.next,

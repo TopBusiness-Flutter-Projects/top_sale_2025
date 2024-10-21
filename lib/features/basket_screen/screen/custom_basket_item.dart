@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_utils/src/extensions/string_extensions.dart';
+import 'package:top_sale/features/home_screen/cubit/cubit.dart';
 
 import '../../../core/models/all_products_model.dart';
 import '../../../core/utils/app_colors.dart';
@@ -222,7 +223,7 @@ class _CustomBasketItemState extends State<CustomBasketItem> {
                                           getSize(context) / 22),
                                     ),
                                     child: Text(
-                                      '${calculateDiscountedPrice(widget.item.discount, widget.item.listPrice, widget.item.userOrderedQuantity)} ',
+                                      '${calculateDiscountedPrice(widget.item.discount, widget.item.listPrice, widget.item.userOrderedQuantity)} ${context.read<HomeCubit>().currencyName}',
                                       // '${calculateDiscountedPrice(widget.item.discount, widget.item.listPrice, widget.item.userOrderedQuantity)} ${widget.item.currencyId?.name ?? ''}',
                                       style: TextStyle(
                                         color: AppColors.orangeThirdPrimary,

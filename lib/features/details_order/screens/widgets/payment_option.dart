@@ -23,7 +23,12 @@ class _PaymentOptionsState extends State<PaymentOptions> {
 
   @override
   void initState() {
-    context.read<DetailsOrdersCubit>().moneyController.text= context.read<DetailsOrdersCubit>().getDetailsOrdersModel?.amountTotal.toString()??"";
+    context.read<DetailsOrdersCubit>().moneyController.text = context
+            .read<DetailsOrdersCubit>()
+            .getDetailsOrdersModel
+            ?.amountTotal
+            .toString() ??
+        "";
     context.read<DetailsOrdersCubit>().getAllJournals();
     super.initState();
   }
@@ -52,7 +57,7 @@ class _PaymentOptionsState extends State<PaymentOptions> {
               return RadioListTile<String>(
                 title: Text(method.displayName!,
                     style: getBoldStyle()), // Display payment method name
-                value: method.displayName!,
+                value: method.id!.toString(),
                 groupValue: selectedOption,
                 onChanged: (value) {
                   setState(() {
@@ -112,8 +117,7 @@ void _showBottomSheet(
                     cubit.registerPayment(
                       context,
                       orderId: cubit.getDetailsOrdersModel?.id ?? -1,
-                      journalId:
-                          cubit.getAllJournalsModel?.result?.first.id ?? -1,
+                      journalId: int.parse(value!),
                       invoiceId: cubit.getDetailsOrdersModel?.invoices?.first
                               .invoiceId ??
                           -1,

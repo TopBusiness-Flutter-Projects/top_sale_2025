@@ -11,29 +11,30 @@ import '../../profile/cubit/profile_cubit.dart';
 import 'state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
-  HomeCubit(this.api) : super(MainInitial()){
+  HomeCubit(this.api) : super(MainInitial()) {
     checkEmployeeOrUser();
-  }  ServiceApi api;
-  String?nameOfUser;
-  String?phoneOfUser;
+    getCurrencyName();
+  }
+  ServiceApi api;
+  String? nameOfUser;
+  String? phoneOfUser;
   String? imageOfUser;
   String? emailOfUser;
-  GetUserDataModel ?getUserDataModel;
+  GetUserDataModel? getUserDataModel;
   //get  userdata
   void getUserData() async {
     emit(ProfileUserLoading());
     final result = await api.getUserData();
     result.fold(
-          (failure) =>
+      (failure) =>
           emit(ProfileUserLoaded(error: 'Error loading data: $failure')),
-          (r) {
+      (r) {
         getUserDataModel = r;
         nameOfUser = r.name;
-        if(r.phone=='false'){
+        if (r.phone == 'false') {
           phoneOfUser = "";
           debugPrint("phone false of user");
-
-        }else{
+        } else {
           phoneOfUser = r.phone;
         }
         imageOfUser = r.image1920;
@@ -42,23 +43,23 @@ class HomeCubit extends Cubit<HomeState> {
       },
     );
   }
+
 //get empolyee data
-  GetEmployeeDataModel?getEmployeeDataModel;
+  GetEmployeeDataModel? getEmployeeDataModel;
   void getEmployeeData() async {
     emit(ProfileEmployeeLoading());
     final result = await api.getEmployeeData();
     result.fold(
-          (failure) =>
+      (failure) =>
           emit(ProfileEmployeeError(error: 'Error loading data: $failure')),
-          (r) {
+      (r) {
         getEmployeeDataModel = r;
         nameOfUser = r.name;
-        if(r.workPhone.toString()=='false'){
+        if (r.workPhone.toString() == 'false') {
           debugPrint("phone false of employee");
           phoneOfUser = "";
-        }else{
+        } else {
           phoneOfUser = r.workPhone.toString();
-
         }
         imageOfUser = r.image1920;
         emailOfUser = r.workEmail;
@@ -68,47 +69,52 @@ class HomeCubit extends Cubit<HomeState> {
       },
     );
   }
-  void checkEmployeeOrUser(){
-    Preferences.instance.getEmployeeId().then((value){
+
+  void checkEmployeeOrUser() {
+    Preferences.instance.getEmployeeId().then((value) {
       debugPrint('${value.toString()}');
-      if(value==null){
+      if (value == null) {
         getUserData();
         debugPrint("user");
         // name= getUserDataModel?.name.toString()??"";
-      }
-      else{
+      } else {
         debugPrint("employee");
         getEmployeeData();
         // name= getEmployeeDataModel?.name.toString()??"";
       }
       emit(checkLoaded());
-
     });
-emit(checkLoaded());
+    emit(checkLoaded());
   }
-  void checkClearUserOrEmplyee(BuildContext context){
-    Preferences.instance.getEmployeeId().then((value){
+
+  void checkClearUserOrEmplyee(BuildContext context) {
+    Preferences.instance.getEmployeeId().then((value) {
       debugPrint('${value.toString()}');
-      if(value==null){
-   //     getUserData();
+      if (value == null) {
+        //     getUserData();
         Preferences.instance.removeUserName();
         Preferences.instance.removeEmployeeId();
         debugPrint("user");
         Navigator.pushNamed(context, Routes.loginRoute);
         // name= getUserDataModel?.name.toString()??"";
-      }
-      else{
+      } else {
         Preferences.instance.removeUserName();
         Preferences.instance.removeEmployeeId();
         debugPrint("employee");
-       // getEmployeeData();
+        // getEmployeeData();
         Navigator.pushNamed(context, Routes.loginRoute);
         // name= getEmployeeDataModel?.name.toString()??"";
       }
       emit(checkClearLoaded());
-
     });
     emit(checkClearLoaded());
   }
 
+  String currencyName = '';
+
+  getCurrencyName() {
+    Preferences.instance.getUserModel().then((value) {
+      currencyName = value.result!.defaultCurrency!.name ?? "";
+    });
+  }
 }

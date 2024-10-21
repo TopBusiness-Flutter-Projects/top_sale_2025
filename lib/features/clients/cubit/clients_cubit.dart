@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:location/location.dart' as loc;
 import 'package:permission_handler/permission_handler.dart' as perm;
+import 'package:top_sale/core/utils/appwidget.dart';
 import 'package:top_sale/features/clients/cubit/clients_state.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../core/models/all_partners_for_reports_model.dart';
@@ -128,16 +129,22 @@ class ClientsCubit extends Cubit<ClientsState> {
 //create client
   CreateOrderModel? createOrderModel;
   void createClient(BuildContext context) async {
+    AppWidget.createProgressDialog(context, "جاري التحميل");
     emit(CreateClientLoading());
     final result = await api.createPartner(
         name: clientNameController.text ?? "",
         mobile: phoneController.text ?? "",
         street: addressController.text ?? "",
+        email: emailController.text ?? "",
         lat: double.parse(currentLocation?.latitude.toString() ?? ""),
         long: double.parse(currentLocation?.longitude.toString() ?? ""));
     result.fold((l) {
+      Navigator.pop(context);
+      errorGetBar("حدث خطأ ما");
+
       emit(CreateClientError());
     }, (r) {
+      Navigator.pop(context);
       if (r.result != null) {
         if (r.result!.message != null) {
           // successGetBar(r.result!.message);
@@ -147,12 +154,13 @@ class ClientsCubit extends Cubit<ClientsState> {
           clientNameController.clear();
           phoneController.clear();
           addressController.clear();
+          emailController.clear();
           emit(CreateClientLoaded());
           Navigator.pop(context);
         } else {
           emit(CreateClientError());
 
-          errorGetBar("error");
+          errorGetBar("حدث خطأ ما");
         }
       }
     }

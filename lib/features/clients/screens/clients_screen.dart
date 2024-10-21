@@ -185,76 +185,82 @@ class _ClientScreenState extends State<ClientScreen> {
       ),
       builder: (context) {
         return BlocBuilder<ClientsCubit, ClientsState>(
-            builder: (context, state) {
-          return Padding(
-            padding: EdgeInsets.all(getSize(context) / 20),
-            child: SingleChildScrollView(
-              child: Form(
-                key: cubit.formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    CustomTextFieldWithTitle(
-                      title: "name".tr(),
-                      controller: cubit.clientNameController,
-                      hint: "enter_name".tr(),
-                      keyboardType: TextInputType.text,
-                    ),
-                    SizedBox(
-                      height: getSize(context) / 30,
-                    ),
-                    CustomTextFieldWithTitle(
-                      title: "phone".tr(),
-                      controller: cubit.phoneController,
-                      hint: "enter_phone".tr(),
-                      keyboardType: TextInputType.phone,
-                    ),
-                    SizedBox(
-                      height: getSize(context) / 30,
-                    ),
-                    CustomTextFieldWithTitle(
-                      title: "email".tr(),
-                      controller: cubit.emailController,
-                      hint: "enter_email".tr(),
-                      keyboardType: TextInputType.emailAddress,
-                    ),
-                    SizedBox(
-                      height: getSize(context) / 30,
-                    ),
-                    CustomTextFieldWithTitle(
-                      title: "address".tr(),
-                      controller: cubit.addressController,
-                      hint: "enter_address".tr(),
-                      keyboardType: TextInputType.text,
-                    ),
-                    SizedBox(
-                      height: getSize(context) / 30,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: getSize(context) / 20,
-                          right: getSize(context) / 20),
-                      child: RoundedButton(
+          builder: (context, state) {
+            return Padding(
+              // Adjust bottom padding to avoid keyboard overlap
+              padding: EdgeInsets.only(
+                left: getSize(context) / 20,
+                right: getSize(context) / 20,
+                top: getSize(context) / 20,
+                bottom: MediaQuery.of(context).viewInsets.bottom +
+                    getSize(context) / 20,
+              ),
+              child: SingleChildScrollView(
+                child: Form(
+                  key: cubit.formKey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      CustomTextFieldWithTitle(
+                        title: "name".tr(),
+                        controller: cubit.clientNameController,
+                        hint: "enter_name".tr(),
+                        keyboardType: TextInputType.text,
+                      ),
+                      SizedBox(
+                        height: getSize(context) / 30,
+                      ),
+                      CustomTextFieldWithTitle(
+                        title: "phone".tr(),
+                        controller: cubit.phoneController,
+                        hint: "enter_phone".tr(),
+                        keyboardType: TextInputType.phone,
+                      ),
+                      SizedBox(
+                        height: getSize(context) / 30,
+                      ),
+                      CustomTextFieldWithTitle(
+                        title: "email".tr(),
+                        controller: cubit.emailController,
+                        hint: "enter_email".tr(),
+                        keyboardType: TextInputType.emailAddress,
+                      ),
+                      SizedBox(
+                        height: getSize(context) / 30,
+                      ),
+                      CustomTextFieldWithTitle(
+                        title: "address".tr(),
+                        controller: cubit.addressController,
+                        hint: "enter_address".tr(),
+                        keyboardType: TextInputType.text,
+                      ),
+                      SizedBox(
+                        height: getSize(context) / 30,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: getSize(context) / 20,
+                            right: getSize(context) / 20),
+                        child: RoundedButton(
                           backgroundColor: AppColors.primaryColor,
                           text: 'confirm'.tr(),
                           onPressed: () {
-                            // if (cubit.formKey.currentState!.validate()) {
-                            // // إذا كان التحقق ناجحًا، قم باستدعاء الميثود لإنشاء العميل
-                            // cubit.createClient(context);
-                            // } else {
-                            // // إذا فشل التحقق، يمكنك إضافة معالجة للأخطاء هنا
-                            // print("Validation failed");
-                            // }
-                            // },
-                            cubit.createClient(context);
-                          }),
-                    )
-                  ],
+                            if (cubit.formKey.currentState!.validate()) {
+                              cubit.createClient(context);
+                            } else {
+                              // Handle validation failure
+                              print("Validation failed");
+                            }
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          );
-        });
+            );
+          },
+        );
       },
     );
   }

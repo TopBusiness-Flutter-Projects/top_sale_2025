@@ -1,4 +1,3 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,15 +13,11 @@ import '../../../../details_order/screens/pdf.dart';
 import '../../../cubit/clients_cubit.dart';
 import 'custom_info_row.dart';
 
-
 class CustomBillContainer extends StatelessWidget {
-   CustomBillContainer({
-    super.key,
-    required this.isCurrent,
-    this.invoice
-    // required this.orderModel,
-  });
-   Invoice? invoice;
+  CustomBillContainer({super.key, required this.isCurrent, this.invoice
+      // required this.orderModel,
+      });
+  Invoice? invoice;
   final bool isCurrent;
   //final TheOrder orderModel;
 
@@ -59,7 +54,7 @@ class CustomBillContainer extends StatelessWidget {
                                 text: "bill_number".tr()),
                           ),
                           Text(
-                            invoice?.name?.toString()??"",
+                            invoice?.name?.toString() ?? "",
                             style: getMediumStyle(
                               color: AppColors.primary,
                             ),
@@ -73,42 +68,46 @@ class CustomBillContainer extends StatelessWidget {
                         children: [
                           Flexible(
                             child: CustomInfoRow(
-                                path:ImageAssets.calenderIcon,
-                               text:DateFormat.yMMMd().format(DateTime.parse(invoice?.invoiceDate)).toString()??""
-                               //  text:salesOrders?.dateOrder.toString()??""
-                            ),
+                                path: ImageAssets.calenderIcon,
+                                text: invoice?.invoiceDate.substring(0, 10)
+                                //  DateFormat.yMMMd("en")
+                                //         .format(DateTime.parse(
+                                //             invoice?.invoiceDate))
+                                //         .toString() ??
+                                //     ""
+                                //  text:salesOrders?.dateOrder.toString()??""
+                                ),
                           ),
                           SizedBox(
                             width: 18.w,
                           ),
-
                         ],
                       ),
-
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Flexible(
                             child: TotalRow(
-                                path:ImageAssets.totalIcon, text: invoice?.amountTotal.toString()??""),
+                                path: ImageAssets.totalIcon,
+                                text: invoice?.amountTotal.toString() ?? ""),
                           ),
                           GestureDetector(
-                            onTap: (){
-                              print(                                        '${EndPoints.printInvoice}'+'${invoice?.id.toString()??""}',
-                              );
-                              Navigator.push(context,
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return PdfViewerPage(
-                                        baseUrl:
-                                        '${EndPoints.printInvoice}'+'${invoice?.id.toString()??""}',
-                                      );
-                                      // return PaymentWebViewScreen(url: "",);
-                                    },
-                                  ));
-
-                            },
+                              onTap: () {
+                                print(
+                                  '${EndPoints.printInvoice}' +
+                                      '${invoice?.id.toString() ?? ""}',
+                                );
+                                Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) {
+                                    return PdfViewerPage(
+                                      baseUrl: '${EndPoints.printInvoice}' +
+                                          '${invoice?.id.toString() ?? ""}',
+                                    );
+                                    // return PaymentWebViewScreen(url: "",);
+                                  },
+                                ));
+                              },
                               child: SvgPicture.asset(ImageAssets.printIcon)),
                         ],
                       ),

@@ -7,7 +7,9 @@ import 'package:top_sale/core/models/all_products_model.dart';
 import 'package:top_sale/core/utils/app_colors.dart';
 import 'package:top_sale/core/utils/app_fonts.dart';
 import 'package:top_sale/core/utils/assets_manager.dart';
+import 'package:top_sale/core/utils/dialogs.dart';
 import 'package:top_sale/core/utils/get_size.dart';
+import 'package:top_sale/features/home_screen/cubit/cubit.dart';
 
 import '../../../../core/widgets/decode_image_with_text.dart';
 import '../../cubit/direct_sell_cubit.dart';
@@ -89,7 +91,7 @@ class CustomProductWidget extends StatelessWidget {
                           SizedBox(
                             width: 8.w,
                           ),
-                          Text("${product.listPrice.toString()}",
+                          Text("${product.listPrice.toString()}${ context.read<HomeCubit>().currencyName}",
                               // "${product.listPrice.toString()}${product.currencyId?.name ?? ''}",
                               // maxLines: 2,
                               // textAlign: TextAlign.center,
@@ -119,8 +121,14 @@ class CustomProductWidget extends StatelessWidget {
                                   // Navigator.pop(context);
 
 //! add
-                                  cubit.addAndRemoveToBasket(
-                                      product: product, isAdd: true);
+                                  if (product.userOrderedQuantity <
+                                      product.stockQuantity) {
+                                    cubit.addAndRemoveToBasket(
+                                        product: product, isAdd: true);
+                                  } else {
+                                    errorGetBar(
+                                        "الكمية المطلوبة غير متاحة في المخزن");
+                                  }
                                 },
                                 child: Icon(
                                   Icons.add,
@@ -162,7 +170,7 @@ class CustomProductWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(getSize(context) / 44),
                   color: AppColors.orange,
                 ),
-                child:Text(
+                child: Text(
                   product.stockQuantity.toInt().toString(),
                   style: TextStyle(
                     color: AppColors.white,
