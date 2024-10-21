@@ -9,85 +9,90 @@ AllPaymentsModel allPaymentsModelFromJson(String str) => AllPaymentsModel.fromJs
 String allPaymentsModelToJson(AllPaymentsModel data) => json.encode(data.toJson());
 
 class AllPaymentsModel {
-    dynamic count;
-    dynamic prev;
-    dynamic current;
-    dynamic next;
-    dynamic totalPages;
-    List<PaymentResult>? result;
+    String? jsonrpc;
+    dynamic id;
+    Result? result;
 
     AllPaymentsModel({
-        this.count,
-        this.prev,
-        this.current,
-        this.next,
-        this.totalPages,
+        this.jsonrpc,
+        this.id,
         this.result,
     });
 
     factory AllPaymentsModel.fromJson(Map<String, dynamic> json) => AllPaymentsModel(
-        count: json["count"],
-        prev: json["prev"],
-        current: json["current"],
-        next: json["next"],
-        totalPages: json["total_pages"],
-        result: json["result"] == null ? [] : List<PaymentResult>.from(json["result"]!.map((x) => PaymentResult.fromJson(x))),
+        jsonrpc: json["jsonrpc"],
+        id: json["id"],
+        result: json["result"] == null ? null : Result.fromJson(json["result"]),
     );
 
     Map<String, dynamic> toJson() => {
-        "count": count,
-        "prev": prev,
-        "current": current,
-        "next": next,
-        "total_pages": totalPages,
-        "result": result == null ? [] : List<dynamic>.from(result!.map((x) => x.toJson())),
+        "jsonrpc": jsonrpc,
+        "id": id,
+        "result": result?.toJson(),
     };
 }
 
-class PaymentResult {
-    int? id;
-    PartnerId? partnerId;
+class Result {
+    List<Payment>? payments;
 
-    PaymentResult({
-        this.id,
-        this.partnerId,
+    Result({
+        this.payments,
     });
 
-    factory PaymentResult.fromJson(Map<String, dynamic> json) => PaymentResult(
-        id: json["id"],
-        partnerId: json["partner_id"] == null ? null : PartnerId.fromJson(json["partner_id"]),
+    factory Result.fromJson(Map<String, dynamic> json) => Result(
+        payments: json["payments"] == null ? [] : List<Payment>.from(json["payments"]!.map((x) => Payment.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
-        "id": id,
-        "partner_id": partnerId?.toJson(),
+        "payments": payments == null ? [] : List<dynamic>.from(payments!.map((x) => x.toJson())),
     };
 }
 
-class PartnerId {
-    dynamic name;
-    dynamic id;
-    dynamic image1920;
-    dynamic phone;
+class Payment {
+    int? paymentId;
+    String? name;
+    dynamic paymentDate;
+    dynamic amount;
+    dynamic currency;
+   dynamic paymentType;
+    dynamic state;
+    dynamic partnerName;
+    dynamic journalName;
 
-    PartnerId({
+    Payment({
+        this.paymentId,
         this.name,
-        this.id,
-        this.image1920,
-        this.phone,
+        this.paymentDate,
+        this.amount,
+        this.currency,
+        this.paymentType,
+        this.state,
+        this.partnerName,
+        this.journalName,
     });
 
-    factory PartnerId.fromJson(Map<String, dynamic> json) => PartnerId(
+    factory Payment.fromJson(Map<String, dynamic> json) => Payment(
+        paymentId: json["payment_id"],
         name: json["name"],
-        id: json["id"],
-        image1920: json["image_1920"],
-        phone: json["phone"],
+        paymentDate: json["payment_date"] ,
+        amount: json["amount"]?.toDouble(),
+        currency: json["currency"],
+        paymentType:json["payment_type"],
+        state: json["state"],
+        partnerName: json["partner_name"],
+        journalName: json["journal_name"],
     );
 
     Map<String, dynamic> toJson() => {
+        "payment_id": paymentId,
         "name": name,
-        "id": id,
-        "image_1920": image1920,
-        "phone": phone,
+        "payment_date": paymentDate,
+        "amount": amount,
+        "currency": currency,
+        "payment_type": paymentType,
+        "state": state,
+        "partner_name": partnerName,
+        "journal_name": journalName,
     };
 }
+
