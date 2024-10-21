@@ -10,6 +10,7 @@ import 'config/themes/app_theme.dart';
 import 'core/utils/app_strings.dart';
 import 'package:top_sale/injector.dart' as injector;
 
+import 'features/attendance_and_departure/cubit/attendance_and_departure_cubit.dart';
 import 'features/contact_us/cubit/contact_us_cubit.dart';
 import 'features/basket_screen/cubit/cubit.dart';
 import 'features/clients/cubit/clients_cubit.dart';
@@ -88,7 +89,12 @@ class _MyAppState extends State<MyApp> {
           ),
           BlocProvider(
             create: (_) => injector.serviceLocator<ProfileCubit>(),
-          ),   BlocProvider(
+          ),
+          BlocProvider(
+            create: (_) =>
+                injector.serviceLocator<AttendanceAndDepartureCubit>(),
+          ),
+          BlocProvider(
             create: (_) => injector.serviceLocator<CreateReceiptCoucherCubit>(),
           ),
         ],
@@ -97,15 +103,11 @@ class _MyAppState extends State<MyApp> {
           minTextAdapt: true,
           splitScreenMode: true,
           child: GetMaterialApp(
-
             supportedLocales: context.supportedLocales,
             locale: context.locale,
-            theme: appTheme(
-            ),
+            theme: appTheme(),
             themeMode: ThemeMode.light,
-            darkTheme: ThemeData.light(
-              useMaterial3: true
-            ),
+            darkTheme: ThemeData.light(useMaterial3: true),
             // standard dark theme
             localizationsDelegates: context.localizationDelegates,
             debugShowCheckedModeBanner: false,

@@ -4,6 +4,10 @@ const String lottiePath = 'assets/lottie';
 
 class ImageAssets {
   // images
+  static const String salafIcon = '$imagePath/salaf_icon.png';
+  static const String attendanceIcon = '$imagePath/attendance-machine-icon 1.png';
+  static const String documentIcon = '$imagePath/document_icon.png';
+  static const String instructionsIcon = '$imagePath/instructions.png';
   static const String logoImage = '$imagePath/1.png';
   static const String logo2Image = '$imagePath/1-1.png';
   static const String topBusinessLogo = '$imagePath/topBusinessLogo.png';
