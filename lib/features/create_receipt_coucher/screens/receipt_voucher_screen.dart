@@ -39,6 +39,9 @@ class _ReceiptVoucherScreenState extends State<ReceiptVoucherScreen> {
         context.read<CreateReceiptCoucherCubit>().getAllReceiptVoucher();
       }
     }
+    if (context.read<CreateReceiptCoucherCubit>().getAllJournalsModel == null) {
+      context.read<CreateReceiptCoucherCubit>().getAllJournals();
+    }
     super.initState();
   }
 

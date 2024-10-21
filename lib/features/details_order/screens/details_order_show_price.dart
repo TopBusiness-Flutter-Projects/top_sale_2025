@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_stepindicator/flutter_stepindicator.dart';
 import 'package:top_sale/core/utils/get_size.dart';
 import 'package:top_sale/features/details_order/screens/widgets/card_from_details_order.dart';
+import 'package:top_sale/features/details_order/screens/widgets/product_card.dart';
 import 'package:top_sale/features/login/widget/custom_button.dart';
 import '../../../core/models/get_orders_model.dart';
 import 'package:easy_localization/easy_localization.dart' as tr;
@@ -16,7 +17,8 @@ import '../cubit/details_orders_state.dart';
 import 'widgets/custom_order_details_item.dart';
 
 class DetailsOrderShowPrice extends StatefulWidget {
-  DetailsOrderShowPrice({super.key, required this.orderModel,required this.isClientOrder});
+  DetailsOrderShowPrice(
+      {super.key, required this.orderModel, required this.isClientOrder});
   bool isDelivered = false;
   bool isClientOrder;
   final OrderModel orderModel;
@@ -40,23 +42,25 @@ class _DetailsOrderShowPriceState extends State<DetailsOrderShowPrice> {
         var cubit = context.read<DetailsOrdersCubit>();
 
         return Scaffold(
-         backgroundColor:AppColors.white,
-
+          backgroundColor: AppColors.white,
           appBar: AppBar(
             actions: [
-              (widget.orderModel.state == 'draft')  ?
-              IconButton(
-                  onPressed: () {
-                  cubit.cancelOrder(orderId: cubit.getDetailsOrdersModel!.id ?? -1, orderModel: widget.orderModel, context: context);
-                  },
-                  icon: Text("cancel".tr(),
-                      style: TextStyle(
-                        fontFamily: AppStrings.fontFamily,
-                        color: AppColors.red,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 18.sp,
-                      ))):
-              const SizedBox()
+              (widget.orderModel.state == 'draft' && !widget.isClientOrder)
+                  ? IconButton(
+                      onPressed: () {
+                        cubit.cancelOrder(
+                            orderId: cubit.getDetailsOrdersModel!.id ?? -1,
+                            orderModel: widget.orderModel,
+                            context: context);
+                      },
+                      icon: Text("cancel".tr(),
+                          style: TextStyle(
+                            fontFamily: AppStrings.fontFamily,
+                            color: AppColors.red,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 18.sp,
+                          )))
+                  : const SizedBox()
             ],
             leading: IconButton(
                 onPressed: () {
@@ -92,7 +96,7 @@ class _DetailsOrderShowPriceState extends State<DetailsOrderShowPrice> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           CardDetailsOrders(
-                            isShowPrice: true,
+                            isShowPrice: !widget.isClientOrder,
                             onTap: () {
                               cubit.newAllDiscountController.text =
                                   '0.0'.toString();
@@ -119,15 +123,39 @@ class _DetailsOrderShowPriceState extends State<DetailsOrderShowPrice> {
                                 itemCount: cubit
                                     .getDetailsOrdersModel!.orderLines!.length,
                                 itemBuilder: (context, index) {
-                                  return CustomOrderDetailsShowPriceItem(
-                                      onPressed: () {
-                                        //! on delete add item tp list to send it kat reqiesu of update
-                                        setState(() {
-                                          cubit.removeItemFromOrderLine(index);
-                                        });
-                                      },
-                                      item: cubit.getDetailsOrdersModel!
-                                          .orderLines![index]);
+                                  return widget.isClientOrder == true
+                                      ? ProductCard(
+                                          order: widget.orderModel,
+                                          title: cubit.getDetailsOrdersModel
+                                              ?.orderLines?[index].productName,
+                                          price: cubit
+                                                  .getDetailsOrdersModel
+                                                  ?.orderLines?[index]
+                                                  .priceSubtotal
+                                                  .toString() ??
+                                              '',
+                                          text: cubit
+                                                  .getDetailsOrdersModel
+                                                  ?.orderLines?[index]
+                                                  .productName ??
+                                              '',
+                                          number: cubit
+                                                  .getDetailsOrdersModel
+                                                  ?.orderLines?[index]
+                                                  .productUomQty
+                                                  .toString() ??
+                                              '',
+                                        )
+                                      : CustomOrderDetailsShowPriceItem(
+                                          onPressed: () {
+                                            //! on delete add item tp list to send it kat reqiesu of update
+                                            setState(() {
+                                              cubit.removeItemFromOrderLine(
+                                                  index);
+                                            });
+                                          },
+                                          item: cubit.getDetailsOrdersModel!
+                                              .orderLines![index]);
                                 }),
                           ),
                         ],
@@ -140,17 +168,19 @@ class _DetailsOrderShowPriceState extends State<DetailsOrderShowPrice> {
                     )
                   : cubit.getDetailsOrdersModel?.orderLines?.length == 0
                       ? Container()
-                      : widget.isClientOrder==true?SizedBox():CustomButton(
-                          title: 'make_order'.tr(),
-                          onTap: () {
-                            cubit.updateQuotation(
-                                orderModel: widget.orderModel,
-                                context: context,
-                                partnerId:
-                                    widget.orderModel.partnerId?.id ?? -1);
-                            //! api of update quotaion
-                          },
-                        ),
+                      : widget.isClientOrder == true
+                          ? SizedBox()
+                          : CustomButton(
+                              title: 'make_order'.tr(),
+                              onTap: () {
+                                cubit.updateQuotation(
+                                    orderModel: widget.orderModel,
+                                    context: context,
+                                    partnerId:
+                                        widget.orderModel.partnerId?.id ?? -1);
+                                //! api of update quotaion
+                              },
+                            ),
               Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -180,7 +210,8 @@ class _DetailsOrderShowPriceState extends State<DetailsOrderShowPrice> {
                           children: [
                             Flexible(
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   AutoSizeText('show_price'.tr(),
                                       style: TextStyle(
@@ -215,7 +246,7 @@ class _DetailsOrderShowPriceState extends State<DetailsOrderShowPrice> {
                               height: 28.h,
                               positiveColor: AppColors.orange,
                               negativeColor:
-                              const Color.fromRGBO(213, 213, 213, 1),
+                                  const Color.fromRGBO(213, 213, 213, 1),
                               list: cubit.list,
                               onChange: (i) {},
                               positiveCheck: const Icon(
@@ -223,7 +254,7 @@ class _DetailsOrderShowPriceState extends State<DetailsOrderShowPrice> {
                                 size: 15,
                                 color: Colors.white,
                               ),
-                              page:0,
+                              page: 0,
                               disableAutoScroll: true,
                             ),
                           ],

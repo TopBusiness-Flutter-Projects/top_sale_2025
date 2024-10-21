@@ -33,7 +33,7 @@ class EndPoints {
   static String printInvoice =
       '/report/pdf/account.report_invoice_with_payments/';
   static String wareHouse = '/api/stock.warehouse/';
-   static String createPayment = '/api/account.payment/';
+   static String createPayment = '/api/payment/create';
     // static String authWithSession = "$baseUrl/web/session/authenticate";
 
   // static String authWithSession = "$baseUrl/web/session/authenticate";

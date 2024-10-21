@@ -584,7 +584,7 @@ class ServiceApi {
               "data": {
                 "partner_id": partnerId,
                 "warehouse_id": authModel.result?.propertyWarehouseId ?? 1,
-                "user_id": userId,
+                "user_id": int.parse(userId),
                 if (employeeId != null) "employee_id": employeeId,
                 "order_line": orderLine
               }
@@ -736,7 +736,7 @@ class ServiceApi {
   }
 
   // الدفع
-  Future<Either<Failure, DefaultModel>> partnerPayment({
+  Future<Either<Failure, CreateOrderModel>> partnerPayment({
     required int partnerId,
     required int journalId,
     required String amount,
@@ -755,41 +755,41 @@ class ServiceApi {
           body: {
             "params": {
               "data": {
-
-                  "partner_id": partnerId,
-                  "payment_type": "inbound",
-                  "partner_type":"customer",
-                  "journal_id":journalId,
-                  "amount":amount,
-                  "ref":ref,
-                  "date": date //"2024-05-02"
-
+                "partner_id": partnerId,
+                "payment_type": "inbound",
+                "partner_type": "customer",
+                "journal_id": journalId,
+                "amount": amount,
+                "ref": ref,
+                "date": date //"2024-05-02"
               }
-
             }
           });
-      return Right(DefaultModel.fromJson(response));
+      return Right(CreateOrderModel.fromJson(response));
     } on ServerException {
       return Left(ServerFailure());
     }
   }
 
-  Future<Either<Failure, AllPaymentsModel>> getAllPayments(String? searchKey) async {
+  Future<Either<Failure, AllPaymentsModel>> getAllPayments(
+      String? searchKey) async {
     try {
       String? sessionId = await Preferences.instance.getSessionId();
+      String userId = await Preferences.instance.getUserId() ?? "1";
       String odooUrl =
           await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
       final response = await dio.post(
-        odooUrl +
-            '/api/payments/customer',
-            body: {
-    "params": {
-        "data": {
-          if(searchKey != null)
-            "customer_name": searchKey
-        }
-    }
-},
+        odooUrl + '/api/payments/customer',
+        body: {
+          "params": {
+            "data": {
+              "user_id":int.parse(userId) ,
+              if (searchKey != null)
+              
+               "customer_name": searchKey
+            }
+          }
+        },
         options: Options(
           headers: {"Cookie": "session_id=$sessionId"},
         ),
@@ -823,6 +823,7 @@ class ServiceApi {
   Future<Either<Failure, CreateOrderModel>> createPartner({
     required String name,
     required String mobile,
+    required String email,
     required String street,
     required double lat,
     required double long,
@@ -841,6 +842,7 @@ class ServiceApi {
               "data": {
                 "name": name,
                 "phone": mobile,
+                "email": email,
                 "street": street,
                 "latitude": lat,
                 "longitude": long
