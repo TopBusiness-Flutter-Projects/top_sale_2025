@@ -178,8 +178,11 @@ class AppRoutes {
           builder: (context) => const ReceiptVoucherScreen(),
         );
       case Routes.createReceiptVoucherRoute:
+        int partnerId = settings.arguments as int;
         return MaterialPageRoute(
-          builder: (context) => const CreateReceiptCoucherScreen(),
+          builder: (context) =>  CreateReceiptCoucherScreen(
+            partnerId: partnerId,
+          ),
         );
       //
       // case Routes.resultOfLessonExam:

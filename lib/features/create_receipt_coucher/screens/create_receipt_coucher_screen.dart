@@ -10,8 +10,8 @@ import '../cubit/create_receipt_coucher_cubit.dart';
 import '../cubit/create_receipt_coucher_state.dart';
 
 class CreateReceiptCoucherScreen extends StatefulWidget {
-  const CreateReceiptCoucherScreen({super.key});
-
+   CreateReceiptCoucherScreen({super.key,required this.partnerId});
+int partnerId;
   @override
   State<CreateReceiptCoucherScreen> createState() =>
       _CreateReceiptCoucherScreenState();
@@ -36,62 +36,63 @@ class _CreateReceiptCoucherScreenState
           child:
               BlocBuilder<CreateReceiptCoucherCubit, CreateReceiptCoucherState>(
                   builder: (context, state) {
-            return (state is GetAllJournalsLoadingState)?
-                CircularProgressIndicator(
-                  color: AppColors.primaryColor,):
-            Column(
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      "date".tr(),
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10.0.sp,
-                ),
-                GestureDetector(
-                  onTap: () async {
-                    DateTime? pickedDate = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(2000),
-                      lastDate: DateTime(2101),
-                    );
-                    if (pickedDate != null) {
-                      setState(() {
-                        cubit.selectedDate = pickedDate;
-                      });
-                    }
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0.sp),
-                      border: Border.all(color: Colors.grey),
-                    ),
-                    padding: EdgeInsets.symmetric(
-                        horizontal: 12.0.sp, vertical: 12.0.sp),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          cubit.selectedDate == null
-                              ? 'chose_date'.tr()
-                              : "${cubit.selectedDate?.day}/${cubit.selectedDate?.month}/${cubit.selectedDate?.year}",
-                          style: const TextStyle(color: Colors.grey),
+            return (state is GetAllJournalsLoadingState)
+                ? CircularProgressIndicator(
+                    color: AppColors.primaryColor,
+                  )
+                : Column(
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            "date".tr(),
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10.0.sp,
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          DateTime? pickedDate = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(2000),
+                            lastDate: DateTime(2101),
+                          );
+                          setState(() {
+                            cubit.selectedDate = pickedDate;
+                          });
+
+
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0.sp),
+                            border: Border.all(color: Colors.grey),
+                          ),
+                          padding: EdgeInsets.symmetric(horizontal: 12.0.sp, vertical: 12.0.sp),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                cubit.selectedDate == null
+                                    ? 'chose_date'.tr()
+                                    : "${cubit.selectedDate?.day}/${cubit.selectedDate?.month}/${cubit.selectedDate?.year}",
+                                style: const TextStyle(color: Colors.grey),
+                              ),
+                              const Icon(Icons.calendar_today, color: Colors.grey),
+                            ],
+                          ),
                         ),
-                        const Icon(Icons.calendar_today, color: Colors.grey),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            );
+                      ),
+
+                    ],
+                  );
           }),
         ),
         Padding(
@@ -114,33 +115,33 @@ class _CreateReceiptCoucherScreenState
                   border: Border.all(color: Colors.grey),
                 ),
                 child: DropdownButtonHideUnderline(
-                  child: DropdownButton<String>(
-                    value: cubit.selectedPaymentMethod,
+                  child: DropdownButton<int>(
+                    value: cubit
+                        .selectedPaymentMethod, // This will store the ID (not the name)
                     hint: Text(
                       'choose_payment_method'.tr(),
                       style: const TextStyle(color: Colors.grey),
                     ),
-                    icon:
-                        const Icon(Icons.arrow_drop_down, color: Colors.grey),
+                    icon: const Icon(Icons.arrow_drop_down, color: Colors.grey),
                     isExpanded: true,
-                    onChanged: (String? newValue) {
+                    onChanged: (int? newValue) {
                       setState(() {
-                        cubit.selectedPaymentMethod = newValue;
+                        cubit.selectedPaymentMethod =
+                            newValue; // Store the ID in cubit
                       });
                     },
                     items: cubit.getAllJournalsModel?.result
-                            ?.map<DropdownMenuItem<String>>((resultItem) {
-                          return DropdownMenuItem<String>(
-                            value: resultItem
-                                .displayName, // Use the property you want for the value
+                            ?.map<DropdownMenuItem<int>>((resultItem) {
+                          return DropdownMenuItem<int>(
+                            value: resultItem.id,
                             child: Text(resultItem.displayName ??
-                                ''), // Show the displayName or any other text
+                                ''), // Display the name
                           );
                         }).toList() ??
-                        [], // Ensure to provide an empty list if result is null
+                        [],
                   ),
                 ),
-              ),
+              )
             ],
           ),
         ),
@@ -148,12 +149,12 @@ class _CreateReceiptCoucherScreenState
           height: 20.h,
         ),
         CustomTextFieldWithTitle(
-          controller: TextEditingController(),
+          controller: cubit.amountController,
           title: "Paid_in_full".tr(),
           hint: "enter_paid".tr(),
         ),
         CustomTextFieldWithTitle(
-          controller: TextEditingController(),
+          controller: cubit.refController,
           title: "statement".tr(),
           maxLines: 5,
           hint: "statement".tr(),
@@ -163,7 +164,12 @@ class _CreateReceiptCoucherScreenState
         ),
         CustomButton(
           title: "confirm".tr(),
-          onTap: () {},
+          onTap: () {
+            cubit.partnerPaymentMethod(
+              context,
+              partnerId: widget.partnerId
+            );
+          },
         )
       ]),
       appBar: AppBar(

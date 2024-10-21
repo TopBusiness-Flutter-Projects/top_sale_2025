@@ -131,6 +131,8 @@
   "delivery_order":"Delivery Order",
   "choose_payment_method": "Choose payment method",
   "payment_method": "Payment Method",
+  "do_create_receipt_coucher":"Receipt Voucher Created",
+
   "receipt_voucher":"Receipt Voucher"
 
   

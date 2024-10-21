@@ -142,6 +142,8 @@ class _ClientScreenState extends State<ClientScreen> {
                                            Navigator.pushNamed(
                                              context,
                                              Routes.createReceiptVoucherRoute,
+                                             arguments: cubit.allPartnersModel!
+                                                 .result![index].id,
                                            );
                                           }
                                           if (widget.clientsRouteEnum ==
