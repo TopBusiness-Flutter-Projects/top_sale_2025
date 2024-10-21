@@ -20,9 +20,9 @@ class ShipmentCardWidget extends StatelessWidget {
         print("order.state ::${order.state}::stateeeeeeeeeeee");
         order.state == 'draft'
             ? Navigator.pushNamed(context, Routes.detailsOrderShowPrice,
-                arguments: order)
+                arguments: { 'isClientOrder':false,  'orderModel':order})
             : Navigator.pushNamed(context, Routes.detailsOrder,
-                arguments: order);
+                arguments:{ 'isClientOrder':false,  'orderModel':order} );
       },
       child: Container(
         width: getSize(context),
