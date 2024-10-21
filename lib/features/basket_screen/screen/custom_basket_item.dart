@@ -11,7 +11,6 @@ import '../../../core/utils/app_fonts.dart';
 import '../../../core/utils/assets_manager.dart';
 import '../../../core/utils/dialogs.dart';
 import '../../../core/utils/get_size.dart';
-import '../../../core/widgets/decode_image.dart';
 import '../../../core/widgets/decode_image_with_text.dart';
 import '../../details_order/screens/widgets/custom_order_details_item.dart';
 import '../../details_order/screens/widgets/rounded_button.dart';
@@ -185,8 +184,7 @@ class _CustomBasketItemState extends State<CustomBasketItem> {
                                         //SizedBox(width: 8.w),
                                         Text(
                                             widget.item.userOrderedQuantity
-                                                    .toString() ??
-                                                '0',
+                                                .toString(),
                                             style: getBoldStyle(
                                                 color: AppColors.primary,
                                                 fontHeight: 1.3)),
