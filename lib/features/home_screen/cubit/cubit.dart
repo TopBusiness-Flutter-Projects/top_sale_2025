@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:top_sale/core/models/all_payments_model.dart';
 import 'package:top_sale/core/remote/service.dart';
 
 import '../../../config/routes/app_routes.dart';
@@ -108,5 +109,17 @@ emit(checkLoaded());
 
     });
     emit(checkClearLoaded());
+  }
+    AllPaymentsModel allPaymentsModel = AllPaymentsModel();
+  getAllReceiptVoucher() async {
+    emit(ProfileClientLoading());
+    final result = await api.getAllPayments();
+    result.fold(
+      (failure) => emit(ProfileClientError()),
+      (r) {
+        allPaymentsModel = r;
+        emit(ProfileClientLoaded());
+      },
+    );
   }
 }

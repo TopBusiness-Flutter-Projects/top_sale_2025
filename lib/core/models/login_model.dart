@@ -64,8 +64,7 @@ class Result {
         defaultCurrency: json["default_currency"] == null ? null : DefaultCurrency.fromJson(json["default_currency"]),
       );
 
-  Map<String, dynamic> toJson() => {
-      
+  Map<String, dynamic> toJson() => {    
       
         "name": name,
         "username": username,
