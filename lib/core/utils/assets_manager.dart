@@ -16,6 +16,7 @@ class ImageAssets {
   static const String noNotificationIcon = '$imagePath/no_notification.png';
   static const String dateIcon = '$imagePath/timetable-icon.png';
   static const String user = '$imagePath/default_user.png';
+  static const String userPayment = '$imagePath/user.png';
   static const String directSale = '$imagePath/direct_sale.png';
   static const String deleveryOrder = '$imagePath/delevery_order.png';
   static const String edit2Icon = '$imagePath/edit_icon.png';

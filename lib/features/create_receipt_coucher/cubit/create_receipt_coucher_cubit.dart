@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:top_sale/core/models/all_payments_model.dart';
 import 'package:top_sale/core/remote/service.dart';
 import 'package:top_sale/core/utils/dialogs.dart';
 import '../../../core/models/all_journals_model.dart';
@@ -60,5 +61,19 @@ class CreateReceiptCoucherCubit extends Cubit<CreateReceiptCoucherState> {
         errorGetBar("error".tr());
       }
     });
+  }
+
+  TextEditingController searchController = TextEditingController();
+      AllPaymentsModel allPaymentsModel = AllPaymentsModel();
+  getAllReceiptVoucher({String? searchKey}) async {
+    emit(GetPaymentsLoading());
+    final result = await api.getAllPayments(searchKey);
+    result.fold(
+      (failure) => emit(GetPaymentsError()),
+      (r) {
+        allPaymentsModel = r;
+        emit(GetPaymentsLoaded());
+      },
+    );
   }
 }

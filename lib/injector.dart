@@ -22,7 +22,6 @@ import 'features/main/cubit/main_cubit.dart';
 import 'features/notification_screen/cubit/notification_cubit.dart';
 import 'features/on_boarding/cubit/onboarding_cubit.dart';
 import 'features/profile/cubit/profile_cubit.dart';
-import 'features/receipt_voucher/cubit/receipt_voucher_cubit.dart';
 import 'features/update_profile/cubit/update_profile_cubit.dart';
 
 // import 'features/downloads_videos/cubit/downloads_videos_cubit.dart';
@@ -49,7 +48,6 @@ Future<void> setup() async {
 
   serviceLocator.registerFactory(() => DetailsOrdersCubit(serviceLocator()));
   serviceLocator.registerFactory(() => DeleveryOrdersCubit(serviceLocator()));
-  serviceLocator.registerFactory(() => ReceiptVoucherCubit(serviceLocator()));
   serviceLocator.registerFactory(() => CreateReceiptCoucherCubit(serviceLocator()));
   ///////////////////////////////////////////////////////////////////////////////
 
