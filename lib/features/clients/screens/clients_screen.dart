@@ -51,7 +51,6 @@ class _ClientScreenState extends State<ClientScreen> {
     var cubit = context.read<ClientsCubit>();
     return BlocBuilder<ClientsCubit, ClientsState>(
       builder: (context, state) {
-
         return Scaffold(
             backgroundColor: AppColors.white,
             floatingActionButtonLocation:
@@ -137,26 +136,31 @@ class _ClientScreenState extends State<ClientScreen> {
                                           Navigator.pushNamed(
                                               context, Routes.basketScreenRoute,
                                               arguments: cubit.allPartnersModel!
-                                                  .result![index]);}
-                                          if (widget.clientsRouteEnum ==
-                                              ClientsRouteEnum.receiptVoucher) {
-                                           Navigator.pushNamed(
-                                             context,
-                                             Routes.createReceiptVoucherRoute,
-                                             arguments: cubit.allPartnersModel!
-                                                 .result![index].id,
-                                           );
-                                          }
-                                          if (widget.clientsRouteEnum ==
-                                              ClientsRouteEnum.details) {
-                                            debugPrint("nono push");
-                                            context.read<ClientsCubit>().getParent(id:   cubit.allPartnersModel!.result![index].id??1);
-                                            Navigator.pushNamed(
-                                              context,
-                                              Routes.profileClientRoute,
-                                            );
-                                          }
-
+                                                  .result![index]);
+                                        }
+                                        if (widget.clientsRouteEnum ==
+                                            ClientsRouteEnum.receiptVoucher) {
+                                          Navigator.pushNamed(
+                                            context,
+                                            Routes.createReceiptVoucherRoute,
+                                            arguments: cubit.allPartnersModel!
+                                                .result![index].id,
+                                          );
+                                        }
+                                        if (widget.clientsRouteEnum ==
+                                            ClientsRouteEnum.details) {
+                                          debugPrint("nono push");
+                                          context
+                                              .read<ClientsCubit>()
+                                              .getParent(
+                                                  id: cubit.allPartnersModel!
+                                                          .result![index].id ??
+                                                      1);
+                                          Navigator.pushNamed(
+                                            context,
+                                            Routes.profileClientRoute,
+                                          );
+                                        }
                                       },
                                       child: CustomCardClient(
                                         partner: cubit
