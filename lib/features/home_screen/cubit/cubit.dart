@@ -1,13 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:top_sale/core/models/all_payments_model.dart';
 import 'package:top_sale/core/remote/service.dart';
-
 import '../../../config/routes/app_routes.dart';
 import '../../../core/models/get_employee_data_model.dart';
 import '../../../core/models/get_user_data_model.dart';
 import '../../../core/preferences/preferences.dart';
-import '../../profile/cubit/profile_cubit.dart';
 import 'state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
@@ -21,6 +18,8 @@ class HomeCubit extends Cubit<HomeState> {
   String? imageOfUser;
   String? emailOfUser;
   GetUserDataModel? getUserDataModel;
+  bool isEmployee = true;
+
   //get  userdata
   void getUserData() async {
     emit(ProfileUserLoading());
@@ -71,12 +70,14 @@ class HomeCubit extends Cubit<HomeState> {
   }
   void checkEmployeeOrUser() {
     Preferences.instance.getEmployeeId().then((value) {
-      debugPrint('${value.toString()}');
+      debugPrint(value.toString());
       if (value == null) {
+        isEmployee = false;
         getUserData();
         debugPrint("user");
         // name= getUserDataModel?.name.toString()??"";
       } else {
+        isEmployee = true;
         debugPrint("employee");
         getEmployeeData();
         // name= getEmployeeDataModel?.name.toString()??"";
