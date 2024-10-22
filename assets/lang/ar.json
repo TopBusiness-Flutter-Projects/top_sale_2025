@@ -135,5 +135,8 @@
   "section": "القسم",
   "jop": "الوظيفة",
   "number_of_working_hours": "عدد ايام العمل",
-  "attendance_and_departure_details": "تفاصيل الحضور والانصراف"
+  "attendance_and_departure_details": "تفاصيل الحضور والانصراف",
+  "holidays_types": "انواع الاجازات",
+  "reason": "السبب",
+  "add": "اضافة"
 }

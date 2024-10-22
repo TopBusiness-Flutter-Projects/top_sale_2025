@@ -28,11 +28,11 @@ class ClientsCubit extends Cubit<ClientsState> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   GetAllPartnersModel? allPartnersModel;
   List<String> Images = [
-    ImageAssets.addressIcon2,
+    ImageAssets.addressIcon,
     ImageAssets.invoiceIcon,
     ImageAssets.sellersIcon,
     ImageAssets.buyerIcon,
-    ImageAssets.moneyIcon,
+    ImageAssets.receiptVoucherIcon,
     ImageAssets.waitingMoneyIcon
   ];
   List<String> Texts = [

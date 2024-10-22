@@ -8,5 +8,6 @@ class AttendanceAndDepartureCubit extends Cubit<AttendanceAndDepartureState> {
   AttendanceAndDepartureCubit(this.api) : super(AttendanceAndDepartureInitial());
   ServiceApi api;
   TextEditingController searchController = TextEditingController();
-
+  TextEditingController reasonController = TextEditingController();
+  GlobalKey<FormState> formKey  = GlobalKey<FormState>();
  }
