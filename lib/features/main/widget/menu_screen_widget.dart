@@ -41,125 +41,136 @@ class _MenuScreenWidgetState extends State<MenuScreenWidget> {
           Scaffold(
             backgroundColor: AppColors.blue,
             body: SafeArea(
-              child: Column(
-                children: [
-                  SizedBox(height: getSize(context) / 4),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(100),
-                        child: CustomDecodedImage(
-                          base64String: context.read<HomeCubit>().imageOfUser,
-                          context: context,
-                          height: 60.h,
-                          width: 60.h,
-                        ),
-                      ),
-                      SizedBox(width: getSize(context) / 66),
-                      Container(
-                          alignment: lang == 'ar'
-                              ? Alignment.topRight
-                              : Alignment.topLeft,
-                          padding: EdgeInsets.only(
-                            left: lang == 'ar' ? getSize(context) / 5 : 0,
+              child:
+                  BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
+                return Column(
+                  children: [
+                    SizedBox(height: getSize(context) / 4),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(width: getSize(context) / 66),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: CustomDecodedImage(
+                            base64String: context.read<HomeCubit>().imageOfUser,
+                            context: context,
+                            height: 60.h,
+                            width: 60.h,
                           ),
-                          child: BlocBuilder<HomeCubit, HomeState>(
-                              builder: (context, state) {
-                            return Text(
-                              context.read<HomeCubit>().nameOfUser.toString() ??
-                                  "",
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  color: AppColors.white,
-                                  fontSize: 15.sp,
-                                  fontWeight: FontWeight.bold),
-                            );
-                          })),
-                      SizedBox(height: getSize(context) / 4),
-                    ],
-                  ),
-                  MenuListTileWidget(
-                    iconPath: ImageAssets.profileIcon,
-                    onclick: () {
-                      Navigator.pushNamed(context, Routes.profileRoute);
-                    },
-                    title: 'profile'.tr(),
-                  ),
-                  MenuListTileWidget(
-                    iconPath: ImageAssets.shareIcon,
-                    onclick: () async {
-                      PackageInfo packageInfo =
-                          await PackageInfo.fromPlatform();
-                      String url = '';
-                      String packageName = packageInfo.packageName;
-                      if (Platform.isAndroid) {
-                        url =
-                            "https://play.google.com/store/apps/details?id=$packageName";
-                      } else if (Platform.isIOS) {
-                        url = 'https://apps.apple.com/us/app/$packageName';
-                      }
-                      await Share.share(url);
-                    },
-                    title: 'share_app'.tr(),
-                  ),
-                  MenuListTileWidget(
-                    iconPath: ImageAssets.evaluate,
-                    onclick: () async {
-                      PackageInfo packageInfo =
-                          await PackageInfo.fromPlatform();
-                      String url = '';
-                      String packageName = packageInfo.packageName;
+                        ),
+                        SizedBox(width: getSize(context) / 66),
+                        Container(
+                            alignment: lang == 'ar'
+                                ? Alignment.topRight
+                                : Alignment.topLeft,
+                            padding: EdgeInsets.only(
+                              left: lang == 'ar' ? getSize(context) / 5 : 0,
+                            ),
+                            child: BlocBuilder<HomeCubit, HomeState>(
+                                builder: (context, state) {
+                              return Text(
+                                context
+                                        .read<HomeCubit>()
+                                        .nameOfUser
+                                        .toString() ??
+                                    "",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    color: AppColors.white,
+                                    fontSize: 15.sp,
+                                    fontWeight: FontWeight.bold),
+                              );
+                            })),
+                        SizedBox(height: getSize(context) / 4),
+                      ],
+                    ),
+                    MenuListTileWidget(
+                      iconPath: ImageAssets.profileIcon,
+                      onclick: () {
+                        Navigator.pushNamed(context, Routes.profileRoute);
+                      },
+                      title: 'profile'.tr(),
+                    ),
+                    MenuListTileWidget(
+                      iconPath: ImageAssets.shareIcon,
+                      onclick: () async {
+                        PackageInfo packageInfo =
+                            await PackageInfo.fromPlatform();
+                        String url = '';
+                        String packageName = packageInfo.packageName;
+                        if (Platform.isAndroid) {
+                          url =
+                              "https://play.google.com/store/apps/details?id=$packageName";
+                        } else if (Platform.isIOS) {
+                          url = 'https://apps.apple.com/us/app/$packageName';
+                        }
+                        await Share.share(url);
+                      },
+                      title: 'share_app'.tr(),
+                    ),
+                    MenuListTileWidget(
+                      iconPath: ImageAssets.evaluate,
+                      onclick: () async {
+                        PackageInfo packageInfo =
+                            await PackageInfo.fromPlatform();
+                        String url = '';
+                        String packageName = packageInfo.packageName;
 
-                      if (Platform.isAndroid) {
-                        url =
-                            "https://play.google.com/store/apps/details?id=$packageName";
-                      } else if (Platform.isIOS) {
-                        url = 'https://apps.apple.com/us/app/$packageName';
-                      }
-                      if (await canLaunch(url)) {
-                        await launch(url);
-                      } else {
-                        throw 'Could not launch $url';
-                      }
-                    },
-                    title: 'evaluate_the_application'.tr(),
-                  ),
-                  MenuListTileWidget(
-                    iconPath: ImageAssets.contactIcon,
-                    onclick: () {
-                      Navigator.pushNamed(context, Routes.contactRoute);
-                    },
-                    title: 'contact'.tr(),
-                  ),
-                  MenuListTileWidget(
-                    iconPath: ImageAssets.editIcon,
-                    onclick: () {
-                      Navigator.pushNamed(context, Routes.updateprofileRoute);
-                    },
-                    title: 'edit'.tr(),
-                  ),
-                  MenuListTileWidget(
-                    iconPath: ImageAssets.deleteIcon,
-                    onclick: () {},
-                    title: 'delete'.tr(),
-                  ),
-                  BlocBuilder<HomeCubit, HomeState>(
-                    builder: (context, state) {
-                      return MenuListTileWidget(
-                        iconPath: ImageAssets.logoutIcon,
-                        onclick: () {
-                          context
-                              .read<HomeCubit>()
-                              .checkClearUserOrEmplyee(context);
-                        },
-                        title: 'logout'.tr(),
-                      );
-                    },
-                  ),
-                ],
-              ),
+                        if (Platform.isAndroid) {
+                          url =
+                              "https://play.google.com/store/apps/details?id=$packageName";
+                        } else if (Platform.isIOS) {
+                          url = 'https://apps.apple.com/us/app/$packageName';
+                        }
+                        if (await canLaunch(url)) {
+                          await launch(url);
+                        } else {
+                          throw 'Could not launch $url';
+                        }
+                      },
+                      title: 'evaluate_the_application'.tr(),
+                    ),
+                    MenuListTileWidget(
+                      iconPath: ImageAssets.contactIcon,
+                      onclick: () {
+                        Navigator.pushNamed(context, Routes.contactRoute);
+                      },
+                      title: 'contact'.tr(),
+                    ),
+                    MenuListTileWidget(
+                      iconPath: ImageAssets.editIcon,
+                      onclick: () {
+                        Navigator.pushNamed(context, Routes.updateprofileRoute);
+                      },
+                      title: 'edit'.tr(),
+                    ),
+                    MenuListTileWidget(
+                      iconPath: ImageAssets.deleteIcon,
+                      onclick: () {
+                        context
+                            .read<HomeCubit>()
+                            .checkClearUserOrEmplyee(context, false);
+                      },
+                      title: 'delete'.tr(),
+                    ),
+                    BlocBuilder<HomeCubit, HomeState>(
+                      builder: (context, state) {
+                        return MenuListTileWidget(
+                          iconPath: ImageAssets.logoutIcon,
+                          onclick: () {
+                            context
+                                .read<HomeCubit>()
+                                .checkClearUserOrEmplyee(context, true);
+                          },
+                          title: 'logout'.tr(),
+                        );
+                      },
+                    ),
+                  ],
+                );
+              }),
             ),
           ),
           Positioned(

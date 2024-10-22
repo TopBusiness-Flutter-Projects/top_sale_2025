@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top_sale/core/remote/service.dart';
+import 'package:top_sale/core/utils/dialogs.dart';
 import '../../../config/routes/app_routes.dart';
 import '../../../core/models/get_employee_data_model.dart';
 import '../../../core/models/get_user_data_model.dart';
@@ -68,6 +69,7 @@ class HomeCubit extends Cubit<HomeState> {
       },
     );
   }
+
   void checkEmployeeOrUser() {
     Preferences.instance.getEmployeeId().then((value) {
       debugPrint(value.toString());
@@ -87,7 +89,7 @@ class HomeCubit extends Cubit<HomeState> {
     emit(checkLoaded());
   }
 
-  void checkClearUserOrEmplyee(BuildContext context) {
+  void checkClearUserOrEmplyee(BuildContext context, bool isLogout) {
     Preferences.instance.getEmployeeId().then((value) {
       debugPrint('${value.toString()}');
       if (value == null) {
@@ -95,19 +97,22 @@ class HomeCubit extends Cubit<HomeState> {
         Preferences.instance.removeUserName();
         Preferences.instance.removeEmployeeId();
         debugPrint("user");
-        Navigator.pushNamed(context, Routes.loginRoute);
+
         // name= getUserDataModel?.name.toString()??"";
       } else {
         Preferences.instance.removeUserName();
         Preferences.instance.removeEmployeeId();
         debugPrint("employee");
         // getEmployeeData();
-        Navigator.pushNamed(context, Routes.loginRoute);
+
         // name= getEmployeeDataModel?.name.toString()??"";
       }
+      Navigator.pushNamedAndRemoveUntil(
+          context, Routes.loginRoute, (route) => false);
+      isLogout ? successGetBar("تم تسجل الخروج بنجاح") : successGetBar("تم حذف لاحساب بنجاح");
+      // Navigator.pushNamedAndRemoveUntil(context, Routes.loginRoute, );
       emit(checkClearLoaded());
     });
-    emit(checkClearLoaded());
   }
 
   String currencyName = '';
