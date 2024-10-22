@@ -136,6 +136,8 @@
   "number_of_working_hours": " Number of working hours ",
   "attendance_and_departure_details": "Attendance and departure details",
   "reason": "Reason",
+  "emplyee_number": "Employee number",
+
   "add": "Add"
 
 }

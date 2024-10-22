@@ -94,7 +94,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       print('Form is Not valid');
                     }
                   }),
-            ]),
+          
+           Padding(
+                      padding: const EdgeInsets.only(top: 20.0),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            // InkWell(
+                            //     onTap: () {
+                            //       Navigator.pushNamed(
+                            //           context, Routes.registerScreen);
+                            //     },
+                            //     child: Text('login'.tr())),
+                            InkWell(
+                                onTap: () {
+                                  cubit.login(context,
+                                      isVisitor: true,
+                                      isEmployeeType: false,
+                                      phoneOrMail: "",
+                                      password: "",
+                                      baseUrl: "",
+                                      database: "");
+                                },
+                                child: Text('try_the_app'.tr(),
+                                    style: TextStyle(
+                                        color: AppColors.orangeThirdPrimary)))
+                          ])),  ]),
           )));
     });
   }

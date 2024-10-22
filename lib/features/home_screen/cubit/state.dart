@@ -19,3 +19,7 @@ class checkClearLoaded extends HomeState {}
 class ProfileClientLoading extends HomeState {}
 class ProfileClientError extends HomeState {}
 class ProfileClientLoaded extends HomeState {}
+class LoadingCheckEmployeeState extends HomeState {}
+class FailureCheckEmployeeState extends HomeState {}
+class SuccessCheckEmployeeState extends HomeState {}
+class EmployeeNumberAdded extends HomeState {}

@@ -5,6 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:top_sale/core/utils/get_size.dart';
+import 'package:top_sale/features/details_order/screens/widgets/rounded_button.dart';
+import 'package:top_sale/features/home_screen/cubit/cubit.dart';
+import 'package:top_sale/features/login/widget/textfield_with_text.dart';
+import 'package:top_sale/features/main/cubit/main_states.dart';
 import 'package:top_sale/features/main/widget/menu_screen_widget.dart';
 import '../../../core/utils/app_colors.dart';
 import '../cubit/main_cubit.dart';
@@ -29,106 +33,167 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     MainCubit cubit = context.read<MainCubit>();
+    HomeCubit cubitHome = context.read<HomeCubit>();
 
     return SafeArea(
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Scaffold(
-              key: _scaffoldKey,
-              resizeToAvoidBottomInset: true,
-              extendBody: true,
-              body: WillPopScope(
-                onWillPop: () async {
-                  if (cubit.currentIndex != 0) {
-                    setState(() {
-                      cubit.currentIndex = 0;
-                    });
-                    return false;
-                  } else {
-                    SystemNavigator.pop();
-                    return true;
-                  }
-                },
-                child: cubit.navigationBarViews[cubit.currentIndex],
-              ),
-              bottomNavigationBar: Directionality(
-                textDirection: TextDirection.ltr,
-                child: Material(
-                  elevation: 50,
-                  shadowColor: Colors.grey,
-                  child: SalomonBottomBar(
-                    items: [
-                      /// Home
-                      SalomonBottomBarItem(
-                        icon: Image.asset(
-                          'assets/images/home1.png',
-                          width: getSize(context) / 22,
-                          color: cubit.currentIndex == 0
-                              ? AppColors.orange
-                              : Colors.black,
-                        ),
-                        title: Text('home'.tr()),
-                        selectedColor: AppColors.orange,
-                      ),
-
-                      /// Likes
-                      SalomonBottomBarItem(
-                        icon: Image.asset(
-                          'assets/images/basket1.png',
-                          width: getSize(context) / 22,
-                          color: cubit.currentIndex == 1
-                              ? AppColors.orange
-                              : Colors.black,
-                        ),
-                        title: Text('basket'.tr()),
-                        selectedColor: AppColors.orange,
-                      ),
-
-                      /// Search
-                      SalomonBottomBarItem(
-                        icon: Image.asset(
-                          'assets/images/hr1.png',
-                          width: getSize(context) / 22,
-                          color: cubit.currentIndex == 2
-                              ? AppColors.orange
-                              : Colors.black,
-                        ),
-                        title: Text('hr'.tr()),
-                        selectedColor: AppColors.orange,
-                      ),
-
-                      /// Profile
-                      SalomonBottomBarItem(
-                        icon: Image.asset(
-                          'assets/images/menu1.png',
-                          width: getSize(context) / 22,
-                          color: cubit.currentIndex == 3
-                              ? AppColors.orange
-                              : Colors.black,
-                        ),
-                        title: Text('menu'.tr()),
-                        selectedColor: AppColors.orange,
-                      ),
-                    ],
-                    backgroundColor: Colors.white70,
-                    currentIndex: cubit.currentIndex,
-                    onTap: (index) {
+          BlocBuilder<MainCubit, MainStates>(builder: (context, state) {
+            return Scaffold(
+                key: _scaffoldKey,
+                resizeToAvoidBottomInset: true,
+                extendBody: true,
+                body: WillPopScope(
+                  onWillPop: () async {
+                    if (cubit.currentIndex != 0) {
                       setState(() {
-                        if (index == 3) {
-                          z.toggle!.call();
-                        } else {
-                          cubit.changeNavigationBar(index);
-                        }
+                        cubit.currentIndex = 0;
                       });
-                    },
-                  ),
+                      return false;
+                    } else {
+                      SystemNavigator.pop();
+                      return true;
+                    }
+                  },
+                  child: cubit.navigationBarViews[cubit.currentIndex],
                 ),
-              )),
+                bottomNavigationBar: Directionality(
+                  textDirection: TextDirection.ltr,
+                  child: Material(
+                    elevation: 50,
+                    shadowColor: Colors.grey,
+                    child: SalomonBottomBar(
+                      items: [
+                        /// Home
+                        SalomonBottomBarItem(
+                          icon: Image.asset(
+                            'assets/images/home1.png',
+                            width: getSize(context) / 22,
+                            color: cubit.currentIndex == 0
+                                ? AppColors.orange
+                                : Colors.black,
+                          ),
+                          title: Text('home'.tr()),
+                          selectedColor: AppColors.orange,
+                        ),
+
+                        /// Likes
+                        SalomonBottomBarItem(
+                          icon: Image.asset(
+                            'assets/images/basket1.png',
+                            width: getSize(context) / 22,
+                            color: cubit.currentIndex == 1
+                                ? AppColors.orange
+                                : Colors.black,
+                          ),
+                          title: Text('basket'.tr()),
+                          selectedColor: AppColors.orange,
+                        ),
+
+                        /// Search
+                        SalomonBottomBarItem(
+                          icon: Image.asset(
+                            'assets/images/hr1.png',
+                            width: getSize(context) / 22,
+                            color: cubit.currentIndex == 2
+                                ? AppColors.orange
+                                : Colors.black,
+                          ),
+                          title: Text('hr'.tr()),
+                          selectedColor: AppColors.orange,
+                        ),
+
+                        /// Profile
+                        SalomonBottomBarItem(
+                          icon: Image.asset(
+                            'assets/images/menu1.png',
+                            width: getSize(context) / 22,
+                            color: cubit.currentIndex == 3
+                                ? AppColors.orange
+                                : Colors.black,
+                          ),
+                          title: Text('menu'.tr()),
+                          selectedColor: AppColors.orange,
+                        ),
+                      ],
+                      backgroundColor: Colors.white70,
+                      currentIndex: cubit.currentIndex,
+                      onTap: (index) {
+                        setState(() {
+                          if (index == 3) {
+                            z.toggle!.call();
+                          } else if (index == 2) {
+                            context.read<HomeCubit>().isEmployeeAdded
+                                ? cubit.changeNavigationBar(2)
+                                : _showBottomSheet(context, cubitHome);
+                          } else {
+                            cubit.changeNavigationBar(index);
+                          }
+                        });
+                      },
+                    ),
+                  ),
+                ));
+          }),
         ],
       ),
     );
   }
+}
+
+void _showBottomSheet(BuildContext context, HomeCubit cubit) {
+  showModalBottomSheet(
+    isScrollControlled: true,
+    context: context,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    ),
+    builder: (context) {
+      return Padding(
+        padding: EdgeInsets.only(
+          left: getSize(context) / 20,
+          right: getSize(context) / 20,
+          top: getSize(context) / 20,
+          bottom:
+              MediaQuery.of(context).viewInsets.bottom + getSize(context) / 20,
+        ),
+        child: SingleChildScrollView(
+          child: Form(
+            key: cubit.formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CustomTextFieldWithTitle(
+                  // maxLines: 5,
+                  title: "emplyee_number".tr(),
+                  controller: cubit.reasonController,
+                  hint: "emplyee_number".tr(),
+                  keyboardType: TextInputType.text,
+                ),
+                SizedBox(
+                  height: getSize(context) / 30,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: getSize(context) / 20,
+                      right: getSize(context) / 20),
+                  child: RoundedButton(
+                    backgroundColor: AppColors.primaryColor,
+                    text: 'add'.tr(),
+                    onPressed: () {
+                      cubit.checkEmployeeNumber(context,
+                          employeeId: cubit.reasonController.text);
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    },
+  );
 }
 
 class ZoomDrawerScreen extends StatefulWidget {
