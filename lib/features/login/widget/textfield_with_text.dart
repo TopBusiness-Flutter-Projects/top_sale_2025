@@ -14,6 +14,7 @@ class CustomTextFieldWithTitle extends StatefulWidget {
     this.keyboardType,
     this.readonly,
     this.isModify,
+    this.isRequired = true,
   });
 
   TextEditingController controller;
@@ -23,6 +24,7 @@ class CustomTextFieldWithTitle extends StatefulWidget {
   bool? isModify;
   TextInputType? keyboardType;
   int? maxLines;
+  bool isRequired;
 
   @override
   _CustomTextFieldWithTitleState createState() =>
@@ -55,13 +57,16 @@ class _CustomTextFieldWithTitleState extends State<CustomTextFieldWithTitle> {
           TextFormField(
             maxLines: widget.maxLines ?? 1,
             validator: (value) {
-              if (value!.isEmpty) {
-                return widget.hint;
+              if (widget.isRequired) {
+                if (value!.isEmpty) {
+                  return widget.hint;
+                } else {
+                  return null;
+                }
               } else {
                 return null;
               }
             },
-
             readOnly: widget.readonly ?? false,
             keyboardType: widget.keyboardType,
             controller: widget.controller,

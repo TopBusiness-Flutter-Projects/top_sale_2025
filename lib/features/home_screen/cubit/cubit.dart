@@ -69,7 +69,6 @@ class HomeCubit extends Cubit<HomeState> {
       },
     );
   }
-
   void checkEmployeeOrUser() {
     Preferences.instance.getEmployeeId().then((value) {
       debugPrint('${value.toString()}');

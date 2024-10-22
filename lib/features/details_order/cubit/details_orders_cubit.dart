@@ -54,13 +54,14 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
 
   void openGoogleMapsRoute(double originLat, double originLng,
       double destinationLat, double destinationLng) async {
+print('origin=$originLat,$originLng');
+
     final url =
         'https://www.google.com/maps/dir/?api=1&origin=$originLat,$originLng&destination=$destinationLat,$destinationLng';
-
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
+    try {
+      launchUrl(Uri.parse(url));
+    } catch (e) {
+    errorGetBar("error from map");
     }
   }
 

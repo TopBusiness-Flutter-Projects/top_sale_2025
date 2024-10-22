@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 import 'package:top_sale/core/utils/get_size.dart';
+import 'package:top_sale/core/widgets/decode_image.dart';
 import 'package:top_sale/features/update_profile/cubit/update_profile_cubit.dart';
 import 'package:top_sale/features/update_profile/cubit/update_profile_state.dart';
 import '../../../core/utils/app_colors.dart';
@@ -26,11 +27,15 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   @override
   void initState() {
     // TODO: implement initState
-   context.read<UpdateProfileCubit>().nameController.text =context.read<HomeCubit>().nameOfUser??"";
-   context.read<UpdateProfileCubit>().phoneController.text =context.read<HomeCubit>().phoneOfUser??"";
-   context.read<UpdateProfileCubit>().emailController.text =context.read<HomeCubit>().emailOfUser??"";
+    context.read<UpdateProfileCubit>().nameController.text =
+        context.read<HomeCubit>().nameOfUser ?? "";
+    context.read<UpdateProfileCubit>().phoneController.text =
+        context.read<HomeCubit>().phoneOfUser ?? "";
+    context.read<UpdateProfileCubit>().emailController.text =
+        context.read<HomeCubit>().emailOfUser ?? "";
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     var cubit = context.read<UpdateProfileCubit>();
@@ -50,20 +55,35 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 children: [
                   Stack(
                     children: [
-
-                      CircleAvatar(
-                        radius: 50.sp,
-
-                        backgroundImage: cubit.profileImage == null
-                            ? const AssetImage(ImageAssets.user)
-                            : FileImage(File(cubit.profileImage!.path)) as ImageProvider,
-
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: cubit.profileImage == null
+                            ? CustomDecodedImage(
+                                base64String:
+                                    context.read<HomeCubit>().imageOfUser,
+                                context: context,
+                                height: 100.h,
+                                width: 100.h,
+                              )
+                            : Image.file(
+                                (File(cubit.profileImage!.path)),
+                                fit: BoxFit.cover,
+                                height: 100.h,
+                                width: 100.h,
+                              ),
                       ),
-                       Positioned(
+                      // CircleAvatar(
+                      //   radius: 50.sp,
+                      //   backgroundImage: cubit.profileImage == null
+                      //       ? const AssetImage(ImageAssets.user)
+                      //       : FileImage(File(cubit.profileImage!.path)) as ImageProvider,
+
+                      // ),
+                      Positioned(
                         bottom: 0,
                         right: 0,
                         child: InkWell(
-                          onTap: (){
+                          onTap: () {
                             cubit.pickImage(ImageSource.gallery);
                           },
                           child: Icon(

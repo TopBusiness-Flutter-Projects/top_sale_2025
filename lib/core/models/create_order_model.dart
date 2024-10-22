@@ -28,17 +28,17 @@ class CreateOrderModel {
 }
 
 class Result {
-  String? message;
+  String? message;dynamic paymentId;
 
   Result({
-    this.message,
+    this.message, this.paymentId,
   });
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
-        message: json["message"],
+        message: json["message"], paymentId: json["payment_id"],
       );
 
   Map<String, dynamic> toJson() => {
-        "message": message,
+        "message": message,"payment_id": paymentId,
       };
 }

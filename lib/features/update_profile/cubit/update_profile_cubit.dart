@@ -49,7 +49,7 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
   DefaultModel? defaultModel;
   void UpdateProfileUser( BuildContext context) async {
     emit(UpdateProfileUserLoading());
-    final result = await api.updateUserData(image: selectedBase64String==null?selectedBase64String:context.read<HomeCubit>().imageOfUser, name: nameController.text, mobile: phoneController.text, email: emailController.text);
+    final result = await api.updateUserData(image: selectedBase64String.isNotEmpty?selectedBase64String:context.read<HomeCubit>().imageOfUser, name: nameController.text, mobile: phoneController.text, email: emailController.text);
     result.fold((l) {
       emit(UpdateProfileUserError());
     }, (r) {
@@ -63,7 +63,7 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
   // post employee data
   void UpdateEmployeeProfile( BuildContext context) async {
     emit(UpdateProfileEmployeeLoading());
-    final result = await api.updateEmployeeData(image:  selectedBase64String==null?selectedBase64String:context.read<HomeCubit>().imageOfUser, name: nameController.text, mobile: phoneController.text, email:  emailController.text);
+    final result = await api.updateEmployeeData(image:  selectedBase64String.isNotEmpty?selectedBase64String:context.read<HomeCubit>().imageOfUser, name: nameController.text, mobile: phoneController.text, email:  emailController.text);
     result.fold((l) {
       emit(UpdateProfileEmployeeError());
     }, (r) {

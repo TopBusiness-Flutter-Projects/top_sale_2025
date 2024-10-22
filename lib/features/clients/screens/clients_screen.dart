@@ -221,6 +221,7 @@ class _ClientScreenState extends State<ClientScreen> {
                       ),
                       CustomTextFieldWithTitle(
                         title: "email".tr(),
+                        isRequired: false,
                         controller: cubit.emailController,
                         hint: "enter_email".tr(),
                         keyboardType: TextInputType.emailAddress,

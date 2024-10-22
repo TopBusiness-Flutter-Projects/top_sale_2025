@@ -107,8 +107,8 @@ class _ProfileClientState extends State<ProfileClient> {
                 GestureDetector(
                   onTap: () {
                     context.read<ClientsCubit>().openGoogleMapsRoute(
-                          context.read<ClientsCubit>().lat ?? 0.0,
-                          context.read<ClientsCubit>().lang ?? 0.0,
+                          context.read<ClientsCubit>().currentLocation?.latitude ?? 0.0,
+                          context.read<ClientsCubit>().currentLocation?.longitude ?? 0.0,
                           context.read<ClientsCubit>().partnerModel?.latitude ??
                               0.0,
                           context
