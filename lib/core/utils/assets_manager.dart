@@ -64,6 +64,7 @@ class ImageAssets {
   static const String sellersIcon = '$iconsPath/sellers.png';
   static const String buyerIcon = '$iconsPath/buyer.png';
   static const String moneyIcon = '$iconsPath/moneyIcon.png';
+  static const String moneyRedIcon = '$imagePath/money-icon 1.png';
   static const String waitingMoneyIcon = '$iconsPath/waiting_money.png';
 
   // Lottie

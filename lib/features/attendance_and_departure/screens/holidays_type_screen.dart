@@ -6,7 +6,6 @@ import 'package:top_sale/core/utils/app_colors.dart';
 import 'package:top_sale/features/attendance_and_departure/cubit/attendance_and_departure_cubit.dart';
 import 'package:top_sale/features/attendance_and_departure/cubit/attendance_and_departure_state.dart';
 import 'package:top_sale/features/login/widget/textfield_with_text.dart';
-
 import '../../../core/utils/app_fonts.dart';
 import '../../../core/utils/get_size.dart';
 import '../../details_order/screens/widgets/rounded_button.dart';

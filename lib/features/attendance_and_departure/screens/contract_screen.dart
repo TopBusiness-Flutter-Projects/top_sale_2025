@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:top_sale/core/utils/app_fonts.dart';
 import '../../../core/utils/app_colors.dart';
 
 class ContractScreen extends StatelessWidget {
@@ -38,7 +38,9 @@ class ContractScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-
+          SizedBox(height: 20.h),
+          Text("رقم العقد/ 123456",style: getBoldStyle(color: AppColors.primary),),
+          SizedBox(height: 20.h),
           ListView.builder(
             itemBuilder: (context, index) =>  customRowContract(
               title: titles[index],
