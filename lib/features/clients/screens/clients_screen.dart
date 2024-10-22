@@ -149,7 +149,7 @@ class _ClientScreenState extends State<ClientScreen> {
                                         }
                                         if (widget.clientsRouteEnum ==
                                             ClientsRouteEnum.details) {
-                                          debugPrint("nono push");
+
                                           context
                                               .read<ClientsCubit>()
                                               .getParent(

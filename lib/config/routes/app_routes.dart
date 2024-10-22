@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:top_sale/features/attendance_and_departure/screens/attendance_and_departure_screen.dart';
+import 'package:top_sale/features/attendance_and_departure/screens/attendance_and_departure_details_screen.dart';
+import 'package:top_sale/features/attendance_and_departure/screens/holidays_screen.dart';
 import 'package:top_sale/features/clients/cubit/clients_cubit.dart';
 import 'package:top_sale/features/contact_us/screens/contact_us_screen.dart';
 import 'package:top_sale/features/create_receipt_coucher/screens/create_receipt_coucher_screen.dart';
@@ -21,6 +22,7 @@ import 'package:page_transition/page_transition.dart';
 import '../../features/basket_screen/screen/basket_screen.dart';
 import '../../features/clients/screens/my_bills.dart';
 import '../../features/clients/screens/profile_client.dart';
+import '../../features/attendance_and_departure/screens/contract_screen.dart';
 import '../../features/details_order/screens/details_order.dart';
 import '../../features/details_order/screens/details_order_show_price.dart';
 import '../../features/details_order/screens/widgets/payment.dart';
@@ -57,10 +59,12 @@ class Routes {
   static const String billsRoute = '/billsRoute';
   static const String salesRoute = '/salesRoute';
   static const String receiptVoucherRoute = '/receiptVoucherRoute';
-  static const String attendanceAndDepartureRoute =
-      '/attendanceAndDepartureRoute';
+  static const String attendanceAndDepartureRoute = '/attendanceAndDepartureRoute';
   static const String createReceiptVoucherRoute = '/createReceiptVoucherRoute';
   static const String salariesRoute = '/salariesRoute';
+  static const String contractRoute = '/contractRoute';
+  static const String attendanceAndDepartureDetailsRoute = '/attendanceAndDepartureDetailsRoute';
+  static const String holidayRoute = '/holidayRoute';
 }
 
 class AppRoutes {
@@ -96,14 +100,14 @@ class AppRoutes {
         );
       case Routes.contactRoute:
         return PageTransition(
-          child: ContactUsScreen(),
+          child: const ContactUsScreen(),
           type: PageTransitionType.fade,
           alignment: Alignment.center,
           duration: const Duration(milliseconds: 800),
         );
       case Routes.salesRoute:
         return PageTransition(
-          child: SalesScreen(),
+          child: const SalesScreen(),
           type: PageTransitionType.fade,
           alignment: Alignment.center,
           duration: const Duration(milliseconds: 800),
@@ -181,11 +185,11 @@ class AppRoutes {
         );
       case Routes.profileClientRoute:
         return MaterialPageRoute(
-          builder: (context) => ProfileClient(),
+          builder: (context) => const ProfileClient(),
         );
       case Routes.billsRoute:
         return MaterialPageRoute(
-          builder: (context) => MyBillsScreen(),
+          builder: (context) => const MyBillsScreen(),
         );
       case Routes.basketScreenRoute:
         // List<dynamic>data = [];
@@ -210,12 +214,26 @@ class AppRoutes {
             partnerId: partnerId,
           ),
         );
-      case Routes.attendanceAndDepartureRoute:
-        return MaterialPageRoute(
-          builder: (context) => const AttendanceAndDepartureScreen(),
-        ); case Routes.salariesRoute:
+      // case Routes.attendanceAndDepartureRoute:
+      // AttendanceAndDepartureEnum attendanceAndDeparture = settings.arguments as AttendanceAndDepartureEnum;
+      //   return MaterialPageRoute(
+      //     builder: (context) =>  AttendanceAndDepartureScreen(
+      //       attendanceAndDepartureEnum: attendanceAndDeparture,
+      //     ),
+      //   );
+      case Routes.salariesRoute:
         return MaterialPageRoute(
           builder: (context) => const SalariesScreen(),
+        );
+      case Routes.contractRoute:
+        return MaterialPageRoute(
+          builder: (context) =>  ContractScreen(),
+        );    case Routes.attendanceAndDepartureDetailsRoute:
+        return MaterialPageRoute(
+          builder: (context) =>   const AttendanceAndDepartureDetailsScreen(),
+        );  case Routes.holidayRoute:
+        return MaterialPageRoute(
+          builder: (context) =>   const HolidaysScreen(),
         );
       //
       // case Routes.resultOfLessonExam:

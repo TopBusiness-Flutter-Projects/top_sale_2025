@@ -124,9 +124,17 @@
   "months": "Months",
   "available_holidays":" Available Holidays ",
   "monthly_salaries": " Monthly Salaries ",
+  "number_of_leave_days": " Number of leave days ",
+
   "discount_validation":"discount must be less than 100",
   "attendance_and_departure": "Attendance and departure",
   "discount_invalid":"discount is not valid!",
-  "search_month": "Search Month"
+  "search_month": "Search Month",
+  "start_date": "Start Date",
+  "end_date": "End Date",
+  "section": "Section",
+  "jop": "Jop",
+  "number_of_working_hours": " Number of working hours ",
+  "attendance_and_departure_details": "Attendance and departure details"
 
 }
