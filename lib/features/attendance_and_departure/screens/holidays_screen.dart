@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:top_sale/core/utils/app_colors.dart';
-
+import '../../../config/routes/app_routes.dart';
 import '../../../core/utils/app_fonts.dart';
 
 class HolidaysScreen extends StatelessWidget {
@@ -20,11 +20,29 @@ class HolidaysScreen extends StatelessWidget {
           style: getBoldStyle(fontSize: 20.sp),
         ),
       ),
+      floatingActionButton: GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(context, Routes.holidayTypesRoute);
+        },
+        child: Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: AppColors.primary),
+          height: 50.h,
+          width: 130.w,
+          child: Center(
+            child: Text(
+              "holiday_request".tr(),
+              style: getBoldStyle(color: Colors.white, fontSize: 16.sp),
+            ),
+          ),
+        ),
+      ),
       body: Padding(
         padding: EdgeInsets.all(16.0.w),
         child: ListView(
           children: [
-            HolidayRequestCard(
+            const HolidayRequestCard(
               status: "جديدة", // New
               statusColor: Colors.blue,
               requestDate: "14 aug 2024",
@@ -35,7 +53,7 @@ class HolidaysScreen extends StatelessWidget {
               leaveDays: 0,
             ),
             SizedBox(height: 16.h),
-            HolidayRequestCard(
+            const HolidayRequestCard(
               status: "مقبولة", // Approved
               statusColor: Colors.green,
               requestDate: "14 aug 2024",
@@ -77,15 +95,13 @@ class HolidayRequestCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-
       decoration: BoxDecoration(
         color: AppColors.white,
-borderRadius: BorderRadiusDirectional.circular(8),
+        borderRadius: BorderRadiusDirectional.circular(8),
         boxShadow: [
           BoxShadow(
             blurStyle: BlurStyle.outer,
-            color:
-            Colors.black.withOpacity(0.1), // لون الظل مع تقليل الشفافية
+            color: Colors.black.withOpacity(0.1), // لون الظل مع تقليل الشفافية
             spreadRadius: 1, // مدى انتشار الظل
             blurRadius: 4, // مدى نعومة الظل
             offset: const Offset(0, 1), // الاتجاه الأفقي والرأسي للظل
@@ -102,10 +118,10 @@ borderRadius: BorderRadiusDirectional.circular(8),
               children: [
                 Text(
                   'holiday_request'.tr(), // Holiday Request
-                  style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+                  style:
+                      TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
                 ),
                 StatusBadge(status: status, color: statusColor),
-
               ],
             ),
             SizedBox(height: 4.h),
@@ -125,18 +141,24 @@ borderRadius: BorderRadiusDirectional.circular(8),
                   SizedBox(height: 8.h),
                   Text(
                     notes,
-                    style: TextStyle(fontSize: 14.sp, color: Colors.grey),
+                    style: TextStyle(
+                        fontSize: 16.sp,
+                        color: AppColors.black.withOpacity(0.8)),
                   ),
                 ],
               ),
+            SizedBox(
+              height: 10.sp,
+            ),
             if (leaveDays > 0)
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 8.h),
                   Text(
-                    '   ${"number_of_leave_days".tr()} : $leaveDays " + " : " ' ,
-                    style: TextStyle(fontSize: 14.sp, color: Colors.grey),
+                    '${"number_of_leave_days".tr()} : $leaveDays',
+                    style: TextStyle(
+                        fontSize: 16.sp,
+                        color: AppColors.black.withOpacity(0.8)),
                   ),
                 ],
               ),
@@ -157,7 +179,6 @@ class StatusBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-
         color: color.withOpacity(0.2),
         borderRadius: BorderRadius.circular(10),
       ),

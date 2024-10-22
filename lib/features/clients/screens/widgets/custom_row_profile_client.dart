@@ -25,20 +25,20 @@ class CustomROW extends StatelessWidget {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Image.asset(image!),
+                        Image.asset(image!,width: 35.w,height: 35.h,),
                         SizedBox(width: 6.w,),
                         Column(crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                           Text(text!,style: TextStyle(fontSize: 18.sp,fontWeight: FontWeight.w700,fontFamily: AppStrings.fontFamily),),Text(text2!,style: TextStyle(fontSize: 14.sp,fontWeight: FontWeight.w400,fontFamily: AppStrings.fontFamily),)],),],),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Icon(Icons.arrow_forward_ios),
                 )
               ],),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10.0),
               child: Divider(),
             )]),
     );
