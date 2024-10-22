@@ -35,6 +35,7 @@ class ContractDetails {
     dynamic department;
     dynamic workingHours;
 
+
     ContractDetails({
         this.contractId,
         this.displayName,

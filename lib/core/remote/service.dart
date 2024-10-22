@@ -16,6 +16,7 @@ import 'package:top_sale/core/models/category_model.dart';
 import 'package:top_sale/core/models/check_employee_model.dart';
 import 'package:top_sale/core/models/create_order_model.dart';
 import 'package:top_sale/core/models/defaul_model.dart';
+import 'package:top_sale/core/models/get_contract_model.dart';
 import 'package:top_sale/core/models/get_employee_data_model.dart';
 import 'package:top_sale/core/models/get_orders_model.dart';
 import 'package:top_sale/core/models/get_user_data_model.dart';
@@ -895,7 +896,7 @@ class ServiceApi {
     }
   }
   ////////////////////// HR //////////////
-  Future<Either<Failure, AllWareHouseModel>> getContract() async {
+  Future<Either<Failure, ContractDetails>> getContract() async {
     String odooUrl =
         await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
     String? sessionId = await Preferences.instance.getSessionId();
@@ -903,12 +904,11 @@ class ServiceApi {
     try {
       final response = await dio.get(
         odooUrl + EndPoints.employee + '$employeeId/contract',
-        // '?query={id,partner_id,display_name,state,write_date,amount_total}&filter=[["user_id", "=",1]]',
         options: Options(
           headers: {"Cookie": "session_id=$sessionId"},
         ),
       );
-      return Right(AllWareHouseModel.fromJson(response));
+      return Right(ContractDetails.fromJson(response));
     } on ServerException {
       return Left(ServerFailure());
     }
