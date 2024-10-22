@@ -49,6 +49,7 @@ class AdvanceAndSalariesWidget extends StatelessWidget {
             mainAxisSpacing: 10,
             crossAxisCount: 2,
             childAspectRatio: 3 / 2,
+
             mainAxisExtent: 150),
         itemCount: titles.length,
         itemBuilder: (context, index) => GestureDetector(
