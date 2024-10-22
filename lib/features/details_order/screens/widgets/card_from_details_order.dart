@@ -78,6 +78,7 @@ class CardDetailsOrders extends StatelessWidget {
                             context
                                 .read<DetailsOrdersCubit>()
                                 .openGoogleMapsRoute(
+
                                   context.read<DetailsOrdersCubit>().lat ?? 0.0,
                                   context.read<DetailsOrdersCubit>().lang ??
                                       0.0,

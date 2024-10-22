@@ -46,7 +46,6 @@
   "search_product": "ابحث عن منتجك",
   "search_client": "ابحث عن عميلك",
   "currency": "ج.م",
-
   "try_the_app": "تجربة",
   "companyname": "اسم الشركة",
   "companyname_invalid": "ادخل اسم الشركة",
@@ -64,7 +63,6 @@
   "name": "اسم العميل",
   "email": "البريد الالكتروني",
   "phone": "رقم التلفون",
-
   "enter_phone": "ادخل رقم التلفون",
   "enter_email": "ادخل البريد الالكتروني",
   "confirm": "تاكيد",
@@ -74,10 +72,6 @@
   "hr":"مدير",
   "basket":"السلة",
   "home":"الرئيسية",
-
-
-
-
   "notification": "الاشعارات",
   "evaluate_the_application": "تقيم التطبيق",
   "contact": "تواصل معنا",
@@ -93,10 +87,8 @@
   "enter_message": "ادخل رسالتك",
   "enter_subject": "ادخل الموضوع",
   "bill_number": "رقم الفاتوره",
-
-
-"error_confirm_delivery": "خطاء في تاكيد الطلب",
-"cancel": "الغاء",
+  "error_confirm_delivery": "خطاء في تاكيد الطلب",
+  "cancel": "الغاء",
   "cancel_orders": " الطلبات الملغية",
   "": "",
   "ll": "",
@@ -111,7 +103,7 @@
   "price":"السعر",
   "order_sales":"امر البيع",
   "delivery_order":"امر التسليم",
-   "receipt_voucher":"سند القبض",
+  "receipt_voucher":"سند القبض",
   "create_receipt_coucher":"انشاء سند القبض",
   "statement":"البيان",
   "chose_date": "اختر التاريخ",
@@ -123,16 +115,25 @@
   "dismissal_time": "وقت الانصراف",
   "attendance": "حضور",
   "do_create_receipt_coucher":"تم انشاء سند القبض",
-   "discount_validation":"يجب أن يكون الخصم أقل من 100",
+  "discount_validation":"يجب أن يكون الخصم أقل من 100",
   "error_register_payment":"خطأ في تسجيل الدفع",
-   "discount_invalid":"الخصم غير صالح!",
+  "discount_invalid":"الخصم غير صالح!",
   "work_contract": " عقد العمل ",
   "available_holidays":"الاجازت المتاحة",
   "Holidays": "الاجازات",
+  "holiday_request":"طلب اجازة",
+  "number_of_leave_days": "عدد ايام الاجازة",
   "months": "الشهور",
- "monthly_salaries": "الرواتب الشهرية",
+  "monthly_salaries": "الرواتب الشهرية",
   "attendance_and_departure": "الحضور والانصراف",
   "error_from_create_and_validate_invoice": "خطأ في انشاء والتحقق من الفاتورة",
-"salaries": "المرتبات",
-  "search_month": "ابحث بالشهر"
+  "salaries": "المرتبات",
+  "search_month": "ابحث بالشهر",
+  "contract": "العقد",
+  "start_date": "بداية العمل",
+  "end_date": "نهاية العمل",
+  "section": "القسم",
+  "jop": "الوظيفة",
+  "number_of_working_hours": "عدد ايام العمل",
+  "attendance_and_departure_details": "تفاصيل الحضور والانصراف"
 }
