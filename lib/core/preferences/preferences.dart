@@ -180,4 +180,20 @@ class Preferences {
     String? employeeId = preferences.getString('employeeId');
     return employeeId;
   }
+  Future<void> setEmployeeIdNumber(String employeeId) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString('employeeIdNumber', employeeId);
+    print("employeeId = $employeeId");
+  }
+
+  Future<void> removeEmployeeIdNumber() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.remove('employeeIdNumber');
+  }
+
+  Future<String?> getEmployeeIdNumber() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? employeeId = preferences.getString('employeeIdNumber');
+    return employeeId;
+  }
 }

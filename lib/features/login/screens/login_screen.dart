@@ -214,7 +214,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 child: Text('try_the_app'.tr(),
                                     style: TextStyle(
                                         color: AppColors.orangeThirdPrimary)))
-                          ]))
+                          ])),
                 ]),
               )));
     });

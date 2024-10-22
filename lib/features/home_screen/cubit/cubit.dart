@@ -1,7 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:top_sale/core/models/check_employee_model.dart';
 import 'package:top_sale/core/remote/service.dart';
+import 'package:top_sale/core/utils/appwidget.dart';
 import 'package:top_sale/core/utils/dialogs.dart';
+import 'package:top_sale/features/main/cubit/main_cubit.dart';
 import '../../../config/routes/app_routes.dart';
 import '../../../core/models/get_employee_data_model.dart';
 import '../../../core/models/get_user_data_model.dart';
@@ -19,7 +24,51 @@ class HomeCubit extends Cubit<HomeState> {
   String? imageOfUser;
   String? emailOfUser;
   GetUserDataModel? getUserDataModel;
-  bool isEmployee = true;
+  bool isEmployeeAdded = false;
+  TextEditingController reasonController = TextEditingController();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  CheckEmployeeModel? employeeModel;
+  checkEmployeeNumber(
+    BuildContext context, {
+    required String employeeId,
+    // required String password,
+  }) async {
+    // if (await Preferences.instance.getMasterUserName() == null ||
+    //     await Preferences.instance.getOdooUrl() == null) {
+    //   errorGetBar("من فضلك أدخل معلومات الشركة أولا");
+    // } else {
+    emit(LoadingCheckEmployeeState());
+    AppWidget.createProgressDialog(context, 'انتظر');
+    final response = await api.checkEmployeeNumber(
+      employeeId: employeeId,
+    );
+    response.fold((l) {
+      Navigator.pop(context);
+      errorGetBar("حدث خطأ ما");
+      emit(FailureCheckEmployeeState());
+    }, (r) async {
+      Navigator.pop(context);
+      emit(SuccessCheckEmployeeState());
+      if (r.result != null) {
+        if (r.result!.isNotEmpty) {
+          await Preferences.instance
+              .setEmployeeIdNumber(r.result!.first.id.toString());
+          isEmployeeAdded = true;
+          Navigator.pop(context);
+          context.read<MainCubit>().changeNavigationBar(2);
+          successGetBar("تم بنجاح");
+          // Navigator.pushNamedAndRemoveUntil(
+          //     context, Routes.mainRoute, (route) => false);
+        } else {
+          errorGetBar("لا يوجد موظف بهذا الرقم");
+        }
+        //  employeeModel = r;
+      } else {
+        errorGetBar("حدث خطأ ما");
+      }
+    });
+    // }
+  }
 
   //get  userdata
   void getUserData() async {
@@ -71,15 +120,16 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   void checkEmployeeOrUser() {
-    Preferences.instance.getEmployeeId().then((value) {
+    Preferences.instance.getEmployeeId().then((value) async {
       debugPrint(value.toString());
       if (value == null) {
-        isEmployee = false;
+        String? id = await Preferences.instance.getEmployeeIdNumber();
+        isEmployeeAdded = id != null;
         getUserData();
         debugPrint("user");
         // name= getUserDataModel?.name.toString()??"";
       } else {
-        isEmployee = true;
+        isEmployeeAdded = true;
         debugPrint("employee");
         getEmployeeData();
         // name= getEmployeeDataModel?.name.toString()??"";
@@ -96,12 +146,14 @@ class HomeCubit extends Cubit<HomeState> {
         //     getUserData();
         Preferences.instance.removeUserName();
         Preferences.instance.removeEmployeeId();
+        Preferences.instance.removeEmployeeIdNumber();
         debugPrint("user");
 
         // name= getUserDataModel?.name.toString()??"";
       } else {
         Preferences.instance.removeUserName();
         Preferences.instance.removeEmployeeId();
+        Preferences.instance.removeEmployeeIdNumber();
         debugPrint("employee");
         // getEmployeeData();
 
@@ -109,7 +161,9 @@ class HomeCubit extends Cubit<HomeState> {
       }
       Navigator.pushNamedAndRemoveUntil(
           context, Routes.loginRoute, (route) => false);
-      isLogout ? successGetBar("تم تسجل الخروج بنجاح") : successGetBar("تم حذف لاحساب بنجاح");
+      isLogout
+          ? successGetBar("تم تسجل الخروج بنجاح")
+          : successGetBar("تم حذف لاحساب بنجاح");
       // Navigator.pushNamedAndRemoveUntil(context, Routes.loginRoute, );
       emit(checkClearLoaded());
     });
