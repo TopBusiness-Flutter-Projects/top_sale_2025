@@ -803,13 +803,14 @@ class ServiceApi {
   Future<Either<Failure, GetAllJournalsModel>> getAllJournals() async {
     try {
       String? sessionId = await Preferences.instance.getSessionId();
-
+ String employeeId = await Preferences.instance.getEmployeeId() ??"1";
+    String userId = await Preferences.instance.getUserId() ?? "1";
       String odooUrl =
           await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
       final response = await dio.get(
         odooUrl +
             EndPoints.getAllJournals +
-            '&filter=[["payment_sequence", "=","true"]]',
+            '&filter=[["payment_sequence", "=","true"],"|",["user_id", "=", [$userId]],["employee_id", "=", [$employeeId]]]',
         options: Options(
           headers: {"Cookie": "session_id=$sessionId"},
         ),
@@ -842,6 +843,7 @@ class ServiceApi {
               "data": {
                 "name": name,
                 "phone": mobile,
+                if(email.isNotEmpty)
                 "email": email,
                 "street": street,
                 "latitude": lat,

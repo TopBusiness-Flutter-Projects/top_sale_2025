@@ -122,7 +122,7 @@ class ClientsCubit extends Cubit<ClientsState> {
     location.onLocationChanged.listen((newLoc) {
       currentLocation = newLoc;
       // emit(GetCurrentLocationState());
-      print(currentLocation);
+     // print(currentLocation);
     });
   }
 
@@ -132,11 +132,11 @@ class ClientsCubit extends Cubit<ClientsState> {
     AppWidget.createProgressDialog(context, "جاري التحميل");
     emit(CreateClientLoading());
     final result = await api.createPartner(
-        name: clientNameController.text ?? "",
-        mobile: phoneController.text ?? "",
-        street: addressController.text ?? "",
-        email: emailController.text ?? "",
-        lat: double.parse(currentLocation?.latitude.toString() ?? ""),
+        name: clientNameController.text ,
+        mobile: phoneController.text ,
+        street: addressController.text ,
+        email:  emailController.text ,
+        lat: double.parse( currentLocation?.latitude.toString() ?? ""),
         long: double.parse(currentLocation?.longitude.toString() ?? ""));
     result.fold((l) {
       Navigator.pop(context);
@@ -185,23 +185,23 @@ class ClientsCubit extends Cubit<ClientsState> {
   }
 
   //location
-  double? lat;
-  double? lang;
-  Future<void> getLatLong() async {
-    try {
-      Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
-      lat = position.latitude;
-      lang = position.longitude;
+  // double? lat;
+  // double? lang;
+  // Future<void> getLatLong() async {
+  //   try {
+  //     Position position = await Geolocator.getCurrentPosition(
+  //         desiredAccuracy: LocationAccuracy.high);
+  //     lat = position.latitude;
+  //     lang = position.longitude;
 
-      print('laaaaaaaaaaaaaa : $lat');
-      print('laaaaaaaaaaaaaa : $lang');
-      // await getAddress(lat: position.latitude, lang: position.longitude);
-    } catch (e) {
-      print('laaaaaaaaaaaaaa Error getting location: $e');
-    }
-    emit(GetLatLongSuccess());
-  }
+  //     print('laaaaaaaaaaaaaa : $lat');
+  //     print('laaaaaaaaaaaaaa : $lang');
+  //     // await getAddress(lat: position.latitude, lang: position.longitude);
+  //   } catch (e) {
+  //     print('laaaaaaaaaaaaaa Error getting location: $e');
+  //   }
+  //   emit(GetLatLongSuccess());
+  // }
 
   DateTime convertTimestampToDateTime(int timestamp) {
     //1650265974
@@ -220,10 +220,10 @@ class ClientsCubit extends Cubit<ClientsState> {
     final url =
         'https://www.google.com/maps/dir/?api=1&origin=$originLat,$originLng&destination=$destinationLat,$destinationLng';
 
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
+    try {
+      launchUrl(Uri.parse(url));
+    } catch (e) {
+    errorGetBar("error from map");
     }
   }
 

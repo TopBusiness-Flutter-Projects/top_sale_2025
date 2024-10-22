@@ -121,14 +121,14 @@ class CustomProductWidget extends StatelessWidget {
                                   // Navigator.pop(context);
 
 //! add
-                                  if (product.userOrderedQuantity <
-                                      product.stockQuantity) {
+                                  // if (product.userOrderedQuantity <
+                                  //     product.stockQuantity) {
                                     cubit.addAndRemoveToBasket(
                                         product: product, isAdd: true);
-                                  } else {
-                                    errorGetBar(
-                                        "الكمية المطلوبة غير متاحة في المخزن");
-                                  }
+                                  // } else {
+                                  //   errorGetBar(
+                                  //       "الكمية المطلوبة غير متاحة في المخزن");
+                                  // }
                                 },
                                 child: Icon(
                                   Icons.add,

@@ -1,10 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:top_sale/core/api/end_points.dart';
 import 'package:top_sale/core/models/all_payments_model.dart';
 import 'package:top_sale/core/remote/service.dart';
 import 'package:top_sale/core/utils/appwidget.dart';
 import 'package:top_sale/core/utils/dialogs.dart';
+import 'package:top_sale/features/details_order/screens/pdf.dart';
 import '../../../core/models/all_journals_model.dart';
 import '../../../core/models/defaul_model.dart';
 import 'create_receipt_coucher_state.dart';
@@ -59,6 +61,18 @@ class CreateReceiptCoucherCubit extends Cubit<CreateReceiptCoucherState> {
           amountController.clear();
           selectedPaymentMethod = null;
           selectedDate = null;
+          if (r.result!.paymentId != null) {
+            Navigator.push(context, MaterialPageRoute(
+              builder: (context) {
+                return PdfViewerPage(
+                  baseUrl:
+                      '${EndPoints.printPayment}${r.result!.paymentId.toString()}',
+                );
+                // return PaymentWebViewScreen(url: "",);
+              },
+            ));
+          }
+
           getAllReceiptVoucher();
         } else {
           errorGetBar("error_register_payment".tr());

@@ -10,7 +10,7 @@ class EndPoints {
   static String resUsers = "/api/res.users/";
   static String checkEmployee = '/api/hr.employee/';
   static String allCategoriesUrl =
-      "/api/product.category?query={id,name,image}";
+      '/api/product.category?query={id,name,image}&filter=[["is_active", "=","true"]]';
   static String allProducts = '/api/product.product/';
   static String products = '/api/product/all_paginated';
   static String productSearch = '/api/product/search';
