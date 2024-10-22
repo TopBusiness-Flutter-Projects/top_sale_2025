@@ -14,24 +14,28 @@ class AdvanceAndSalariesWidget extends StatelessWidget {
     "attendance_and_departure".tr(),
     "monthly_salaries".tr(),
     "available_holidays".tr(),
+    "المصروفات".tr()
   ];
   List<String> subTitles = [
     "",
     "",
     "months".tr(),
     "Holidays".tr(),
+    "مصروفات".tr()
   ];
   List<String> images = [
     ImageAssets.documentIcon,
     ImageAssets.attendanceIcon,
     ImageAssets.salafIcon,
     ImageAssets.instructionsIcon,
+    ImageAssets.moneyRedIcon,
   ];
   List<Color> colors = [
     AppColors.orange,
     AppColors.primary,
     AppColors.green,
-    AppColors.purpelColor
+    AppColors.purpelColor,
+    AppColors.red
   ];
   @override
   Widget build(BuildContext context) {
@@ -46,7 +50,7 @@ class AdvanceAndSalariesWidget extends StatelessWidget {
             crossAxisCount: 2,
             childAspectRatio: 3 / 2,
             mainAxisExtent: 150),
-        itemCount: 4,
+        itemCount: titles.length,
         itemBuilder: (context, index) => GestureDetector(
           onTap: () {
             if (index == 0) {
@@ -57,6 +61,9 @@ class AdvanceAndSalariesWidget extends StatelessWidget {
               Navigator.pushNamed(context, Routes.salariesRoute);
             } else if (index == 3) {
               Navigator.pushNamed(context, Routes.holidayRoute);
+
+            }else if (index == 4) {
+              //Navigator.pushNamed(context, Routes.holidayRoute);
 
             }
           },
@@ -124,7 +131,7 @@ class AdvanceAndSalariesWidget extends StatelessWidget {
                       ),
                       Text(titles[index],
                           style: TextStyle(
-                              fontSize: 18.sp,
+                              fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
                               color: AppColors.black.withOpacity(0.5))),
                     ],
