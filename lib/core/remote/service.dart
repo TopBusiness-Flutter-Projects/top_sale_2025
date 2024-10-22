@@ -174,6 +174,25 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
+  Future<Either<Failure, CheckEmployeeModel>> checkEmployeeNumber(
+      {required String employeeId}) async {
+    try {
+      String? sessionId = await Preferences.instance.getSessionId();
+      String odooUrl =
+          await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+      final response = await dio.get(
+        odooUrl + 
+            EndPoints.checkEmployee +
+            '?query={id,name}&filter=[["barcode","=","$employeeId"]]',
+        options: Options(
+          headers: {"Cookie": "frontend_lang=en_US;session_id=$sessionId"},
+        ),
+      );
+      return Right(CheckEmployeeModel.fromJson(response));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
 
   Future<Either<Failure, GetUserDataModel>> getUserData() async {
     try {
@@ -875,4 +894,25 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
+  ////////////////////// HR //////////////
+  Future<Either<Failure, AllWareHouseModel>> getContract() async {
+    String odooUrl =
+        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+    String? sessionId = await Preferences.instance.getSessionId();
+     String employeeId = await Preferences.instance.getEmployeeId() ?? await Preferences.instance.getEmployeeIdNumber()??"1";
+    try {
+      final response = await dio.get(
+        odooUrl + EndPoints.employee + '$employeeId/contract',
+        // '?query={id,partner_id,display_name,state,write_date,amount_total}&filter=[["user_id", "=",1]]',
+        options: Options(
+          headers: {"Cookie": "session_id=$sessionId"},
+        ),
+      );
+      return Right(AllWareHouseModel.fromJson(response));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
+
+
 }

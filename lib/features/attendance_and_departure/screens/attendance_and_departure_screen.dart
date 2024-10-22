@@ -13,25 +13,23 @@ class AttendanceAndDepartureScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.white,
-      appBar: AppBar(
         backgroundColor: AppColors.white,
-        centerTitle: false,
-        title: Text(
-          "attendance_and_departure".tr(),
-          style: getBoldStyle(fontSize: 20.sp),
+        appBar: AppBar(
+          backgroundColor: AppColors.white,
+          centerTitle: false,
+          title: Text(
+            "attendance_and_departure".tr(),
+            style: getBoldStyle(fontSize: 20.sp),
+          ),
         ),
-      ),
-      body:
-      context.read<HomeCubit>().isEmployee ?
-      ListView(
-        children: [
-          const ContainerTimesFromUserInHomeScreen(),
-          SizedBox(height: 20.h),
-          AdvanceAndSalariesWidget(),
-        ],
-      ):
-      const SizedBox()
-    );
+        body: context.read<HomeCubit>().isEmployeeAdded
+            ? ListView(
+                children: [
+                  const ContainerTimesFromUserInHomeScreen(),
+                  SizedBox(height: 20.h),
+                  AdvanceAndSalariesWidget(),
+                ],
+              )
+            : const SizedBox());
   }
 }
