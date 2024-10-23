@@ -10,6 +10,7 @@ import 'package:top_sale/core/utils/appwidget.dart';
 import 'package:top_sale/core/utils/dialogs.dart';
 import '../../../core/models/get_contract_model.dart';
 import '../../../core/models/holidays_model.dart';
+import '../../../core/models/holidays_type_model.dart';
 import 'attendance_and_departure_state.dart';
 import 'package:network_info_plus/network_info_plus.dart';
 import 'package:intl/intl.dart';
@@ -207,6 +208,18 @@ class AttendanceAndDepartureCubit extends Cubit<AttendanceAndDepartureState> {
         getLastAttendanceModel = r;
 
         emit(GetContractLoaded());
+      },
+    );
+  }  HolidaysTypeModel? holidaysTypeModel;
+  getTypeHolidays() async {
+    emit(GetTypeHolidaysLoading());
+    final result = await api.getTypeHolidays();
+    result.fold(
+      (failure) => emit(GetTypeHolidaysError()),
+      (r) {
+        holidaysTypeModel = r;
+
+        emit(GetTypeHolidaysLoaded());
       },
     );
   }

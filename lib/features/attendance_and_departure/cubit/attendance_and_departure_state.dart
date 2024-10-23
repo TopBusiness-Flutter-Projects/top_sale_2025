@@ -22,3 +22,6 @@ class CheckInOutError extends AttendanceAndDepartureState {}
 class CheckInOutLoaded extends AttendanceAndDepartureState {}
 
 class GetWifiIPLoaded extends AttendanceAndDepartureState {}
+class GetTypeHolidaysLoading  extends AttendanceAndDepartureState {}
+class GetTypeHolidaysError  extends AttendanceAndDepartureState {}
+class GetTypeHolidaysLoaded  extends AttendanceAndDepartureState {}

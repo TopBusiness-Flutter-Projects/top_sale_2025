@@ -71,12 +71,12 @@ class _HolidaysScreenState extends State<HolidaysScreen> {
               itemCount: cubit.holidaysModel.timeOffRequests!.length,
               itemBuilder: (context, index) =>  HolidayRequestCard(
                   status:cubit.holidaysModel.timeOffRequests![index].status, // Approved
-                  statusColor: Colors.green,
+                  statusColor: Colors.black,
                   requestDate: cubit.holidaysModel.timeOffRequests![index].dateCreated ?? "",
                   leaveType: cubit.holidaysModel.timeOffRequests![index].timeOffType ?? "", // Sick leave
                   startDate: cubit.holidaysModel.timeOffRequests![index].dateFrom ?? "",
                   endDate: cubit.holidaysModel.timeOffRequests![index].dateTo ?? "",
-                  notes: cubit.holidaysModel.timeOffRequests![index].description ?? "", // Notes
+                  notes: (cubit.holidaysModel.timeOffRequests![index].description.toString() == "false") ? "": cubit.holidaysModel.timeOffRequests![index].description.toString(), // Notes
                 leaveDays: cubit.holidaysModel.timeOffRequests![index].duration ?? "0",                ),
 
             );
@@ -151,7 +151,7 @@ class HolidayRequestCard extends StatelessWidget {
               '$leaveType من $startDate الى $endDate',
               style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
             ),
-            if (notes.isNotEmpty)
+
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
