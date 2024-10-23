@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:top_sale/config/routes/app_routes.dart';
 import 'package:top_sale/core/utils/app_colors.dart';
 import 'package:top_sale/core/utils/assets_manager.dart';
 import 'package:top_sale/core/utils/dialogs.dart';
@@ -42,6 +43,32 @@ class _BasketScreenState extends State<BasketScreen> {
           backgroundColor: AppColors.white,
           appBar: AppBar(
             centerTitle: false,
+            actions: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.productsRoute,
+                        arguments: ["products".tr(), '-1']);
+                  },
+                  child: Container(
+                    height: 30.sp,
+                    width: 30.sp,
+                    decoration: BoxDecoration(
+                      color: AppColors.primaryColor,
+                      borderRadius: BorderRadiusDirectional.circular(90),
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.add,
+                        size: 20.sp,
+                        color: AppColors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
             title: Text(
               'basket'.tr(),
               style: TextStyle(
@@ -192,15 +219,17 @@ class _BasketScreenState extends State<BasketScreen> {
                   SizedBox(
                     height: getSize(context) / 16,
                   ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: cubit2.basket.length,
-                    itemBuilder: (context, index) {
-                      var item = cubit2.basket[index];
-                      return CustomBasketItem(item: item);
-                    },
-                  ),
+                  cubit2.basket.isEmpty
+                      ? Center(child: Text("لا يوجد منتجات في السلة"))
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: cubit2.basket.length,
+                          itemBuilder: (context, index) {
+                            var item = cubit2.basket[index];
+                            return CustomBasketItem(item: item);
+                          },
+                        ),
                   SizedBox(height: 32.h),
                   (state is LoadingCreateQuotation)
                       ? const Center(

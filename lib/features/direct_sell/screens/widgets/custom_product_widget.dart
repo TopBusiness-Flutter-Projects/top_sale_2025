@@ -43,7 +43,7 @@ class CustomProductWidget extends StatelessWidget {
                   child: Column(
                     children: [
                       Container(
-                        height: getSize(context) / 3,
+                        // height: getSize(context) / 3,
                         decoration: BoxDecoration(
                             color: AppColors.white,
                             borderRadius: BorderRadius.circular(18.r)),
@@ -66,11 +66,14 @@ class CustomProductWidget extends StatelessWidget {
                                   ))
                                 : CustomDecodedImageWithText(
                                     context: context,
-                                    character: product.name!.length >= 4
-                                        ? product.name!.removeAllWhitespace
-                                            .substring(0, 4)
-                                            .toString()
-                                        : product.name!.removeAllWhitespace,
+                                    character: product.name!
+                                        .trimLeft() // Remove only leading whitespace
+                                        .substring(
+                                            0,
+                                            product.name!.length >= 4
+                                                ? 4
+                                                : product.name!.length)
+                                        .toString(),
                                     base64String: product.image1920,
                                   )),
                       ),
@@ -81,25 +84,51 @@ class CustomProductWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Flexible(
-                            child: Text("${product.name ?? ''}\n",
-                                maxLines: 2,
+                            child: Text("${product.name ?? ''}",
+                                // child: Text("${product.name ?? ''}\n",
+                                // maxLines: 2,
                                 textAlign: TextAlign.start,
-                                overflow: TextOverflow.ellipsis,
+                                //  overflow: TextOverflow.ellipsis,
                                 style:
                                     getBoldStyle(color: AppColors.primaryGrey)),
                           ),
-                          SizedBox(
-                            width: 8.w,
-                          ),
-                          Text("${product.listPrice.toString()}${ context.read<HomeCubit>().currencyName}",
-                              // "${product.listPrice.toString()}${product.currencyId?.name ?? ''}",
-                              // maxLines: 2,
-                              // textAlign: TextAlign.center,
-                              overflow: TextOverflow.ellipsis,
-                              style: getRegularStyle(
-                                  color: AppColors.orangeThirdPrimary)),
                         ],
                       ),
+                      // Row(
+                      //   crossAxisAlignment: CrossAxisAlignment.start,
+                      //   children: [
+                      //     Flexible(
+                      //       child: Text("${product.name ?? ''}",
+                      //       // child: Text("${product.name ?? ''}\n",
+                      //          // maxLines: 2,
+                      //           textAlign: TextAlign.start,
+                      //         //  overflow: TextOverflow.ellipsis,
+                      //           style:
+                      //               getBoldStyle(color: AppColors.primaryGrey)),
+                      //     ),
+                      //     SizedBox(
+                      //       width: 8.w,
+                      //     ),
+                      //     Text("${product.listPrice.toString()}${ context.read<HomeCubit>().currencyName}",
+                      //         // "${product.listPrice.toString()}${product.currencyId?.name ?? ''}",
+                      //         // maxLines: 2,
+                      //         // textAlign: TextAlign.center,
+                      //         overflow: TextOverflow.ellipsis,
+                      //         style: getRegularStyle(
+                      //             color: AppColors.orangeThirdPrimary)),
+                      //   ],
+                      // ),
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                      Text(
+                          "${product.listPrice.toString()}${context.read<HomeCubit>().currencyName}",
+                          // "${product.listPrice.toString()}${product.currencyId?.name ?? ''}",
+                          // maxLines: 2,
+                          // textAlign: TextAlign.center,
+                          overflow: TextOverflow.ellipsis,
+                          style: getRegularStyle(
+                              color: AppColors.orangeThirdPrimary)),
                       SizedBox(
                         height: 10.h,
                       ),
@@ -123,8 +152,8 @@ class CustomProductWidget extends StatelessWidget {
 //! add
                                   // if (product.userOrderedQuantity <
                                   //     product.stockQuantity) {
-                                    cubit.addAndRemoveToBasket(
-                                        product: product, isAdd: true);
+                                  cubit.addAndRemoveToBasket(
+                                      product: product, isAdd: true);
                                   // } else {
                                   //   errorGetBar(
                                   //       "الكمية المطلوبة غير متاحة في المخزن");

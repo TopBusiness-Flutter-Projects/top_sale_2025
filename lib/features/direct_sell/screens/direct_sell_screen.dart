@@ -27,7 +27,7 @@ class _DirectSellScreenState extends State<DirectSellScreen> {
   void initState() {
     super.initState();
 
-    context.read<DirectSellCubit>().getCategries();
+   
     context.read<DirectSellCubit>().getAllProducts(isHome: true);
   }
 
@@ -108,7 +108,8 @@ class _DirectSellScreenState extends State<DirectSellScreen> {
                                                   [],
                                         ),
                                   SizedBox(height: 25.h),
-                                  state == LoadingProduct
+                                  cubit.homeProductsModel
+                                                  .result == null
                                       ? const Center(
                                           child: CircularProgressIndicator())
                                       : CustomProductSection(

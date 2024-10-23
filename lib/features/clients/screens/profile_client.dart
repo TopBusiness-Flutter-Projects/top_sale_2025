@@ -126,7 +126,7 @@ class _ProfileClientState extends State<ProfileClient> {
                 GestureDetector(
                   onTap: () {
                     Navigator.pushNamed(context, Routes.billsRoute);
-                  },
+                  },                  
                   child: CustomROW(
                     image: cubit.Images[1],
                     text: cubit.Texts[1].tr(),
