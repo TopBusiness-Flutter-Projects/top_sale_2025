@@ -16,7 +16,9 @@ import 'package:top_sale/core/models/category_model.dart';
 import 'package:top_sale/core/models/check_employee_model.dart';
 import 'package:top_sale/core/models/create_order_model.dart';
 import 'package:top_sale/core/models/defaul_model.dart';
+import 'package:top_sale/core/models/get__my_expense_model.dart';
 import 'package:top_sale/core/models/get_all_attendance_model.dart';
+import 'package:top_sale/core/models/get_all_expenses_product_model.dart';
 import 'package:top_sale/core/models/get_contract_model.dart';
 import 'package:top_sale/core/models/get_employee_data_model.dart';
 import 'package:top_sale/core/models/get_last_attendance_model.dart';
@@ -1023,5 +1025,50 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
-
+  Future<Either<Failure, GetMyExpensesModel>> getMyExpenses() async {
+    String odooUrl =
+        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+    String? sessionId = await Preferences.instance.getSessionId();
+     String userId = await Preferences.instance.getUserId() ?? "1";
+    String employeeId = await Preferences.instance.getEmployeeId() ??
+        await Preferences.instance.getEmployeeIdNumber() ??
+        "1";
+    try {
+      final response = await dio.post(
+        odooUrl + EndPoints.employee + 'my_expenses',
+        body: {
+        
+              "employee_id": int.parse(employeeId),
+               "user_id": int.parse(userId)
+             
+         
+        },
+        options: Options(
+          headers: {"Cookie": "session_id=$sessionId"},
+        ),
+      );
+      return Right(GetMyExpensesModel.fromJson(response));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
+Future<Either<Failure, GetAllExpensesProductModel>> getAllExpenseveProduct() async {
+    String odooUrl =
+        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+    String? sessionId = await Preferences.instance.getSessionId();
+    String employeeId = await Preferences.instance.getEmployeeId() ??
+        await Preferences.instance.getEmployeeIdNumber() ??
+        "1";
+    try {
+      final response = await dio.get(
+        odooUrl + EndPoints.employee + 'expense/products',
+        options: Options(
+          headers: {"Cookie": "session_id=$sessionId"},
+        ),
+      );
+      return Right(GetAllExpensesProductModel.fromJson(response));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
 }

@@ -196,7 +196,7 @@ class AttendanceAndDepartureCubit extends Cubit<AttendanceAndDepartureState> {
       },
     );
   }
-
+  
   GetLastAttendanceModel? getLastAttendanceModel;
   getLastAttendance() async {
     emit(GetContractLoading());
