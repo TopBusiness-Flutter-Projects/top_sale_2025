@@ -10,9 +10,19 @@ import '../../../core/utils/app_fonts.dart';
 import '../../../core/utils/get_size.dart';
 import '../../details_order/screens/widgets/rounded_button.dart';
 
-class HolidaysTypeScreen extends StatelessWidget {
+class HolidaysTypeScreen extends StatefulWidget {
   const HolidaysTypeScreen({super.key});
 
+  @override
+  State<HolidaysTypeScreen> createState() => _HolidaysTypeScreenState();
+}
+
+class _HolidaysTypeScreenState extends State<HolidaysTypeScreen> {
+  @override
+  void initState() {
+    context.read<AttendanceAndDepartureCubit>().getTypeHolidays();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,10 +46,10 @@ class HolidaysTypeScreen extends StatelessWidget {
               onTap: () {
                 _showBottomSheet(context, cubit);
               },
-              child: const LeaveRow(
-                normalDays: "10",
-                negativeDays: "5",
-                leaveType: " اجازة مرضية ",
+              child:  LeaveRow(
+                normalDays:cubit.holidaysTypeModel!.timeOffBalances![index].remainingDays.toInt().toString(),
+                negativeDays:cubit.holidaysTypeModel!.timeOffBalances![index].usedDays.toInt().toString(),
+                leaveType:cubit.holidaysTypeModel!.timeOffBalances![index].timeOffType.toString(),
               ),
             );
           });
@@ -93,7 +103,7 @@ class LeaveRow extends StatelessWidget {
                 // Negative days in red with strikethrough
                 if (negativeDays.isNotEmpty)
                   TextSpan(
-                    text: "  $negativeDays ",
+                    text: "$negativeDays ",
                     style: TextStyle(
                       color: Colors.red,
                       fontSize: 16.sp,
