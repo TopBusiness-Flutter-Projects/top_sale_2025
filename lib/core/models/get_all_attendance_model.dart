@@ -7,41 +7,20 @@ import 'dart:convert';
 GetAllAttendanceModel getAllAttendanceModelFromJson(String str) => GetAllAttendanceModel.fromJson(json.decode(str));
 
 String getAllAttendanceModelToJson(GetAllAttendanceModel data) => json.encode(data.toJson());
-
 class GetAllAttendanceModel {
-   
-    Result? result;
+  List<Attendance>? attendances;
 
-    GetAllAttendanceModel({
-       
-        this.result,
-    });
+  GetAllAttendanceModel({
+    this.attendances,
+  });
 
-    factory GetAllAttendanceModel.fromJson(Map<String, dynamic> json) => GetAllAttendanceModel(
-      
-        result: json["result"] == null ? null : Result.fromJson(json["result"]),
-    );
+  factory GetAllAttendanceModel.fromJson(Map<String, dynamic> json) => GetAllAttendanceModel(
+    attendances: json["attendances"] == null ? [] : List<Attendance>.from(json["attendances"]!.map((x) => Attendance.fromJson(x))),
+  );
 
-    Map<String, dynamic> toJson() => {
-      
-        "result": result?.toJson(),
-    };
-}
-
-class Result {
-    List<Attendance>? attendances;
-
-    Result({
-        this.attendances,
-    });
-
-    factory Result.fromJson(Map<String, dynamic> json) => Result(
-        attendances: json["attendances"] == null ? [] : List<Attendance>.from(json["attendances"]!.map((x) => Attendance.fromJson(x))),
-    );
-
-    Map<String, dynamic> toJson() => {
-        "attendances": attendances == null ? [] : List<dynamic>.from(attendances!.map((x) => x.toJson())),
-    };
+  Map<String, dynamic> toJson() => {
+    "attendances": attendances == null ? [] : List<dynamic>.from(attendances!.map((x) => x.toJson())),
+  };
 }
 
 class Attendance {

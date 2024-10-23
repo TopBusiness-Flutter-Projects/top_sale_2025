@@ -15,6 +15,7 @@ import 'package:top_sale/features/home_screen/screens/home_screen.dart';
 import 'package:top_sale/features/main/screens/main_screen.dart';
 import 'package:top_sale/features/notification_screen/screens/notification_screens.dart';
 import 'package:top_sale/features/attendance_and_departure/screens/salaries_screen.dart';
+import 'package:top_sale/features/returns/screens/returns_screen.dart';
 import 'package:top_sale/features/splash/screens/splash_screen.dart';
 import 'package:top_sale/features/update_profile/screens/update_profile_screen.dart';
 import '../../core/models/all_partners_for_reports_model.dart';
@@ -71,6 +72,7 @@ class Routes {
   static const String holidayTypesRoute = '/holidayTypesRoute';
   static const String moneyRoute = '/moneyRoute';
   static const String moneyTypeRoute = '/moneyTypeRoute';
+  static const String returnsRoute = '/returnsRoute';
 }
 
 class AppRoutes {
@@ -249,6 +251,9 @@ class AppRoutes {
         );case Routes.moneyTypeRoute:
         return MaterialPageRoute(
           builder: (context) =>   const MoneyTypeScreen(),
+        );case Routes.returnsRoute:
+        return MaterialPageRoute(
+          builder: (context) =>   const ReturnsScreen(),
         );
       //
       // case Routes.resultOfLessonExam:

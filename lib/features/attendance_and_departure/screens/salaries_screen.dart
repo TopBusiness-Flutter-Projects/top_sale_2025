@@ -63,9 +63,6 @@ class SalariesScreen extends StatelessWidget {
                                     offset: const Offset(0, 1), // الاتجاه الأفقي والرأسي للظل
                                   ),
                                 ],
-
-
-
                                 color: AppColors.white,
                                 borderRadius: BorderRadius.circular(10.sp),
                               ),

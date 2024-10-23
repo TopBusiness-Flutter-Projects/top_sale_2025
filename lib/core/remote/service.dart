@@ -31,6 +31,8 @@ import 'package:top_sale/core/utils/app_strings.dart';
 import '../api/base_api_consumer.dart';
 import 'package:odoo_rpc/odoo_rpc.dart';
 
+import '../models/holidays_model.dart';
+
 class ServiceApi {
   final BaseApiConsumer dio;
   ServiceApi(this.dio);
@@ -939,6 +941,27 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
+
+  /// holidays ///
+  Future<Either<Failure, HolidaysModel>> getHolidays() async {
+    String odooUrl =
+        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+    String? sessionId = await Preferences.instance.getSessionId();
+     String employeeId = await Preferences.instance.getEmployeeId() ??
+         await Preferences.instance.getEmployeeIdNumber()??"1";
+    try {
+      final response = await dio.get(
+        odooUrl + EndPoints.employee + '$employeeId/time_off_requests',
+        options: Options(
+          headers: {"Cookie": "session_id=$sessionId"},
+        ),
+      );
+      return Right(HolidaysModel.fromJson(response));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
+
   Future<Either<Failure, GetLastAttendanceModel>> getLastAttendance() async {
     String odooUrl =
         await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
@@ -1000,4 +1023,5 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
+
 }

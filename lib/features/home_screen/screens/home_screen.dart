@@ -91,6 +91,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.pushNamed(
                               context, Routes.receiptVoucherRoute,
                               arguments: false);                         
+                        }),   CardHome(
+                        text: "returns".tr(),
+                        image: ImageAssets.receiptVoucherIcon,
+                        onPressed: () {
+                          Navigator.pushNamed(
+                              context, Routes.returnsRoute);
                         }),
                   ],
                 ),

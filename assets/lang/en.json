@@ -145,6 +145,17 @@
   "paid" : "Paid",
   "enter_paid": "Enter Paid",
   "payment_type": "Payment Type",
+  "enter_payment": "Enter Payment",
+  "attendance_place":"Attendance Place",
+  "additional_time":" Additional Time",
+  "to": "To",
+  "from" : "From",
+  "returns":"Returns",
+  "search_from_user": "Search from user",
+  "return_order": "Return Order"
+
+
+
   "error" : " Some thing wrong ",
   "leave": "Leave",
 

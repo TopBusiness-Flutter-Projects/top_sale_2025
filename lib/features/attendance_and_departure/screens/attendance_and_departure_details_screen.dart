@@ -1,65 +1,93 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:top_sale/core/utils/app_colors.dart';
 import 'package:top_sale/core/utils/app_fonts.dart';
+import '../../../core/models/get_all_attendance_model.dart';
+import '../cubit/attendance_and_departure_cubit.dart';
+import '../cubit/attendance_and_departure_state.dart';
 
-class AttendanceAndDepartureDetailsScreen extends StatelessWidget {
+class AttendanceAndDepartureDetailsScreen extends StatefulWidget {
   const AttendanceAndDepartureDetailsScreen({super.key});
 
   @override
+  State<AttendanceAndDepartureDetailsScreen> createState() =>
+      _AttendanceAndDepartureDetailsScreenState();
+}
+
+class _AttendanceAndDepartureDetailsScreenState
+    extends State<AttendanceAndDepartureDetailsScreen> {
+  @override
+  initState() {
+    context.read<AttendanceAndDepartureCubit>().getAllAttendance();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    var cubit = context.read<AttendanceAndDepartureCubit>();
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBar(
+
         titleTextStyle: getBoldStyle(fontSize: 20.sp),
         title: Text('attendance_and_departure_details'.tr()),
         backgroundColor: Colors.white,
         centerTitle: false,
+        elevation: 0,
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Date pickers
-            const Row(
-
-              children: [
-                Expanded(child: DatePickerField(label: 'من', selectedDate: '23/2/2024')),
-                SizedBox(width: 20),
-                Expanded(child: DatePickerField(label: 'إلى', selectedDate: '23/2/2024'),
-                )
-              ],
-            ),
-            SizedBox(height: 20.h),
-            Expanded(
-              child: ListView(
-                children: [
-                  const AttendanceCard(
-                    day: "الأحد",
-                    date: "2/9/2024",
-                    checkInTime: "09:00",
-                    checkOutTime: "15:00",
-                    workTime: "06:00",
-                    additionalTime: "03:00",
-                    departureLocation: "المنوفية",
-                  ),
-                  SizedBox(height: 16.h),
-                  const AttendanceCard(
-                    day: "الأحد",
-                    date: "2/9/2024",
-                    checkInTime: "09:00",
-                    checkOutTime: "15:00",
-                    workTime: "06:00",
-                    additionalTime: "03:00",
-                    departureLocation: "المنوفية",
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+        child: BlocBuilder<AttendanceAndDepartureCubit,
+            AttendanceAndDepartureState>(builder: (context, state) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Date pickers
+              // Row(
+              //   children: [
+              //     Expanded(
+              //         child: DatePickerField(
+              //             label: 'from'.tr(),
+              //             selectedDate: cubit.fromDate.toString())),
+              //     SizedBox(width: 20.w),
+              //     Expanded(
+              //       child: DatePickerField(
+              //           label: 'to'.tr(),
+              //           selectedDate: cubit.toDate.toString()),
+              //     )
+              //   ],
+              // ),
+              SizedBox(height: 20.h),
+              cubit.getAllAttendanceModel.attendances == null
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : Expanded(
+                      child: cubit.getAllAttendanceModel.attendances == null ||
+                              cubit.getAllAttendanceModel.attendances!
+                                  .isEmpty ||
+                              cubit.getAllAttendanceModel.attendances == []
+                          ? Text("no_data".tr())
+                          : RefreshIndicator(
+                        onRefresh: () async {
+                          cubit.getAllAttendance();
+                        },
+                        child: ListView.builder(
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) => AttendanceCard(
+                                  attendance: cubit
+                                      .getAllAttendanceModel.attendances![index],
+                                ),
+                                itemCount: cubit
+                                    .getAllAttendanceModel.attendances!.length,
+                              ),
+                          ),
+                    ),
+            ],
+          );
+        }),
       ),
     );
   }
@@ -142,24 +170,9 @@ class _DatePickerFieldState extends State<DatePickerField> {
 }
 
 class AttendanceCard extends StatelessWidget {
-  final String day;
-  final String date;
-  final String checkInTime;
-  final String checkOutTime;
-  final String workTime;
-  final String additionalTime;
-  final String departureLocation;
+  Attendance attendance;
 
-  const AttendanceCard({
-    super.key,
-    required this.day,
-    required this.date,
-    required this.checkInTime,
-    required this.checkOutTime,
-    required this.workTime,
-    required this.additionalTime,
-    required this.departureLocation,
-  });
+  AttendanceCard({super.key, required this.attendance});
 
   @override
   Widget build(BuildContext context) {
@@ -175,7 +188,7 @@ class AttendanceCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              "$day $date",
+              attendance.checkIn.toString().substring(0,10) ?? "",
               style: TextStyle(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
@@ -185,21 +198,39 @@ class AttendanceCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AttendanceInfoRow(label: "وقت الحضور".tr(), value: checkInTime),
                 AttendanceInfoRow(
-                    label: "وقت الانصراف".tr(), value: checkOutTime),
-                AttendanceInfoRow(label: "وقت العمل".tr(), value: workTime),
+                  label: "attendance_time".tr(),
+                  value: attendance.checkIn == null
+                      ? ""
+                      : attendance.checkIn!.toString().substring(11, 16),
+                ),
+                AttendanceInfoRow(
+                  label: "dismissal_time".tr(),
+                  value: attendance.checkOut == null
+                      ? ""
+                      : attendance.checkOut!.toString().substring(11, 16),
+                ),
+                AttendanceInfoRow(
+                  label: "work_time".tr(),
+                  value: attendance.workedHours.toInt().toString(),
+                ),
               ],
             ),
             SizedBox(height: 10.h),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 AttendanceInfoRow(
-                    label: "وقت اضافي".tr(), value: additionalTime),
+                  label: "additional_time".tr(),
+                  value: attendance.employeeId == null
+                      ? ""
+                      : attendance.employeeId.toString(),
+                ),
                 AttendanceInfoRow(
-                    label: "مكان الانصراف".tr(), value: departureLocation),
+                  label: "attendance_place".tr(),
+                  value: (attendance.outCity == false) ?
+                  "":attendance.outCity ?? '',
+                ),
               ],
             ),
             SizedBox(height: 8.h),
@@ -209,6 +240,7 @@ class AttendanceCard extends StatelessWidget {
     );
   }
 }
+
 
 class AttendanceInfoRow extends StatelessWidget {
   final String label;
@@ -223,7 +255,7 @@ class AttendanceInfoRow extends StatelessWidget {
       children: [
         Text(label,
             style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500)),
-         Divider(color: AppColors.black,thickness: 1),
+        Divider(color: AppColors.black, thickness: 1),
         SizedBox(height: 4.h),
         Text(
           value,
