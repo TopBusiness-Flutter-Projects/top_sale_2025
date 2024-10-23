@@ -896,7 +896,7 @@ class ServiceApi {
     }
   }
   ////////////////////// HR //////////////
-  Future<Either<Failure, ContractDetails>> getContract() async {
+  Future<Either<Failure, GetContractModel>> getContract() async {
     String odooUrl =
         await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
     String? sessionId = await Preferences.instance.getSessionId();
@@ -908,7 +908,7 @@ class ServiceApi {
           headers: {"Cookie": "session_id=$sessionId"},
         ),
       );
-      return Right(ContractDetails.fromJson(response));
+      return Right(GetContractModel.fromJson(response));
     } on ServerException {
       return Left(ServerFailure());
     }

@@ -64,7 +64,7 @@ class AdvanceAndSalariesWidget extends StatelessWidget {
               Navigator.pushNamed(context, Routes.holidayRoute);
 
             }else if (index == 4) {
-              //Navigator.pushNamed(context, Routes.holidayRoute);
+              Navigator.pushNamed(context, Routes.moneyRoute);
 
             }
           },
