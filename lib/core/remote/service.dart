@@ -179,6 +179,7 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
+
   Future<Either<Failure, CheckEmployeeModel>> checkEmployeeNumber(
       {required String employeeId}) async {
     try {
@@ -186,7 +187,7 @@ class ServiceApi {
       String odooUrl =
           await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
       final response = await dio.get(
-        odooUrl + 
+        odooUrl +
             EndPoints.checkEmployee +
             '?query={id,name}&filter=[["barcode","=","$employeeId"]]',
         options: Options(
@@ -807,10 +808,8 @@ class ServiceApi {
         body: {
           "params": {
             "data": {
-              "user_id":int.parse(userId) ,
-              if (searchKey != null)
-              
-               "customer_name": searchKey
+              "user_id": int.parse(userId),
+              if (searchKey != null) "customer_name": searchKey
             }
           }
         },
@@ -827,8 +826,8 @@ class ServiceApi {
   Future<Either<Failure, GetAllJournalsModel>> getAllJournals() async {
     try {
       String? sessionId = await Preferences.instance.getSessionId();
- String employeeId = await Preferences.instance.getEmployeeId() ??"1";
-    String userId = await Preferences.instance.getUserId() ?? "1";
+      String employeeId = await Preferences.instance.getEmployeeId() ?? "1";
+      String userId = await Preferences.instance.getUserId() ?? "1";
       String odooUrl =
           await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
       final response = await dio.get(
@@ -867,8 +866,7 @@ class ServiceApi {
               "data": {
                 "name": name,
                 "phone": mobile,
-                if(email.isNotEmpty)
-                "email": email,
+                if (email.isNotEmpty) "email": email,
                 "street": street,
                 "latitude": lat,
                 "longitude": long
@@ -901,12 +899,14 @@ class ServiceApi {
   }
   ////////////////////// HR //////////////
   /// Contract ///
-  
+
   Future<Either<Failure, GetContractModel>> getContract() async {
     String odooUrl =
         await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
     String? sessionId = await Preferences.instance.getSessionId();
-     String employeeId = await Preferences.instance.getEmployeeId() ?? await Preferences.instance.getEmployeeIdNumber()??"1";
+    String employeeId = await Preferences.instance.getEmployeeId() ??
+        await Preferences.instance.getEmployeeIdNumber() ??
+        "1";
     try {
       final response = await dio.get(
         odooUrl + EndPoints.employee + '$employeeId/contract',
@@ -919,13 +919,16 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
- /// attendance ///
+
+  /// attendance ///
 
   Future<Either<Failure, GetAllAttendanceModel>> getAllAttendance() async {
     String odooUrl =
         await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
     String? sessionId = await Preferences.instance.getSessionId();
-     String employeeId = await Preferences.instance.getEmployeeId() ?? await Preferences.instance.getEmployeeIdNumber()??"1";
+    String employeeId = await Preferences.instance.getEmployeeId() ??
+        await Preferences.instance.getEmployeeIdNumber() ??
+        "1";
     try {
       final response = await dio.get(
         odooUrl + EndPoints.employee + '$employeeId/attendances',
@@ -938,6 +941,7 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
+
   /// holidays ///
   Future<Either<Failure, HolidaysModel>> getHolidays() async {
     String odooUrl =
@@ -957,6 +961,7 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
+
   Future<Either<Failure, GetLastAttendanceModel>> getLastAttendance() async {
     String odooUrl =
         await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;

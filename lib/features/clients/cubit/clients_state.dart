@@ -29,5 +29,7 @@ class ProfileClientLoading extends ClientsState {}
 class ProfileClientLoaded extends ClientsState {}
 class ProfileClientError extends ClientsState {}
 //lat,long
-class GetLatLongSuccess extends ClientsState {}
+class GetCurrentLocationState extends ClientsState {}
+class ErrorCurrentLocationAddressState extends ClientsState {}
+class GetCurrentLocationAddressState extends ClientsState {}
 

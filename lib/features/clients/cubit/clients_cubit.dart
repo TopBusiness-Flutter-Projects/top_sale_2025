@@ -2,6 +2,7 @@ import 'package:easy_debounce/easy_debounce.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:location/location.dart' as loc;
 import 'package:permission_handler/permission_handler.dart' as perm;
@@ -114,7 +115,8 @@ class ClientsCubit extends Cubit<ClientsState> {
     location.getLocation().then(
       (location) async {
         currentLocation = location;
-        // emit(GetCurrentLocationState());
+        getAddressFromLatLng(location.latitude??0.0,location.longitude??0.0);
+         emit(GetCurrentLocationState());
         debugPrint("lat: ${currentLocation?.latitude}");
         debugPrint("long: ${currentLocation?.longitude}");
       },
@@ -122,8 +124,35 @@ class ClientsCubit extends Cubit<ClientsState> {
     location.onLocationChanged.listen((newLoc) {
       currentLocation = newLoc;
       // emit(GetCurrentLocationState());
-     // print(currentLocation);
+      // print(currentLocation);
     });
+  }
+
+  String country = " country ";
+  String city = " city ";
+  String address = " address ";
+  Future<void> getAddressFromLatLng( double latitude,double longitude ) async {
+    try {
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+          latitude ,longitude );
+      //  await placemarkFromCoordinates(37.4219983, -122.084);
+      if (placemarks.isNotEmpty) {
+        Placemark place = placemarks.first;
+        country = place.country ?? "";
+        city = place.locality ?? "";
+        address =
+            "${place.street}, ${place.locality}, ${place.postalCode}, ${place.country}";
+        emit(GetCurrentLocationAddressState());
+      } else {
+        emit(ErrorCurrentLocationAddressState());
+      }
+    } catch (e) {
+      debugPrint("Error: ${e.toString()}");
+      emit(ErrorCurrentLocationAddressState());
+    }
+    print(country);
+    print(city);
+    print(address);
   }
 
 //create client
@@ -132,11 +161,11 @@ class ClientsCubit extends Cubit<ClientsState> {
     AppWidget.createProgressDialog(context, "جاري التحميل");
     emit(CreateClientLoading());
     final result = await api.createPartner(
-        name: clientNameController.text ,
-        mobile: phoneController.text ,
-        street: addressController.text ,
-        email:  emailController.text ,
-        lat: double.parse( currentLocation?.latitude.toString() ?? ""),
+        name: clientNameController.text,
+        mobile: phoneController.text,
+        street: addressController.text,
+        email: emailController.text,
+        lat: double.parse(currentLocation?.latitude.toString() ?? ""),
         long: double.parse(currentLocation?.longitude.toString() ?? ""));
     result.fold((l) {
       Navigator.pop(context);
@@ -223,7 +252,7 @@ class ClientsCubit extends Cubit<ClientsState> {
     try {
       launchUrl(Uri.parse(url));
     } catch (e) {
-    errorGetBar("error from map");
+      errorGetBar("error from map");
     }
   }
 
