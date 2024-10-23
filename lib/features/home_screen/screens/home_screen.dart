@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top_sale/core/utils/app_colors.dart';
 import 'package:top_sale/core/utils/assets_manager.dart';
 import 'package:top_sale/core/utils/get_size.dart';
+import 'package:top_sale/features/direct_sell/cubit/direct_sell_cubit.dart';
 import 'package:top_sale/features/home_screen/screens/widgets/appbar_home.dart';
 import 'package:top_sale/features/home_screen/screens/widgets/card_home.dart';
 import '../../../config/routes/app_routes.dart';
@@ -18,6 +19,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+     context.read<DirectSellCubit>().getCategries();
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
