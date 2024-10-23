@@ -16,6 +16,7 @@ import 'package:top_sale/core/models/category_model.dart';
 import 'package:top_sale/core/models/check_employee_model.dart';
 import 'package:top_sale/core/models/create_order_model.dart';
 import 'package:top_sale/core/models/defaul_model.dart';
+import 'package:top_sale/core/models/get_all_attendance_model.dart';
 import 'package:top_sale/core/models/get_contract_model.dart';
 import 'package:top_sale/core/models/get_employee_data_model.dart';
 import 'package:top_sale/core/models/get_orders_model.dart';
@@ -896,6 +897,8 @@ class ServiceApi {
     }
   }
   ////////////////////// HR //////////////
+  /// Contract ///
+  
   Future<Either<Failure, GetContractModel>> getContract() async {
     String odooUrl =
         await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
@@ -909,6 +912,25 @@ class ServiceApi {
         ),
       );
       return Right(GetContractModel.fromJson(response));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
+ /// attendance ///
+
+  Future<Either<Failure, GetAllAttendanceModel>> getAllAttendance() async {
+    String odooUrl =
+        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+    String? sessionId = await Preferences.instance.getSessionId();
+     String employeeId = await Preferences.instance.getEmployeeId() ?? await Preferences.instance.getEmployeeIdNumber()??"1";
+    try {
+      final response = await dio.get(
+        odooUrl + EndPoints.employee + '$employeeId/attendances',
+        options: Options(
+          headers: {"Cookie": "session_id=$sessionId"},
+        ),
+      );
+      return Right(GetAllAttendanceModel.fromJson(response));
     } on ServerException {
       return Left(ServerFailure());
     }
