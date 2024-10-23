@@ -19,6 +19,7 @@ import 'package:top_sale/core/models/defaul_model.dart';
 import 'package:top_sale/core/models/get_all_attendance_model.dart';
 import 'package:top_sale/core/models/get_contract_model.dart';
 import 'package:top_sale/core/models/get_employee_data_model.dart';
+import 'package:top_sale/core/models/get_last_attendance_model.dart';
 import 'package:top_sale/core/models/get_orders_model.dart';
 import 'package:top_sale/core/models/get_user_data_model.dart';
 import 'package:top_sale/core/models/login_model.dart';
@@ -176,6 +177,7 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
+
   Future<Either<Failure, CheckEmployeeModel>> checkEmployeeNumber(
       {required String employeeId}) async {
     try {
@@ -183,7 +185,7 @@ class ServiceApi {
       String odooUrl =
           await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
       final response = await dio.get(
-        odooUrl + 
+        odooUrl +
             EndPoints.checkEmployee +
             '?query={id,name}&filter=[["barcode","=","$employeeId"]]',
         options: Options(
@@ -804,10 +806,8 @@ class ServiceApi {
         body: {
           "params": {
             "data": {
-              "user_id":int.parse(userId) ,
-              if (searchKey != null)
-              
-               "customer_name": searchKey
+              "user_id": int.parse(userId),
+              if (searchKey != null) "customer_name": searchKey
             }
           }
         },
@@ -824,8 +824,8 @@ class ServiceApi {
   Future<Either<Failure, GetAllJournalsModel>> getAllJournals() async {
     try {
       String? sessionId = await Preferences.instance.getSessionId();
- String employeeId = await Preferences.instance.getEmployeeId() ??"1";
-    String userId = await Preferences.instance.getUserId() ?? "1";
+      String employeeId = await Preferences.instance.getEmployeeId() ?? "1";
+      String userId = await Preferences.instance.getUserId() ?? "1";
       String odooUrl =
           await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
       final response = await dio.get(
@@ -864,8 +864,7 @@ class ServiceApi {
               "data": {
                 "name": name,
                 "phone": mobile,
-                if(email.isNotEmpty)
-                "email": email,
+                if (email.isNotEmpty) "email": email,
                 "street": street,
                 "latitude": lat,
                 "longitude": long
@@ -898,12 +897,14 @@ class ServiceApi {
   }
   ////////////////////// HR //////////////
   /// Contract ///
-  
+
   Future<Either<Failure, GetContractModel>> getContract() async {
     String odooUrl =
         await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
     String? sessionId = await Preferences.instance.getSessionId();
-     String employeeId = await Preferences.instance.getEmployeeId() ?? await Preferences.instance.getEmployeeIdNumber()??"1";
+    String employeeId = await Preferences.instance.getEmployeeId() ??
+        await Preferences.instance.getEmployeeIdNumber() ??
+        "1";
     try {
       final response = await dio.get(
         odooUrl + EndPoints.employee + '$employeeId/contract',
@@ -916,13 +917,16 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
- /// attendance ///
+
+  /// attendance ///
 
   Future<Either<Failure, GetAllAttendanceModel>> getAllAttendance() async {
     String odooUrl =
         await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
     String? sessionId = await Preferences.instance.getSessionId();
-     String employeeId = await Preferences.instance.getEmployeeId() ?? await Preferences.instance.getEmployeeIdNumber()??"1";
+    String employeeId = await Preferences.instance.getEmployeeId() ??
+        await Preferences.instance.getEmployeeIdNumber() ??
+        "1";
     try {
       final response = await dio.get(
         odooUrl + EndPoints.employee + '$employeeId/attendances',
@@ -935,6 +939,65 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
+  Future<Either<Failure, GetLastAttendanceModel>> getLastAttendance() async {
+    String odooUrl =
+        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+    String? sessionId = await Preferences.instance.getSessionId();
+    String employeeId = await Preferences.instance.getEmployeeId() ??
+        await Preferences.instance.getEmployeeIdNumber() ??
+        "1";
+    try {
+      final response = await dio.get(
+        odooUrl + EndPoints.employee + '$employeeId/last_attendance_status',
+        options: Options(
+          headers: {"Cookie": "session_id=$sessionId"},
+        ),
+      );
+      return Right(GetLastAttendanceModel.fromJson(response));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
 
-
+  Future<Either<Failure, CreateOrderModel>> checkInOutt({
+    required bool isChechIn,
+    required double lat,
+    required double long,
+    required String ip,
+    required String country,
+    required String city,
+  }) async {
+    String odooUrl =
+        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+    String? sessionId = await Preferences.instance.getSessionId();
+    String employeeId = await Preferences.instance.getEmployeeId() ??
+        await Preferences.instance.getEmployeeIdNumber() ??
+        "1";
+    try {
+      final response = await dio.post(
+        odooUrl + EndPoints.employee + 'attendance',
+        body: {
+          "params": {
+            "data": {
+              "employee_id": int.parse(employeeId),
+              "latitude": lat,
+              "longitude": long,
+              "action": isChechIn
+                  ? "check_in"
+                  : "check_out", //"<check_in or check_out>",
+              "ip": ip, //"196.135.114.236",
+              "country": country,
+              "city": city
+            }
+          }
+        },
+        options: Options(
+          headers: {"Cookie": "session_id=$sessionId"},
+        ),
+      );
+      return Right(CreateOrderModel.fromJson(response));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
 }

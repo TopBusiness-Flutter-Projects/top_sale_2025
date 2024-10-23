@@ -114,6 +114,7 @@
   "work_time": "وقت العمل",
   "dismissal_time": "وقت الانصراف",
   "attendance": "حضور",
+  "leave": "انصراف",
   "do_create_receipt_coucher":"تم انشاء سند القبض",
   "discount_validation":"يجب أن يكون الخصم أقل من 100",
   "error_register_payment":"خطأ في تسجيل الدفع",
@@ -145,6 +146,7 @@
   "add_money": "اضافة مصروف",
   "money": "مصروفات",
 "paid" : "المبلغ",
+"error" : "حدث خطأ",
   "enter_paid": "ادخل المبلغ",
   "payment_type": "نوع السداد",
   "enter_payment": "اختر السداد"

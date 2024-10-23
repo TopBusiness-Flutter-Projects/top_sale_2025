@@ -145,5 +145,8 @@
   "paid" : "Paid",
   "enter_paid": "Enter Paid",
   "payment_type": "Payment Type",
+  "error" : " Some thing wrong ",
+  "leave": "Leave",
+
   "enter_payment": "Enter Payment"
 }
