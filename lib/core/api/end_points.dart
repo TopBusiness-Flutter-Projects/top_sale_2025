@@ -37,6 +37,7 @@ class EndPoints {
    /////////// HR/////////
   
    static String employee = '/api/employee/';
+   static String expense = '/api/expense/products';
 
 
   ///////
