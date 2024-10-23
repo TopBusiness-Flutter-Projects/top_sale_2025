@@ -1,31 +1,36 @@
 // To parse this JSON data, do
 //
-//     final getAllAttendanceModel = getAllAttendanceModelFromJson(jsonString);
+//     final getLastAttendanceModel = getLastAttendanceModelFromJson(jsonString);
 
 import 'dart:convert';
 
-GetAllAttendanceModel getAllAttendanceModelFromJson(String str) => GetAllAttendanceModel.fromJson(json.decode(str));
+GetLastAttendanceModel getLastAttendanceModelFromJson(String str) => GetLastAttendanceModel.fromJson(json.decode(str));
 
-String getAllAttendanceModelToJson(GetAllAttendanceModel data) => json.encode(data.toJson());
-class GetAllAttendanceModel {
-  List<Attendance>? attendances;
+String getLastAttendanceModelToJson(GetLastAttendanceModel data) => json.encode(data.toJson());
 
-  GetAllAttendanceModel({
-    this.attendances,
-  });
+class GetLastAttendanceModel {
+    dynamic status;
+    LastAttendance? lastAttendance;
 
-  factory GetAllAttendanceModel.fromJson(Map<String, dynamic> json) => GetAllAttendanceModel(
-    attendances: json["attendances"] == null ? [] : List<Attendance>.from(json["attendances"]!.map((x) => Attendance.fromJson(x))),
-  );
+    GetLastAttendanceModel({
+        this.status,
+        this.lastAttendance,
+    });
 
-  Map<String, dynamic> toJson() => {
-    "attendances": attendances == null ? [] : List<dynamic>.from(attendances!.map((x) => x.toJson())),
-  };
+    factory GetLastAttendanceModel.fromJson(Map<String, dynamic> json) => GetLastAttendanceModel(
+        status: json["status"],
+        lastAttendance: json["last_attendance"] == null ? null : LastAttendance.fromJson(json["last_attendance"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "status": status,
+        "last_attendance": lastAttendance?.toJson(),
+    };
 }
 
-class Attendance {
-   dynamic attendanceId;
-   dynamic employeeId;
+class LastAttendance {
+    dynamic attendanceId;
+    dynamic employeeId;
     dynamic employeeName;
     dynamic checkIn;
     dynamic checkOut;
@@ -41,8 +46,9 @@ class Attendance {
     dynamic outCountryName;
     dynamic outCity;
     dynamic outBrowser;
+    dynamic status;
 
-    Attendance({
+    LastAttendance({
         this.attendanceId,
         this.employeeId,
         this.employeeName,
@@ -60,14 +66,15 @@ class Attendance {
         this.outCountryName,
         this.outCity,
         this.outBrowser,
+        this.status,
     });
 
-    factory Attendance.fromJson(Map<String, dynamic> json) => Attendance(
+    factory LastAttendance.fromJson(Map<String, dynamic> json) => LastAttendance(
         attendanceId: json["attendance_id"],
         employeeId: json["employee_id"],
         employeeName: json["employee_name"],
-        checkIn: json["check_in"] ,
-        checkOut: json["check_out"],
+        checkIn: json["check_in"],
+        checkOut: json["check_out"] ,
         workedHours: json["worked_hours"],
         overtimeHours: json["overtime_hours"],
         inLatitude: json["in_latitude"],
@@ -80,13 +87,14 @@ class Attendance {
         outCountryName: json["out_country_name"],
         outCity: json["out_city"],
         outBrowser: json["out_browser"],
+        status: json["status"],
     );
 
     Map<String, dynamic> toJson() => {
         "attendance_id": attendanceId,
         "employee_id": employeeId,
         "employee_name": employeeName,
-        "check_in": checkIn?.toIso8601String(),
+        "check_in": checkIn,
         "check_out": checkOut,
         "worked_hours": workedHours,
         "overtime_hours": overtimeHours,
@@ -100,5 +108,6 @@ class Attendance {
         "out_country_name": outCountryName,
         "out_city": outCity,
         "out_browser": outBrowser,
+        "status": status,
     };
 }
