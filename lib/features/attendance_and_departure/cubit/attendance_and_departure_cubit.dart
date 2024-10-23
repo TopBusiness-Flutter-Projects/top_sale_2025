@@ -114,7 +114,7 @@ class AttendanceAndDepartureCubit extends Cubit<AttendanceAndDepartureState> {
       },
     );
   }
- }
+ 
 
   final info = NetworkInfo();
   String wifiIPP = '';

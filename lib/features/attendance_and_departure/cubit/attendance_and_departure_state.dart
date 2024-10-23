@@ -14,9 +14,7 @@ class GetContractLoading extends AttendanceAndDepartureState {}
  class GetAllAttendanceLoadingState  extends AttendanceAndDepartureState {}
 
 
-class GetContractError extends AttendanceAndDepartureState {}
 
-class GetContractLoaded extends AttendanceAndDepartureState {}
 class CheckInOutLoading extends AttendanceAndDepartureState {}
 
 class CheckInOutError extends AttendanceAndDepartureState {}
