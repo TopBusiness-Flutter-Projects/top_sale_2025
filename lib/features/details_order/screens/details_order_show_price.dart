@@ -60,11 +60,24 @@ class _DetailsOrderShowPriceState extends State<DetailsOrderShowPrice> {
                             fontWeight: FontWeight.w700,
                             fontSize: 18.sp,
                           )))
-                  : const SizedBox()
+                  : IconButton(
+                  onPressed: () {
+                    cubit.cancelOrder(
+                        orderId: cubit.getDetailsOrdersModel!.id ?? -1,
+                        orderModel: widget.orderModel,
+                        context: context);
+                  },
+                  icon: Text("return_order".tr(),
+                      style: TextStyle(
+                        fontFamily: AppStrings.fontFamily,
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 18.sp,
+                      )))
             ],
             leading: IconButton(
                 onPressed: () {
-                  cubit.onClickBack(context);
+                  // cubit.onClickBack(context);
                 },
                 icon: const Icon(Icons.arrow_back)),
             backgroundColor: AppColors.white,

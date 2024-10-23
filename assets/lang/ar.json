@@ -147,5 +147,12 @@
 "paid" : "المبلغ",
   "enter_paid": "ادخل المبلغ",
   "payment_type": "نوع السداد",
-  "enter_payment": "اختر السداد"
+  "enter_payment": "اختر السداد",
+  "attendance_place":"مكان الانصراف",
+  "additional_time":"وقت اضافي",
+  "to": "إلى",
+  "from" : "من",
+  "returns":"المرتجعات",
+  "search_from_user": "ابحث عن عميلك",
+  "return_order": "أمر مرتجع"
 }

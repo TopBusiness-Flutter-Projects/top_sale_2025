@@ -9,7 +9,6 @@ import 'config/routes/app_routes.dart';
 import 'config/themes/app_theme.dart';
 import 'core/utils/app_strings.dart';
 import 'package:top_sale/injector.dart' as injector;
-
 import 'features/attendance_and_departure/cubit/attendance_and_departure_cubit.dart';
 import 'features/contact_us/cubit/contact_us_cubit.dart';
 import 'features/basket_screen/cubit/cubit.dart';
@@ -22,6 +21,7 @@ import 'features/login/cubit/cubit.dart';
 import 'features/main/cubit/main_cubit.dart';
 import 'features/notification_screen/cubit/notification_cubit.dart';
 import 'features/on_boarding/cubit/onboarding_cubit.dart';
+import 'features/returns/cubit/returns_cubit.dart';
 import 'features/splash/cubit/cubit.dart';
 import 'features/update_profile/cubit/update_profile_cubit.dart';
 
@@ -96,6 +96,8 @@ class _MyAppState extends State<MyApp> {
           ),
           BlocProvider(
             create: (_) => injector.serviceLocator<CreateReceiptCoucherCubit>(),
+          ),  BlocProvider(
+            create: (_) => injector.serviceLocator<ReturnsCubit>(),
           ),
         ],
         child: ScreenUtilInit(

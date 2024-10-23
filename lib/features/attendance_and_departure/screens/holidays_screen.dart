@@ -1,15 +1,29 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:top_sale/core/utils/app_colors.dart';
+import 'package:top_sale/features/attendance_and_departure/cubit/attendance_and_departure_cubit.dart';
+import 'package:top_sale/features/attendance_and_departure/cubit/attendance_and_departure_state.dart';
 import '../../../config/routes/app_routes.dart';
 import '../../../core/utils/app_fonts.dart';
 
-class HolidaysScreen extends StatelessWidget {
+class HolidaysScreen extends StatefulWidget {
   const HolidaysScreen({super.key});
 
   @override
+  State<HolidaysScreen> createState() => _HolidaysScreenState();
+}
+
+class _HolidaysScreenState extends State<HolidaysScreen> {
+  @override
+  void initState() {
+    context.read<AttendanceAndDepartureCubit>().getAllHolidays();
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
+    var cubit = context.read<AttendanceAndDepartureCubit>();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -40,30 +54,33 @@ class HolidaysScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0.w),
-        child: ListView(
-          children: [
-            const HolidayRequestCard(
-              status: "جديدة", // New
-              statusColor: Colors.blue,
-              requestDate: "14 aug 2024",
-              leaveType: "إجازة مرضية", // Sick leave
-              startDate: "14 aug 2024",
-              endDate: "16 aug 2024",
-              notes: "",
-              leaveDays: 0,
-            ),
-            SizedBox(height: 16.h),
-            const HolidayRequestCard(
-              status: "مقبولة", // Approved
-              statusColor: Colors.green,
-              requestDate: "14 aug 2024",
-              leaveType: "إجازة مرضية", // Sick leave
-              startDate: "14 aug 2024",
-              endDate: "16 aug 2024",
-              notes: "ملاحظات الإجازة هنا", // Notes
-              leaveDays: 2,
-            ),
-          ],
+        child: BlocBuilder<AttendanceAndDepartureCubit,AttendanceAndDepartureState>(
+          builder: (context,state) {
+            return cubit.holidaysModel.timeOffRequests == null ?
+            Center(
+              child: CircularProgressIndicator(
+                backgroundColor: AppColors.black,
+                color: AppColors.primary,
+              ),
+            ) :
+                cubit.holidaysModel.timeOffRequests!.length == 0 ?
+                Center(child: Text("No holidays".tr())) :
+            ListView.builder(
+
+              shrinkWrap: true,
+              itemCount: cubit.holidaysModel.timeOffRequests!.length,
+              itemBuilder: (context, index) =>  HolidayRequestCard(
+                  status:cubit.holidaysModel.timeOffRequests![index].status, // Approved
+                  statusColor: Colors.green,
+                  requestDate: cubit.holidaysModel.timeOffRequests![index].dateCreated ?? "",
+                  leaveType: cubit.holidaysModel.timeOffRequests![index].timeOffType ?? "", // Sick leave
+                  startDate: cubit.holidaysModel.timeOffRequests![index].dateFrom ?? "",
+                  endDate: cubit.holidaysModel.timeOffRequests![index].dateTo ?? "",
+                  notes: cubit.holidaysModel.timeOffRequests![index].description ?? "", // Notes
+                leaveDays: cubit.holidaysModel.timeOffRequests![index].duration ?? "0",                ),
+
+            );
+          }
         ),
       ),
     );
@@ -78,7 +95,7 @@ class HolidayRequestCard extends StatelessWidget {
   final String startDate;
   final String endDate;
   final String notes;
-  final int leaveDays;
+  final String leaveDays;
 
   const HolidayRequestCard({
     super.key,
@@ -89,7 +106,7 @@ class HolidayRequestCard extends StatelessWidget {
     required this.startDate,
     required this.endDate,
     this.notes = "",
-    this.leaveDays = 0,
+    this.leaveDays = "",
   });
 
   @override
@@ -150,7 +167,7 @@ class HolidayRequestCard extends StatelessWidget {
             SizedBox(
               height: 10.sp,
             ),
-            if (leaveDays > 0)
+
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
