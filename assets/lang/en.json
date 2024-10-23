@@ -137,7 +137,13 @@
   "attendance_and_departure_details": "Attendance and departure details",
   "reason": "Reason",
   "emplyee_number": "Employee number",
-
-  "add": "Add"
-
+  "the_money": "The money",
+  "money": "Money",
+  "add_money": " Add Money",
+  "money_types": "Money Types",
+  "add": "Add",
+  "paid" : "Paid",
+  "enter_paid": "Enter Paid",
+  "payment_type": "Payment Type",
+  "enter_payment": "Enter Payment"
 }

@@ -139,5 +139,13 @@
   "holidays_types": "انواع الاجازات",
   "reason": "السبب",
   "emplyee_number": "الرقم الوظيفي",
-  "add": "اضافة"
+  "add": "اضافة",
+  "the_money": "المصروفات",
+  "money_types": "نوع المصروفات",
+  "add_money": "اضافة مصروف",
+  "money": "مصروفات",
+"paid" : "المبلغ",
+  "enter_paid": "ادخل المبلغ",
+  "payment_type": "نوع السداد",
+  "enter_payment": "اختر السداد"
 }

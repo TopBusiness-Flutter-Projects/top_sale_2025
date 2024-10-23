@@ -1,11 +1,21 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:top_sale/core/utils/app_fonts.dart';
 import '../../../core/utils/app_colors.dart';
+import '../cubit/attendance_and_departure_cubit.dart';
+import '../cubit/attendance_and_departure_state.dart';
 
-class ContractScreen extends StatelessWidget {
+class ContractScreen extends StatefulWidget {
    ContractScreen({super.key});
+
+  @override
+  State<ContractScreen> createState() => _ContractScreenState();
+}
+
+class _ContractScreenState extends State<ContractScreen> {
   List<String> titles = [
     "start_date".tr(),
     "end_date".tr(),
@@ -13,6 +23,7 @@ class ContractScreen extends StatelessWidget {
     "section".tr(),
     "jop".tr(),
   ];
+
   List<String> descriptions = [
     "12-12-2022",
     "12-12-2022",
@@ -20,9 +31,14 @@ class ContractScreen extends StatelessWidget {
     "أدارة المبيعات",
    "مندوب",
   ];
-
+@override
+  void initState() {
+    context.read<AttendanceAndDepartureCubit>().getContract();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
+    var cubit = context.read<AttendanceAndDepartureCubit>();
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBar(
@@ -34,24 +50,41 @@ class ContractScreen extends StatelessWidget {
         backgroundColor: AppColors.white,
         elevation: 0.0,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(height: 20.h),
-          Text("رقم العقد/ 123456",style: getBoldStyle(color: AppColors.primary),),
-          SizedBox(height: 20.h),
-          ListView.builder(
-            itemBuilder: (context, index) =>  customRowContract(
-              title: titles[index],
-              description: descriptions[index],
-            ),
-            itemCount: titles.length,
-            shrinkWrap: true,
+      body: BlocBuilder<AttendanceAndDepartureCubit, AttendanceAndDepartureState>(
+        builder: (context,state) {
+          return (cubit.contractDetails == null)?
+          const Center(child: CircularProgressIndicator(),):
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(height: 20.h),
+              Text("رقم العقد/ ${cubit.contractDetails?.contractDetails?.displayName}",style: getBoldStyle(color: AppColors.primary),),
+              SizedBox(height: 20.h),
+              ListView.builder(
+                itemBuilder: (context, index) =>  customRowContract(
+                  title: titles[index],
+                  description: (index == 0)
+                      ? (cubit.contractDetails?.contractDetails?.dateStart?.toString() ?? "")
+                      : (index == 1)
+                      ? (cubit.contractDetails?.contractDetails?.dateEnd?.toString() ?? "")
+                      : (index == 2)
+                      ? (cubit.contractDetails?.contractDetails?.workingHours?.toString() ?? "")
+                      : (index == 3)
+                      ? (cubit.contractDetails?.contractDetails?.department?.toString() ?? "")
+                      : (index == 4)
+                      ? (cubit.contractDetails?.contractDetails?.jobTitle?.toString() ?? "")
+                      : "",
+                ),
 
-          ),
+                itemCount: titles.length,
+                shrinkWrap: true,
 
-        ],
+              ),
+
+            ],
+          );
+        }
       ),
     );
   }
@@ -64,10 +97,10 @@ class ContractScreen extends StatelessWidget {
       children: [
         SizedBox(height: 20.h),
         Padding(
-          padding: EdgeInsets.only(left: 100.0.sp, right: 100.0.sp),
+          padding: EdgeInsets.only(left: 10.0.sp, right: 20.0.sp),
           child: Row(
             children: [
-              Text(
+              AutoSizeText(
                 " $title  :",
                 style: TextStyle(
                     color: AppColors.black,
@@ -75,11 +108,13 @@ class ContractScreen extends StatelessWidget {
                     fontWeight: FontWeight.w600),
               ),
               const Spacer(),
-              Text(
-                description,
-                style: TextStyle(
-                  color: AppColors.black,
-                  fontSize: 14.sp,
+              Expanded(
+                child: AutoSizeText(
+                  description,
+                  style: TextStyle(
+                    color: AppColors.black,
+                    fontSize: 14.sp,
+                  ),
                 ),
               ),
             ],

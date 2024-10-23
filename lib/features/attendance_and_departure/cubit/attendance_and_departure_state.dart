@@ -1,3 +1,8 @@
  class AttendanceAndDepartureState {}
 
-final class AttendanceAndDepartureInitial extends AttendanceAndDepartureState {}
+ class AttendanceAndDepartureInitial extends AttendanceAndDepartureState {}
+class GetContractLoading extends AttendanceAndDepartureState {}
+ class GetContractError extends AttendanceAndDepartureState {}
+ class GetContractLoaded extends AttendanceAndDepartureState {
+
+ }

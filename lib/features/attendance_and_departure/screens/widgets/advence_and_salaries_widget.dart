@@ -49,6 +49,7 @@ class AdvanceAndSalariesWidget extends StatelessWidget {
             mainAxisSpacing: 10,
             crossAxisCount: 2,
             childAspectRatio: 3 / 2,
+
             mainAxisExtent: 150),
         itemCount: titles.length,
         itemBuilder: (context, index) => GestureDetector(
@@ -63,7 +64,7 @@ class AdvanceAndSalariesWidget extends StatelessWidget {
               Navigator.pushNamed(context, Routes.holidayRoute);
 
             }else if (index == 4) {
-              //Navigator.pushNamed(context, Routes.holidayRoute);
+              Navigator.pushNamed(context, Routes.moneyRoute);
 
             }
           },
