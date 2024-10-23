@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:top_sale/features/attendance_and_departure/screens/attendance_and_departure_details_screen.dart';
 import 'package:top_sale/features/attendance_and_departure/screens/holidays_screen.dart';
 import 'package:top_sale/features/attendance_and_departure/screens/holidays_type_screen.dart';
+import 'package:top_sale/features/attendance_and_departure/screens/money.dart';
 import 'package:top_sale/features/clients/cubit/clients_cubit.dart';
 import 'package:top_sale/features/contact_us/screens/contact_us_screen.dart';
 import 'package:top_sale/features/create_receipt_coucher/screens/create_receipt_coucher_screen.dart';
@@ -20,6 +21,7 @@ import '../../core/models/all_partners_for_reports_model.dart';
 import '../../core/models/get_orders_model.dart';
 import '../../core/utils/app_strings.dart';
 import 'package:page_transition/page_transition.dart';
+import '../../features/attendance_and_departure/screens/money_type_screen.dart';
 import '../../features/basket_screen/screen/basket_screen.dart';
 import '../../features/clients/screens/my_bills.dart';
 import '../../features/clients/screens/profile_client.dart';
@@ -67,6 +69,8 @@ class Routes {
   static const String attendanceAndDepartureDetailsRoute = '/attendanceAndDepartureDetailsRoute';
   static const String holidayRoute = '/holidayRoute';
   static const String holidayTypesRoute = '/holidayTypesRoute';
+  static const String moneyRoute = '/moneyRoute';
+  static const String moneyTypeRoute = '/moneyTypeRoute';
 }
 
 class AppRoutes {
@@ -239,6 +243,12 @@ class AppRoutes {
         );  case Routes.holidayRoute:
         return MaterialPageRoute(
           builder: (context) =>   const HolidaysScreen(),
+        );case Routes.moneyRoute:
+        return MaterialPageRoute(
+          builder: (context) =>   const MoneyScreen(),
+        );case Routes.moneyTypeRoute:
+        return MaterialPageRoute(
+          builder: (context) =>   const MoneyTypeScreen(),
         );
       //
       // case Routes.resultOfLessonExam:
