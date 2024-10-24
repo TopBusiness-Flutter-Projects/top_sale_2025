@@ -1,9 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:top_sale/core/utils/app_colors.dart';
 import 'package:top_sale/core/utils/app_fonts.dart';
+import 'package:top_sale/features/clients/cubit/clients_cubit.dart';
+import 'package:top_sale/features/details_order/cubit/details_orders_cubit.dart';
 import '../../../core/models/get_all_attendance_model.dart';
 import '../cubit/attendance_and_departure_cubit.dart';
 import '../cubit/attendance_and_departure_state.dart';
@@ -30,11 +33,9 @@ class _AttendanceAndDepartureDetailsScreenState
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBar(
-
         titleTextStyle: getBoldStyle(fontSize: 20.sp),
         title: Text('attendance_and_departure_details'.tr()),
         backgroundColor: Colors.white,
-
         centerTitle: false,
         elevation: 0,
       ),
@@ -67,24 +68,24 @@ class _AttendanceAndDepartureDetailsScreenState
                     )
                   : Expanded(
                       child: cubit.getAllAttendanceModel.attendances == null ||
-                              cubit.getAllAttendanceModel.attendances!
-                                  .isEmpty ||
+                              cubit
+                                  .getAllAttendanceModel.attendances!.isEmpty ||
                               cubit.getAllAttendanceModel.attendances == []
                           ? Text("no_data".tr())
                           : RefreshIndicator(
-                        onRefresh: () async {
-                          cubit.getAllAttendance();
-                        },
-                        child: ListView.builder(
+                              onRefresh: () async {
+                                cubit.getAllAttendance();
+                              },
+                              child: ListView.builder(
                                 shrinkWrap: true,
                                 itemBuilder: (context, index) => AttendanceCard(
-                                  attendance: cubit
-                                      .getAllAttendanceModel.attendances![index],
+                                  attendance: cubit.getAllAttendanceModel
+                                      .attendances![index],
                                 ),
                                 itemCount: cubit
                                     .getAllAttendanceModel.attendances!.length,
                               ),
-                          ),
+                            ),
                     ),
             ],
           );
@@ -189,15 +190,18 @@ class AttendanceCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              attendance.checkIn.toString().substring(0,10) ?? "",
+              attendance.checkIn.toString().substring(0, 10) ?? "",
               style: TextStyle(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
                   color: AppColors.primary),
             ),
-            const Divider(),
+            SizedBox(
+              height: 8,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 AttendanceInfoRow(
                   label: "attendance_time".tr(),
@@ -220,17 +224,52 @@ class AttendanceCard extends StatelessWidget {
             SizedBox(height: 10.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 AttendanceInfoRow(
                   label: "additional_time".tr(),
-                  value: attendance.employeeId == null
+                  value: attendance.overtimeHours == null
                       ? ""
-                      : attendance.employeeId.toString(),
+                      : attendance.overtimeHours.toString(),
                 ),
                 AttendanceInfoRow(
+                   onTap: () {
+                    if (attendance.inCity != false){
+                       context
+                                .read<DetailsOrdersCubit>()
+                                .openGoogleMapsRoute(
+                                   context.read<ClientsCubit>().currentLocation?.latitude ?? 0.0,
+                          context.read<ClientsCubit>().currentLocation?.longitude ?? 0.0,
+                                  attendance.inLatitude ??
+                                      0.0,
+                                 attendance.inLongitude??
+                                      0.0,
+                                );
+                    }
+                     
+                  },  
                   label: "attendance_place".tr(),
-                  value: (attendance.outCity == false) ?
-                  "":attendance.outCity ?? '',
+                  value: (attendance.inCity == false)
+                      ? ""
+                      : attendance.inCity.toString(),
+                ),
+                AttendanceInfoRow(    
+                  onTap: () {
+                      context
+                                .read<DetailsOrdersCubit>()
+                                .openGoogleMapsRoute(
+                                   context.read<ClientsCubit>().currentLocation?.latitude ?? 0.0,
+                          context.read<ClientsCubit>().currentLocation?.longitude ?? 0.0,
+                                  attendance.outLatitude ??
+                                      0.0,
+                                 attendance.outLongitude??
+                                      0.0,
+                                );
+                  },              
+                   label: "leave_place".tr(),
+                  value: (attendance.outCity == false)
+                      ? ""
+                      : attendance.outCity ?? '',
                 ),
               ],
             ),
@@ -242,27 +281,33 @@ class AttendanceCard extends StatelessWidget {
   }
 }
 
-
 class AttendanceInfoRow extends StatelessWidget {
   final String label;
   final String value;
+  final void Function()? onTap;
 
   const AttendanceInfoRow(
-      {super.key, required this.label, required this.value});
+      {super.key, required this.label, required this.value, this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(label,
-            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500)),
-        Divider(color: AppColors.black, thickness: 1),
-        SizedBox(height: 4.h),
-        Text(
-          value,
-          style: TextStyle(fontSize: 16.sp, color: Colors.grey[700]),
+    return Flexible(
+      child:  GestureDetector(
+                  onTap: onTap,
+        child: Column(
+          children: [
+            Text(label + "\n",
+                maxLines: 2,
+                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500)),
+            const Divider(),
+            SizedBox(height: 4.h),
+            Text(
+              value,
+              style: TextStyle(fontSize: 16.sp, color: Colors.grey[700]),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

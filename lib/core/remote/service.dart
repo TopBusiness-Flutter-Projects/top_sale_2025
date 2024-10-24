@@ -41,9 +41,7 @@ class ServiceApi {
   final BaseApiConsumer dio;
   ServiceApi(this.dio);
   Future<String> getSessionId(
-      {
-
-      required String phone,
+      {required String phone,
       required String password,
       required String baseUrl,
       required String database}) async {
@@ -54,8 +52,7 @@ class ServiceApi {
       debugPrint("getSessionId = $sessionId");
       await Preferences.instance.setSessionId(sessionId);
       return sessionId;
-    }
-    on OdooException catch (e) {
+    } on OdooException catch (e) {
       return "error";
     }
   }
@@ -1076,18 +1073,18 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
+
   Future<Either<Failure, AllSalaryModel>> getMySalary() async {
     String odooUrl =
         await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
     String? sessionId = await Preferences.instance.getSessionId();
-     String userId = await Preferences.instance.getUserId() ?? "1";
+    String userId = await Preferences.instance.getUserId() ?? "1";
     String employeeId = await Preferences.instance.getEmployeeId() ??
         await Preferences.instance.getEmployeeIdNumber() ??
         "1";
     try {
       final response = await dio.get(
         odooUrl + EndPoints.employee + '$employeeId/payslip_history',
-
         options: Options(
           headers: {"Cookie": "session_id=$sessionId"},
         ),
@@ -1108,7 +1105,7 @@ class ServiceApi {
     //     "1";
     try {
       final response = await dio.get(
-        odooUrl +  'api/expense/products',
+        odooUrl + '/api/expense/products',
         options: Options(
           headers: {"Cookie": "session_id=$sessionId"},
         ),
@@ -1135,20 +1132,22 @@ class ServiceApi {
         "1";
     try {
       final response = await dio.post(
-        odooUrl + EndPoints.employee + 'create_expense',
+        odooUrl + '/api/expense/create',
         body: {
-          "name": description,
+          "description": description,
           "employee_id": int.parse(employeeId),
           // "date": "2024-10-21",
           "amount": amount,
           "user_id": int.parse(userId),
           "product_id": productId,
-          "attachment": [
-            "$path"
-            //await MultipartFile.fromFile(path)
-          ]
+          if (path.isNotEmpty)
+            "attachment": await MultipartFile.fromFile(path)
+            // "attachment": [
+            //   "$path"
+            //   //await MultipartFile.fromFile(path)
+            // ]
         },
-        // formDataIsEnabled: true,
+        formDataIsEnabled: true,
         options: Options(
           headers: {"Cookie": "session_id=$sessionId"},
         ),

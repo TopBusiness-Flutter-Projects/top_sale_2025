@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:top_sale/core/utils/app_colors.dart';
+import 'package:top_sale/core/utils/dialogs.dart';
 import 'package:top_sale/features/attendance_and_departure/cubit/attendance_and_departure_cubit.dart';
 import 'package:top_sale/features/attendance_and_departure/cubit/attendance_and_departure_state.dart';
 import 'package:top_sale/features/login/widget/textfield_with_text.dart';
@@ -24,11 +25,10 @@ class MoneyTypeScreen extends StatefulWidget {
 class _MoneyTypeScreenState extends State<MoneyTypeScreen> {
   @override
   void initState() {
-     context.read<AttendanceAndDepartureCubit>().getAllExpensesProduct();
-       context.read<AttendanceAndDepartureCubit>().getAllJournals();
-     super.initState();
+    context.read<AttendanceAndDepartureCubit>().getAllExpensesProduct();
+    context.read<AttendanceAndDepartureCubit>().getAllJournals();
+    super.initState();
   }
-
 
   List<String> titles = ["بنزين العربية", "صيانة العربية", ""];
 
@@ -48,23 +48,33 @@ class _MoneyTypeScreenState extends State<MoneyTypeScreen> {
           BlocBuilder<AttendanceAndDepartureCubit, AttendanceAndDepartureState>(
         builder: (context, state) {
           var cubit = context.read<AttendanceAndDepartureCubit>();
-          return (cubit.getAllExpensesProductModel == null)?
-          const Center(child: CircularProgressIndicator(),) :
-          ListView.builder(
-            shrinkWrap: true,
-            itemCount: cubit.getAllExpensesProductModel!.products!.length,
-            itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () {
-                  _showBottomSheet(context, cubit);
-                },
-                child: MoneyTypeRow(
-                  image: cubit.getAllExpensesProductModel!.products![index].image,
-                  moneyType:  cubit.getAllExpensesProductModel!.products![index].name.toString(),
-                ),
-              );
-            },
-          );
+          return (cubit.getAllExpensesProductModel == null)
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: cubit.getAllExpensesProductModel!.products!.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        _showBottomSheet(
+                            context,
+                            cubit,
+                            cubit.getAllExpensesProductModel!.products![index]
+                                    .id ??
+                                1);
+                      },
+                      child: MoneyTypeRow(
+                        image: cubit
+                            .getAllExpensesProductModel!.products![index].image,
+                        moneyType: cubit
+                            .getAllExpensesProductModel!.products![index].name
+                            .toString(),
+                      ),
+                    );
+                  },
+                );
         },
       ),
     );
@@ -85,19 +95,31 @@ class MoneyTypeRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(left: 20.sp, right: 20.sp, top: 20.sp),
-      child: Row(
+      child: Column(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(100),
-            child:Image.network(image)
-          ),
-          SizedBox(width: 20.sp),
-          Text(
-            moneyType,
-            style: TextStyle(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.bold,
-            ),
+          Row(
+            children: [
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child:
+                      CustomDecodedImage(base64String: image, context: context)
+                  //  Image.network(
+                  //   //"https://novapolaris-stage-branche-15780489.dev.odoo.com//web/image/product%2Eproduct/7660/image_1920.png",
+
+                  //    image,
+                  //   height: 80.w,
+                  //   width: 80.w,
+                  // )
+                  ),
+              SizedBox(width: 20.sp),
+              Text(
+                moneyType,
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -108,6 +130,7 @@ class MoneyTypeRow extends StatelessWidget {
 void _showBottomSheet(
   BuildContext context,
   AttendanceAndDepartureCubit cubit,
+  int productId,
 ) {
   cubit.descriptionController.clear();
   cubit.amountController.clear();
@@ -245,7 +268,13 @@ void _showBottomSheet(
                       backgroundColor: AppColors.primaryColor,
                       text: 'add'.tr(),
                       onPressed: () {
-                        cubit.createExpense(context,productId: 555);
+                        if (cubit.formKey.currentState!.validate() &&
+                            cubit.selectedPaymentMethod != null) {
+                          cubit.createExpense(context, productId: productId);
+                        } else {
+                          errorGetBar("من فضلك املأ الحقول");
+                          print('Form is Not valid');
+                        }
                       },
                     ),
                   ),
