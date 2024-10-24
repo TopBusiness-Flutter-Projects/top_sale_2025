@@ -27,10 +27,8 @@ import 'package:top_sale/core/models/order_details_model.dart';
 import 'package:top_sale/core/models/partner_model.dart';
 import 'package:top_sale/core/preferences/preferences.dart';
 import 'package:top_sale/core/utils/app_strings.dart';
-
 import '../api/base_api_consumer.dart';
 import 'package:odoo_rpc/odoo_rpc.dart';
-
 import '../models/holidays_model.dart';
 import '../models/holidays_type_model.dart';
 
@@ -38,7 +36,9 @@ class ServiceApi {
   final BaseApiConsumer dio;
   ServiceApi(this.dio);
   Future<String> getSessionId(
-      {required String phone,
+      {
+
+      required String phone,
       required String password,
       required String baseUrl,
       required String database}) async {
@@ -49,7 +49,8 @@ class ServiceApi {
       debugPrint("getSessionId = $sessionId");
       await Preferences.instance.setSessionId(sessionId);
       return sessionId;
-    } on OdooException catch (e) {
+    }
+    on OdooException catch (e) {
       return "error";
     }
   }
