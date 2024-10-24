@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,8 +14,6 @@ import '../../../core/utils/get_size.dart';
 import '../../../core/widgets/decode_image.dart';
 import '../../details_order/screens/widgets/rounded_button.dart';
 
-XFile? _image;
-
 class MoneyTypeScreen extends StatefulWidget {
   const MoneyTypeScreen({super.key});
 
@@ -26,19 +25,12 @@ class _MoneyTypeScreenState extends State<MoneyTypeScreen> {
   @override
   void initState() {
      context.read<AttendanceAndDepartureCubit>().getAllExpensesProduct();
+       context.read<AttendanceAndDepartureCubit>().getAllJournals();
      super.initState();
   }
-  final ImagePicker _picker = ImagePicker();
 
-  // Function to open the camera
-  Future<void> _openCamera() async {
-    final XFile? pickedImage = await _picker.pickImage(source: ImageSource.camera);
-    if (pickedImage != null) {
-      setState(() {
-        _image = pickedImage;
-      });
-    }
-  }
+
+  List<String> titles = ["بنزين العربية", "صيانة العربية", ""];
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +44,8 @@ class _MoneyTypeScreenState extends State<MoneyTypeScreen> {
           style: getBoldStyle(fontSize: 20.sp),
         ),
       ),
-      body: BlocBuilder<AttendanceAndDepartureCubit, AttendanceAndDepartureState>(
+      body:
+          BlocBuilder<AttendanceAndDepartureCubit, AttendanceAndDepartureState>(
         builder: (context, state) {
           var cubit = context.read<AttendanceAndDepartureCubit>();
           return (cubit.getAllExpensesProductModel == null)?
@@ -63,7 +56,7 @@ class _MoneyTypeScreenState extends State<MoneyTypeScreen> {
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
-                  _showBottomSheet(_openCamera, context, cubit);
+                  _showBottomSheet(context, cubit);
                 },
                 child: MoneyTypeRow(
                   image: cubit.getAllExpensesProductModel!.products![index].image,
@@ -113,10 +106,12 @@ class MoneyTypeRow extends StatelessWidget {
 }
 
 void _showBottomSheet(
-    void Function() openCamera,
-    BuildContext context,
-    AttendanceAndDepartureCubit cubit,
-    ) {
+  BuildContext context,
+  AttendanceAndDepartureCubit cubit,
+) {
+  cubit.descriptionController.clear();
+  cubit.amountController.clear();
+  cubit.profileImage = null;
   showModalBottomSheet(
     isScrollControlled: true,
     context: context,
@@ -124,93 +119,142 @@ void _showBottomSheet(
       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
     ),
     builder: (context) {
-      return Padding(
-        padding: EdgeInsets.only(
-          left: getSize(context) / 20,
-          right: getSize(context) / 20,
-          top: getSize(context) / 20,
-          bottom: MediaQuery.of(context).viewInsets.bottom + getSize(context) / 20,
-        ),
-        child: SingleChildScrollView(
-          child: Form(
-            key: cubit.formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-
-
-                GestureDetector(
-                  onTap: openCamera, // Use the passed camera function
-                  child: Container(
-                    height: 150,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: _image == null
-                        ? Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.cloud_upload_outlined, size: 40, color: AppColors.primary),
-                          SizedBox(height: 5.sp),
-                          const Text(
-                            'ارفع الصورة',
-                            style: TextStyle(color: Colors.grey),
+      return BlocBuilder<AttendanceAndDepartureCubit,
+          AttendanceAndDepartureState>(builder: (context, state) {
+        return Padding(
+          padding: EdgeInsets.only(
+            left: getSize(context) / 20,
+            right: getSize(context) / 20,
+            top: getSize(context) / 20,
+            bottom: MediaQuery.of(context).viewInsets.bottom +
+                getSize(context) / 20,
+          ),
+          child: SingleChildScrollView(
+            child: Form(
+              key: cubit.formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Stack(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          cubit.showImageSourceDialog(context);
+                        }, // Use the passed camera function
+                        child: Container(
+                          height: 150,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                        ],
+                          child: cubit.profileImage == null
+                              ? Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.cloud_upload_outlined,
+                                          size: 40, color: AppColors.primary),
+                                      SizedBox(height: 5.sp),
+                                      const Text(
+                                        'ارفع الصورة',
+                                        style: TextStyle(color: Colors.grey),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.file(
+                                    // Display the image using Image.file
+                                    File(cubit.profileImage!.path),
+                                    fit: BoxFit.cover,
+                                    width: double.infinity,
+                                  ),
+                                ),
+                        ),
                       ),
-                    )
-                        : ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.file(
-                        // Display the image using Image.file
-                        File(_image!.path),
-                        fit: BoxFit.cover,
-                        width: double.infinity,
+                      IconButton(
+                          onPressed: () {
+                            cubit.removeImage();
+                          },
+                          icon: CircleAvatar(
+                              backgroundColor: AppColors.secondPrimary,
+                              child: Icon(
+                                Icons.close_rounded,
+                                color: Colors.white,
+                                size: 30,
+                              )))
+                    ],
+                  ),
+                  CustomTextFieldWithTitle(
+                    withPadding: false,
+                    title: "describtion".tr(),
+                    controller: cubit.descriptionController,
+                    hint: "describtion".tr(),
+                    maxLines: 5,
+                    keyboardType: TextInputType.text,
+                  ),
+                  SizedBox(height: getSize(context) / 30),
+                  CustomTextFieldWithTitle(
+                    withPadding: false,
+                    title: "paid".tr(),
+                    controller: cubit.amountController,
+                    hint: "enter_paid".tr(),
+                    keyboardType: TextInputType.text,
+                  ),
+                  SizedBox(height: getSize(context) / 30),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 12.0.sp),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0),
+                      border: Border.all(color: Colors.grey),
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<int>(
+                        value: cubit
+                            .selectedPaymentMethod, // This will store the ID (not the name)
+                        hint: Text(
+                          'choose_payment_method'.tr(),
+                          style: const TextStyle(color: Colors.grey),
+                        ),
+                        icon: const Icon(Icons.arrow_drop_down,
+                            color: Colors.grey),
+                        isExpanded: true,
+                        onChanged: (int? newValue) {
+                          cubit.changeJournal(
+                              newValue!); // Store the ID in cubit
+                        },
+                        items: cubit.getAllJournalsModel?.result
+                                ?.map<DropdownMenuItem<int>>((resultItem) {
+                              return DropdownMenuItem<int>(
+                                value: resultItem.id,
+                                child: Text(resultItem.displayName ??
+                                    ''), // Display the name
+                              );
+                            }).toList() ??
+                            [],
                       ),
                     ),
                   ),
-                ),
-
-                // Show success message
-                if (_image != null)
-                  const Padding(
-                    padding: EdgeInsets.only(top: 10),
-                    child: Text(
-                      'تم رفع الصورة بنجاح',
-                      style: TextStyle(color: Colors.green),
-                      textAlign: TextAlign.center,
+                  SizedBox(height: getSize(context) / 30),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: getSize(context) / 20,
+                        right: getSize(context) / 20),
+                    child: RoundedButton(
+                      backgroundColor: AppColors.primaryColor,
+                      text: 'add'.tr(),
+                      onPressed: () {
+                        cubit.createExpense(context,productId: 555);
+                      },
                     ),
                   ),
-
-                CustomTextFieldWithTitle(
-                  title: "paid".tr(),
-                  controller: cubit.reasonController,
-                  hint: "enter_paid".tr(),
-                  keyboardType: TextInputType.text,
-                ),
-                SizedBox(height: getSize(context) / 30),
-                CustomTextFieldWithTitle(
-                  title: "payment_type".tr(),
-                  controller: cubit.reasonController,
-                  hint: "enter_payment".tr(),
-                  keyboardType: TextInputType.text,
-                ),
-                SizedBox(height: getSize(context) / 30),
-                Padding(
-                  padding: EdgeInsets.only(left: getSize(context) / 20, right: getSize(context) / 20),
-                  child: RoundedButton(
-                    backgroundColor: AppColors.primaryColor,
-                    text: 'add'.tr(),
-                    onPressed: () {},
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-      );
+        );
+      });
     },
   );
 }
