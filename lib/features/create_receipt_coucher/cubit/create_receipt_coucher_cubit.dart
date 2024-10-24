@@ -36,7 +36,7 @@ class CreateReceiptCoucherCubit extends Cubit<CreateReceiptCoucherState> {
       {required int partnerId}) async {
     AppWidget.createProgressDialog(context, "جاري التحميل");
     emit(GetAllJournalsLoadingState());
-    String formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate!);
+    String formattedDate = DateFormat('yyyy-MM-dd',).format(selectedDate!);
     final result = await api.partnerPayment(
       amount: amountController.text,
       journalId: selectedPaymentMethod!,

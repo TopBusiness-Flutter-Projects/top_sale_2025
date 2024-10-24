@@ -99,7 +99,7 @@ class LoginCubit extends Cubit<LoginState> {
         print("wwwwwwwwwwwwww ${r.result!.propertyWarehouseId}");
 
         if (isEmployeeType) {
-          isEmplyee = true;
+        //  isEmplyee = true;
           Navigator.pushNamed(context, Routes.loginRoute);
         } else {
           Navigator.pushNamedAndRemoveUntil(

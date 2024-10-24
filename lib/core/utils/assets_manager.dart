@@ -5,7 +5,8 @@ const String lottiePath = 'assets/lottie';
 class ImageAssets {
   // images
   static const String salafIcon = '$imagePath/salaf_icon.png';
-  static const String attendanceIcon = '$imagePath/attendance-machine-icon 1.png';
+  static const String attendanceIcon =
+      '$imagePath/attendance-machine-icon 1.png';
   static const String documentIcon = '$imagePath/document_icon.png';
   static const String instructionsIcon = '$imagePath/instructions.png';
   static const String logoImage = '$imagePath/1.png';
@@ -36,6 +37,7 @@ class ImageAssets {
   static const String nodata = '$imagePath/no_data.png';
   static const String addressIcon = '$imagePath/address-icon 1.png';
   static const String receiptVoucherIcon = '$imagePath/receipt_voucher.png';
+  static const String cartIcon = '$imagePath/cart-arrow.png';
   // icons
   static const String phoneIcon = '$iconsPath/phone.svg';
   static const String numberOfBills = '$iconsPath/number_bill.svg';
