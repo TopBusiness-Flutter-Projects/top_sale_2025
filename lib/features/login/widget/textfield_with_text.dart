@@ -15,6 +15,7 @@ class CustomTextFieldWithTitle extends StatefulWidget {
     this.readonly,
     this.isModify,
     this.isRequired = true,
+    this.withPadding = true,
   });
 
   TextEditingController controller;
@@ -25,6 +26,7 @@ class CustomTextFieldWithTitle extends StatefulWidget {
   TextInputType? keyboardType;
   int? maxLines;
   bool isRequired;
+  bool withPadding;
 
   @override
   _CustomTextFieldWithTitleState createState() =>
@@ -39,7 +41,7 @@ class _CustomTextFieldWithTitleState extends State<CustomTextFieldWithTitle> {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(
-        horizontal: getSize(context) / 32,
+        horizontal: widget.withPadding ? getSize(context) / 32 : 0,
         vertical: getSize(context) / 44,
       ),
       child: Column(

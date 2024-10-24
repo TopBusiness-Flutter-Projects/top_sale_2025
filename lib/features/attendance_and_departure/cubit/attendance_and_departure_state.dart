@@ -25,3 +25,13 @@ class GetWifiIPLoaded extends AttendanceAndDepartureState {}
 class GetTypeHolidaysLoading  extends AttendanceAndDepartureState {}
 class GetTypeHolidaysError  extends AttendanceAndDepartureState {}
 class GetTypeHolidaysLoaded  extends AttendanceAndDepartureState {}
+class UpdateProfileImagePicked  extends AttendanceAndDepartureState {}
+class UpdateProfileError  extends AttendanceAndDepartureState {}
+class UpdateProfileUserLoading  extends AttendanceAndDepartureState {}
+class UpdateProfileUserLoaded  extends AttendanceAndDepartureState {}
+class UpdateProfileUserError  extends AttendanceAndDepartureState {}
+class FileNotPicked  extends AttendanceAndDepartureState {}
+class FileRemovedSuccessfully  extends AttendanceAndDepartureState {}
+class GetAllJournalsLoadingState  extends AttendanceAndDepartureState {}
+class GetAllJournalsErrorState  extends AttendanceAndDepartureState {}
+class GetAllJournalsLoadedState  extends AttendanceAndDepartureState {}
