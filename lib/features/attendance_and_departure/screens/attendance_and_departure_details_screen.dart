@@ -34,6 +34,7 @@ class _AttendanceAndDepartureDetailsScreenState
         titleTextStyle: getBoldStyle(fontSize: 20.sp),
         title: Text('attendance_and_departure_details'.tr()),
         backgroundColor: Colors.white,
+
         centerTitle: false,
         elevation: 0,
       ),

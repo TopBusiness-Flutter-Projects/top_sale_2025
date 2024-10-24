@@ -38,16 +38,11 @@ class _HolidaysTypeScreenState extends State<HolidaysTypeScreen> {
       body: BlocBuilder<AttendanceAndDepartureCubit,AttendanceAndDepartureState>(
         builder: (context,state) {
           var cubit = context.read<AttendanceAndDepartureCubit>();
-          return
-          cubit.holidaysTypeModel == null ?
-          
-          Center(child: CircularProgressIndicator())
-          :
-          
-          
-           ListView.builder(
+          return (cubit.holidaysTypeModel == null)?
+          const Center(child: CircularProgressIndicator(),) :
+          ListView.builder(
               shrinkWrap: true,
-              itemCount: 1,
+              itemCount: cubit.holidaysTypeModel!.timeOffBalances!.length,
               itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {

@@ -25,6 +25,9 @@ class GetWifiIPLoaded extends AttendanceAndDepartureState {}
 class GetTypeHolidaysLoading  extends AttendanceAndDepartureState {}
 class GetTypeHolidaysError  extends AttendanceAndDepartureState {}
 class GetTypeHolidaysLoaded  extends AttendanceAndDepartureState {}
+class GetAllSalaryLoading  extends AttendanceAndDepartureState {}
+class GetAllSalaryError  extends AttendanceAndDepartureState {}
+class GetAllSalaryLoaded  extends AttendanceAndDepartureState {}
 class UpdateProfileImagePicked  extends AttendanceAndDepartureState {}
 class UpdateProfileError  extends AttendanceAndDepartureState {}
 class UpdateProfileUserLoading  extends AttendanceAndDepartureState {}

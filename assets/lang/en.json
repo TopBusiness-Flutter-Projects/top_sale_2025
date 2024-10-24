@@ -143,7 +143,6 @@
   "money_types": "Money Types",
   "add": "Add",
   "paid" : "Paid",
-  "enter_paid": "Enter Paid",
   "payment_type": "Payment Type",
   "enter_payment": "Enter Payment",
   "attendance_place":"Attendance Place",
@@ -156,8 +155,7 @@
   "describtion": "Describtion",
 
 
+  "salary": "Salary",
   "error" : " Some thing wrong ",
-  "leave": "Leave",
-
-  "enter_payment": "Enter Payment"
+  "leave": "Leave"
 }

@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,12 +6,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:top_sale/core/utils/app_colors.dart';
-import 'package:top_sale/core/utils/assets_manager.dart';
 import 'package:top_sale/features/attendance_and_departure/cubit/attendance_and_departure_cubit.dart';
 import 'package:top_sale/features/attendance_and_departure/cubit/attendance_and_departure_state.dart';
 import 'package:top_sale/features/login/widget/textfield_with_text.dart';
 import '../../../core/utils/app_fonts.dart';
 import '../../../core/utils/get_size.dart';
+import '../../../core/widgets/decode_image.dart';
 import '../../details_order/screens/widgets/rounded_button.dart';
 
 class MoneyTypeScreen extends StatefulWidget {
@@ -23,6 +22,21 @@ class MoneyTypeScreen extends StatefulWidget {
 }
 
 class _MoneyTypeScreenState extends State<MoneyTypeScreen> {
+  @override
+  void initState() {
+     context.read<AttendanceAndDepartureCubit>().getAllExpensesProduct();
+     super.initState();
+  }
+  final ImagePicker _picker = ImagePicker();
+
+  // Function to open the camera
+  Future<void> _openCamera() async {
+    final XFile? pickedImage = await _picker.pickImage(source: ImageSource.camera);
+    if (pickedImage != null) {
+      setState(() {
+        _image = pickedImage;
+      });
+    }
   List<String> titles = ["بنزين العربية", "صيانة العربية", ""];
   @override
   void initState() {
@@ -48,17 +62,19 @@ class _MoneyTypeScreenState extends State<MoneyTypeScreen> {
           BlocBuilder<AttendanceAndDepartureCubit, AttendanceAndDepartureState>(
         builder: (context, state) {
           var cubit = context.read<AttendanceAndDepartureCubit>();
-          return ListView.builder(
+          return (cubit.getAllExpensesProductModel == null)?
+          const Center(child: CircularProgressIndicator(),) :
+          ListView.builder(
             shrinkWrap: true,
-            itemCount: 2,
+            itemCount: cubit.getAllExpensesProductModel!.products!.length,
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
                   _showBottomSheet(context, cubit);
                 },
                 child: MoneyTypeRow(
-                  image: ImageAssets.clients,
-                  moneyType: titles[index],
+                  image: cubit.getAllExpensesProductModel!.products![index].image,
+                  moneyType:  cubit.getAllExpensesProductModel!.products![index].name.toString(),
                 ),
               );
             },
@@ -85,10 +101,9 @@ class MoneyTypeRow extends StatelessWidget {
       padding: EdgeInsets.only(left: 20.sp, right: 20.sp, top: 20.sp),
       child: Row(
         children: [
-          CircleAvatar(
-            backgroundColor: AppColors.primary,
-            radius: 20.sp,
-            backgroundImage: AssetImage(image),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(100),
+            child:Image.network(image)
           ),
           SizedBox(width: 20.sp),
           Text(
