@@ -6,6 +6,7 @@ import 'package:top_sale/features/attendance_and_departure/screens/money.dart';
 import 'package:top_sale/features/clients/cubit/clients_cubit.dart';
 import 'package:top_sale/features/contact_us/screens/contact_us_screen.dart';
 import 'package:top_sale/features/create_receipt_coucher/screens/create_receipt_coucher_screen.dart';
+import 'package:top_sale/features/direct_sell/cubit/direct_sell_cubit.dart';
 import 'package:top_sale/features/direct_sell/screens/all_categories_screen.dart';
 import 'package:top_sale/features/direct_sell/screens/direct_sell_screen.dart';
 import 'package:top_sale/features/direct_sell/screens/products_screen.dart';
@@ -31,6 +32,7 @@ import '../../features/details_order/screens/details_order.dart';
 import '../../features/details_order/screens/details_order_show_price.dart';
 import '../../features/details_order/screens/widgets/payment.dart';
 import '../../features/delevery_order/screens/delevery_order_screen.dart';
+import '../../features/direct_sales/screens/direct_sales.dart';
 import '../../features/login/screens/login_screen.dart';
 import '../../features/on_boarding/screen/onboarding_screen.dart';
 import '../../features/profile/screens/profile_screen.dart';
@@ -73,6 +75,8 @@ class Routes {
   static const String moneyRoute = '/moneyRoute';
   static const String moneyTypeRoute = '/moneyTypeRoute';
   static const String returnsRoute = '/returnsRoute';
+  static const String itineraryRoute = '/itineraryRoute';
+
 }
 
 class AppRoutes {
@@ -217,6 +221,10 @@ class AppRoutes {
         );  case Routes.holidayTypesRoute:
         return MaterialPageRoute(
           builder: (context) => const HolidaysTypeScreen(),
+        );
+        case Routes.itineraryRoute:
+        return MaterialPageRoute(
+          builder: (context) => const ItineraryScreen(),
         );
       case Routes.createReceiptVoucherRoute:
         int partnerId = settings.arguments as int;
