@@ -1097,10 +1097,9 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
-Future<Either<Failure, GetAllExpensesProductModel>> getAllExpensesProduct() async {
 
   Future<Either<Failure, GetAllExpensesProductModel>>
-      getAllExpenseveProduct() async {
+      getAllExpensesProduct() async {
     String odooUrl =
         await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
     String? sessionId = await Preferences.instance.getSessionId();

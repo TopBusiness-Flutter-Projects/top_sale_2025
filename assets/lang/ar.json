@@ -148,7 +148,6 @@
   "money": "مصروفات",
 "paid" : "المبلغ",
 "error" : "حدث خطأ",
-  "enter_paid": "ادخل المبلغ",
   "payment_type": "نوع السداد",
   "enter_payment": "اختر السداد",
   "attendance_place":"مكان الانصراف",
@@ -157,5 +156,6 @@
   "from" : "من",
   "returns":"المرتجعات",
   "search_from_user": "ابحث عن عميلك",
-  "return_order": "أمر مرتجع"
+  "return_order": "أمر مرتجع",
+  "salary": "الراتب"
 }

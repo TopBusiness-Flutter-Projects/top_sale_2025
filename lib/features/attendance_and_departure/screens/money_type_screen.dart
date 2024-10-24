@@ -25,26 +25,12 @@ class _MoneyTypeScreenState extends State<MoneyTypeScreen> {
   @override
   void initState() {
      context.read<AttendanceAndDepartureCubit>().getAllExpensesProduct();
+       context.read<AttendanceAndDepartureCubit>().getAllJournals();
      super.initState();
   }
-  final ImagePicker _picker = ImagePicker();
 
-  // Function to open the camera
-  Future<void> _openCamera() async {
-    final XFile? pickedImage = await _picker.pickImage(source: ImageSource.camera);
-    if (pickedImage != null) {
-      setState(() {
-        _image = pickedImage;
-      });
-    }
+
   List<String> titles = ["بنزين العربية", "صيانة العربية", ""];
-  @override
-  void initState() {
-    context.read<AttendanceAndDepartureCubit>().getAllJournals();
-
-    // TODO: implement initState
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
