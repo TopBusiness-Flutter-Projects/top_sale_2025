@@ -1075,9 +1075,9 @@ Future<Either<Failure, GetAllExpensesProductModel>> getAllExpenseveProduct() asy
     String odooUrl =
         await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
     String? sessionId = await Preferences.instance.getSessionId();
-    String employeeId = await Preferences.instance.getEmployeeId() ??
-        await Preferences.instance.getEmployeeIdNumber() ??
-        "1";
+    // String employeeId = await Preferences.instance.getEmployeeId() ??
+    //     await Preferences.instance.getEmployeeIdNumber() ??
+    //     "1";
     try {
       final response = await dio.get(
         odooUrl + EndPoints.employee + 'expense/products',

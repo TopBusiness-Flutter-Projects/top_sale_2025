@@ -38,7 +38,14 @@ class _HolidaysTypeScreenState extends State<HolidaysTypeScreen> {
       body: BlocBuilder<AttendanceAndDepartureCubit,AttendanceAndDepartureState>(
         builder: (context,state) {
           var cubit = context.read<AttendanceAndDepartureCubit>();
-          return ListView.builder(
+          return
+          cubit.holidaysTypeModel == null ?
+          
+          Center(child: CircularProgressIndicator())
+          :
+          
+          
+           ListView.builder(
               shrinkWrap: true,
               itemCount: 1,
               itemBuilder: (context, index) {
