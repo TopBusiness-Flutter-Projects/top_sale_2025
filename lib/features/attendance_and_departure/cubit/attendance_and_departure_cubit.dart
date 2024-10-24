@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:top_sale/core/models/get__my_expense_model.dart';
+import 'package:top_sale/core/models/get_all_expenses_product_model.dart';
 import 'package:top_sale/core/models/get_last_attendance_model.dart';
 import 'package:top_sale/core/remote/service.dart';
 import '../../../core/models/get_all_attendance_model.dart';
@@ -45,6 +47,7 @@ class AttendanceAndDepartureCubit extends Cubit<AttendanceAndDepartureState> {
       },
     );
   }
+
   void onSelectedDate(bool isStartDate, BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -71,51 +74,50 @@ class AttendanceAndDepartureCubit extends Cubit<AttendanceAndDepartureState> {
       //     context: context);
     }
   }
+
   void updateDateStrings() {
     fromDate = selectedStartDate != null
         ? DateFormat('yyyy-MM-dd', 'en').format(selectedStartDate!)
         : DateFormat('yyyy-MM-dd', 'en')
-        .format(DateTime.now()); // تاريخ اليوم كقيمة افتراضية
+            .format(DateTime.now()); // تاريخ اليوم كقيمة افتراضية
 
     toDate = selectedEndDate != null
         ? DateFormat('yyyy-MM-dd', 'en').format(selectedEndDate!)
         : DateFormat('yyyy-MM-dd', 'en')
-        .format(DateTime.now()); // تاريخ اليوم كقيمة افتراضية
+            .format(DateTime.now()); // تاريخ اليوم كقيمة افتراضية
 
     print('From date: $fromDate, To date: $toDate');
   }
+
   GetAllAttendanceModel getAllAttendanceModel = GetAllAttendanceModel();
   void getAllAttendance() async {
     emit(GetAllAttendanceLoadingState());
     final result = await api.getAllAttendance();
     result.fold(
-          (failure) =>
-          emit(GetAllAttendanceErrorState()),
-          (r) {
-            if (r.attendances == null){
-
-            }else{
-              getAllAttendanceModel = r;
-            }
+      (failure) => emit(GetAllAttendanceErrorState()),
+      (r) {
+        if (r.attendances == null) {
+        } else {
+          getAllAttendanceModel = r;
+        }
 
         emit(GetAllAttendanceLoadedState());
       },
     );
   }
+
   HolidaysModel holidaysModel = HolidaysModel();
   void getAllHolidays() async {
     emit(GetAllHolidaysLoadingState());
     final result = await api.getHolidays();
     result.fold(
-          (failure) =>
-          emit(GetAllHolidaysErrorState()),
-          (r) {
-            holidaysModel = r;
+      (failure) => emit(GetAllHolidaysErrorState()),
+      (r) {
+        holidaysModel = r;
         emit(GetAllHolidaysLoadedState());
       },
     );
   }
- 
 
   final info = NetworkInfo();
   String wifiIPP = '';
@@ -160,6 +162,8 @@ class AttendanceAndDepartureCubit extends Cubit<AttendanceAndDepartureState> {
     // getIp();
     AppWidget.createProgressDialog(context, "جاري التحميل ..");
     emit(CheckInOutLoading());
+    print("laat : $lat");
+    print("long : $long");
     final result = await api.checkInOutt(
       city: city,
       country: country,
@@ -210,7 +214,9 @@ class AttendanceAndDepartureCubit extends Cubit<AttendanceAndDepartureState> {
         emit(GetContractLoaded());
       },
     );
-  }  HolidaysTypeModel? holidaysTypeModel;
+  }
+
+  HolidaysTypeModel? holidaysTypeModel;
   getTypeHolidays() async {
     emit(GetTypeHolidaysLoading());
     final result = await api.getTypeHolidays();
@@ -224,4 +230,30 @@ class AttendanceAndDepartureCubit extends Cubit<AttendanceAndDepartureState> {
     );
   }
 
+  //// expense
+  GetMyExpensesModel getMyExpensesModel = GetMyExpensesModel();
+  getMyExpenses() async {
+    emit(GetTypeHolidaysLoading());
+    final result = await api.getMyExpenses();
+    result.fold(
+      (failure) => emit(GetTypeHolidaysError()),
+      (r) {
+        getMyExpensesModel = r;
+        emit(GetTypeHolidaysLoaded());
+      },
+    );
+  }
+
+  GetAllExpensesProductModel? getAllExpensesProductModel;
+  getAllExpenseveProduct() async {
+    emit(GetTypeHolidaysLoading());
+    final result = await api.getAllExpenseveProduct();
+    result.fold(
+      (failure) => emit(GetTypeHolidaysError()),
+      (r) {
+        getAllExpensesProductModel = r;
+        emit(GetTypeHolidaysLoaded());
+      },
+    );
+  }
 }
