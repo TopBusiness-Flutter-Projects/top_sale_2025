@@ -358,7 +358,8 @@ class AttendanceAndDepartureCubit extends Cubit<AttendanceAndDepartureState> {
     emit(UpdateProfileUserLoading());
     AppWidget.createProgressDialog(context, "جاري التحميل ..");
     final result = await api.createExpense(
-        path: profileImage!.path,
+        path:  profileImage != null ? profileImage!.path : "",
+
         amount: amountController.text,
         description: descriptionController.text,
         productId: productId);
@@ -393,6 +394,7 @@ class AttendanceAndDepartureCubit extends Cubit<AttendanceAndDepartureState> {
   int? selectedPaymentMethod;
   void changeJournal(int selectedPayment) {
     selectedPaymentMethod = selectedPayment;
+    emit(ChangeJournalState());
   }
 
   GetAllJournalsModel? getAllJournalsModel;

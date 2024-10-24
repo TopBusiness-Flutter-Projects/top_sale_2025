@@ -25,7 +25,8 @@ class _SplashScreenState extends State<SplashScreen>
   late Timer _timer;
 
   _goNext() {
-    _getStoreUser();
+    _getStoreUser2();
+    // _getStoreUser();
   }
 
   _startDelay() async {
@@ -35,6 +36,92 @@ class _SplashScreenState extends State<SplashScreen>
         _goNext();
       },
     );
+  }
+
+  Future<void> _getStoreUser2() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getBool('onBoarding') == true) {
+      if (await Preferences.instance.getDataBaseName() == null ||
+          await Preferences.instance.getOdooUrl() == null) {
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          Routes.registerScreen,
+          (route) => false,
+        );
+      } else {
+        if (await Preferences.instance.getEmployeeId() == null &&
+            await Preferences.instance.getUserName() == null) {
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            Routes.loginRoute,
+            (route) => false,
+          );
+        } else {
+          if (await Preferences.instance.getMasterUserName() == null ||
+              await Preferences.instance.getMasterUserPass() == null) {
+            if (await Preferences.instance.getUserName() == null ||
+                await Preferences.instance.getUserPass() == null) {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                Routes.loginRoute,
+                (route) => false,
+              );
+            } else {
+              String session = await context.read<LoginCubit>().setSessionId(
+                  phoneOrMail: await Preferences.instance.getUserName() ?? '',
+                  password: await Preferences.instance.getUserPass() ?? '',
+                  baseUrl: await Preferences.instance.getOdooUrl() ?? '',
+                  database: await Preferences.instance.getDataBaseName() ?? '');
+              if (session != "error") {
+                Navigator.pushReplacementNamed(context, Routes.mainRoute);
+              } else {
+                Navigator.pushReplacementNamed(context, Routes.loginRoute);
+              }
+            }
+          } else {
+            if (await Preferences.instance.getEmployeeId() != null) {
+              String session = await context.read<LoginCubit>().setSessionId(
+                  phoneOrMail:
+                      await Preferences.instance.getMasterUserName() ?? '',
+                  password:
+                      await Preferences.instance.getMasterUserPass() ?? '',
+                  baseUrl: await Preferences.instance.getOdooUrl() ?? '',
+                  database: await Preferences.instance.getDataBaseName() ?? '');
+              if (session != "error") {
+                Navigator.pushReplacementNamed(context, Routes.mainRoute);
+              } else {
+                Navigator.pushReplacementNamed(context, Routes.loginRoute);
+              }
+            }  else if (await Preferences.instance.getUserName() == null ||
+                await Preferences.instance.getUserPass() == null) {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                Routes.loginRoute,
+                (route) => false,
+              );
+            } else {
+              String session = await context.read<LoginCubit>().setSessionId(
+                  phoneOrMail: await Preferences.instance.getUserName() ?? '',
+                  password: await Preferences.instance.getUserPass() ?? '',
+                  baseUrl: await Preferences.instance.getOdooUrl() ?? '',
+                  database: await Preferences.instance.getDataBaseName() ?? '');
+              if (session != "error") {
+                Navigator.pushReplacementNamed(context, Routes.mainRoute);
+              } else {
+                Navigator.pushReplacementNamed(context, Routes.loginRoute);
+              }
+            }
+            
+          }
+        }
+      }
+    } else {
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        Routes.onboardingPageScreenRoute,
+        (route) => false,
+      );
+    }
   }
 
   Future<void> _getStoreUser() async {
@@ -152,7 +239,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
-context.read<ClientsCubit>().checkAndRequestLocationPermission();
+    context.read<ClientsCubit>().checkAndRequestLocationPermission();
     _startDelay();
   }
 

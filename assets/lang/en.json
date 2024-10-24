@@ -146,6 +146,7 @@
   "payment_type": "Payment Type",
   "enter_payment": "Enter Payment",
   "attendance_place":"Attendance Place",
+  "leave_place":"Leave Place",
   "additional_time":" Additional Time",
   "to": "To",
   "from" : "From",

@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:top_sale/features/attendance_and_departure/cubit/attendance_and_departure_cubit.dart';
 import 'package:top_sale/features/attendance_and_departure/cubit/attendance_and_departure_state.dart';
 import 'package:top_sale/features/clients/cubit/clients_cubit.dart';
+import 'package:top_sale/features/clients/cubit/clients_state.dart';
 import '../../../../core/utils/app_colors.dart';
 
 class ContainerTimesFromUserInHomeScreen extends StatefulWidget {
@@ -170,7 +171,7 @@ class _ContainerTimesFromUserInHomeScreenState
                                       child: Column(
                                         children: [
                                           Text(
-                                            cubit 
+                                            cubit
                                                         .getLastAttendanceModel!
                                                         .lastAttendance!
                                                         .checkOut ==
@@ -197,70 +198,77 @@ class _ContainerTimesFromUserInHomeScreenState
                           SizedBox(
                             height: 20.h,
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              context
-                                  .read<AttendanceAndDepartureCubit>()
-                                  .checkInOut(context,
-                                      isChechIn: cubit.getLastAttendanceModel!
-                                              .lastAttendance!.status
-                                              .toString() ==
-                                          "check-out",
-                                      lat: context
+                          BlocBuilder<ClientsCubit, ClientsState>(
+                              builder: (context, state) {
+                            return GestureDetector(
+                              onTap: () {
+                                if (context
+                                        .read<ClientsCubit>()
+                                        .currentLocation ==
+                                    null) {
+                                  context
+                                      .read<ClientsCubit>()
+                                      .checkAndRequestLocationPermission();
+                                } else {
+                                  context
+                                      .read<AttendanceAndDepartureCubit>()
+                                      .checkInOut(context,
+                                          isChechIn: cubit
+                                                  .getLastAttendanceModel!
+                                                  .lastAttendance!
+                                                  .status
+                                                  .toString() ==
+                                              "check-out",
+                                          lat: context
+                                                  .read<ClientsCubit>()
+                                                  .currentLocation
+                                                  ?.latitude ??
+                                              0.0,
+                                          long: context
+                                                  .read<ClientsCubit>()
+                                                  .currentLocation
+                                                  ?.longitude ??
+                                              0,
+                                          country: context
                                               .read<ClientsCubit>()
-                                              .currentLocation
-                                              ?.latitude ??
-                                          0.0,
-                                      long: context
+                                              .country,
+                                          city: context
                                               .read<ClientsCubit>()
-                                              .currentLocation
-                                              ?.longitude ??
-                                          0,
-                                      country:
-                                          context.read<ClientsCubit>().country,
-                                      city: context.read<ClientsCubit>().city);
-                              // context.read<ClientsCubit>().getAddressFromLatLng(
-                              //     context
-                              //             .read<ClientsCubit>()
-                              //             .currentLocation
-                              //             ?.latitude ??
-                              //         0.0,
-                              //     context
-                              //             .read<ClientsCubit>()
-                              //             .currentLocation
-                              //             ?.longitude ??
-                              //         0.0);
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 25.w, right: 25.w),
-                              child: Container(
-                                height: 40.h,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: cubit.getLastAttendanceModel!
-                                              .lastAttendance!.status
-                                              .toString() ==
-                                          "check-out"
-                                      ? AppColors.black
-                                      : AppColors.secondPrimary,
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    cubit.getLastAttendanceModel!
+                                              .city);
+                                }
+                              },
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.only(left: 25.w, right: 25.w),
+                                child: Container(
+                                  height: 40.h,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: cubit.getLastAttendanceModel!
                                                 .lastAttendance!.status
                                                 .toString() ==
                                             "check-out"
-                                        ? 'attendance'.tr()
-                                        : 'leave'.tr(),
-                                    style: TextStyle(
-                                        color: AppColors.white,
-                                        fontSize: 20.sp),
+                                        ? AppColors.black
+                                        : AppColors.secondPrimary,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      cubit.getLastAttendanceModel!
+                                                  .lastAttendance!.status
+                                                  .toString() ==
+                                              "check-out"
+                                          ? 'attendance'.tr()
+                                          : 'leave'.tr(),
+                                      style: TextStyle(
+                                          color: AppColors.white,
+                                          fontSize: 20.sp),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ),
+                            );
+                          }),
                           SizedBox(
                             height: 10.h,
                           ),
