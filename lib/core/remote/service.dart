@@ -31,6 +31,7 @@ import 'package:top_sale/core/preferences/preferences.dart';
 import 'package:top_sale/core/utils/app_strings.dart';
 import '../api/base_api_consumer.dart';
 import 'package:odoo_rpc/odoo_rpc.dart';
+import '../models/all_salary_model.dart';
 import '../models/holidays_model.dart';
 import '../models/holidays_type_model.dart';
 
@@ -1072,7 +1073,28 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
-Future<Either<Failure, GetAllExpensesProductModel>> getAllExpenseveProduct() async {
+  Future<Either<Failure, AllSalaryModel>> getMySalary() async {
+    String odooUrl =
+        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+    String? sessionId = await Preferences.instance.getSessionId();
+     String userId = await Preferences.instance.getUserId() ?? "1";
+    String employeeId = await Preferences.instance.getEmployeeId() ??
+        await Preferences.instance.getEmployeeIdNumber() ??
+        "1";
+    try {
+      final response = await dio.get(
+        odooUrl + EndPoints.employee + '$employeeId/payslip_history',
+
+        options: Options(
+          headers: {"Cookie": "session_id=$sessionId"},
+        ),
+      );
+      return Right(AllSalaryModel.fromJson(response));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
+Future<Either<Failure, GetAllExpensesProductModel>> getAllExpensesProduct() async {
     String odooUrl =
         await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
     String? sessionId = await Preferences.instance.getSessionId();
@@ -1081,7 +1103,7 @@ Future<Either<Failure, GetAllExpensesProductModel>> getAllExpenseveProduct() asy
     //     "1";
     try {
       final response = await dio.get(
-        odooUrl + EndPoints.employee + 'expense/products',
+        odooUrl +  'api/expense/products',
         options: Options(
           headers: {"Cookie": "session_id=$sessionId"},
         ),
