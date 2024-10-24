@@ -5,11 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:top_sale/core/utils/app_fonts.dart';
 import '../../../core/utils/app_colors.dart';
+import '../../home_screen/cubit/cubit.dart';
 import '../cubit/attendance_and_departure_cubit.dart';
 import '../cubit/attendance_and_departure_state.dart';
 
 class ContractScreen extends StatefulWidget {
-   ContractScreen({super.key});
+  const ContractScreen({super.key});
 
   @override
   State<ContractScreen> createState() => _ContractScreenState();
@@ -22,20 +23,15 @@ class _ContractScreenState extends State<ContractScreen> {
     "number_of_working_hours".tr(),
     "section".tr(),
     "jop".tr(),
+    "salary".tr(),
   ];
 
-  List<String> descriptions = [
-    "12-12-2022",
-    "12-12-2022",
-    "8 ساعات",
-    "أدارة المبيعات",
-   "مندوب",
-  ];
-@override
+  @override
   void initState() {
     context.read<AttendanceAndDepartureCubit>().getContract();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     var cubit = context.read<AttendanceAndDepartureCubit>();
@@ -50,46 +46,68 @@ class _ContractScreenState extends State<ContractScreen> {
         backgroundColor: AppColors.white,
         elevation: 0.0,
       ),
-      body: BlocBuilder<AttendanceAndDepartureCubit, AttendanceAndDepartureState>(
-        builder: (context,state) {
-          return (cubit.contractDetails == null)?
-          const Center(child: CircularProgressIndicator(),):
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(height: 20.h),
-              Text("رقم العقد/ ${cubit.contractDetails?.contractDetails?.displayName}",style: getBoldStyle(color: AppColors.primary),),
-              SizedBox(height: 20.h),
-              ListView.builder(
-                itemBuilder: (context, index) =>  customRowContract(
-                  title: titles[index],
-                  description: (index == 0)
-                      ? (cubit.contractDetails?.contractDetails?.dateStart?.toString() ?? "")
-                      : (index == 1)
-                      ? (cubit.contractDetails?.contractDetails?.dateEnd?.toString() ?? "")
-                      : (index == 2)
-                      ? (cubit.contractDetails?.contractDetails?.workingHours?.toString() ?? "")
-                      : (index == 3)
-                      ? (cubit.contractDetails?.contractDetails?.department?.toString() ?? "")
-                      : (index == 4)
-                      ? (cubit.contractDetails?.contractDetails?.jobTitle?.toString() ?? "")
-                      : "",
-                ),
-
-                itemCount: titles.length,
-                shrinkWrap: true,
-
-              ),
-
-            ],
-          );
-        }
-      ),
+      body:
+          BlocBuilder<AttendanceAndDepartureCubit, AttendanceAndDepartureState>(
+              builder: (context, state) {
+        return (cubit.contractDetails == null)
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: 20.h),
+                  Text(
+                    "رقم العقد/ ${cubit.contractDetails?.contractDetails?.displayName}",
+                    style: getBoldStyle(color: AppColors.primary),
+                  ),
+                  SizedBox(height: 20.h),
+                  ListView.builder(
+                    itemBuilder: (context, index) => customRowContract(
+                      title: titles[index],
+                      description: (index == 0)
+                          ? (cubit.contractDetails?.contractDetails?.dateStart
+                                  ?.toString() ??
+                              "")
+                          : (index == 1)
+                              ? (cubit.contractDetails?.contractDetails?.dateEnd
+                                      ?.toString() ??
+                                  "")
+                              : (index == 2)
+                                  ? (cubit.contractDetails?.contractDetails
+                                          ?.workingHours
+                                          ?.toString() ??
+                                      "")
+                                  : (index == 3)
+                                      ? (cubit.contractDetails?.contractDetails
+                                              ?.department
+                                              ?.toString() ??
+                                          "")
+                                      : (index == 4)
+                                          ? ((cubit
+                                                      .contractDetails
+                                                      ?.contractDetails
+                                                      ?.jobTitle !=
+                                                  false)
+                                              ? cubit.contractDetails
+                                                  ?.contractDetails?.jobTitle
+                                              : "")
+                                          : (index == 5)
+                                              ? ("${context.read<HomeCubit>().currencyName} ${cubit.contractDetails?.contractDetails?.wage.toString()} " ??
+                                                  "")
+                                              : "",
+                    ),
+                    itemCount: titles.length,
+                    shrinkWrap: true,
+                  ),
+                ],
+              );
+      }),
     );
   }
 
-   Column customRowContract({
+  Column customRowContract({
     required String title,
     required String description,
   }) {

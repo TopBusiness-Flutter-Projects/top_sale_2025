@@ -32,6 +32,8 @@ class EndPoints {
   static String printPayment = '/report/pdf/account.report_payment_receipt/';
   static String printInvoice =
       '/report/pdf/account.report_invoice_with_payments/';
+  static String printPaySlip =
+      '/report/pdf/hr_payroll.report_payslip_lang/';
   static String wareHouse = '/api/stock.warehouse/';
    static String createPayment = '/api/payment/create';
    /////////// HR/////////

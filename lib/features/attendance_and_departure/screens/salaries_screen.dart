@@ -6,13 +6,23 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:top_sale/core/utils/app_colors.dart';
 import 'package:top_sale/features/attendance_and_departure/cubit/attendance_and_departure_cubit.dart';
 import 'package:top_sale/features/attendance_and_departure/cubit/attendance_and_departure_state.dart';
-
+import '../../../core/api/end_points.dart';
 import '../../../core/utils/app_fonts.dart';
-import '../../../core/widgets/custom_text_form_field.dart';
+import '../../details_order/screens/pdf.dart';
 
-class SalariesScreen extends StatelessWidget {
+class SalariesScreen extends StatefulWidget {
   const SalariesScreen({super.key});
 
+  @override
+  State<SalariesScreen> createState() => _SalariesScreenState();
+}
+
+class _SalariesScreenState extends State<SalariesScreen> {
+  @override
+  void initState() {
+    context.read<AttendanceAndDepartureCubit>().getAllSalary();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,85 +41,104 @@ class SalariesScreen extends StatelessWidget {
           return Padding(
             padding:  EdgeInsets.all(8.0.sp),
             child: Column(children: [
-              CustomTextField(
-                controller: cubit.searchController,
-                // onChanged: cubit.onChangeSearch,
-                labelText: "search_month".tr(),
-                prefixIcon: Icon(
-                  Icons.search_rounded,
-                  size: 35,
-                  color: AppColors.gray2,
-                ),
-              ),
+              // CustomTextField(
+              //   controller: cubit.searchController,
+              //   // onChanged: cubit.onChangeSearch,
+              //   labelText: "search_month".tr(),
+              //   prefixIcon: Icon(
+              //     Icons.search_rounded,
+              //     size: 35,
+              //     color: AppColors.gray2,
+              //   ),
+              // ),
               SizedBox(height: 20.h),
+              (cubit.allSalaryModel == null)?
+              const Center(child: CircularProgressIndicator(),):
               Expanded(
                 child: ListView.builder(
-                    itemCount: 2,
+                    itemCount: cubit.allSalaryModel?.payslipHistory?.length,
                     itemBuilder: (context, index) {
-                      return Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              padding: EdgeInsets.all(8.0.sp),
-                              decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                    blurStyle: BlurStyle.outer,
-                                    color:
-                                    Colors.black.withOpacity(0.1), // لون الظل مع تقليل الشفافية
-                                    spreadRadius: 1, // مدى انتشار الظل
-                                    blurRadius: 4, // مدى نعومة الظل
-                                    offset: const Offset(0, 1), // الاتجاه الأفقي والرأسي للظل
-                                  ),
-                                ],
-                                color: AppColors.white,
-                                borderRadius: BorderRadius.circular(10.sp),
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  AutoSizeText(
-                                    "شهر 8".tr(),
-                                    style: getBoldStyle(
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) {
+                              return PdfViewerPage(
+                                baseUrl:
+                                '${EndPoints.printPaySlip}${cubit.allSalaryModel?.payslipHistory?[index].payslipId.toString()}',
+                              );
+                              // return PaymentWebViewScreen(url: "",);
+                            },
+                          ));
+                        },
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                padding: EdgeInsets.all(8.0.sp),
+                                decoration: BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                      blurStyle: BlurStyle.outer,
+                                      color:
+                                      Colors.black.withOpacity(0.1), // لون الظل مع تقليل الشفافية
+                                      spreadRadius: 1, // مدى انتشار الظل
+                                      blurRadius: 4, // مدى نعومة الظل
+                                      offset: const Offset(0, 1), // الاتجاه الأفقي والرأسي للظل
+                                    ),
+                                  ],
+                                  color: AppColors.white,
+                                  borderRadius: BorderRadius.circular(10.sp),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    AutoSizeText(
+                                      (cubit.allSalaryModel?.payslipHistory?[index].patch == false)? " " :
+                                      cubit.allSalaryModel!.payslipHistory![index].patch!,
+                                      style: getBoldStyle(
                                         color: AppColors.primary,
-                                        fontSize: 18.sp),
-                                  ),
-                                  SizedBox(height: 10.h),
-                                  Row(
-                                    children: [
-                                      AutoSizeText("المرتب".tr(),
-                                          style: getBoldStyle(
-                                              color: AppColors.black.withOpacity(0.8),
-                                              fontSize: 14.sp)),
-                                      const Spacer(),
-                                      AutoSizeText("3000".tr(),
+                                        fontSize: 18.sp,
+                                      ),
+                                    ),
+                                    SizedBox(height: 10.h),
+                                    Row(
+                                      children: [
+                                        AutoSizeText("salary".tr(),
+                                            style: getBoldStyle(
+                                                color: AppColors.black.withOpacity(0.8),
+                                                fontSize: 14.sp)),
+                                        const Spacer(),
+                                        AutoSizeText(
+                                            cubit.allSalaryModel!.payslipHistory![index].amountTotal.toString(),
 
-                                          style: getBoldStyle(
-                                              color: AppColors.black.withOpacity(0.7),
-                                              fontSize: 14.sp)),
-                                      const Spacer(),
-                                     Container(
-                                       padding: EdgeInsets.all(8.0.sp),
-                                       decoration: BoxDecoration(
-                                         color: AppColors.green.withOpacity(0.2),
-                                         borderRadius: BorderRadius.circular(15.sp),
-                                       ),
-                                       child:  Center(
-                                         child: Text("مدفوع".tr(),
-                                             style: getBoldStyle(
-                                                 color: AppColors.green,
-                                                 fontSize: 14.sp)),
-                                       ),
-                                     )
-                                    ],
-                                  ),
-                                ],
-                              )
-                              ),
-                          )
-                        ],
+
+                                            style: getBoldStyle(
+                                                color: AppColors.black.withOpacity(0.7),
+                                                fontSize: 14.sp)),
+                                        const Spacer(),
+                                       Container(
+                                         padding: EdgeInsets.all(8.0.sp),
+                                         decoration: BoxDecoration(
+                                           color: AppColors.green.withOpacity(0.2),
+                                           borderRadius: BorderRadius.circular(15.sp),
+                                         ),
+                                         child:  Center(
+                                           child: Text(cubit.allSalaryModel!.payslipHistory![index].state.toString(),
+                                               style: getBoldStyle(
+                                                   color: AppColors.green,
+                                                   fontSize: 14.sp)),
+                                         ),
+                                       )
+                                      ],
+                                    ),
+                                  ],
+                                )
+                                ),
+                            )
+                          ],
+                        ),
                       );
                     }),
               ),

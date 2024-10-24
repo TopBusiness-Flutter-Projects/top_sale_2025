@@ -7,6 +7,7 @@ import 'package:top_sale/core/models/get__my_expense_model.dart';
 import 'package:top_sale/core/models/get_all_expenses_product_model.dart';
 import 'package:top_sale/core/models/get_last_attendance_model.dart';
 import 'package:top_sale/core/remote/service.dart';
+import '../../../core/models/all_salary_model.dart';
 import '../../../core/models/get_all_attendance_model.dart';
 import 'package:top_sale/core/utils/appwidget.dart';
 import 'package:top_sale/core/utils/dialogs.dart';
@@ -245,14 +246,27 @@ class AttendanceAndDepartureCubit extends Cubit<AttendanceAndDepartureState> {
   }
 
   GetAllExpensesProductModel? getAllExpensesProductModel;
-  getAllExpenseveProduct() async {
+  getAllExpensesProduct() async {
     emit(GetTypeHolidaysLoading());
-    final result = await api.getAllExpenseveProduct();
+    final result = await api.getAllExpensesProduct();
     result.fold(
       (failure) => emit(GetTypeHolidaysError()),
       (r) {
         getAllExpensesProductModel = r;
         emit(GetTypeHolidaysLoaded());
+      },
+    );
+  }
+
+  AllSalaryModel? allSalaryModel;
+  getAllSalary() async {
+    emit(GetAllSalaryLoading());
+    final result = await api.getMySalary();
+    result.fold(
+      (failure) => emit(GetAllSalaryError()),
+      (r) {
+        allSalaryModel = r;
+        emit(GetAllSalaryLoaded());
       },
     );
   }
