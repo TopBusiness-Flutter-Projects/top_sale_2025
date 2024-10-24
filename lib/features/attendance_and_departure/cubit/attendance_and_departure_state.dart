@@ -28,3 +28,13 @@ class GetTypeHolidaysLoaded  extends AttendanceAndDepartureState {}
 class GetAllSalaryLoading  extends AttendanceAndDepartureState {}
 class GetAllSalaryError  extends AttendanceAndDepartureState {}
 class GetAllSalaryLoaded  extends AttendanceAndDepartureState {}
+class UpdateProfileImagePicked  extends AttendanceAndDepartureState {}
+class UpdateProfileError  extends AttendanceAndDepartureState {}
+class UpdateProfileUserLoading  extends AttendanceAndDepartureState {}
+class UpdateProfileUserLoaded  extends AttendanceAndDepartureState {}
+class UpdateProfileUserError  extends AttendanceAndDepartureState {}
+class FileNotPicked  extends AttendanceAndDepartureState {}
+class FileRemovedSuccessfully  extends AttendanceAndDepartureState {}
+class GetAllJournalsLoadingState  extends AttendanceAndDepartureState {}
+class GetAllJournalsErrorState  extends AttendanceAndDepartureState {}
+class GetAllJournalsLoadedState  extends AttendanceAndDepartureState {}

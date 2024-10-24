@@ -11,7 +11,6 @@ String getAllExpensesProductModelToJson(GetAllExpensesProductModel data) => json
 class GetAllExpensesProductModel {
     dynamic success;
     List<Product>? products;
-
     GetAllExpensesProductModel({
         this.success,
         this.products,

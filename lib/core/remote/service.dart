@@ -13,8 +13,10 @@ import 'package:top_sale/core/models/all_partners_for_reports_model.dart';
 import 'package:top_sale/core/models/all_payments_model.dart';
 import 'package:top_sale/core/models/all_products_model.dart';
 import 'package:top_sale/core/models/all_ware_house_model.dart';
+import 'package:top_sale/core/models/approve_expenses_model.dart';
 import 'package:top_sale/core/models/category_model.dart';
 import 'package:top_sale/core/models/check_employee_model.dart';
+import 'package:top_sale/core/models/create_expenses_mosel.dart';
 import 'package:top_sale/core/models/create_order_model.dart';
 import 'package:top_sale/core/models/defaul_model.dart';
 import 'package:top_sale/core/models/get__my_expense_model.dart';
@@ -1047,47 +1049,6 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
-  Future<Either<Failure, AddTimeOffModel>> addTimeOff({
-
-    required String timeOffTypeId,
-    required String reason,
-    required String dateTo,
-    required String dateFrom,
-  }) async {
-    String odooUrl =
-        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
-    String? sessionId = await Preferences.instance.getSessionId();
-    String employeeId = await Preferences.instance.getEmployeeId() ??
-        await Preferences.instance.getEmployeeIdNumber() ??
-        "1";
-    try {
-      final response = await dio.post(
-        odooUrl + EndPoints.employee + 'time_off',
-        body: {
-          "params": {
-            "data": {
-              "employee_id": int.parse(employeeId),
-               "date_to":dateTo,
-              "date_from":dateFrom,
-              "reason":reason,
-              "time_off_type_id":int.parse(timeOffTypeId)
-              // "employee_id": int.parse(employeeId),
-              // "reason":"iam sick",
-              // "date_from": "2025-9-28",
-              // "date_to": "2025-9-30",
-              // "time_off_type_id": 2
-            }
-          }
-        },
-        options: Options(
-          headers: {"Cookie": "session_id=$sessionId"},
-        ),
-      );
-      return Right(AddTimeOffModel.fromJson(response));
-    } on ServerException {
-      return Left(ServerFailure());
-    }
-  }
   Future<Either<Failure, GetMyExpensesModel>> getMyExpenses() async {
     String odooUrl =
         await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
@@ -1151,6 +1112,71 @@ Future<Either<Failure, GetAllExpensesProductModel>> getAllExpensesProduct() asyn
         ),
       );
       return Right(GetAllExpensesProductModel.fromJson(response));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
+
+  Future<Either<Failure, CreateExpensesProductModel>> createExpense({
+    required String path,
+    required String amount,
+    required int productId,
+    required String description,
+  }) async {
+    String odooUrl =
+        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+    String? sessionId = await Preferences.instance.getSessionId();
+    String userId = await Preferences.instance.getUserId() ?? "1";
+
+    String employeeId = await Preferences.instance.getEmployeeId() ??
+        await Preferences.instance.getEmployeeIdNumber() ??
+        "1";
+    try {
+      final response = await dio.post(
+        odooUrl + EndPoints.employee + 'create_expense',
+        body: {
+          "name": description,
+          "employee_id": int.parse(employeeId),
+          // "date": "2024-10-21",
+          "amount": amount,
+          "user_id": int.parse(userId),
+          "product_id": productId,
+          "attachment": [
+            "$path"
+            //await MultipartFile.fromFile(path)
+          ]
+        },
+        // formDataIsEnabled: true,
+        options: Options(
+          headers: {"Cookie": "session_id=$sessionId"},
+        ),
+      );
+      return Right(CreateExpensesProductModel.fromJson(response));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
+
+  Future<Either<Failure, ApproveExpensesModel>> approveExpense({
+    required int journalId,
+    required int expenseId,
+  }) async {
+    String odooUrl =
+        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+    String? sessionId = await Preferences.instance.getSessionId();
+    // String employeeId = await Preferences.instance.getEmployeeId() ??
+    //     await Preferences.instance.getEmployeeIdNumber() ??
+    //     "1";
+    try {
+      final response = await dio.post(
+        odooUrl + '/api/manager/approve_expense',
+        body: {"expense_id": expenseId, "journal_id": journalId},
+        // formDataIsEnabled: true,
+        options: Options(
+          headers: {"Cookie": "session_id=$sessionId"},
+        ),
+      );
+      return Right(ApproveExpensesModel.fromJson(response));
     } on ServerException {
       return Left(ServerFailure());
     }
