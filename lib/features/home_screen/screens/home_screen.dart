@@ -65,18 +65,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                         text: "direct_sales".tr(),
                         image: ImageAssets.directSale),
-                    // CardHome(
-                    //     onPressed: () {
-                    //       //  Navigator.pushNamed(context, Routes.contactUsRoute);
-                    //       Navigator.push(
-                    //           context,
-                    //           MaterialPageRoute(
-                    //               builder: (context) => Container(
-                    //                     color: Colors.white,
-                    //                   )));
-                    //     },
-                    //     text: "serali_line".tr(),
-                    //     image: ImageAssets.line),
+                    CardHome(
+                        onPressed: () {
+                            Navigator.pushNamed(context, Routes.itineraryRoute);
+
+                        },
+                        text: "serali_line".tr(),
+                        image: ImageAssets.line),
                     CardHome(
                         text: "clients".tr(),
                         image: ImageAssets.clients,

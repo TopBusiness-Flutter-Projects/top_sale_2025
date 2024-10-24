@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:top_sale/core/utils/app_colors.dart';
 import 'package:top_sale/features/attendance_and_departure/cubit/attendance_and_departure_cubit.dart';
 import 'package:top_sale/features/attendance_and_departure/cubit/attendance_and_departure_state.dart';
+import 'package:top_sale/features/attendance_and_departure/screens/widgets/build_data_filter.dart';
 import 'package:top_sale/features/login/widget/textfield_with_text.dart';
 import '../../../core/utils/app_fonts.dart';
 import '../../../core/utils/get_size.dart';
@@ -23,41 +24,54 @@ class _HolidaysTypeScreenState extends State<HolidaysTypeScreen> {
     context.read<AttendanceAndDepartureCubit>().getTypeHolidays();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.white,
-      appBar: AppBar(
         backgroundColor: AppColors.white,
-        centerTitle: false,
-        title: Text(
-          "holidays_types".tr(),
-          style: getBoldStyle(fontSize: 20.sp),
+        appBar: AppBar(
+          backgroundColor: AppColors.white,
+          centerTitle: false,
+          title: Text(
+            "holidays_types".tr(),
+            style: getBoldStyle(fontSize: 20.sp),
+          ),
         ),
-      ),
-      body: BlocBuilder<AttendanceAndDepartureCubit,AttendanceAndDepartureState>(
-        builder: (context,state) {
+        body: BlocBuilder<AttendanceAndDepartureCubit,
+            AttendanceAndDepartureState>(builder: (context, state) {
           var cubit = context.read<AttendanceAndDepartureCubit>();
-          return (cubit.holidaysTypeModel == null)?
-          const Center(child: CircularProgressIndicator(),) :
-          ListView.builder(
-              shrinkWrap: true,
-              itemCount: cubit.holidaysTypeModel!.timeOffBalances!.length,
-              itemBuilder: (context, index) {
-            return GestureDetector(
-              onTap: () {
-                _showBottomSheet(context, cubit);
-              },
-              child:  LeaveRow(
-                normalDays:cubit.holidaysTypeModel!.timeOffBalances![index].remainingDays.toInt().toString(),
-                negativeDays:cubit.holidaysTypeModel!.timeOffBalances![index].usedDays.toInt().toString(),
-                leaveType:cubit.holidaysTypeModel!.timeOffBalances![index].timeOffType.toString(),
-              ),
-            );
-          });
-        }
-      )
-    );
+          return (cubit.holidaysTypeModel == null)
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: cubit.holidaysTypeModel!.timeOffBalances!.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        _showBottomSheet(context,
+                            cubit: cubit,
+                            timeOffTypeId: cubit.holidaysTypeModel!
+                                .timeOffBalances![index].timeOffId
+                                .toString());
+                      },
+                      child: LeaveRow(
+                        normalDays: cubit.holidaysTypeModel!
+                            .timeOffBalances![index].remainingDays
+                            .toInt()
+                            .toString(),
+                        negativeDays: cubit
+                            .holidaysTypeModel!.timeOffBalances![index].usedDays
+                            .toInt()
+                            .toString(),
+                        leaveType: cubit.holidaysTypeModel!
+                            .timeOffBalances![index].timeOffType
+                            .toString(),
+                      ),
+                    );
+                  });
+        }));
   }
 }
 
@@ -76,7 +90,7 @@ class LeaveRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:  EdgeInsets.all(10.0.sp),
+      padding: EdgeInsets.all(10.0.sp),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -93,7 +107,6 @@ class LeaveRow extends StatelessWidget {
           RichText(
             text: TextSpan(
               children: [
-
                 TextSpan(
                   text: "  $normalDays  ",
                   style: TextStyle(
@@ -111,7 +124,8 @@ class LeaveRow extends StatelessWidget {
                       fontSize: 16.sp,
                       fontWeight: FontWeight.bold,
                       decorationColor: AppColors.red,
-                      decoration: TextDecoration.lineThrough, // Strikethrough effect
+                      decoration:
+                          TextDecoration.lineThrough, // Strikethrough effect
                     ),
                   ),
                 // Normal days in black
@@ -124,7 +138,9 @@ class LeaveRow extends StatelessWidget {
   }
 }
 
-void _showBottomSheet(BuildContext context, AttendanceAndDepartureCubit cubit) {
+void _showBottomSheet(BuildContext context,
+    {required String timeOffTypeId,
+    required AttendanceAndDepartureCubit cubit}) {
   showModalBottomSheet(
     isScrollControlled: true,
     context: context,
@@ -132,14 +148,15 @@ void _showBottomSheet(BuildContext context, AttendanceAndDepartureCubit cubit) {
       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
     ),
     builder: (context) {
-
+      return BlocBuilder<AttendanceAndDepartureCubit, AttendanceAndDepartureState>(
+        builder: (context,state) {
           return Padding(
             padding: EdgeInsets.only(
               left: getSize(context) / 20,
               right: getSize(context) / 20,
               top: getSize(context) / 20,
-              bottom: MediaQuery.of(context).viewInsets.bottom +
-                  getSize(context) / 20,
+              bottom:
+                  MediaQuery.of(context).viewInsets.bottom + getSize(context) / 20,
             ),
             child: SingleChildScrollView(
               child: Form(
@@ -147,12 +164,52 @@ void _showBottomSheet(BuildContext context, AttendanceAndDepartureCubit cubit) {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Row(
+                     Row(
                       children: [
-                        Expanded(child: DatePickerField(label: 'من', selectedDate: '23/2/2024')),
-                        SizedBox(width: 20),
-                        Expanded(child: DatePickerField(label: 'إلى', selectedDate: '23/2/2024'),
-                        )
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(right: 10.w, left: 10.w),
+                                child: Text(
+                                  "from".tr(),
+                                  style: TextStyle(
+                                    color: AppColors.primary,
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              BuildDataFilter(
+                                  onTap: () => cubit.onSelectedDate(true, context),
+                                  selectedDate: cubit.selectedStartDate),
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: 16.w),
+                        // "To" Date
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(right: 10.w, left: 10.w),
+                                child: Text(
+                                  "to".tr(),
+                                  style: TextStyle(
+                                    color: AppColors.primary,
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              BuildDataFilter(
+                                  onTap: () => cubit.onSelectedDate(false, context),
+                                  selectedDate:cubit.selectedEndDate),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                     CustomTextFieldWithTitle(
@@ -174,6 +231,10 @@ void _showBottomSheet(BuildContext context, AttendanceAndDepartureCubit cubit) {
                         text: 'add'.tr(),
                         onPressed: () {
 
+                          cubit.addTimeOff(
+                              context: context,
+                              timeOffTypeId: timeOffTypeId);
+
                         },
                       ),
                     ),
@@ -182,8 +243,9 @@ void _showBottomSheet(BuildContext context, AttendanceAndDepartureCubit cubit) {
               ),
             ),
           );
-        },
-
+        }
+      );
+    },
   );
 }
 
@@ -218,7 +280,7 @@ class _DatePickerFieldState extends State<DatePickerField> {
     if (pickedDate != null) {
       setState(() {
         _selectedDate =
-        "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
+            "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
       });
     }
   }

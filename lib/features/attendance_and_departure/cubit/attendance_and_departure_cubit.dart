@@ -7,6 +7,7 @@ import 'package:top_sale/core/models/get__my_expense_model.dart';
 import 'package:top_sale/core/models/get_all_expenses_product_model.dart';
 import 'package:top_sale/core/models/get_last_attendance_model.dart';
 import 'package:top_sale/core/remote/service.dart';
+import '../../../core/models/add_time_off.dart';
 import '../../../core/models/all_salary_model.dart';
 import '../../../core/models/get_all_attendance_model.dart';
 import 'package:top_sale/core/utils/appwidget.dart';
@@ -55,26 +56,31 @@ class AttendanceAndDepartureCubit extends Cubit<AttendanceAndDepartureState> {
       initialDate: isStartDate
           ? (selectedStartDate ?? DateTime.now())
           : (selectedEndDate ?? DateTime.now()),
-      firstDate: DateTime(2000),
+      firstDate: DateTime.now(), // التأكد من أن التاريخ بعد اليوم الحالي
       lastDate: DateTime(9999),
     );
 
     if (picked != null) {
       if (isStartDate) {
+        // التأكد أن تاريخ البداية هو قبل تاريخ النهاية (إذا كان موجودًا)
+        if (selectedEndDate != null && picked.isAfter(selectedEndDate!)) {
+          errorGetBar("تاريخ البداية يجب أن يكون قبل تاريخ النهاية".tr());
+          return;
+        }
         selectedStartDate = picked;
       } else {
+        // التأكد أن تاريخ النهاية هو بعد تاريخ البداية (إذا كان موجودًا)
+        if (selectedStartDate != null && picked.isBefore(selectedStartDate!)) {
+          errorGetBar("تاريخ النهاية يجب أن يكون بعد تاريخ البداية".tr());
+          return;
+        }
         selectedEndDate = picked;
       }
       updateDateStrings();
       emit(DateChangedState());
-
-      // // Call this to fetch the updated data
-      // getHrDataHome();
-      // context.read<AdvancesAndDiscountsCubit>().getAttendence(
-      //     userId: context.read<AdvancesAndDiscountsCubit>().userIdd ?? "1",
-      //     context: context);
     }
   }
+
 
   void updateDateStrings() {
     fromDate = selectedStartDate != null
@@ -270,4 +276,44 @@ class AttendanceAndDepartureCubit extends Cubit<AttendanceAndDepartureState> {
       },
     );
   }
+
+  AddTimeOffModel? addTimeOffModel;
+  Future<void> addTimeOff({
+    required BuildContext context,
+    required String timeOffTypeId,
+  }) async {
+    if (fromDate == null || toDate == null) {
+      errorGetBar("يرجى اختيار التواريخ".tr());
+      return;
+    }
+
+    if (selectedEndDate!.isBefore(selectedStartDate!)) {
+      errorGetBar("تاريخ النهاية يجب أن يكون بعد تاريخ البداية".tr());
+      return;
+    }
+
+    emit(GetAllSalaryLoading());
+    final result = await api.addTimeOff(
+      timeOffTypeId: timeOffTypeId,
+      dateFrom: fromDate!,
+      reason: reasonController.text,
+      dateTo: toDate!,
+    );
+    result.fold(
+          (failure) => emit(GetAllSalaryError()),
+          (r) {
+        if (r.result!.status == "error") {
+          errorGetBar(r.result!.message!);
+        } else {
+          successGetBar(r.result!.message!);
+        }
+        addTimeOffModel = r;
+        updateDateStrings();
+        emit(GetAllSalaryLoaded());
+        reasonController.clear();
+        Navigator.pop(context);
+      },
+    );
+  }
+
 }

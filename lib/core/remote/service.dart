@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:top_sale/core/api/end_points.dart';
 import 'package:top_sale/core/error/exceptions.dart';
 import 'package:top_sale/core/error/failures.dart';
+import 'package:top_sale/core/models/add_time_off.dart';
 import 'package:top_sale/core/models/all_journals_model.dart';
 import 'package:top_sale/core/models/all_partners_for_reports_model.dart';
 import 'package:top_sale/core/models/all_payments_model.dart';
@@ -1042,6 +1043,47 @@ class ServiceApi {
         ),
       );
       return Right(CreateOrderModel.fromJson(response));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
+  Future<Either<Failure, AddTimeOffModel>> addTimeOff({
+
+    required String timeOffTypeId,
+    required String reason,
+    required String dateTo,
+    required String dateFrom,
+  }) async {
+    String odooUrl =
+        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+    String? sessionId = await Preferences.instance.getSessionId();
+    String employeeId = await Preferences.instance.getEmployeeId() ??
+        await Preferences.instance.getEmployeeIdNumber() ??
+        "1";
+    try {
+      final response = await dio.post(
+        odooUrl + EndPoints.employee + 'time_off',
+        body: {
+          "params": {
+            "data": {
+              "employee_id": int.parse(employeeId),
+               "date_to":dateTo,
+              "date_from":dateFrom,
+              "reason":reason,
+              "time_off_type_id":int.parse(timeOffTypeId)
+              // "employee_id": int.parse(employeeId),
+              // "reason":"iam sick",
+              // "date_from": "2025-9-28",
+              // "date_to": "2025-9-30",
+              // "time_off_type_id": 2
+            }
+          }
+        },
+        options: Options(
+          headers: {"Cookie": "session_id=$sessionId"},
+        ),
+      );
+      return Right(AddTimeOffModel.fromJson(response));
     } on ServerException {
       return Left(ServerFailure());
     }

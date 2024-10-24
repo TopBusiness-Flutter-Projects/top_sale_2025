@@ -66,7 +66,7 @@ class _MoneyTypeScreenState extends State<MoneyTypeScreen> {
                   _showBottomSheet(_openCamera, context, cubit);
                 },
                 child: MoneyTypeRow(
-                  image: cubit.getAllExpensesProductModel!.products![index].image,
+                  image: cubit.getAllExpensesProductModel!.products![index].image ,
                   moneyType:  cubit.getAllExpensesProductModel!.products![index].name.toString(),
                 ),
               );

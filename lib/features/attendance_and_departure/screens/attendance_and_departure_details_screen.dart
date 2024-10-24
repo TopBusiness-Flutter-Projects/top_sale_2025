@@ -223,9 +223,9 @@ class AttendanceCard extends StatelessWidget {
               children: [
                 AttendanceInfoRow(
                   label: "additional_time".tr(),
-                  value: attendance.employeeId == null
+                  value: attendance.overtimeHours == null
                       ? ""
-                      : attendance.employeeId.toString(),
+                      : attendance.overtimeHours.toString(),
                 ),
                 AttendanceInfoRow(
                   label: "attendance_place".tr(),
