@@ -212,7 +212,7 @@ class AttendanceCard extends StatelessWidget {
                 ),
                 AttendanceInfoRow(
                   label: "work_time".tr(),
-                  value: attendance.workedHours.toInt().toString(),
+                  value: attendance.workedHours.toString(),
                 ),
               ],
             ),
