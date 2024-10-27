@@ -75,7 +75,7 @@ dependencies:
   location: ^6.0.2
   syncfusion_flutter_pdfviewer:
   network_info_plus:
-
+  google_maps_flutter: 
   # package_info_plus: ^8.0.3
   # share_plus: ^10.0.3
 
