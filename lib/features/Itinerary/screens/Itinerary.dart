@@ -24,6 +24,8 @@ class ItineraryScreen extends StatelessWidget {
 }
 
 class ToggleSwitchWithLabel extends StatefulWidget {
+  const ToggleSwitchWithLabel({super.key});
+
   @override
   _ToggleSwitchWithLabelState createState() => _ToggleSwitchWithLabelState();
 }
