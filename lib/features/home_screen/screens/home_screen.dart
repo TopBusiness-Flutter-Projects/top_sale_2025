@@ -22,11 +22,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
-     context.read<DirectSellCubit>().getCategries();
-     context.read<AttendanceAndDepartureCubit>().getIp();
+    context.read<DirectSellCubit>().getCategries();
+    context.read<AttendanceAndDepartureCubit>().getIp();
     // TODO: implement initState
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
@@ -67,8 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         image: ImageAssets.directSale),
                     CardHome(
                         onPressed: () {
-                            Navigator.pushNamed(context, Routes.itineraryRoute);
-
+                          Navigator.pushNamed(context, Routes.itineraryRoute);
                         },
                         text: "serali_line".tr(),
                         image: ImageAssets.line),
@@ -85,13 +85,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         onPressed: () {
                           Navigator.pushNamed(
                               context, Routes.receiptVoucherRoute,
-                              arguments: false);                         
-                        }),   CardHome(
+                              arguments: false);
+                        }),
+                    CardHome(
                         text: "returns".tr(),
-                        image: ImageAssets.receiptVoucherIcon,
+                        image: ImageAssets.cartIcon,
                         onPressed: () {
-                          Navigator.pushNamed(
-                              context, Routes.returnsRoute);
+                          Navigator.pushNamed(context, Routes.returnsRoute);
                         }),
                   ],
                 ),

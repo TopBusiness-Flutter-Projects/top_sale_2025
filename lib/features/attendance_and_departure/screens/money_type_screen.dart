@@ -24,11 +24,10 @@ class MoneyTypeScreen extends StatefulWidget {
 class _MoneyTypeScreenState extends State<MoneyTypeScreen> {
   @override
   void initState() {
-     context.read<AttendanceAndDepartureCubit>().getAllExpensesProduct();
-       context.read<AttendanceAndDepartureCubit>().getAllJournals();
-     super.initState();
+    context.read<AttendanceAndDepartureCubit>().getAllExpensesProduct();
+    context.read<AttendanceAndDepartureCubit>().getAllJournals();
+    super.initState();
   }
-
 
   List<String> titles = ["بنزين العربية", "صيانة العربية", ""];
 
@@ -48,23 +47,32 @@ class _MoneyTypeScreenState extends State<MoneyTypeScreen> {
           BlocBuilder<AttendanceAndDepartureCubit, AttendanceAndDepartureState>(
         builder: (context, state) {
           var cubit = context.read<AttendanceAndDepartureCubit>();
-          return (cubit.getAllExpensesProductModel == null)?
-          const Center(child: CircularProgressIndicator(),) :
-          ListView.builder(
-            shrinkWrap: true,
-            itemCount: cubit.getAllExpensesProductModel!.products!.length,
-            itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () {
-                  _showBottomSheet(context, cubit);
-                },
-                child: MoneyTypeRow(
-                  image: cubit.getAllExpensesProductModel!.products![index].image ,
-                  moneyType:  cubit.getAllExpensesProductModel!.products![index].name.toString(),
-                ),
-              );
-            },
-          );
+          return (cubit.getAllExpensesProductModel == null)
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: cubit.getAllExpensesProductModel!.products!.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        _showBottomSheet(
+                            context,
+                            cubit,
+                            cubit.getAllExpensesProductModel!.products![index]
+                                    .id ??
+                                1);
+                      },
+                      child: MoneyTypeRow(
+                        image: "",
+                        moneyType: cubit
+                            .getAllExpensesProductModel!.products![index].name
+                            .toString(),
+                      ),
+                    );
+                  },
+                );
         },
       ),
     );
@@ -87,10 +95,10 @@ class MoneyTypeRow extends StatelessWidget {
       padding: EdgeInsets.only(left: 20.sp, right: 20.sp, top: 20.sp),
       child: Row(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(100),
-            child:Image.network(image)
-          ),
+          // ClipRRect(
+          //   borderRadius: BorderRadius.circular(100),
+          //   child:Image.network(image)
+          // ),
           SizedBox(width: 20.sp),
           Text(
             moneyType,
@@ -106,9 +114,7 @@ class MoneyTypeRow extends StatelessWidget {
 }
 
 void _showBottomSheet(
-  BuildContext context,
-  AttendanceAndDepartureCubit cubit,
-) {
+    BuildContext context, AttendanceAndDepartureCubit cubit, int productId) {
   cubit.descriptionController.clear();
   cubit.amountController.clear();
   cubit.profileImage = null;
@@ -245,7 +251,7 @@ void _showBottomSheet(
                       backgroundColor: AppColors.primaryColor,
                       text: 'add'.tr(),
                       onPressed: () {
-                        cubit.createExpense(context,productId: 555);
+                        cubit.createExpense(context, productId: productId);
                       },
                     ),
                   ),
