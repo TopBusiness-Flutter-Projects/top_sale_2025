@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:top_sale/features/Itinerary/cubit/cubit.dart';
 import 'package:top_sale/features/direct_sell/cubit/direct_sell_cubit.dart';
 import 'package:top_sale/features/home_screen/cubit/cubit.dart';
 import 'package:top_sale/features/login/cubit/cubit.dart';
@@ -52,6 +53,7 @@ Future<void> setup() async {
   serviceLocator.registerFactory(() => DetailsOrdersCubit(serviceLocator()));
   serviceLocator.registerFactory(() => DeleveryOrdersCubit(serviceLocator()));
   serviceLocator.registerFactory(() => CreateReceiptCoucherCubit(serviceLocator()));
+  serviceLocator.registerFactory(() => ItineraryCubit(serviceLocator()));
   ///////////////////////////////////////////////////////////////////////////////
 
   //! External

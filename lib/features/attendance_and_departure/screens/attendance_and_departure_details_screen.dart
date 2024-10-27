@@ -1,10 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:top_sale/core/utils/app_colors.dart';
 import 'package:top_sale/core/utils/app_fonts.dart';
+import 'package:top_sale/core/utils/assets_manager.dart';
 import 'package:top_sale/features/clients/cubit/clients_cubit.dart';
 import 'package:top_sale/features/details_order/cubit/details_orders_cubit.dart';
 import '../../../core/models/get_all_attendance_model.dart';
@@ -221,7 +223,7 @@ class AttendanceCard extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 10.h),
+            const Divider(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -233,46 +235,85 @@ class AttendanceCard extends StatelessWidget {
                       : attendance.overtimeHours.toString(),
                 ),
                 AttendanceInfoRow(
-                   onTap: () {
-                    if (attendance.inCity != false){
-                       context
-                                .read<DetailsOrdersCubit>()
-                                .openGoogleMapsRoute(
-                                   context.read<ClientsCubit>().currentLocation?.latitude ?? 0.0,
-                          context.read<ClientsCubit>().currentLocation?.longitude ?? 0.0,
-                                  attendance.inLatitude ??
-                                      0.0,
-                                 attendance.inLongitude??
-                                      0.0,
-                                );
+                  onTap: () {
+                    if (attendance.inCity != false) {
+                      context.read<DetailsOrdersCubit>().openGoogleMapsRoute(
+                            context
+                                    .read<ClientsCubit>()
+                                    .currentLocation
+                                    ?.latitude ??
+                                0.0,
+                            context
+                                    .read<ClientsCubit>()
+                                    .currentLocation
+                                    ?.longitude ??
+                                0.0,
+                            attendance.inLatitude ?? 0.0,
+                            attendance.inLongitude ?? 0.0,
+                          );
                     }
-                     
-                  },  
+                  },
                   label: "attendance_place".tr(),
+                  isBold: true,
                   value: (attendance.inCity == false)
                       ? ""
                       : attendance.inCity.toString(),
                 ),
-                AttendanceInfoRow(    
+                AttendanceInfoRow(
                   onTap: () {
-                      context
-                                .read<DetailsOrdersCubit>()
-                                .openGoogleMapsRoute(
-                                   context.read<ClientsCubit>().currentLocation?.latitude ?? 0.0,
-                          context.read<ClientsCubit>().currentLocation?.longitude ?? 0.0,
-                                  attendance.outLatitude ??
-                                      0.0,
-                                 attendance.outLongitude??
-                                      0.0,
-                                );
-                  },              
-                   label: "leave_place".tr(),
+                    context.read<DetailsOrdersCubit>().openGoogleMapsRoute(
+                          context
+                                  .read<ClientsCubit>()
+                                  .currentLocation
+                                  ?.latitude ??
+                              0.0,
+                          context
+                                  .read<ClientsCubit>()
+                                  .currentLocation
+                                  ?.longitude ??
+                              0.0,
+                          attendance.outLatitude ?? 0.0,
+                          attendance.outLongitude ?? 0.0,
+                        );
+                  },
+                  label: "leave_place".tr(),
+                  isBold: true,
                   value: (attendance.outCity == false)
                       ? ""
                       : attendance.outCity ?? '',
                 ),
               ],
             ),
+            // Row(
+            //   //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+            //   children: [
+            //     Flexible(
+            //       child: Center(
+            //         child: SizedBox(
+            //           width: 20.w,
+            //         ),
+            //       ),
+            //     ),
+            //     Flexible(
+            //       child: Center(
+            //         child: Image.asset(
+            //           ImageAssets.addressIcon,
+            //           width: 15.w,
+            //         ),
+            //       ),
+            //     ),
+            //     Flexible(
+            //       child: Center(
+            //         child: Image.asset(
+            //           ImageAssets.addressIcon,
+            //           width: 25.w,
+            //         ),
+            //       ),
+            //     )
+            //   ],
+            // ),
+
             SizedBox(height: 8.h),
           ],
         ),
@@ -285,25 +326,32 @@ class AttendanceInfoRow extends StatelessWidget {
   final String label;
   final String value;
   final void Function()? onTap;
+  final bool isBold;
 
   const AttendanceInfoRow(
-      {super.key, required this.label, required this.value, this.onTap});
+      {super.key,
+      required this.label,
+      required this.value,
+      this.onTap,
+      this.isBold = false});
 
   @override
   Widget build(BuildContext context) {
     return Flexible(
-      child:  GestureDetector(
-                  onTap: onTap,
+      child: GestureDetector(
+        onTap: onTap,
         child: Column(
           children: [
             Text(label + "\n",
                 maxLines: 2,
                 style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500)),
-            const Divider(),
             SizedBox(height: 4.h),
             Text(
               value,
-              style: TextStyle(fontSize: 16.sp, color: Colors.grey[700]),
+              style: TextStyle(
+                  fontSize: 16.sp,
+                  color: isBold ? AppColors.secondPrimary : Colors.grey[700],
+                  fontWeight: isBold ? FontWeight.bold : FontWeight.w500),
             ),
           ],
         ),

@@ -95,7 +95,6 @@ class AttendanceAndDepartureCubit extends Cubit<AttendanceAndDepartureState> {
     }
   }
 
-
   void updateDateStrings() {
     fromDate = selectedStartDate != null
         ? DateFormat('yyyy-MM-dd', 'en').format(selectedStartDate!)
@@ -365,8 +364,7 @@ class AttendanceAndDepartureCubit extends Cubit<AttendanceAndDepartureState> {
     emit(UpdateProfileUserLoading());
     AppWidget.createProgressDialog(context, "جاري التحميل ..");
     final result = await api.createExpense(
-        path:  profileImage != null ? profileImage!.path : "",
-
+        path: profileImage != null ? profileImage!.path : "",
         amount: amountController.text,
         description: descriptionController.text,
         productId: productId);
@@ -377,9 +375,7 @@ class AttendanceAndDepartureCubit extends Cubit<AttendanceAndDepartureState> {
       approveExpense(context, expenseId: r.expense!.id);
 
       emit(UpdateProfileUserLoaded());
-    }
-
-        );
+    });
   }
 
   void approveExpense(BuildContext context, {required int expenseId}) async {
@@ -391,7 +387,10 @@ class AttendanceAndDepartureCubit extends Cubit<AttendanceAndDepartureState> {
       emit(UpdateProfileUserError());
     }, (r) {
       Navigator.pop(context);
-
+      Navigator.pop(context);
+      Navigator.pop(context);
+      successGetBar("تمت الاضافة بنجاح");
+      getMyExpenses();
       emit(UpdateProfileUserLoaded());
     }
         //!}
@@ -453,8 +452,8 @@ class AttendanceAndDepartureCubit extends Cubit<AttendanceAndDepartureState> {
       dateTo: toDate!,
     );
     result.fold(
-          (failure) => emit(GetAllSalaryError()),
-          (r) {
+      (failure) => emit(GetAllSalaryError()),
+      (r) {
         if (r.result!.status == "error") {
           errorGetBar(r.result!.message!);
         } else {
@@ -465,8 +464,9 @@ class AttendanceAndDepartureCubit extends Cubit<AttendanceAndDepartureState> {
         emit(GetAllSalaryLoaded());
         reasonController.clear();
         Navigator.pop(context);
+        Navigator.pop(context);
+        getAllHolidays();
       },
     );
   }
-
 }
