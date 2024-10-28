@@ -154,6 +154,9 @@
   "search_from_user": "Search from user",
   "return_order": "Return Order",
   "describtion": "Describtion",
+  "locationRequired": "Location Permission Required",
+  "openSettings": "Open Settings",
+  "locationDescribtion": "Location permission is permanently denied. Please enable it in settings to continue.",
 
 
   "salary": "Salary",

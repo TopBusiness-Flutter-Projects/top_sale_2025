@@ -32,4 +32,7 @@ class ProfileClientError extends ClientsState {}
 class GetCurrentLocationState extends ClientsState {}
 class ErrorCurrentLocationAddressState extends ClientsState {}
 class GetCurrentLocationAddressState extends ClientsState {}
+class UpdateProfileUserLoaded extends ClientsState {}
+class UpdateProfileUserError extends ClientsState {}
+class UpdateProfileUserLoading extends ClientsState {}
 

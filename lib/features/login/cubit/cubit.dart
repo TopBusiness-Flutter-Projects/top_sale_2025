@@ -99,7 +99,7 @@ class LoginCubit extends Cubit<LoginState> {
         print("wwwwwwwwwwwwww ${r.result!.propertyWarehouseId}");
 
         if (isEmployeeType) {
-        //  isEmplyee = true;
+          //  isEmplyee = true;
           Navigator.pushNamed(context, Routes.loginRoute);
         } else {
           Navigator.pushNamedAndRemoveUntil(
@@ -139,6 +139,12 @@ class LoginCubit extends Cubit<LoginState> {
           if (r.result!.isNotEmpty) {
             await Preferences.instance
                 .setEmployeeId(r.result!.first.id.toString());
+            print(
+                "ffffffffffffff ${r.result!.first.messagePartnerIds!.first.id.toString()}");
+            if (r.result!.first.messagePartnerIds!.isNotEmpty) {
+              await Preferences.instance.setEmployeePartnerId(
+                  r.result!.first.messagePartnerIds!.first.id.toString());
+            }
             successGetBar("تم بنجاح");
             Navigator.pushNamedAndRemoveUntil(
                 context, Routes.mainRoute, (route) => false);
