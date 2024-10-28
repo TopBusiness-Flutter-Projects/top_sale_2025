@@ -131,6 +131,33 @@ class ServiceApi {
     }
   }
 
+  Future<Either<Failure, DefaultModel>> updatePartnerLatLong({
+    required double lat,
+    required double long,
+  }) async {
+    String? sessionId = await Preferences.instance.getSessionId();
+    String odooUrl =
+        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+    String partnerId = await Preferences.instance.getEmployeePartnerId() ?? "1";
+    try {
+      final response = await dio.put(odooUrl + EndPoints.resPartner,
+          options: Options(
+            headers: {"Cookie": "session_id=$sessionId"},
+          ),
+          body: {
+            "params": {
+              "filter": [
+                ["id", "=", int.parse(partnerId)]
+              ],
+              "data": {"partner_latitude": lat, "partner_longitude": long}
+            }
+          });
+      return Right(DefaultModel.fromJson(response));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
+
   Future<Either<Failure, DefaultModel>> updateEmployeeData({
     required dynamic image,
     required String name,
@@ -174,7 +201,7 @@ class ServiceApi {
       final response = await dio.get(
         odooUrl +
             EndPoints.checkEmployee +
-            '?query={id,name}&filter=[["barcode","=","$employeeId"],["pin","=","$password"]]',
+            '?query={id,name,message_partner_ids{id}}&filter=[["barcode","=","$employeeId"],["pin","=","$password"]]',
         options: Options(
           headers: {"Cookie": "frontend_lang=en_US;session_id=$sessionId"},
         ),
@@ -194,7 +221,7 @@ class ServiceApi {
       final response = await dio.get(
         odooUrl +
             EndPoints.checkEmployee +
-            '?query={id,name}&filter=[["barcode","=","$employeeId"]]',
+            '?query={id,name,message_partner_ids{id}}&filter=[["barcode","=","$employeeId"]]',
         options: Options(
           headers: {"Cookie": "frontend_lang=en_US;session_id=$sessionId"},
         ),
@@ -952,8 +979,9 @@ class ServiceApi {
     String odooUrl =
         await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
     String? sessionId = await Preferences.instance.getSessionId();
-     String employeeId = await Preferences.instance.getEmployeeId() ??
-         await Preferences.instance.getEmployeeIdNumber()??"1";
+    String employeeId = await Preferences.instance.getEmployeeId() ??
+        await Preferences.instance.getEmployeeIdNumber() ??
+        "1";
     try {
       final response = await dio.get(
         odooUrl + EndPoints.employee + '$employeeId/time_off_requests',
@@ -985,7 +1013,9 @@ class ServiceApi {
     } on ServerException {
       return Left(ServerFailure());
     }
-  }  Future<Either<Failure, HolidaysTypeModel>> getTypeHolidays() async {
+  }
+
+  Future<Either<Failure, HolidaysTypeModel>> getTypeHolidays() async {
     String odooUrl =
         await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
     String? sessionId = await Preferences.instance.getSessionId();
@@ -1046,11 +1076,12 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
+
   Future<Either<Failure, GetMyExpensesModel>> getMyExpenses() async {
     String odooUrl =
         await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
     String? sessionId = await Preferences.instance.getSessionId();
-     String userId = await Preferences.instance.getUserId() ?? "1";
+    String userId = await Preferences.instance.getUserId() ?? "1";
     String employeeId = await Preferences.instance.getEmployeeId() ??
         await Preferences.instance.getEmployeeIdNumber() ??
         "1";
@@ -1058,11 +1089,8 @@ class ServiceApi {
       final response = await dio.post(
         odooUrl + EndPoints.employee + 'my_expenses',
         body: {
-
-              "employee_id": int.parse(employeeId),
-               "user_id": int.parse(userId)
-             
-         
+          "employee_id": int.parse(employeeId),
+          "user_id": int.parse(userId)
         },
         options: Options(
           headers: {"Cookie": "session_id=$sessionId"},
@@ -1094,7 +1122,9 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
-Future<Either<Failure, GetAllExpensesProductModel>> getAllExpensesProduct() async {
+
+  Future<Either<Failure, GetAllExpensesProductModel>>
+      getAllExpensesProduct() async {
     String odooUrl =
         await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
     String? sessionId = await Preferences.instance.getSessionId();
@@ -1113,8 +1143,8 @@ Future<Either<Failure, GetAllExpensesProductModel>> getAllExpensesProduct() asyn
       return Left(ServerFailure());
     }
   }
-  Future<Either<Failure, AddTimeOffModel>> addTimeOff({
 
+  Future<Either<Failure, AddTimeOffModel>> addTimeOff({
     required String timeOffTypeId,
     required String reason,
     required String dateTo,
@@ -1133,10 +1163,10 @@ Future<Either<Failure, GetAllExpensesProductModel>> getAllExpensesProduct() asyn
           "params": {
             "data": {
               "employee_id": int.parse(employeeId),
-              "date_to":dateTo,
-              "date_from":dateFrom,
-              "reason":reason,
-              "time_off_type_id":int.parse(timeOffTypeId)
+              "date_to": dateTo,
+              "date_from": dateFrom,
+              "reason": reason,
+              "time_off_type_id": int.parse(timeOffTypeId)
               // "employee_id": int.parse(employeeId),
               // "reason":"iam sick",
               // "date_from": "2025-9-28",
@@ -1154,6 +1184,7 @@ Future<Either<Failure, GetAllExpensesProductModel>> getAllExpensesProduct() asyn
       return Left(ServerFailure());
     }
   }
+
   Future<Either<Failure, CreateExpensesProductModel>> createExpense({
     required String path,
     required String amount,
@@ -1178,12 +1209,11 @@ Future<Either<Failure, GetAllExpensesProductModel>> getAllExpensesProduct() asyn
           "amount": amount,
           "user_id": int.parse(userId),
           "product_id": productId,
-          if (path.isNotEmpty)
-            "attachment": await MultipartFile.fromFile(path)
-            // "attachment": [
-            //   "$path"
-            //   //await MultipartFile.fromFile(path)
-            // ]
+          if (path.isNotEmpty) "attachment": await MultipartFile.fromFile(path)
+          // "attachment": [
+          //   "$path"
+          //   //await MultipartFile.fromFile(path)
+          // ]
         },
         formDataIsEnabled: true,
         options: Options(

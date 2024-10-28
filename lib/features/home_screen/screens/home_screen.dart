@@ -5,6 +5,7 @@ import 'package:top_sale/core/utils/app_colors.dart';
 import 'package:top_sale/core/utils/assets_manager.dart';
 import 'package:top_sale/core/utils/get_size.dart';
 import 'package:top_sale/features/attendance_and_departure/cubit/attendance_and_departure_cubit.dart';
+import 'package:top_sale/features/clients/cubit/clients_state.dart';
 import 'package:top_sale/features/direct_sell/cubit/direct_sell_cubit.dart';
 import 'package:top_sale/features/home_screen/screens/widgets/appbar_home.dart';
 import 'package:top_sale/features/home_screen/screens/widgets/card_home.dart';
@@ -66,12 +67,24 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                         text: "direct_sales".tr(),
                         image: ImageAssets.directSale),
-                    CardHome(
-                        onPressed: () {
-                          Navigator.pushNamed(context, Routes.itineraryRoute);
-                        },
-                        text: "serali_line".tr(),
-                        image: ImageAssets.line),
+                    BlocBuilder<ClientsCubit, ClientsState>(
+      builder: (context, state) {
+                        return 
+                        
+                        
+                        CardHome(
+                            onPressed: () {
+                              context.read<ClientsCubit>().currentLocation == null
+                                  ? context
+                                      .read<ClientsCubit>()
+                                      .checkAndRequestLocationPermission(context)
+                                  : Navigator.pushNamed(
+                                      context, Routes.itineraryRoute);
+                            },
+                            text: "serali_line".tr(),
+                            image: ImageAssets.line);
+                      }
+                    ),
                     CardHome(
                         text: "clients".tr(),
                         image: ImageAssets.clients,

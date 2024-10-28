@@ -208,7 +208,7 @@ class _ContainerTimesFromUserInHomeScreenState
                                     null) {
                                   context
                                       .read<ClientsCubit>()
-                                      .checkAndRequestLocationPermission();
+                                      .checkAndRequestLocationPermission(context);
                                 } else {
                                   context
                                       .read<AttendanceAndDepartureCubit>()

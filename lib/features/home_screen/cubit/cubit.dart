@@ -55,6 +55,11 @@ class HomeCubit extends Cubit<HomeState> {
               .setEmployeeIdNumber(r.result!.first.id.toString());
           isEmployeeAdded = true;
           Navigator.pop(context);
+          if (r.result!.first.messagePartnerIds!.isNotEmpty){
+             await Preferences.instance
+              .setEmployeePartnerId(r.result!.first.messagePartnerIds!.first.id.toString());
+
+          }
           context.read<MainCubit>().changeNavigationBar(2);
           successGetBar("تم بنجاح");
           // Navigator.pushNamedAndRemoveUntil(
