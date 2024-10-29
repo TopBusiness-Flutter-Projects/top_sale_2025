@@ -59,44 +59,12 @@ class _DetailsOrderReturnsState extends State<DetailsOrderReturns> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        actions: [
-          (widget.orderModel.state == 'sale' &&
-                  widget.orderModel.invoiceStatus == 'to invoice' &&
-                  widget.orderModel.deliveryStatus == 'pending')
-              ? IconButton(
-                  onPressed: () {
-                    cubit.cancelOrder(
-                        orderId: cubit.getDetailsOrdersModel?.id ?? -1,
-                        orderModel: widget.orderModel,
-                        context: context);
-                  },
-                  icon: Text("cancel".tr(),
-                      style: TextStyle(
-                        fontFamily: AppStrings.fontFamily,
-                        color: AppColors.red,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 18.sp,
-                      )))
-              : IconButton(
-                  onPressed: () {
-                  // cubit.cancelOrder(
-                  //     orderId: cubit.getDetailsOrdersModel?.id ?? -1,
-                  //     orderModel: widget.orderModel,
-                  //     context: context);
-                  },
-                  icon: Text("return_order".tr(),
-                      style: TextStyle(
-                        fontFamily: AppStrings.fontFamily,
-                        color: AppColors.secondPrimary,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 18.sp,
-                      )))
-        ],
+
         backgroundColor: AppColors.white,
         centerTitle: false,
         //leadingWidth: 20,
         title: Text(
-          'details_order'.tr(),
+          'returns_details'.tr(),
           style: TextStyle(
               fontFamily: AppStrings.fontFamily,
               color: AppColors.black,
