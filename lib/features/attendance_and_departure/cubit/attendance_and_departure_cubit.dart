@@ -202,8 +202,10 @@ class AttendanceAndDepartureCubit extends Cubit<AttendanceAndDepartureState> {
         Navigator.pop(context);
         if (r.result != null) {
           if (r.result!.message != null) {
-            getLastAttendanceModel!.lastAttendance!.status =
-                isChechIn ? "check-in" : "check-out";
+            if (getLastAttendanceModel!.lastAttendance != null){
+              getLastAttendanceModel!.lastAttendance!.status =
+                isChechIn ? "check-in" : "check-out";}
+            
             successGetBar(r.result!.message!);
             getLastAttendance();
           } else {
@@ -361,21 +363,25 @@ class AttendanceAndDepartureCubit extends Cubit<AttendanceAndDepartureState> {
   }
 
   void createExpense(BuildContext context, {required int productId}) async {
-    emit(UpdateProfileUserLoading());
-    AppWidget.createProgressDialog(context, "جاري التحميل ..");
-    final result = await api.createExpense(
-        path: profileImage != null ? profileImage!.path : "",
-        amount: amountController.text,
-        description: descriptionController.text,
-        productId: productId);
-    result.fold((l) {
-      Navigator.pop(context);
-      emit(UpdateProfileUserError());
-    }, (r) {
-      approveExpense(context, expenseId: r.expense!.id);
+    if (selectedPaymentMethod == null) {
+      errorGetBar("من فضلك اختر طريقة الدفع");
+    } else {
+      emit(UpdateProfileUserLoading());
+      AppWidget.createProgressDialog(context, "جاري التحميل ..");
+      final result = await api.createExpense(
+          path: profileImage != null ? profileImage!.path : "",
+          amount: amountController.text,
+          description: descriptionController.text,
+          productId: productId);
+      result.fold((l) {
+        Navigator.pop(context);
+        emit(UpdateProfileUserError());
+      }, (r) {
+        approveExpense(context, expenseId: r.expense!.id);
 
-      emit(UpdateProfileUserLoaded());
-    });
+        emit(UpdateProfileUserLoaded());
+      });
+    }
   }
 
   void approveExpense(BuildContext context, {required int expenseId}) async {
