@@ -56,9 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     CardHome(
                         onPressed: () {
-                          Navigator.pushNamed(
-                              context, Routes.deleveryOrderRoute);
-                        },
+                          Navigator.pushNamed(context, Routes.deleveryOrderRoute);},
                         text: "delevey_order".tr(),
                         image: ImageAssets.deleveryOrder),
                     CardHome(
@@ -68,11 +66,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         text: "direct_sales".tr(),
                         image: ImageAssets.directSale),
                     BlocBuilder<ClientsCubit, ClientsState>(
-      builder: (context, state) {
-                        return 
-                        
-                        
-                        CardHome(
+                        builder: (context, state) {
+                        return
+                          CardHome(
                             onPressed: () {
                               context.read<ClientsCubit>().currentLocation == null
                                   ? context
