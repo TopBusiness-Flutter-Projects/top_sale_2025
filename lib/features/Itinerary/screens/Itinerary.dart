@@ -28,7 +28,7 @@ class ItineraryScreen extends StatelessWidget {
               child: BlocBuilder<ClientsCubit, ClientsState>(
                   builder: (context, state) {
                 return cubit2.currentLocation == null
-                    ? SizedBox()
+                    ? const SizedBox()
                     : GoogleMap(
                         initialCameraPosition: CameraPosition(
                           target: LatLng(
@@ -73,14 +73,15 @@ class ItineraryScreen extends StatelessWidget {
                       );
               }),
             ),
-            ToggleSwitchWithLabel(),
+            const ToggleSwitchWithLabel(),
           ],
         );
       }),
       backgroundColor: Colors.white,
       appBar: AppBar(
+
         backgroundColor: Colors.white,
-        title: Text("خط السير".tr()),
+        title: Text("serali_line".tr()),
         centerTitle: false,
         titleTextStyle: getBoldStyle(fontSize: 20.sp),
       ),

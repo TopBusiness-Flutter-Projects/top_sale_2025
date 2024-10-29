@@ -56,8 +56,7 @@ class _ClientScreenState extends State<ClientScreen> {
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
             appBar: AppBar(
-              actions: [
-                Padding(
+              actions: [Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
                     onTap: () {
@@ -83,8 +82,7 @@ class _ClientScreenState extends State<ClientScreen> {
                       ),
                     ),
                   ),
-                ),
-              ],
+                ),],
               backgroundColor: AppColors.white,
               centerTitle: false,
               //leadingWidth: 20,
