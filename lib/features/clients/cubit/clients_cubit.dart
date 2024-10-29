@@ -1,6 +1,10 @@
+// ignore_for_file: avoid_print
+
+import 'dart:async';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -75,7 +79,7 @@ class ClientsCubit extends Cubit<ClientsState> {
 //location section
   loc.LocationData? currentLocation;
 
-  Future<void> checkAndRequestLocationPermission() async {
+  Future<void> checkAndRequestLocationPermission(BuildContext context) async {
     perm.PermissionStatus permissionStatus =
         await perm.Permission.location.status;
     if (permissionStatus.isDenied) {
@@ -86,6 +90,29 @@ class ClientsCubit extends Cubit<ClientsState> {
       }
     } else if (permissionStatus.isGranted) {
       await enableLocationServices();
+    } else if (permissionStatus.isPermanentlyDenied) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text("locationRequired".tr()),
+          content: Text("locationDescribtion".tr()),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("cancel".tr()),
+            ),
+            TextButton(
+              onPressed: () async {
+                Navigator.pop(context);
+                await perm.openAppSettings();
+              },
+              child: Text("openSettings".tr()),
+            ),
+          ],
+        ),
+      );
     }
   }
 
@@ -115,26 +142,113 @@ class ClientsCubit extends Cubit<ClientsState> {
     location.getLocation().then(
       (location) async {
         currentLocation = location;
-        getAddressFromLatLng(location.latitude??0.0,location.longitude??0.0);
-         emit(GetCurrentLocationState());
+        getAddressFromLatLng(
+            location.latitude ?? 0.0, location.longitude ?? 0.0);
+        emit(GetCurrentLocationState());
         debugPrint("lat: ${currentLocation?.latitude}");
         debugPrint("long: ${currentLocation?.longitude}");
+        startLocationUpdates();
       },
     );
-    location.onLocationChanged.listen((newLoc) {
-      currentLocation = newLoc;
-      // emit(GetCurrentLocationState());
-      // print(currentLocation);
+    // location.onLocationChanged.listen((newLoc) {
+    //   currentLocation = newLoc;
+    //   // emit(GetCurrentLocationState());
+    //   // print(currentLocation);
+    // });
+
+    // Update location if distance > 100m
+    location.onLocationChanged.listen((newLocationData) async {
+      if (currentLocation != null) {
+        double distance = Geolocator.distanceBetween(
+          currentLocation!.latitude ?? 0.0,
+          currentLocation!.longitude ?? 0.0,
+          newLocationData.latitude ?? 0.0,
+          newLocationData.longitude ?? 0.0,
+        );
+        debugPrint("Movedddd: $distance meters");
+        if (distance > 2) {
+          currentLocation = newLocationData;
+          // getAddressFromLatLng(newLocationData.latitude ?? 0.0, newLocationData.longitude ?? 0.0);
+          emit(GetCurrentLocationState());
+          debugPrint("Updated lat: ${currentLocation?.latitude}");
+          debugPrint("Updated long: ${currentLocation?.longitude}");
+          debugPrint("Moved: $distance meters");
+        }
+        currentLocation = newLocationData;
+      }
     });
+  }
+
+  Timer? timer;
+  void startLocationUpdates() {
+    // Fetch location immediately and set timer to update every 5 minutes
+    print("start time");
+    updateLatLong();
+    // Set up a timer to fetch location every 5 minutes
+    timer = Timer.periodic(const Duration(minutes: 30), (timer) {
+      print("10 seconds then");
+      updateLatLong();
+      debugPrint(" lat: ${currentLocation?.latitude}");
+      debugPrint(" long: ${currentLocation?.longitude}");
+    });
+  }
+
+  void updateLatLong( ) async {
+    emit(UpdateProfileUserLoading());
+    final result = await api.updatePartnerLatLong(
+        lat: currentLocation?.latitude ?? 0.0,
+        long: currentLocation?.longitude ?? 0.0);
+    result.fold((l) {
+      emit(UpdateProfileUserError());
+    }, (r) {
+     
+      emit(UpdateProfileUserLoaded());
+    });
+  }
+
+  Future<void> sendLocation(BuildContext context) async {
+    perm.PermissionStatus permissionStatus =
+        await perm.Permission.location.status;
+
+    if (permissionStatus.isGranted) {
+      getCurrentLocation();
+    } else if (permissionStatus.isPermanentlyDenied) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text("Location Permission Required"),
+          content: Text(
+              "Location permission is permanently denied. Please enable it in settings to continue."),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () async {
+                Navigator.pop(context);
+                await perm.openAppSettings();
+              },
+              child: Text("Open Settings"),
+            ),
+          ],
+        ),
+      );
+    }
+    //  else {
+    //   await checkAndRequestLocationPermission();
+    // }
   }
 
   String country = " country ";
   String city = " city ";
   String address = " address ";
-  Future<void> getAddressFromLatLng( double latitude,double longitude ) async {
+  Future<void> getAddressFromLatLng(double latitude, double longitude) async {
     try {
-      List<Placemark> placemarks = await placemarkFromCoordinates(
-          latitude ,longitude );
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(latitude, longitude);
       //  await placemarkFromCoordinates(37.4219983, -122.084);
       if (placemarks.isNotEmpty) {
         Placemark place = placemarks.first;

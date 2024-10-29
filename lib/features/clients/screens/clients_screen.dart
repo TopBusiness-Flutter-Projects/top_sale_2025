@@ -63,7 +63,7 @@ class _ClientScreenState extends State<ClientScreen> {
                       if (cubit.currentLocation != null) {
                         _showBottomSheet(context, cubit);
                       } else {
-                        cubit.checkAndRequestLocationPermission();
+                        cubit.checkAndRequestLocationPermission(context);
                       }
                     },
                     child: Container(

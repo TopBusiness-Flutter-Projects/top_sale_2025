@@ -196,4 +196,14 @@ class Preferences {
     String? employeeId = preferences.getString('employeeIdNumber');
     return employeeId;
   }
+    Future<void> setEmployeePartnerId(String employeeId) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString('employeePartnerId', employeeId);
+    print("employeeId = $employeeId");
+  }
+Future<String?> getEmployeePartnerId() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? employeeId = preferences.getString('employeePartnerId');
+    return employeeId;
+  }
 }
