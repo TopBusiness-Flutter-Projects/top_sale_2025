@@ -19,17 +19,17 @@ import '../../../core/models/order_details_model.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_strings.dart';
 
-class DetailsOrder extends StatefulWidget {
-  DetailsOrder(
+class DetailsOrderReturns extends StatefulWidget {
+  DetailsOrderReturns(
       {super.key, required this.orderModel, required this.isClientOrder});
   bool isDelivered = false;
   bool isClientOrder;
   final OrderModel orderModel;
   @override
-  State<DetailsOrder> createState() => _DetailsOrderState();
+  State<DetailsOrderReturns> createState() => _DetailsOrderReturnsState();
 }
 
-class _DetailsOrderState extends State<DetailsOrder> {
+class _DetailsOrderReturnsState extends State<DetailsOrderReturns> {
   @override
   void initState() {
     context

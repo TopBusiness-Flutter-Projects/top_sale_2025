@@ -2,13 +2,49 @@
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:top_sale/core/models/car_details';
+import 'package:top_sale/core/models/get_car_ids_model.dart';
 import 'package:top_sale/core/remote/service.dart';
 import 'state.dart';
-class ItineraryCubit extends Cubit<ItineraryState>{
-  ItineraryCubit(this.api)
-   : 
-   super(ItineraryInitial());
+
+class ItineraryCubit extends Cubit<ItineraryState> {
+  ItineraryCubit(this.api) : super(ItineraryInitial());
   ServiceApi api;
-   GoogleMapController? mapController;
- 
+  
+  GetCarIdsModel? getEmployeeDataModel;
+  void getEmployeeData() async {
+    emit(LoadingCheckEmployeeState());
+    final result = await api.getEmployeeCarId();
+    result.fold(
+      (failure) => emit(FailureCheckEmployeeState()),
+      (r) {
+        getEmployeeDataModel = r;
+        if (r.carIds!.isNotEmpty) {
+          getCarDetails(r.carIds!.first.id);
+        }
+
+        emit(SuccessCheckEmployeeState());
+      },
+    );
+  }
+
+  bool isTracking = false;
+  void changeTrackingState() {
+    isTracking = !isTracking;
+    emit(ChangeTrackingState());
+  }
+
+  CarDetails? carDetailsModel;
+  void getCarDetails(int carId) async {
+    emit(LoadingCheckEmployeeState());
+    final result = await api.getCarDetails(carId: carId);
+    result.fold(
+      (failure) => emit(FailureCheckEmployeeState()),
+      (r) {
+        carDetailsModel = r;
+
+        emit(SuccessCheckEmployeeState());
+      },
+    );
+  }
 }
