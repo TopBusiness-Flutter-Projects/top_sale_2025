@@ -38,3 +38,4 @@ class FailureCheckEmployeeState extends ItineraryState {}
 class SuccessCheckEmployeeState extends ItineraryState {}
 
 class EmployeeNumberAdded extends ItineraryState {}
+class ChangeTrackingState extends ItineraryState {}

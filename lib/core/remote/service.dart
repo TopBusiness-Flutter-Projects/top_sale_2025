@@ -14,6 +14,7 @@ import 'package:top_sale/core/models/all_payments_model.dart';
 import 'package:top_sale/core/models/all_products_model.dart';
 import 'package:top_sale/core/models/all_ware_house_model.dart';
 import 'package:top_sale/core/models/approve_expenses_model.dart';
+import 'package:top_sale/core/models/car_details';
 import 'package:top_sale/core/models/category_model.dart';
 import 'package:top_sale/core/models/check_employee_model.dart';
 import 'package:top_sale/core/models/create_expenses_mosel.dart';
@@ -22,6 +23,7 @@ import 'package:top_sale/core/models/defaul_model.dart';
 import 'package:top_sale/core/models/get__my_expense_model.dart';
 import 'package:top_sale/core/models/get_all_attendance_model.dart';
 import 'package:top_sale/core/models/get_all_expenses_product_model.dart';
+import 'package:top_sale/core/models/get_car_ids_model.dart';
 import 'package:top_sale/core/models/get_contract_model.dart';
 import 'package:top_sale/core/models/get_employee_data_model.dart';
 import 'package:top_sale/core/models/get_last_attendance_model.dart';
@@ -157,6 +159,41 @@ class ServiceApi {
       return Left(ServerFailure(message: e.toString()));
     }
   }
+  Future<Either<Failure, DefaultModel>> tracking({
+    required double lat,
+    required double long,
+    required int carId,
+    required String date,
+  }) async {
+    String? sessionId = await Preferences.instance.getSessionId();
+    String odooUrl =
+        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+    String partnerId = await Preferences.instance.getEmployeePartnerId() ?? "1";
+    try {
+      final response = await dio.post(odooUrl + EndPoints.fleetLogs,//   /api/fleet.vehicle/$carId?query={id,name,license_plate,image_128}
+          options: Options(
+            headers: {"Cookie": "session_id=$sessionId"},
+          ),
+          body:
+          {
+    "params": {
+        "data": {
+            "name": "egypt",
+            "vehicle_id": 1,
+            "driver_id": int.parse(partnerId),
+            "latitude":lat,
+            "longitude":long,
+            "date":"2024-10-24"
+        }
+    }
+}
+          
+         );
+      return Right(DefaultModel.fromJson(response));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
 
   Future<Either<Failure, DefaultModel>> updateEmployeeData({
     required dynamic image,
@@ -253,6 +290,29 @@ class ServiceApi {
     }
   }
 
+
+  Future<Either<Failure, CarDetails>> getCarDetails(
+    {required int carId}) async {
+ 
+    try {
+  
+      String odooUrl =
+          await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+
+      String? sessionId = await Preferences.instance.getSessionId();
+      final response = await dio.get(
+        odooUrl +
+           '/api/fleet.vehicle/$carId?query={id,name,license_plate,image_128}' ,
+        options: Options(
+          headers: {"Cookie": "frontend_lang=en_US;session_id=$sessionId"},
+        ),
+      );
+      return Right(CarDetails.fromJson(response));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
+
   Future<Either<Failure, GetEmployeeDataModel>> getEmployeeData() async {
     try {
       String employeeId = await Preferences.instance.getEmployeeId() ?? "1";
@@ -269,6 +329,28 @@ class ServiceApi {
         ),
       );
       return Right(GetEmployeeDataModel.fromJson(response));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
+  Future<Either<Failure, GetCarIdsModel>> getEmployeeCarId() async {
+    try {
+      String employeeId = await Preferences.instance.getEmployeeId() ??
+        await Preferences.instance.getEmployeeIdNumber() ??
+        "1";
+      String? sessionId = await Preferences.instance.getSessionId();
+      String odooUrl =
+          await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+
+      final response = await dio.get(
+        odooUrl +
+            EndPoints.checkEmployee +
+            '$employeeId?query={car_ids{id,name}}',
+        options: Options(
+          headers: {"Cookie": "frontend_lang=en_US;session_id=$sessionId"},
+        ),
+      );
+      return Right(GetCarIdsModel.fromJson(response));
     } on ServerException {
       return Left(ServerFailure());
     }

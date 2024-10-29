@@ -6,6 +6,8 @@ import 'package:top_sale/features/attendance_and_departure/screens/money.dart';
 import 'package:top_sale/features/clients/cubit/clients_cubit.dart';
 import 'package:top_sale/features/contact_us/screens/contact_us_screen.dart';
 import 'package:top_sale/features/create_receipt_coucher/screens/create_receipt_coucher_screen.dart';
+import 'package:top_sale/features/details_order/screens/details_order_returned.dart';
+import 'package:top_sale/features/details_order/screens/details_order_show_price_returned%20.dart';
 import 'package:top_sale/features/direct_sell/cubit/direct_sell_cubit.dart';
 import 'package:top_sale/features/direct_sell/screens/all_categories_screen.dart';
 import 'package:top_sale/features/direct_sell/screens/direct_sell_screen.dart';
@@ -47,6 +49,8 @@ class Routes {
   static const String homeRoute = '/home';
   static const String detailsOrder = '/orderDetails';
   static const String detailsOrderShowPrice = '/detailsOrderShowPrice';
+  static const String detailsOrderReturns = '/orderDetailsReturns';
+  static const String detailsOrderShowPriceReturns = '/detailsOrderShowPriceReturns';
   static const String paymentRoute = '/payment';
   static const String deleveryOrderRoute = '/deleveryOrderRoute';
   static const String onboardingPageScreenRoute = '/onboardingPageScreenRoute';
@@ -151,6 +155,26 @@ class AppRoutes {
         final bool isClientOrder = arguments['isClientOrder'] as bool;
         return MaterialPageRoute(
           builder: (context) => DetailsOrderShowPrice(
+              orderModel: orderModel, isClientOrder: isClientOrder),
+        );
+      case Routes.detailsOrderReturns:
+        final Map<String, dynamic> arguments =
+            settings.arguments as Map<String, dynamic>;
+        final OrderModel orderModel = arguments['orderModel'] as OrderModel;
+        final bool isClientOrder = arguments['isClientOrder'] as bool;
+        // final OrderModel orderModel = settings.arguments as OrderModel;
+        return MaterialPageRoute(
+          builder: (context) => DetailsOrderReturns(
+              orderModel: orderModel, isClientOrder: isClientOrder),
+        );
+      case Routes.detailsOrderShowPriceReturns:
+        //  final OrderModel orderModel = settings.arguments as OrderModel;
+        final Map<String, dynamic> arguments =
+            settings.arguments as Map<String, dynamic>;
+        final OrderModel orderModel = arguments['orderModel'] as OrderModel;
+        final bool isClientOrder = arguments['isClientOrder'] as bool;
+        return MaterialPageRoute(
+          builder: (context) => DetailsOrderShowPriceReturns(
               orderModel: orderModel, isClientOrder: isClientOrder),
         );
       case Routes.onboardingPageScreenRoute:

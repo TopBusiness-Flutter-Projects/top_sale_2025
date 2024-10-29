@@ -201,9 +201,12 @@ class _MenuScreenWidgetState extends State<MenuScreenWidget> {
                           ),
                           child: Center(
                             child: Icon(
-                              lang == 'ar'
-                                  ? Icons.arrow_back
-                                  : Icons.arrow_forward,
+                              Icons.arrow_back
+                              
+                              // lang == 'ar'
+                              //     ? Icons.arrow_back
+                              //     : Icons.arrow_forward
+                                  ,
                               color: AppColors.white,
                             ),
                           ),
