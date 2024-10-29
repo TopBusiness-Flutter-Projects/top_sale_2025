@@ -54,14 +54,14 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
 
   void openGoogleMapsRoute(double originLat, double originLng,
       double destinationLat, double destinationLng) async {
-print('origin=$originLat,$originLng');
+    print('origin=$originLat,$originLng');
 
     final url =
         'https://www.google.com/maps/dir/?api=1&origin=$originLat,$originLng&destination=$destinationLat,$destinationLng';
     try {
       launchUrl(Uri.parse(url));
     } catch (e) {
-    errorGetBar("error from map");
+      errorGetBar("error from map");
     }
   }
 
@@ -252,10 +252,29 @@ print('origin=$originLat,$originLng');
   addAndRemoveToBasket({
     required bool isAdd,
     required OrderLine product,
+    bool isReturned = false, // Add a parameter to indicate if it's a return
   }) {
     emit(LoadingTheQuantityCount());
 
     if (isAdd) {
+      // Check if we're on a return page and prevent exceeding the available quantity
+      if (isReturned) {
+        // Get the existing product in the basket
+        bool existsInBasket = getDetailsOrdersModel!.orderLines!
+            .any((item) => item.id == product.id);
+        final existingProduct = existsInBasket
+            ? getDetailsOrdersModel!.orderLines!
+                .firstWhere((item) => item.id == product.id)
+            : null;
+
+        if (existingProduct != null &&
+            existingProduct.productUomQty >= product.productUomQty) {
+          errorGetBar("لا يكمن اضافة اكتر من منتجاتك");
+          return;
+        }
+      }
+
+      // Regular addition logic if not limited by return conditions
       bool existsInBasket = getDetailsOrdersModel!.orderLines!
           .any((item) => item.id == product.id);
       if (!existsInBasket) {
@@ -271,6 +290,7 @@ print('origin=$originLat,$originLng');
         debugPrint('::::::::: ${existingProduct.productUomQty}');
       }
     } else {
+      // Allow decrement without restriction
       if (product.productUomQty == 0) {
         getDetailsOrdersModel!.orderLines
             ?.removeWhere((item) => item.id == product.id);
@@ -335,15 +355,14 @@ print('origin=$originLat,$originLng');
     result.fold((l) {
       emit(ErrorConfirmQuotation());
     }, (r) {
-
       if (r.result?.message == null) {
         errorGetBar('عدم كفاية المخزون لمنتج واحد أو أكثر');
       } else {
         getDetailsOrdersModel!.orderLines?.clear();
         context.read<DeleveryOrdersCubit>().getOrders();
         //! Make confirm quotation
-          Navigator.pushReplacementNamed(context, Routes.detailsOrder,
-          arguments: { 'isClientOrder':false,  'orderModel':orderModel});
+        Navigator.pushReplacementNamed(context, Routes.detailsOrder,
+            arguments: {'isClientOrder': false, 'orderModel': orderModel});
       }
 
       emit(LoadedConfirmQuotation());

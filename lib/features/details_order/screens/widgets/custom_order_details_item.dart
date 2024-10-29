@@ -18,13 +18,15 @@ import '../../cubit/details_orders_state.dart';
 import 'rounded_button.dart';
 
 class CustomOrderDetailsShowPriceItem extends StatefulWidget {
-  const CustomOrderDetailsShowPriceItem({
+   CustomOrderDetailsShowPriceItem({
     required this.item,
+    this.isReturned = false,
     required this.onPressed,
     super.key,
   });
   final OrderLine item;
   final void Function()? onPressed;
+  bool isReturned;
   @override
   State<CustomOrderDetailsShowPriceItem> createState() =>
       _CustomOrderDetailsShowPriceItemState();
@@ -94,7 +96,7 @@ class _CustomOrderDetailsShowPriceItemState
                               ),
                             ),
                           ),
-
+                          widget.isReturned == true ?SizedBox():
                           InkWell(
                             onTap: () {
                               cubit2.newDiscountController.text =
@@ -121,7 +123,7 @@ class _CustomOrderDetailsShowPriceItemState
                               width: getSize(context) / 14,
                             ),
                           ),
-                          Padding(
+                          widget.isReturned == true ?SizedBox(): Padding(
                             padding: const EdgeInsetsDirectional.symmetric(
                                 horizontal: 5.0),
                             child: InkWell(
@@ -173,9 +175,16 @@ class _CustomOrderDetailsShowPriceItemState
                                       children: [
                                         GestureDetector(
                                           onTap: () {
+                                            print("item is ${widget.item.productUomQty}");
                                             cubit2.addAndRemoveToBasket(
+                                              isReturned: true,
                                                 isAdd: true,
                                                 product: widget.item);
+                                             if(widget.isReturned == true){
+                                               if(widget.item.productUomQty == 1){
+
+                                               }
+                                             }
                                             // cubit2.addAndRemoveToBasket(
                                             //     product: widget.item,
                                             //     isAdd: true);

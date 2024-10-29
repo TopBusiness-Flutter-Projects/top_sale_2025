@@ -157,9 +157,10 @@
   "locationRequired": "Location Permission Required",
   "openSettings": "Open Settings",
   "locationDescribtion": "Location permission is permanently denied. Please enable it in settings to continue.",
-
+  "Bill_of_exchange" :"Bill of exchange",
+  "return_invoice" : "Return Invoice",
   "returns_details" :" Returns Details ",
-
+  "confirm_return": " Confirm Return ",
   "salary": "Salary",
   "empty_car": "No cars found",
   "error" : " Some thing wrong ",

@@ -1,12 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_utils/src/extensions/string_extensions.dart';
 import 'package:top_sale/core/utils/get_size.dart';
 import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/app_fonts.dart';
 import '../../../../core/models/get_orders_model.dart';
 import '../../../../core/widgets/decode_image_with_text.dart';
 
