@@ -252,57 +252,63 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
   addAndRemoveToBasket({
     required bool isAdd,
     required OrderLine product,
-    bool isReturned = false, // Add a parameter to indicate if it's a return
+    bool isReturned = false, // لتحديد اذا كانت عملية إرجاع
   }) {
     emit(LoadingTheQuantityCount());
 
+    // الحد الأقصى المسموح به بناءً على الحالة
+    final int maxQuantityAllowed = isReturned
+        ? product.productUomQty // في حالة الإرجاع، نستخدم الكمية المتاحة الأصلية
+        : 9999; // رقم تعسفي يسمح بإضافة غير محدودة عند عدم وجود إرجاع
+
     if (isAdd) {
-      // Check if we're on a return page and prevent exceeding the available quantity
-      if (isReturned) {
-        // Get the existing product in the basket
-        bool existsInBasket = getDetailsOrdersModel!.orderLines!
-            .any((item) => item.id == product.id);
-        final existingProduct = existsInBasket
-            ? getDetailsOrdersModel!.orderLines!
-                .firstWhere((item) => item.id == product.id)
-            : null;
-
-        if (existingProduct != null &&
-            existingProduct.productUomQty >= product.productUomQty) {
-          errorGetBar("لا يكمن اضافة اكتر من منتجاتك");
-          return;
-        }
-      }
-
-      // Regular addition logic if not limited by return conditions
+      // منطق إضافة الكمية مع التأكد من عدم تجاوز الحد الأقصى عند الإرجاع
       bool existsInBasket = getDetailsOrdersModel!.orderLines!
           .any((item) => item.id == product.id);
-      if (!existsInBasket) {
-        product.productUomQty = int.parse(product.productUomQty.toString()) + 1;
-        getDetailsOrdersModel!.orderLines?.add(product);
-        emit(IncreaseTheQuantityCount());
+      final existingProduct = existsInBasket
+          ? getDetailsOrdersModel!.orderLines!
+          .firstWhere((item) => item.id == product.id)
+          : null;
+
+      if (existsInBasket && existingProduct != null) {
+        if (existingProduct.productUomQty < maxQuantityAllowed) {
+          existingProduct.productUomQty++;
+          emit(IncreaseTheQuantityCount());
+        } else {
+          errorGetBar("لا يمكن إضافة أكثر من المتاح");
+        }
       } else {
-        final existingProduct = getDetailsOrdersModel!.orderLines!
-            .firstWhere((item) => item.id == product.id);
-        existingProduct.productUomQty =
-            int.parse(existingProduct.productUomQty.toString()) + 1;
-        emit(IncreaseTheQuantityCount());
-        debugPrint('::::::::: ${existingProduct.productUomQty}');
+        if (product.productUomQty < maxQuantityAllowed) {
+          product.productUomQty++;
+          getDetailsOrdersModel!.orderLines?.add(product);
+          emit(IncreaseTheQuantityCount());
+        } else {
+          errorGetBar("لا يمكن إضافة أكثر من المتاح");
+        }
       }
     } else {
-      // Allow decrement without restriction
-      if (product.productUomQty == 0) {
-        getDetailsOrdersModel!.orderLines
-            ?.removeWhere((item) => item.id == product.id);
-        listOfremovedItems.add(product.id);
-        emit(DecreaseTheQuantityCount());
-      } else {
-        product.productUomQty = int.parse(product.productUomQty.toString()) - 1;
-        emit(DecreaseTheQuantityCount());
+      // السماح بالنقصان بدون تجاوز الحد الأدنى، مع الحفاظ على الحد الأقصى المسموح به
+      bool existsInBasket = getDetailsOrdersModel!.orderLines!
+          .any((item) => item.id == product.id);
+      if (existsInBasket) {
+        final existingProduct = getDetailsOrdersModel!.orderLines!
+            .firstWhere((item) => item.id == product.id);
+        if (existingProduct.productUomQty > 1) {
+          existingProduct.productUomQty--;
+          emit(DecreaseTheQuantityCount());
+        } else {
+          getDetailsOrdersModel!.orderLines
+              ?.removeWhere((item) => item.id == product.id);
+          listOfremovedItems.add(product.id);
+          emit(DecreaseTheQuantityCount());
+        }
       }
     }
+
+    // تحديث إجمالي السلة
     totalBasket();
   }
+
 
   // List<OrderLine> basket = [];
   CreateOrderModel? updateOrderModel;
