@@ -18,7 +18,6 @@ import '../../../core/models/get_orders_model.dart';
 import '../../../core/models/order_details_model.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_strings.dart';
-
 class DetailsOrderReturns extends StatefulWidget {
   DetailsOrderReturns(
       {super.key, required this.orderModel, required this.isClientOrder});

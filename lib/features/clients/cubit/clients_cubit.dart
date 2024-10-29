@@ -209,7 +209,10 @@ class ClientsCubit extends Cubit<ClientsState> {
           .getEmployeeDataModel!
           .carIds!
           .isNotEmpty) {
+            await  getAddressFromLatLng(
+            currentLocation!.latitude ?? 0.0, currentLocation!.longitude ?? 0.0);
         final result = await api.tracking(
+          name: address,
             carId: context
                 .read<ItineraryCubit>()
                 .getEmployeeDataModel!
@@ -281,6 +284,7 @@ class ClientsCubit extends Cubit<ClientsState> {
   String country = " country ";
   String city = " city ";
   String address = " address ";
+  String address2 = " address ";
   Future<void> getAddressFromLatLng(double latitude, double longitude) async {
     try {
       List<Placemark> placemarks =
@@ -290,8 +294,12 @@ class ClientsCubit extends Cubit<ClientsState> {
         Placemark place = placemarks.first;
         country = place.country ?? "";
         city = place.locality ?? "";
+        address2 =
+            "${place.street}, ${place.locality}, ${place.postalCode}, ${place.country}, ${place.administrativeArea}, ${place.name}, ${place.subLocality}, ${place.subThoroughfare}";
+      
         address =
-            "${place.street}, ${place.locality}, ${place.postalCode}, ${place.country}";
+            " ${place.locality}, ${place.administrativeArea}";
+      
         emit(GetCurrentLocationAddressState());
       } else {
         emit(ErrorCurrentLocationAddressState());
@@ -303,6 +311,7 @@ class ClientsCubit extends Cubit<ClientsState> {
     print(country);
     print(city);
     print(address);
+    print(address2);
   }
 
 //create client

@@ -164,6 +164,7 @@ class ServiceApi {
     required double long,
     required int carId,
     required String date,
+    required String name,
   }) async {
     String? sessionId = await Preferences.instance.getSessionId();
     String odooUrl =
@@ -178,12 +179,12 @@ class ServiceApi {
           {
     "params": {
         "data": {
-            "name": "egypt",
-            "vehicle_id": 1,
+            "name": name,
+            "vehicle_id": carId,
             "driver_id": int.parse(partnerId),
             "latitude":lat,
             "longitude":long,
-            "date":"2024-10-24"
+            "date":date
         }
     }
 }
@@ -1215,7 +1216,7 @@ class ServiceApi {
     //     "1";
     try {
       final response = await dio.get(
-        odooUrl + '/api/expense/products',
+        odooUrl + '/api/product.product/?query={id,name,image_1920}&filter=[["can_be_expensed","=","True"]]',
         options: Options(
           headers: {"Cookie": "session_id=$sessionId"},
         ),

@@ -61,7 +61,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                             ? CustomDecodedImage(
                                 base64String:
                                     context.read<HomeCubit>().imageOfUser,
-                                context: context,
+                                // context: context,
                                 height: 100.h,
                                 width: 100.h,
                               )

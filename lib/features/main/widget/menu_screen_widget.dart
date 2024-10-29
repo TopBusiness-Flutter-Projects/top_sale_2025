@@ -54,7 +54,7 @@ class _MenuScreenWidgetState extends State<MenuScreenWidget> {
                           borderRadius: BorderRadius.circular(100),
                           child: CustomDecodedImage(
                             base64String: context.read<HomeCubit>().imageOfUser,
-                            context: context,
+                            // context: context,
                             height: 60.h,
                             width: 60.h,
                           ),
@@ -67,9 +67,7 @@ class _MenuScreenWidgetState extends State<MenuScreenWidget> {
                             padding: EdgeInsets.only(
                               left: lang == 'ar' ? getSize(context) / 5 : 0,
                             ),
-                            child: BlocBuilder<HomeCubit, HomeState>(
-                                builder: (context, state) {
-                              return Text(
+                            child:Text(
                                 context
                                         .read<HomeCubit>()
                                         .nameOfUser
@@ -81,8 +79,7 @@ class _MenuScreenWidgetState extends State<MenuScreenWidget> {
                                     color: AppColors.white,
                                     fontSize: 15.sp,
                                     fontWeight: FontWeight.bold),
-                              );
-                            })),
+                              )),
                         SizedBox(height: getSize(context) / 4),
                       ],
                     ),
