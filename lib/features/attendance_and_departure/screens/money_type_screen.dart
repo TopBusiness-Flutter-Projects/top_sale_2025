@@ -53,21 +53,23 @@ class _MoneyTypeScreenState extends State<MoneyTypeScreen> {
                 )
               : ListView.builder(
                   shrinkWrap: true,
-                  itemCount: cubit.getAllExpensesProductModel!.products!.length,
+                  itemCount: cubit.getAllExpensesProductModel!.result!.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
                         _showBottomSheet(
                             context,
                             cubit,
-                            cubit.getAllExpensesProductModel!.products![index]
+                            cubit.getAllExpensesProductModel!.result![index]
                                     .id ??
                                 1);
                       },
                       child: MoneyTypeRow(
-                        image: "",
+                        image: cubit.getAllExpensesProductModel!.result![index]
+                            .image1920
+                            .toString(),
                         moneyType: cubit
-                            .getAllExpensesProductModel!.products![index].name
+                            .getAllExpensesProductModel!.result![index].name
                             .toString(),
                       ),
                     );
@@ -95,10 +97,12 @@ class MoneyTypeRow extends StatelessWidget {
       padding: EdgeInsets.only(left: 20.sp, right: 20.sp, top: 20.sp),
       child: Row(
         children: [
-          // ClipRRect(
-          //   borderRadius: BorderRadius.circular(100),
-          //   child:Image.network(image)
-          // ),
+          CustomDecodedImage(
+            base64String: image,
+            // context: context,
+            height: 60.h,
+            width: 60.h,
+          ),
           SizedBox(width: 20.sp),
           Text(
             moneyType,
@@ -118,6 +122,7 @@ void _showBottomSheet(
   cubit.descriptionController.clear();
   cubit.amountController.clear();
   cubit.profileImage = null;
+  cubit.selectedPaymentMethod = null;
   showModalBottomSheet(
     isScrollControlled: true,
     context: context,
@@ -206,7 +211,7 @@ void _showBottomSheet(
                     title: "paid".tr(),
                     controller: cubit.amountController,
                     hint: "enter_paid".tr(),
-                    keyboardType: TextInputType.text,
+                    keyboardType: TextInputType.number,
                   ),
                   SizedBox(height: getSize(context) / 30),
                   Container(
@@ -251,7 +256,13 @@ void _showBottomSheet(
                       backgroundColor: AppColors.primaryColor,
                       text: 'add'.tr(),
                       onPressed: () {
-                        cubit.createExpense(context, productId: productId);
+                         if (cubit.formKey.currentState!.validate()) {
+                               cubit.createExpense(context, productId: productId);
+                            } else {
+                              // Handle validation failure
+                              print("Validation failed");
+                            }
+                       
                       },
                     ),
                   ),
