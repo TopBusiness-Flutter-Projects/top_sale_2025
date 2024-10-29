@@ -1,7 +1,7 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:top_sale/core/utils/get_size.dart';
 import 'package:top_sale/features/delevery_order/screens/widgets/drop_down_widget.dart';
 import 'package:top_sale/features/delevery_order/screens/widgets/shipment_card_widget.dart';
@@ -34,11 +34,13 @@ class _DeleveryOrderScreenState extends State<DeleveryOrderScreen> {
             appBar: AppBar(
               backgroundColor: AppColors.white,
               centerTitle: false,
+              // leadingWidth: 40.w,
               title: Text(
                 "delevery_order".tr(),
                 style: TextStyle(
                     fontFamily: AppStrings.fontFamily,
                     color: AppColors.black,
+                    fontSize: 20.sp,
                     fontWeight: FontWeight.w700),
               ),
             ),
@@ -99,22 +101,22 @@ class _DeleveryOrderScreenState extends State<DeleveryOrderScreen> {
           cubit.changeIndex(index);
         },
         child: Container(
-          height: getSize(context) / 9,
-          width: getSize(context) / 2.5,
+
           decoration: BoxDecoration(
             color: cubit.currentIndex == index ? AppColors.orange : AppColors.gray1,
             borderRadius: BorderRadius.circular(getSize(context) / 20),
           ),
           child: Center(
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: AutoSizeText(
+              padding:  EdgeInsets.symmetric(horizontal: getSize(context) / 60,vertical: getSize(context) / 40),
+              child: Text(
                 label.tr(),
                 maxLines: 1,
                 style: TextStyle(
                   fontFamily: "Tajawal",
                   color: cubit.currentIndex == index ? AppColors.white : AppColors.grayLite,
-                  fontSize: getSize(context) / 20,
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
             ),
@@ -129,7 +131,15 @@ class _DeleveryOrderScreenState extends State<DeleveryOrderScreen> {
     if (cubit.selectedValue == "all") {
       return cubit.currentOrders.isNotEmpty
           ? _buildOrderList(context, cubit.currentOrders)
-          : Center(child: Text("no_data".tr()));
+          : Center(
+          child: Text(
+            "no_data".tr(),
+            style: TextStyle(
+                fontFamily: AppStrings.fontFamily,
+                color: AppColors.black,
+                fontWeight: FontWeight.w700,
+                fontSize: 20.sp
+            ),));
     } else if (cubit.selectedValue == "show_price") {
       return cubit.draftOrders.isNotEmpty
           ? _buildOrderList(context, cubit.draftOrders)
@@ -137,11 +147,27 @@ class _DeleveryOrderScreenState extends State<DeleveryOrderScreen> {
     } else if (cubit.selectedValue == "new") {
       return cubit.newOrders.isNotEmpty
           ? _buildOrderList(context, cubit.newOrders)
-          : Center(child: Text("no_data".tr()));
+          : Center(
+          child: Text(
+            "no_data".tr(),
+            style: TextStyle(
+                fontFamily: AppStrings.fontFamily,
+                color: AppColors.black,
+                fontWeight: FontWeight.w700,
+                fontSize: 20.sp
+            ),));
     } else {
       return cubit.deliveredOrders.isNotEmpty
           ? _buildOrderList(context, cubit.deliveredOrders)
-          : Center(child: Text("no_data".tr()));
+          : Center(
+          child: Text(
+            "no_data".tr(),
+            style: TextStyle(
+                fontFamily: AppStrings.fontFamily,
+                color: AppColors.black,
+                fontWeight: FontWeight.w700,
+                fontSize: 20.sp
+            ),));
     }
   }
 
@@ -149,7 +175,15 @@ class _DeleveryOrderScreenState extends State<DeleveryOrderScreen> {
   Widget _buildLastOrdersList(BuildContext context, DeleveryOrdersCubit cubit) {
     return cubit.completeOrders.isNotEmpty
         ? _buildOrderList(context, cubit.completeOrders)
-        : Center(child: Text("no_data".tr()));
+        : Center(
+        child: Text(
+      "no_data".tr(),
+      style: TextStyle(
+      fontFamily: AppStrings.fontFamily,
+      color: AppColors.black,
+      fontWeight: FontWeight.w700,
+      fontSize: 20.sp
+    ),));
   }
 
   // Builds the list for canceled orders

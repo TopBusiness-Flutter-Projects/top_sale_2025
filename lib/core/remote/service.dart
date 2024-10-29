@@ -14,7 +14,6 @@ import 'package:top_sale/core/models/all_payments_model.dart';
 import 'package:top_sale/core/models/all_products_model.dart';
 import 'package:top_sale/core/models/all_ware_house_model.dart';
 import 'package:top_sale/core/models/approve_expenses_model.dart';
-import 'package:top_sale/core/models/car_details';
 import 'package:top_sale/core/models/category_model.dart';
 import 'package:top_sale/core/models/check_employee_model.dart';
 import 'package:top_sale/core/models/create_expenses_mosel.dart';
@@ -37,6 +36,7 @@ import 'package:top_sale/core/utils/app_strings.dart';
 import '../api/base_api_consumer.dart';
 import 'package:odoo_rpc/odoo_rpc.dart';
 import '../models/all_salary_model.dart';
+import '../models/car_details_model.dart';
 import '../models/holidays_model.dart';
 import '../models/holidays_type_model.dart';
 

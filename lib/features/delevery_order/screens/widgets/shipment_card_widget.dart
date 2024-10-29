@@ -14,10 +14,8 @@ class ShipmentCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // print('image ::${order.partnerId.!.image1920}::imageeeeeeeeeeee');
     return GestureDetector(
       onTap: () {
-        print("order.state ::${order.state}::stateeeeeeeeeeee");
         order.state == 'draft'
             ? Navigator.pushNamed(context, Routes.detailsOrderShowPrice,
                 arguments: { 'isClientOrder':false,  'orderModel':order})
@@ -48,24 +46,24 @@ class ShipmentCardWidget extends StatelessWidget {
                 Expanded(
                   child: Row(
                     children: [
-                      AutoSizeText(
+                      Text(
                         "shipment_number".tr(),
                         style: TextStyle(
                           fontFamily: "cairo",
                           color: AppColors.blue,
-                          fontSize: getSize(context) / 25,
+                          fontSize: 20.sp,
                         ),
                       ),
                       SizedBox(width: getSize(context) / 60),
                       Expanded(
-                        child: AutoSizeText(
+                        child: Text(
                           order.displayName ?? '',
                           maxLines: 1,
                           style: TextStyle(
                             overflow: TextOverflow.ellipsis,
                             fontFamily: "cairo",
                             color: AppColors.black,
-                            fontSize: getSize(context) / 28,
+fontSize: 20.sp
                           ),
                         ),
                       ),
@@ -73,8 +71,7 @@ class ShipmentCardWidget extends StatelessWidget {
                   ),
                 ),
                 Container(
-                    height: getSize(context) / 15,
-                    width: getSize(context) / 5,
+                  padding: EdgeInsets.symmetric(horizontal: 12.0.sp, vertical: 4.0.sp), // Adjust the padding values as needed(),
                     decoration: BoxDecoration(
                         color: order.state == "sale" &&
                                 order.invoiceStatus == "to invoice" &&
@@ -94,48 +91,48 @@ class ShipmentCardWidget extends StatelessWidget {
                         borderRadius:
                             BorderRadius.circular(getSize(context) / 20)),
                     child: Center(
-                        child: Padding(
-                            padding: EdgeInsets.all(getSize(context) / 100),
-                            child: AutoSizeText(
-                              maxLines: 1,
-                              order.state == "sale" &&
-                                      order.invoiceStatus == "to invoice" &&
+                        child: Text(
+                          maxLines: 1,
+                          order.state == "sale" &&
+                                  order.invoiceStatus == "to invoice" &&
+                                  order.deliveryStatus == "full"
+                              ? "delivered".tr()
+                              : order.state.toString() == "sale" &&
+                                      order.invoiceStatus == "invoiced" &&
                                       order.deliveryStatus == "full"
-                                  ? "delivered".tr()
-                                  : order.state.toString() == "sale" &&
-                                          order.invoiceStatus == "invoiced" &&
-                                          order.deliveryStatus == "full"
-                                      ? "complete".tr()
-                                      : order.state == "sale" &&
-                                              order.invoiceStatus ==
-                                                  "to invoice" &&
-                                              order.deliveryStatus == "pending"
-                                          ? "new".tr()
-                                          : order.state == "draft"
-                                              ? "show_price".tr()
-                                              : order.state == "cancel"
-                                                  ? "cancel".tr()
-                                                  : "",
-                              style: TextStyle(
-                                color: order.state == "sale" &&
-                                        order.invoiceStatus == "to invoice" &&
+                                  ? "complete".tr()
+                                  : order.state == "sale" &&
+                                          order.invoiceStatus ==
+                                              "to invoice" &&
+                                          order.deliveryStatus == "pending"
+                                      ? "new".tr()
+                                      : order.state == "draft"
+                                          ? "show_price".tr()
+                                          : order.state == "cancel"
+                                              ? "cancel".tr()
+                                              : "",
+                          style: TextStyle(
+                            fontSize: 15.sp,
+                            color: order.state == "sale" &&
+                                    order.invoiceStatus == "to invoice" &&
+                                    order.deliveryStatus == "full"
+                                ? AppColors.blue
+                                : order.state == "sale" &&
+                                        order.invoiceStatus == "invoiced" &&
                                         order.deliveryStatus == "full"
-                                    ? AppColors.blue
+                                    ? AppColors.green
                                     : order.state == "sale" &&
-                                            order.invoiceStatus == "invoiced" &&
-                                            order.deliveryStatus == "full"
-                                        ? AppColors.green
-                                        : order.state == "sale" &&
-                                                order.invoiceStatus ==
-                                                    "to invoice" &&
-                                                order.deliveryStatus ==
-                                                    "pending"
-                                            ? AppColors.orange
-                                            : order.state == "cancel"
-                                                ? AppColors.red
-                                                : AppColors.orange,
-                              ),
-                            ))))
+                                            order.invoiceStatus ==
+                                                "to invoice" &&
+                                            order.deliveryStatus ==
+                                                "pending"
+                                        ? AppColors.orange
+                                        : order.state == "cancel"
+                                            ? AppColors.red
+                                            : AppColors.orange,
+
+                          ),
+                        )))
               ],
             ),
             SizedBox(
