@@ -2,9 +2,9 @@
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:top_sale/core/models/car_details';
 import 'package:top_sale/core/models/get_car_ids_model.dart';
 import 'package:top_sale/core/remote/service.dart';
+import '../../../core/models/car_details_model.dart';
 import 'state.dart';
 
 class ItineraryCubit extends Cubit<ItineraryState> {
