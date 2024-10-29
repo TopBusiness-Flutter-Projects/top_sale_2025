@@ -116,8 +116,8 @@ class HomeCubit extends Cubit<HomeState> {
         } else {
           phoneOfUser = r.workPhone.toString();
         }
-        imageOfUser = r.image1920;
-        emailOfUser = r.workEmail;
+        imageOfUser = r.image1920.toString();
+        emailOfUser = r.workEmail.toString() =="false"?"":r.workEmail.toString();
 
         debugPrint("the model : emmm ${getEmployeeDataModel?.name.toString()}");
         emit(ProfileEmployeeLoaded());

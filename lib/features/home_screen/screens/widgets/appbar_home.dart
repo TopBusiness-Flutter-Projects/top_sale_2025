@@ -36,7 +36,7 @@ class _AppbarHomeState extends State<AppbarHome> {
                   borderRadius: BorderRadius.circular(100),
                   child: CustomDecodedImage(
                     base64String: context.read<HomeCubit>().imageOfUser,
-                    context: context,
+                  //  context: context,
                     height: getSize(context) / 8,
                     width: getSize(context) / 8,
                   ),
