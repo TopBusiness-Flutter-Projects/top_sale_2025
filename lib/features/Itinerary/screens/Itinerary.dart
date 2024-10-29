@@ -138,7 +138,7 @@ class _ToggleSwitchWithLabelState extends State<ToggleSwitchWithLabel> {
                   children: [
                     CustomDecodedImage(
                       base64String: cubit.carDetailsModel!.image128,
-                      context: context,
+                      // context: context,
                       height: 50,
                       width: 50,
                     ),

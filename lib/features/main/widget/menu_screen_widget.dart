@@ -54,7 +54,7 @@ class _MenuScreenWidgetState extends State<MenuScreenWidget> {
                           borderRadius: BorderRadius.circular(100),
                           child: CustomDecodedImage(
                             base64String: context.read<HomeCubit>().imageOfUser,
-                            context: context,
+                            // context: context,
                             height: 60.h,
                             width: 60.h,
                           ),
