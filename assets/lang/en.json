@@ -160,6 +160,7 @@
 
 
   "salary": "Salary",
+  "empty_car": "No cars found",
   "error" : " Some thing wrong ",
   "leave": "Leave"
 }

@@ -28,11 +28,10 @@ class HomeCubit extends Cubit<HomeState> {
   TextEditingController reasonController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   CheckEmployeeModel? employeeModel;
-  checkEmployeeNumber(
-    BuildContext context, {
-    required String employeeId,
-    // required String password,
-  }) async {
+  checkEmployeeNumber(BuildContext context,
+      {required String employeeId, bool isHR = true
+      // required String password,
+      }) async {
     // if (await Preferences.instance.getMasterUserName() == null ||
     //     await Preferences.instance.getOdooUrl() == null) {
     //   errorGetBar("من فضلك أدخل معلومات الشركة أولا");
@@ -55,12 +54,14 @@ class HomeCubit extends Cubit<HomeState> {
               .setEmployeeIdNumber(r.result!.first.id.toString());
           isEmployeeAdded = true;
           Navigator.pop(context);
-          if (r.result!.first.messagePartnerIds!.isNotEmpty){
-             await Preferences.instance
-              .setEmployeePartnerId(r.result!.first.messagePartnerIds!.first.id.toString());
+          if (r.result!.first.messagePartnerIds!.isNotEmpty) {
+            await Preferences.instance.setEmployeePartnerId(
+                r.result!.first.messagePartnerIds!.first.id.toString());
+          }
+          if (isHR) {
+                      context.read<MainCubit>().changeNavigationBar(2);
 
           }
-          context.read<MainCubit>().changeNavigationBar(2);
           successGetBar("تم بنجاح");
           // Navigator.pushNamedAndRemoveUntil(
           //     context, Routes.mainRoute, (route) => false);

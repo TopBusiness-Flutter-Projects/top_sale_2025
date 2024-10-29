@@ -9,6 +9,7 @@ import 'package:top_sale/features/clients/cubit/clients_state.dart';
 import 'package:top_sale/features/direct_sell/cubit/direct_sell_cubit.dart';
 import 'package:top_sale/features/home_screen/screens/widgets/appbar_home.dart';
 import 'package:top_sale/features/home_screen/screens/widgets/card_home.dart';
+import 'package:top_sale/features/main/screens/main_screen.dart';
 import '../../../config/routes/app_routes.dart';
 import '../../clients/cubit/clients_cubit.dart';
 import '../cubit/cubit.dart';
@@ -68,23 +69,28 @@ class _HomeScreenState extends State<HomeScreen> {
                         text: "direct_sales".tr(),
                         image: ImageAssets.directSale),
                     BlocBuilder<ClientsCubit, ClientsState>(
-      builder: (context, state) {
-                        return 
-                        
-                        
-                        CardHome(
-                            onPressed: () {
-                              context.read<ClientsCubit>().currentLocation == null
-                                  ? context
+                        builder: (context, state) {
+                      return CardHome(
+                          onPressed: () {
+                            if (context.read<HomeCubit>().isEmployeeAdded) {
+                              if (context
                                       .read<ClientsCubit>()
-                                      .checkAndRequestLocationPermission(context)
-                                  : Navigator.pushNamed(
-                                      context, Routes.itineraryRoute);
-                            },
-                            text: "serali_line".tr(),
-                            image: ImageAssets.line);
-                      }
-                    ),
+                                      .currentLocation ==
+                                  null) {
+                                context
+                                    .read<ClientsCubit>()
+                                    .checkAndRequestLocationPermission(context);
+                              } else {
+                                Navigator.pushNamed(
+                                    context, Routes.itineraryRoute);
+                              }
+                            } else
+                              showEmployeeBottomSheet(
+                                  context, context.read<HomeCubit>(), false);
+                          },
+                          text: "serali_line".tr(),
+                          image: ImageAssets.line);
+                    }),
                     CardHome(
                         text: "clients".tr(),
                         image: ImageAssets.clients,

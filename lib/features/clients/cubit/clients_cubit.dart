@@ -1,5 +1,4 @@
 // ignore_for_file: avoid_print
-
 import 'dart:async';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -8,9 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as loc;
 import 'package:permission_handler/permission_handler.dart' as perm;
 import 'package:top_sale/core/utils/appwidget.dart';
+import 'package:top_sale/features/Itinerary/cubit/cubit.dart';
 import 'package:top_sale/features/clients/cubit/clients_state.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../core/models/all_partners_for_reports_model.dart';
@@ -86,10 +87,10 @@ class ClientsCubit extends Cubit<ClientsState> {
       perm.PermissionStatus newPermissionStatus =
           await perm.Permission.location.request();
       if (newPermissionStatus.isGranted) {
-        await enableLocationServices();
+        await enableLocationServices(context);
       }
     } else if (permissionStatus.isGranted) {
-      await enableLocationServices();
+      await enableLocationServices(context);
     } else if (permissionStatus.isPermanentlyDenied) {
       showDialog(
         context: context,
@@ -117,7 +118,7 @@ class ClientsCubit extends Cubit<ClientsState> {
   }
 
 // enable location
-  Future<void> enableLocationServices() async {
+  Future<void> enableLocationServices(BuildContext context) async {
     loc.Location location = loc.Location();
     bool serviceEnabled = await location.serviceEnabled();
     if (!serviceEnabled) {
@@ -125,19 +126,19 @@ class ClientsCubit extends Cubit<ClientsState> {
       if (!serviceEnabled) {
         return;
       } else {
-        getCurrentLocation();
+        getCurrentLocation(context);
       }
     }
 
     loc.PermissionStatus permissionStatus =
         await loc.Location().hasPermission();
     if (permissionStatus == loc.PermissionStatus.granted) {
-      getCurrentLocation();
+      getCurrentLocation(context);
     }
   }
 
 //get currnet
-  Future<void> getCurrentLocation() async {
+  Future<void> getCurrentLocation(BuildContext context) async {
     loc.Location location = loc.Location();
     location.getLocation().then(
       (location) async {
@@ -147,7 +148,6 @@ class ClientsCubit extends Cubit<ClientsState> {
         emit(GetCurrentLocationState());
         debugPrint("lat: ${currentLocation?.latitude}");
         debugPrint("long: ${currentLocation?.longitude}");
-        startLocationUpdates();
       },
     );
     // location.onLocationChanged.listen((newLoc) {
@@ -166,7 +166,7 @@ class ClientsCubit extends Cubit<ClientsState> {
           newLocationData.longitude ?? 0.0,
         );
         debugPrint("Movedddd: $distance meters");
-        if (distance > 2) {
+        if (distance > 8) {
           currentLocation = newLocationData;
           // getAddressFromLatLng(newLocationData.latitude ?? 0.0, newLocationData.longitude ?? 0.0);
           emit(GetCurrentLocationState());
@@ -175,72 +175,108 @@ class ClientsCubit extends Cubit<ClientsState> {
           debugPrint("Moved: $distance meters");
         }
         currentLocation = newLocationData;
+        updateLocation();
       }
     });
   }
 
   Timer? timer;
-  void startLocationUpdates() {
+  void startLocationUpdates(BuildContext context) {
     // Fetch location immediately and set timer to update every 5 minutes
     print("start time");
-    updateLatLong();
+    updateLatLong(context);
     // Set up a timer to fetch location every 5 minutes
     timer = Timer.periodic(const Duration(minutes: 30), (timer) {
       print("10 seconds then");
-      updateLatLong();
+      updateLatLong(context);
       debugPrint(" lat: ${currentLocation?.latitude}");
       debugPrint(" long: ${currentLocation?.longitude}");
     });
   }
 
-  void updateLatLong( ) async {
-    emit(UpdateProfileUserLoading());
-    final result = await api.updatePartnerLatLong(
-        lat: currentLocation?.latitude ?? 0.0,
-        long: currentLocation?.longitude ?? 0.0);
-    result.fold((l) {
-      emit(UpdateProfileUserError());
-    }, (r) {
-     
-      emit(UpdateProfileUserLoaded());
-    });
+  void stopLocationUpdates() {
+    if (timer != null && timer!.isActive) {
+      timer!.cancel();
+      print("Timer cancelled");
+    }
   }
 
-  Future<void> sendLocation(BuildContext context) async {
-    perm.PermissionStatus permissionStatus =
-        await perm.Permission.location.status;
+  void updateLatLong(BuildContext context) async {
+    emit(UpdateProfileUserLoading());
+    if (context.read<ItineraryCubit>().getEmployeeDataModel != null) {
+      if (context
+          .read<ItineraryCubit>()
+          .getEmployeeDataModel!
+          .carIds!
+          .isNotEmpty) {
+        final result = await api.tracking(
+            carId: context
+                .read<ItineraryCubit>()
+                .getEmployeeDataModel!
+                .carIds!
+                .first
+                .id,
+            date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
+            lat: currentLocation?.latitude ?? 0.0,
+            long: currentLocation?.longitude ?? 0.0);
+        result.fold((l) {
+          emit(UpdateProfileUserError());
+        }, (r) {
+          emit(UpdateProfileUserLoaded());
+        });
+      }
+    }
+  }
 
-    if (permissionStatus.isGranted) {
-      getCurrentLocation();
-    } else if (permissionStatus.isPermanentlyDenied) {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text("Location Permission Required"),
-          content: Text(
-              "Location permission is permanently denied. Please enable it in settings to continue."),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text("Cancel"),
-            ),
-            TextButton(
-              onPressed: () async {
-                Navigator.pop(context);
-                await perm.openAppSettings();
-              },
-              child: Text("Open Settings"),
-            ),
-          ],
+  GoogleMapController? mapController;
+  Future<void> updateLocation() async {
+    if (mapController != null && currentLocation != null) {
+      mapController!.animateCamera(
+        CameraUpdate.newLatLng(
+          LatLng(
+            currentLocation!.latitude!,
+            currentLocation!.longitude!,
+          ),
         ),
       );
     }
-    //  else {
-    //   await checkAndRequestLocationPermission();
-    // }
   }
+
+  // Future<void> sendLocation(BuildContext context) async {
+  //   perm.PermissionStatus permissionStatus =
+  //       await perm.Permission.location.status;
+
+  //   if (permissionStatus.isGranted) {
+  //     getCurrentLocation();
+  //   } else if (permissionStatus.isPermanentlyDenied) {
+  //     showDialog(
+  //       context: context,
+  //       builder: (context) => AlertDialog(
+  //         title: Text("Location Permission Required"),
+  //         content: Text(
+  //             "Location permission is permanently denied. Please enable it in settings to continue."),
+  //         actions: [
+  //           TextButton(
+  //             onPressed: () {
+  //               Navigator.pop(context);
+  //             },
+  //             child: Text("Cancel"),
+  //           ),
+  //           TextButton(
+  //             onPressed: () async {
+  //               Navigator.pop(context);
+  //               await perm.openAppSettings();
+  //             },
+  //             child: Text("Open Settings"),
+  //           ),
+  //         ],
+  //       ),
+  //     );
+  //   }
+  //   //  else {
+  //   //   await checkAndRequestLocationPermission();
+  //   // }
+  // }
 
   String country = " country ";
   String city = " city ";

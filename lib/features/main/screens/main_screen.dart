@@ -58,81 +58,79 @@ class _MainScreenState extends State<MainScreen> {
                   },
                   child: cubit.navigationBarViews[cubit.currentIndex],
                 ),
-                bottomNavigationBar: Directionality(
-                  textDirection: TextDirection.ltr,
-                  child: Material(
-                    elevation: 50,
-                    shadowColor: Colors.grey,
-                    child: SalomonBottomBar(
-                      items: [
-                        /// Home
-                        SalomonBottomBarItem(
-                          icon: Image.asset(
-                            'assets/images/home1.png',
-                            width: getSize(context) / 22,
-                            color: cubit.currentIndex == 0
-                                ? AppColors.orange
-                                : Colors.black,
-                          ),
-                          title: Text('home'.tr()),
-                          selectedColor: AppColors.orange,
+                //  textDirection: TextDirection.ltr,
+                bottomNavigationBar: Material(
+                  elevation: 50,
+                  shadowColor: Colors.grey,
+                  child: SalomonBottomBar(
+                    items: [
+                      /// Home
+                      SalomonBottomBarItem(
+                        icon: Image.asset(
+                          'assets/images/home1.png',
+                          width: getSize(context) / 22,
+                          color: cubit.currentIndex == 0
+                              ? AppColors.orange
+                              : Colors.black,
                         ),
+                        title: Text('home'.tr()),
+                        selectedColor: AppColors.orange,
+                      ),
 
-                        /// Likes
-                        SalomonBottomBarItem(
-                          icon: Image.asset(
-                            'assets/images/basket1.png',
-                            width: getSize(context) / 22,
-                            color: cubit.currentIndex == 1
-                                ? AppColors.orange
-                                : Colors.black,
-                          ),
-                          title: Text('basket'.tr()),
-                          selectedColor: AppColors.orange,
+                      /// Likes
+                      SalomonBottomBarItem(
+                        icon: Image.asset(
+                          'assets/images/basket1.png',
+                          width: getSize(context) / 22,
+                          color: cubit.currentIndex == 1
+                              ? AppColors.orange
+                              : Colors.black,
                         ),
+                        title: Text('basket'.tr()),
+                        selectedColor: AppColors.orange,
+                      ),
 
-                        /// Search
-                        SalomonBottomBarItem(
-                          icon: Image.asset(
-                            'assets/images/hr1.png',
-                            width: getSize(context) / 22,
-                            color: cubit.currentIndex == 2
-                                ? AppColors.orange
-                                : Colors.black,
-                          ),
-                          title: Text('hr'.tr()),
-                          selectedColor: AppColors.orange,
+                      /// Search
+                      SalomonBottomBarItem(
+                        icon: Image.asset(
+                          'assets/images/hr1.png',
+                          width: getSize(context) / 22,
+                          color: cubit.currentIndex == 2
+                              ? AppColors.orange
+                              : Colors.black,
                         ),
+                        title: Text('hr'.tr()),
+                        selectedColor: AppColors.orange,
+                      ),
 
-                        /// Profile
-                        SalomonBottomBarItem(
-                          icon: Image.asset(
-                            'assets/images/menu1.png',
-                            width: getSize(context) / 22,
-                            color: cubit.currentIndex == 3
-                                ? AppColors.orange
-                                : Colors.black,
-                          ),
-                          title: Text('menu'.tr()),
-                          selectedColor: AppColors.orange,
+                      /// Profile
+                      SalomonBottomBarItem(
+                        icon: Image.asset(
+                          'assets/images/menu1.png',
+                          width: getSize(context) / 22,
+                          color: cubit.currentIndex == 3
+                              ? AppColors.orange
+                              : Colors.black,
                         ),
-                      ],
-                      backgroundColor: Colors.white70,
-                      currentIndex: cubit.currentIndex,
-                      onTap: (index) {
-                        setState(() {
-                          if (index == 3) {
-                            z.toggle!.call();
-                          } else if (index == 2) {
-                            context.read<HomeCubit>().isEmployeeAdded
-                                ? cubit.changeNavigationBar(2)
-                                : _showBottomSheet(context, cubitHome);
-                          } else {
-                            cubit.changeNavigationBar(index);
-                          }
-                        });
-                      },
-                    ),
+                        title: Text('menu'.tr()),
+                        selectedColor: AppColors.orange,
+                      ),
+                    ],
+                    backgroundColor: Colors.white70,
+                    currentIndex: cubit.currentIndex,
+                    onTap: (index) {
+                      setState(() {
+                        if (index == 3) {
+                          z.toggle!.call();
+                        } else if (index == 2) {
+                          context.read<HomeCubit>().isEmployeeAdded
+                              ? cubit.changeNavigationBar(2)
+                              : showEmployeeBottomSheet(context, cubitHome,true);
+                        } else {
+                          cubit.changeNavigationBar(index);
+                        }
+                      });
+                    },
                   ),
                 ));
           }),
@@ -142,7 +140,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 }
 
-void _showBottomSheet(BuildContext context, HomeCubit cubit) {
+void showEmployeeBottomSheet(BuildContext context, HomeCubit cubit,bool isHr) {
   showModalBottomSheet(
     isScrollControlled: true,
     context: context,
@@ -182,7 +180,7 @@ void _showBottomSheet(BuildContext context, HomeCubit cubit) {
                     backgroundColor: AppColors.primaryColor,
                     text: 'add'.tr(),
                     onPressed: () {
-                      cubit.checkEmployeeNumber(context,
+                      cubit.checkEmployeeNumber(context,isHR: isHr,
                           employeeId: cubit.reasonController.text);
                     },
                   ),
@@ -208,12 +206,12 @@ class _ZoomDrawerScreenState extends State<ZoomDrawerScreen> {
   Widget build(BuildContext context) {
     return ZoomDrawer(
       controller: z,
-      isRtl: true,
+      isRtl: false,
       borderRadius: 25,
       style: DrawerStyle.defaultStyle,
       openCurve: Curves.linearToEaseOut,
       slideWidth: MediaQuery.of(context).size.width * 0.80,
-      duration: const Duration(milliseconds: 700),
+      duration: const Duration(milliseconds: 400),
       angle: 0.0,
       drawerShadowsBackgroundColor: AppColors.primary,
       shadowLayer1Color: AppColors.transparent,
