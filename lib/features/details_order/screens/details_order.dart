@@ -79,10 +79,13 @@ class _DetailsOrderState extends State<DetailsOrder> {
                       )))
               : IconButton(
                   onPressed: () {
-                  // cubit.cancelOrder(
-                  //     orderId: cubit.getDetailsOrdersModel?.id ?? -1,
-                  //     orderModel: widget.orderModel,
-                  //     context: context);
+
+                    Navigator.pushNamed(
+                        context, Routes.detailsOrderShowPriceReturns,
+                        arguments: {
+                          'isClientOrder': false,
+                          'orderModel': widget.orderModel
+                        });
                   },
                   icon: Text("return_order".tr(),
                       style: TextStyle(

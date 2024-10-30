@@ -162,5 +162,9 @@
   "empty_car": "لم يتم العثور على أي سيارات",
   "search_from_user": "ابحث عن عميلك",
   "return_order": "أمر مرتجع",
-  "salary": "الراتب"
+  "salary": "الراتب",
+ "returns_details" :"تفاصيل المرتجع",
+  "confirm_return": "تأكيد المرتجع",
+ "Bill_of_exchange" :"سند صرف",
+"return_invoice" : "فاتورة المرتجع"
 }

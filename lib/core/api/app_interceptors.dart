@@ -22,6 +22,11 @@ class AppInterceptors extends Interceptor {
   void onError(err, ErrorInterceptorHandler handler) {
     debugPrint(
         'ERROR[${err.response?.statusCode}] => PATH: ${err.requestOptions.path}');
+
     super.onError(err, handler);
   }
 }
+
+//! refresh token >>we will use it to change token thaty come from api to new token because the token expired after time
+
+//! for example if bank application he give u session or token valid for 30 minutes maximun then you need to make refresh tken

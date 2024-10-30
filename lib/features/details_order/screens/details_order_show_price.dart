@@ -7,6 +7,7 @@ import 'package:top_sale/core/utils/get_size.dart';
 import 'package:top_sale/features/details_order/screens/widgets/card_from_details_order.dart';
 import 'package:top_sale/features/details_order/screens/widgets/product_card.dart';
 import 'package:top_sale/features/login/widget/custom_button.dart';
+import '../../../config/routes/app_routes.dart';
 import '../../../core/models/get_orders_model.dart';
 import 'package:easy_localization/easy_localization.dart' as tr;
 import '../../../core/utils/app_colors.dart';
@@ -61,19 +62,22 @@ class _DetailsOrderShowPriceState extends State<DetailsOrderShowPrice> {
                             fontSize: 18.sp,
                           )))
                   : IconButton(
-                  onPressed: () {
-                    cubit.cancelOrder(
-                        orderId: cubit.getDetailsOrdersModel!.id ?? -1,
-                        orderModel: widget.orderModel,
-                        context: context);
-                  },
-                  icon: Text("return_order".tr(),
-                      style: TextStyle(
-                        fontFamily: AppStrings.fontFamily,
-                        color: AppColors.primary,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 18.sp,
-                      )))
+                      onPressed: () {
+                        print("ssssssssssssssssssssss");
+                        Navigator.pushNamed(
+                            context, Routes.detailsOrderShowPriceReturns,
+                            arguments: {
+                              'isClientOrder': false,
+                              'orderModel': widget.orderModel
+                            });
+                      },
+                      icon: Text("return_order".tr(),
+                          style: TextStyle(
+                            fontFamily: AppStrings.fontFamily,
+                            color: AppColors.primary,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 18.sp,
+                          )))
             ],
             leading: IconButton(
                 onPressed: () {

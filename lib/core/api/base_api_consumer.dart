@@ -10,11 +10,7 @@ abstract class BaseApiConsumer {
       Map<String, dynamic>? queryParameters,
       Options? options});
 
-  Future<dynamic> newPost(String path,
-      {bool formDataIsEnabled = false,
-      Map<String, dynamic>? body,
-      Map<String, dynamic>? queryParameters,
-      Options? options});
+
 
   Future<dynamic> put(String path,
       {Map<String, dynamic>? body,

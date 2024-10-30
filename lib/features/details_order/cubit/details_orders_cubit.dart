@@ -54,14 +54,14 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
 
   void openGoogleMapsRoute(double originLat, double originLng,
       double destinationLat, double destinationLng) async {
-print('origin=$originLat,$originLng');
+    print('origin=$originLat,$originLng');
 
     final url =
         'https://www.google.com/maps/dir/?api=1&origin=$originLat,$originLng&destination=$destinationLat,$destinationLng';
     try {
       launchUrl(Uri.parse(url));
     } catch (e) {
-    errorGetBar("error from map");
+      errorGetBar("error from map");
     }
   }
 
@@ -252,37 +252,63 @@ print('origin=$originLat,$originLng');
   addAndRemoveToBasket({
     required bool isAdd,
     required OrderLine product,
+    bool isReturned = false, // لتحديد اذا كانت عملية إرجاع
   }) {
     emit(LoadingTheQuantityCount());
 
+    // الحد الأقصى المسموح به بناءً على الحالة
+    final int maxQuantityAllowed = isReturned
+        ? product.productUomQty // في حالة الإرجاع، نستخدم الكمية المتاحة الأصلية
+        : 9999; // رقم تعسفي يسمح بإضافة غير محدودة عند عدم وجود إرجاع
+
     if (isAdd) {
+      // منطق إضافة الكمية مع التأكد من عدم تجاوز الحد الأقصى عند الإرجاع
       bool existsInBasket = getDetailsOrdersModel!.orderLines!
           .any((item) => item.id == product.id);
-      if (!existsInBasket) {
-        product.productUomQty = int.parse(product.productUomQty.toString()) + 1;
-        getDetailsOrdersModel!.orderLines?.add(product);
-        emit(IncreaseTheQuantityCount());
+      final existingProduct = existsInBasket
+          ? getDetailsOrdersModel!.orderLines!
+          .firstWhere((item) => item.id == product.id)
+          : null;
+
+      if (existsInBasket && existingProduct != null) {
+        if (existingProduct.productUomQty < maxQuantityAllowed) {
+          existingProduct.productUomQty++;
+          emit(IncreaseTheQuantityCount());
+        } else {
+          errorGetBar("لا يمكن إضافة أكثر من المتاح");
+        }
       } else {
-        final existingProduct = getDetailsOrdersModel!.orderLines!
-            .firstWhere((item) => item.id == product.id);
-        existingProduct.productUomQty =
-            int.parse(existingProduct.productUomQty.toString()) + 1;
-        emit(IncreaseTheQuantityCount());
-        debugPrint('::::::::: ${existingProduct.productUomQty}');
+        if (product.productUomQty < maxQuantityAllowed) {
+          product.productUomQty++;
+          getDetailsOrdersModel!.orderLines?.add(product);
+          emit(IncreaseTheQuantityCount());
+        } else {
+          errorGetBar("لا يمكن إضافة أكثر من المتاح");
+        }
       }
     } else {
-      if (product.productUomQty == 0) {
-        getDetailsOrdersModel!.orderLines
-            ?.removeWhere((item) => item.id == product.id);
-        listOfremovedItems.add(product.id);
-        emit(DecreaseTheQuantityCount());
-      } else {
-        product.productUomQty = int.parse(product.productUomQty.toString()) - 1;
-        emit(DecreaseTheQuantityCount());
+      // السماح بالنقصان بدون تجاوز الحد الأدنى، مع الحفاظ على الحد الأقصى المسموح به
+      bool existsInBasket = getDetailsOrdersModel!.orderLines!
+          .any((item) => item.id == product.id);
+      if (existsInBasket) {
+        final existingProduct = getDetailsOrdersModel!.orderLines!
+            .firstWhere((item) => item.id == product.id);
+        if (existingProduct.productUomQty > 1) {
+          existingProduct.productUomQty--;
+          emit(DecreaseTheQuantityCount());
+        } else {
+          getDetailsOrdersModel!.orderLines
+              ?.removeWhere((item) => item.id == product.id);
+          listOfremovedItems.add(product.id);
+          emit(DecreaseTheQuantityCount());
+        }
       }
     }
+
+    // تحديث إجمالي السلة
     totalBasket();
   }
+
 
   // List<OrderLine> basket = [];
   CreateOrderModel? updateOrderModel;
@@ -335,15 +361,14 @@ print('origin=$originLat,$originLng');
     result.fold((l) {
       emit(ErrorConfirmQuotation());
     }, (r) {
-
       if (r.result?.message == null) {
         errorGetBar('عدم كفاية المخزون لمنتج واحد أو أكثر');
       } else {
         getDetailsOrdersModel!.orderLines?.clear();
         context.read<DeleveryOrdersCubit>().getOrders();
         //! Make confirm quotation
-          Navigator.pushReplacementNamed(context, Routes.detailsOrder,
-          arguments: { 'isClientOrder':false,  'orderModel':orderModel});
+        Navigator.pushReplacementNamed(context, Routes.detailsOrder,
+            arguments: {'isClientOrder': false, 'orderModel': orderModel});
       }
 
       emit(LoadedConfirmQuotation());
