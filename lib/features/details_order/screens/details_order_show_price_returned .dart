@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:top_sale/core/utils/get_size.dart';
-import 'package:top_sale/features/details_order/screens/pdf.dart';
 import 'package:top_sale/features/details_order/screens/widgets/card_from_details_order.dart';
 import 'package:top_sale/features/details_order/screens/widgets/product_card.dart';
 import 'package:top_sale/features/details_order/screens/widgets/rounded_button.dart';
 import '../../../config/routes/app_routes.dart';
-import '../../../core/api/end_points.dart';
 import '../../../core/models/get_orders_model.dart';
 import 'package:easy_localization/easy_localization.dart' as tr;
 import '../../../core/utils/app_colors.dart';
@@ -19,8 +17,7 @@ import '../cubit/details_orders_state.dart';
 import 'widgets/custom_order_details_item.dart';
 
 class DetailsOrderShowPriceReturns extends StatefulWidget {
-  DetailsOrderShowPriceReturns(
-      {super.key, required this.orderModel, required this.isClientOrder});
+  DetailsOrderShowPriceReturns({super.key, required this.orderModel, required this.isClientOrder});
   bool isDelivered = false;
   bool isClientOrder;
   final OrderModel orderModel;
@@ -28,7 +25,6 @@ class DetailsOrderShowPriceReturns extends StatefulWidget {
   State<DetailsOrderShowPriceReturns> createState() =>
       _DetailsOrderShowPriceReturnsState();
 }
-
 class _DetailsOrderShowPriceReturnsState
     extends State<DetailsOrderShowPriceReturns> {
   @override
@@ -38,13 +34,11 @@ class _DetailsOrderShowPriceReturnsState
         .getDetailsOrders(orderId: widget.orderModel.id ?? -1);
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DetailsOrdersCubit, DetailsOrdersState>(
       builder: (context, state) {
         var cubit = context.read<DetailsOrdersCubit>();
-
         return Scaffold(
           backgroundColor: AppColors.white,
           appBar: AppBar(
@@ -216,19 +210,10 @@ class _DetailsOrderShowPriceReturnsState
                           MainAxisAlignment
                               .center,
                           children: [
-                            Center(
-                              child: Icon(
-                                Icons.print,
-                                color: AppColors
-                                    .white,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 5.w,
-                            ),
+
                             Center(
                               child: AutoSizeText(
-                                  'receipt_voucher'
+                                  'confirm_return'
                                       .tr(),
                                   textAlign:
                                   TextAlign
@@ -246,23 +231,10 @@ class _DetailsOrderShowPriceReturnsState
                           ],
                         ),
                         onPressed: () {
-                          if (cubit
-                              .getDetailsOrdersModel!
-                              .payments!
-                              .isNotEmpty) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder:
-                                      (context) {
-                                    return PdfViewerPage(
-                                      baseUrl:
-                                      '${EndPoints.printPayment}${cubit.getDetailsOrdersModel!.payments![0].paymentId.toString()}',
-                                    );
-                                    // return PaymentWebViewScreen(url: "",);
-                                  },
-                                ));
-                          }
+
+                           Navigator.pushNamed(context, Routes.detailsOrderReturns,
+                           arguments: {'isClientOrder': false, 'orderModel': widget.orderModel});
+
                         },
                       ),
                     ),
