@@ -197,7 +197,7 @@ class _ToggleSwitchWithLabelState extends State<ToggleSwitchWithLabel> {
                             .read<ClientsCubit>()
                             .startLocationUpdates(context);
                       } else {
-                        context.read<ClientsCubit>().stopLocationUpdates();
+                        context.read<ClientsCubit>().stopLocationUpdates(context);
                       }
 
                       cubit.changeTrackingState();
