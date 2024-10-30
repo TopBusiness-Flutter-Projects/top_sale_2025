@@ -258,7 +258,7 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
 
     // الحد الأقصى المسموح به بناءً على الحالة
     final int maxQuantityAllowed = isReturned
-        ? product.productUomQty // في حالة الإرجاع، نستخدم الكمية المتاحة الأصلية
+        ? product.oldQty // في حالة الإرجاع، نستخدم الكمية المتاحة الأصلية
         : 9999; // رقم تعسفي يسمح بإضافة غير محدودة عند عدم وجود إرجاع
 
     if (isAdd) {
@@ -267,7 +267,7 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
           .any((item) => item.id == product.id);
       final existingProduct = existsInBasket
           ? getDetailsOrdersModel!.orderLines!
-          .firstWhere((item) => item.id == product.id)
+              .firstWhere((item) => item.id == product.id)
           : null;
 
       if (existsInBasket && existingProduct != null) {
@@ -308,7 +308,6 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
     // تحديث إجمالي السلة
     totalBasket();
   }
-
 
   // List<OrderLine> basket = [];
   CreateOrderModel? updateOrderModel;
