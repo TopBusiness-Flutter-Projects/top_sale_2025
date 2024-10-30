@@ -184,24 +184,25 @@ class ClientsCubit extends Cubit<ClientsState> {
   void startLocationUpdates(BuildContext context) {
     // Fetch location immediately and set timer to update every 5 minutes
     print("start time");
-    updateLatLong(context);
+    updateLatLong(context,text: "(start)");
     // Set up a timer to fetch location every 5 minutes
     timer = Timer.periodic(const Duration(minutes: 30), (timer) {
       print("10 seconds then");
-      updateLatLong(context);
+      updateLatLong(context,text: "");
       debugPrint(" lat: ${currentLocation?.latitude}");
       debugPrint(" long: ${currentLocation?.longitude}");
     });
   }
 
-  void stopLocationUpdates() {
+  void stopLocationUpdates(BuildContext context,) {
+     updateLatLong(context,text: "(end)");
     if (timer != null && timer!.isActive) {
       timer!.cancel();
       print("Timer cancelled");
     }
   }
 
-  void updateLatLong(BuildContext context) async {
+  void updateLatLong(BuildContext context,{required String text}) async {
     emit(UpdateProfileUserLoading());
     if (context.read<ItineraryCubit>().getEmployeeDataModel != null) {
       if (context
@@ -212,7 +213,7 @@ class ClientsCubit extends Cubit<ClientsState> {
             await  getAddressFromLatLng(
             currentLocation!.latitude ?? 0.0, currentLocation!.longitude ?? 0.0);
         final result = await api.tracking(
-          name: address,
+          name:text+address,
             carId: context
                 .read<ItineraryCubit>()
                 .getEmployeeDataModel!
@@ -296,10 +297,8 @@ class ClientsCubit extends Cubit<ClientsState> {
         city = place.locality ?? "";
         address2 =
             "${place.street}, ${place.locality}, ${place.postalCode}, ${place.country}, ${place.administrativeArea}, ${place.name}, ${place.subLocality}, ${place.subThoroughfare}";
-      
         address =
-            " ${place.locality}, ${place.administrativeArea}";
-      
+            " ${place.locality}, ${place.administrativeArea}";      
         emit(GetCurrentLocationAddressState());
       } else {
         emit(ErrorCurrentLocationAddressState());
@@ -313,7 +312,6 @@ class ClientsCubit extends Cubit<ClientsState> {
     print(address);
     print(address2);
   }
-
 //create client
   CreateOrderModel? createOrderModel;
   void createClient(BuildContext context) async {
@@ -355,10 +353,8 @@ class ClientsCubit extends Cubit<ClientsState> {
         //!}
         );
   }
-
   // getPartnerDetails
   PartnerModel? partnerModel;
-
   void getParent({required int id}) async {
     emit(ProfileClientLoading());
     final result = await api.getPartnerDetails(partnerId: id);
