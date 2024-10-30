@@ -216,19 +216,10 @@ class _DetailsOrderShowPriceReturnsState
                           MainAxisAlignment
                               .center,
                           children: [
-                            Center(
-                              child: Icon(
-                                Icons.print,
-                                color: AppColors
-                                    .white,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 5.w,
-                            ),
+
                             Center(
                               child: AutoSizeText(
-                                  'receipt_voucher'
+                                  'confirm_return'
                                       .tr(),
                                   textAlign:
                                   TextAlign
@@ -246,23 +237,10 @@ class _DetailsOrderShowPriceReturnsState
                           ],
                         ),
                         onPressed: () {
-                          if (cubit
-                              .getDetailsOrdersModel!
-                              .payments!
-                              .isNotEmpty) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder:
-                                      (context) {
-                                    return PdfViewerPage(
-                                      baseUrl:
-                                      '${EndPoints.printPayment}${cubit.getDetailsOrdersModel!.payments![0].paymentId.toString()}',
-                                    );
-                                    // return PaymentWebViewScreen(url: "",);
-                                  },
-                                ));
-                          }
+
+                           Navigator.pushNamed(context, Routes.detailsOrderReturns,
+                           arguments: {'isClientOrder': false, 'orderModel': widget.orderModel});
+
                         },
                       ),
                     ),
