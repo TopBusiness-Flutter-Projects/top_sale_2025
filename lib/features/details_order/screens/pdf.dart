@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'dart:io'; // لإضافة التعامل مع الملفات
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
@@ -29,27 +30,34 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
   }
 
   Future<void> fetchPdfWithSession() async {
-    String? sessionId = await Preferences.instance.getSessionId();
-    String odooUrl =
-        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
-    String cookie = 'session_id=$sessionId';
+  String? sessionId = await Preferences.instance.getSessionId();
+  String odooUrl = await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+  String cookie = 'session_id=$sessionId';
 
-    final pdfResponse = await http.get(
-      Uri.parse(odooUrl + widget.baseUrl),
-      headers: {
-        'Cookie': cookie, // Pass the session cookie
-      },
+  try {
+    final dio = Dio();
+    final response = await dio.get(
+      odooUrl + widget.baseUrl,
+      options: Options(
+        headers: {
+          'Cookie': cookie, // Pass the session cookie
+        },
+        responseType: ResponseType.bytes, // Ensure response is in bytes for PDF
+      ),
     );
 
-    if (pdfResponse.statusCode == 200) {
+    if (response.statusCode == 200) {
       setState(() {
-        pdfBytes = pdfResponse.bodyBytes;
+        pdfBytes = response.data;
         isLoading = false;
       });
     } else {
       print('Failed to load PDF');
     }
+  } catch (e) {
+    print('Error fetching PDF: $e');
   }
+}
 
   // وظيفة المشاركة
   void sharePdf() async {

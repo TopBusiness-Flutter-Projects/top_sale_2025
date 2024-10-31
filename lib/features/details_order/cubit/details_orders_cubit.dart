@@ -18,6 +18,7 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
   DetailsOrdersCubit(this.api) : super(DetailsOrdersInitial());
   ServiceApi api;
   OrderDetailsModel? getDetailsOrdersModel;
+  OrderDetailsModel? getDetailsOrdersModelReturned;
   List list = [0, 1, 2, 3]; // 0 عرض سعر
   // جديدة
 
@@ -66,14 +67,18 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
   }
 
   TextEditingController moneyController = TextEditingController();
-  Future<void> getDetailsOrders({required int orderId}) async {
+  Future<void> getDetailsOrders({required int orderId , bool isReturned = false}) async {
     emit(GetDetailsOrdersLoadingState());
     final result = await api.getOrderDetails(orderId: orderId);
     result.fold(
       (failure) =>
           emit(GetDetailsOrdersErrorState('Error loading  data: $failure')),
       (r) {
+        isReturned?
+         getDetailsOrdersModelReturned = r
+        :
         getDetailsOrdersModel = r;
+
         if (r.payments!.isNotEmpty) page = 4;
         emit(GetDetailsOrdersLoadedState());
       },
