@@ -153,6 +153,7 @@ class HomeCubit extends Cubit<HomeState> {
         Preferences.instance.removeUserName();
         Preferences.instance.removeEmployeeId();
         Preferences.instance.removeEmployeeIdNumber();
+        Preferences.instance.removeIsInTrip();
         debugPrint("user");
 
         // name= getUserDataModel?.name.toString()??"";
@@ -160,6 +161,7 @@ class HomeCubit extends Cubit<HomeState> {
         Preferences.instance.removeUserName();
         Preferences.instance.removeEmployeeId();
         Preferences.instance.removeEmployeeIdNumber();
+        Preferences.instance.removeIsInTrip();
         debugPrint("employee");
         // getEmployeeData();
 

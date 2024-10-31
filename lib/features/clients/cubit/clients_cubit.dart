@@ -10,6 +10,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as loc;
 import 'package:permission_handler/permission_handler.dart' as perm;
+import 'package:top_sale/core/preferences/preferences.dart';
 import 'package:top_sale/core/utils/appwidget.dart';
 import 'package:top_sale/features/Itinerary/cubit/cubit.dart';
 import 'package:top_sale/features/clients/cubit/clients_state.dart';
@@ -145,6 +146,10 @@ class ClientsCubit extends Cubit<ClientsState> {
         currentLocation = location;
         getAddressFromLatLng(
             location.latitude ?? 0.0, location.longitude ?? 0.0);
+        bool isInTrip = await Preferences.instance.getIsInTrip();
+        if (isInTrip) {
+          startLocationUpdates(context, isStart: false);
+        }
         emit(GetCurrentLocationState());
         debugPrint("lat: ${currentLocation?.latitude}");
         debugPrint("long: ${currentLocation?.longitude}");
@@ -181,28 +186,34 @@ class ClientsCubit extends Cubit<ClientsState> {
   }
 
   Timer? timer;
-  void startLocationUpdates(BuildContext context) {
+  Future<void> startLocationUpdates(BuildContext context,
+      {bool isStart = true}) async {
     // Fetch location immediately and set timer to update every 5 minutes
     print("start time");
-    updateLatLong(context,text: "(start)");
+
+    updateLatLong(context, text: isStart ? "(start)" : "");
+    await Preferences.instance.setIsInTrip(true);
     // Set up a timer to fetch location every 5 minutes
     timer = Timer.periodic(const Duration(minutes: 30), (timer) {
       print("10 seconds then");
-      updateLatLong(context,text: "");
+      updateLatLong(context, text: "");
       debugPrint(" lat: ${currentLocation?.latitude}");
       debugPrint(" long: ${currentLocation?.longitude}");
     });
   }
 
-  void stopLocationUpdates(BuildContext context,) {
-     updateLatLong(context,text: "(end)");
+  void stopLocationUpdates(
+    BuildContext context,
+  ) async {
+    updateLatLong(context, text: "(end)");
+    await Preferences.instance.setIsInTrip(false);
     if (timer != null && timer!.isActive) {
       timer!.cancel();
       print("Timer cancelled");
     }
   }
 
-  void updateLatLong(BuildContext context,{required String text}) async {
+  void updateLatLong(BuildContext context, {required String text}) async {
     emit(UpdateProfileUserLoading());
     if (context.read<ItineraryCubit>().getEmployeeDataModel != null) {
       if (context
@@ -210,10 +221,10 @@ class ClientsCubit extends Cubit<ClientsState> {
           .getEmployeeDataModel!
           .carIds!
           .isNotEmpty) {
-            await  getAddressFromLatLng(
-            currentLocation!.latitude ?? 0.0, currentLocation!.longitude ?? 0.0);
+        await getAddressFromLatLng(currentLocation!.latitude ?? 0.0,
+            currentLocation!.longitude ?? 0.0);
         final result = await api.tracking(
-          name:text+address,
+            name: text + address,
             carId: context
                 .read<ItineraryCubit>()
                 .getEmployeeDataModel!
@@ -297,8 +308,7 @@ class ClientsCubit extends Cubit<ClientsState> {
         city = place.locality ?? "";
         address2 =
             "${place.street}, ${place.locality}, ${place.postalCode}, ${place.country}, ${place.administrativeArea}, ${place.name}, ${place.subLocality}, ${place.subThoroughfare}";
-        address =
-            " ${place.locality}, ${place.administrativeArea}";      
+        address = " ${place.locality}, ${place.administrativeArea}";
         emit(GetCurrentLocationAddressState());
       } else {
         emit(ErrorCurrentLocationAddressState());
@@ -312,6 +322,7 @@ class ClientsCubit extends Cubit<ClientsState> {
     print(address);
     print(address2);
   }
+
 //create client
   CreateOrderModel? createOrderModel;
   void createClient(BuildContext context) async {
@@ -353,6 +364,7 @@ class ClientsCubit extends Cubit<ClientsState> {
         //!}
         );
   }
+
   // getPartnerDetails
   PartnerModel? partnerModel;
   void getParent({required int id}) async {

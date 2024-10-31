@@ -190,6 +190,7 @@ class OrderLine {
   int? productId;
   dynamic productName;
   dynamic productUomQty;
+  dynamic oldQty;
   dynamic priceUnit;
   dynamic discount;
   dynamic priceSubtotal;
@@ -200,6 +201,7 @@ class OrderLine {
     this.productId,
     this.productName,
     this.productUomQty,
+    this.oldQty,
     this.priceUnit,
     this.discount,
     this.priceSubtotal,
@@ -211,6 +213,10 @@ class OrderLine {
         productId: json["product_id"],
         productName: json["product_name"],
         productUomQty: int.parse(
+            double.parse(json["product_uom_qty"].toString())
+                .round()
+                .toString()),
+        oldQty: int.parse(
             double.parse(json["product_uom_qty"].toString())
                 .round()
                 .toString()),
@@ -226,7 +232,7 @@ class OrderLine {
         "id": id,
         "product_id": productId,
         "product_name": productName,
-        "product_uom_qty": productUomQty,
+        "product_uom_qty": productUomQty,       
         "price_unit": priceUnit,
         "discount": discount,
         "price_subtotal": priceSubtotal,

@@ -158,7 +158,7 @@ class ServiceApi {
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.toString()));
     }
-  }
+  }  
   Future<Either<Failure, DefaultModel>> tracking({
     required double lat,
     required double long,

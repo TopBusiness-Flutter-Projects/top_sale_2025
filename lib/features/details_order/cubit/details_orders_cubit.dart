@@ -18,6 +18,7 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
   DetailsOrdersCubit(this.api) : super(DetailsOrdersInitial());
   ServiceApi api;
   OrderDetailsModel? getDetailsOrdersModel;
+  OrderDetailsModel? getDetailsOrdersModelReturned;
   List list = [0, 1, 2, 3]; // 0 عرض سعر
   // جديدة
 
@@ -66,14 +67,18 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
   }
 
   TextEditingController moneyController = TextEditingController();
-  Future<void> getDetailsOrders({required int orderId}) async {
+  Future<void> getDetailsOrders({required int orderId , bool isReturned = false}) async {
     emit(GetDetailsOrdersLoadingState());
     final result = await api.getOrderDetails(orderId: orderId);
     result.fold(
       (failure) =>
           emit(GetDetailsOrdersErrorState('Error loading  data: $failure')),
       (r) {
+        isReturned?
+         getDetailsOrdersModelReturned = r
+        :
         getDetailsOrdersModel = r;
+
         if (r.payments!.isNotEmpty) page = 4;
         emit(GetDetailsOrdersLoadedState());
       },
@@ -258,7 +263,7 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
 
     // الحد الأقصى المسموح به بناءً على الحالة
     final int maxQuantityAllowed = isReturned
-        ? product.productUomQty // في حالة الإرجاع، نستخدم الكمية المتاحة الأصلية
+        ? product.oldQty // في حالة الإرجاع، نستخدم الكمية المتاحة الأصلية
         : 9999; // رقم تعسفي يسمح بإضافة غير محدودة عند عدم وجود إرجاع
 
     if (isAdd) {
@@ -267,7 +272,7 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
           .any((item) => item.id == product.id);
       final existingProduct = existsInBasket
           ? getDetailsOrdersModel!.orderLines!
-          .firstWhere((item) => item.id == product.id)
+              .firstWhere((item) => item.id == product.id)
           : null;
 
       if (existsInBasket && existingProduct != null) {
@@ -308,7 +313,6 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
     // تحديث إجمالي السلة
     totalBasket();
   }
-
 
   // List<OrderLine> basket = [];
   CreateOrderModel? updateOrderModel;
