@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:top_sale/config/routes/app_routes.dart';
+import 'package:top_sale/core/models/return_model.dart';
 import 'package:top_sale/core/remote/service.dart';
 import 'package:top_sale/core/utils/appwidget.dart';
 import 'package:top_sale/core/utils/dialogs.dart';
@@ -351,6 +352,47 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
             userId: orderModel.userId,
             writeDate: orderModel.writeDate),
       );
+      emit(LoadedUpdateQuotation());
+    });
+  }
+  ReturnOrderModel? returnOrderModel;
+  returnOrder({
+    required int orderId,
+    required BuildContext context,
+    required OrderModel orderModel,
+  }) async {
+    emit(LoadingUpdateQuotation());
+    final result = await api.returnOrder(
+      orderId: orderId,
+        products: getDetailsOrdersModel!.orderLines ?? [],
+       );
+    result.fold((l) {
+      emit(ErrorUpdateQuotation());
+    }, (r) {
+   //   listOfremovedItems.clear();
+if (r.result != null) {
+  if (r.result!.message != null) {
+    returnOrderModel = r;
+    successGetBar(r.result!.message);
+           Navigator
+                                                          .pushReplacementNamed(
+                                                              context,
+                                                              Routes
+                                                                  .detailsOrderReturns,
+                                                              arguments: {
+                                                            'isClientOrder':
+                                                                false,
+                                                            'orderModel': orderModel
+                                                          });
+  } else {
+    errorGetBar("error".tr());
+  }
+  
+}
+    //  updateOrderModel = r;
+      // successGetBar('Success Update Quotation');
+      debugPrint("Success Update Quotation");
+  
       emit(LoadedUpdateQuotation());
     });
   }

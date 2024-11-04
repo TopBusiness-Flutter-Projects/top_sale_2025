@@ -31,6 +31,7 @@ import 'package:top_sale/core/models/get_user_data_model.dart';
 import 'package:top_sale/core/models/login_model.dart';
 import 'package:top_sale/core/models/order_details_model.dart';
 import 'package:top_sale/core/models/partner_model.dart';
+import 'package:top_sale/core/models/return_model.dart';
 import 'package:top_sale/core/preferences/preferences.dart';
 import 'package:top_sale/core/utils/app_strings.dart';
 import '../api/base_api_consumer.dart';
@@ -158,7 +159,8 @@ class ServiceApi {
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.toString()));
     }
-  }  
+  }
+
   Future<Either<Failure, DefaultModel>> tracking({
     required double lat,
     required double long,
@@ -171,25 +173,25 @@ class ServiceApi {
         await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
     String partnerId = await Preferences.instance.getEmployeePartnerId() ?? "1";
     try {
-      final response = await dio.post(odooUrl + EndPoints.fleetLogs,//   /api/fleet.vehicle/$carId?query={id,name,license_plate,image_128}
+      final response = await dio.post(
+          odooUrl +
+              EndPoints
+                  .fleetLogs, //   /api/fleet.vehicle/$carId?query={id,name,license_plate,image_128}
           options: Options(
             headers: {"Cookie": "session_id=$sessionId"},
           ),
-          body:
-          {
-    "params": {
-        "data": {
-            "name": name,
-            "vehicle_id": carId,
-            "driver_id": int.parse(partnerId),
-            "latitude":lat,
-            "longitude":long,
-            "date":date
-        }
-    }
-}
-          
-         );
+          body: {
+            "params": {
+              "data": {
+                "name": name,
+                "vehicle_id": carId,
+                "driver_id": int.parse(partnerId),
+                "latitude": lat,
+                "longitude": long,
+                "date": date
+              }
+            }
+          });
       return Right(DefaultModel.fromJson(response));
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.toString()));
@@ -291,19 +293,16 @@ class ServiceApi {
     }
   }
 
-
   Future<Either<Failure, CarDetails>> getCarDetails(
-    {required int carId}) async {
- 
+      {required int carId}) async {
     try {
-  
       String odooUrl =
           await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
 
       String? sessionId = await Preferences.instance.getSessionId();
       final response = await dio.get(
         odooUrl +
-           '/api/fleet.vehicle/$carId?query={id,name,license_plate,image_128}' ,
+            '/api/fleet.vehicle/$carId?query={id,name,license_plate,image_128}',
         options: Options(
           headers: {"Cookie": "frontend_lang=en_US;session_id=$sessionId"},
         ),
@@ -334,11 +333,12 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
+
   Future<Either<Failure, GetCarIdsModel>> getEmployeeCarId() async {
     try {
       String employeeId = await Preferences.instance.getEmployeeId() ??
-        await Preferences.instance.getEmployeeIdNumber() ??
-        "1";
+          await Preferences.instance.getEmployeeIdNumber() ??
+          "1";
       String? sessionId = await Preferences.instance.getSessionId();
       String odooUrl =
           await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
@@ -731,6 +731,41 @@ class ServiceApi {
             }
           });
       return Right(CreateOrderModel.fromJson(response));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
+
+  Future<Either<Failure, ReturnOrderModel>> returnOrder(
+      {required int orderId, required List<OrderLine> products}) async {
+    String odooUrl =
+        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+    String? sessionId = await Preferences.instance.getSessionId();
+    String? employeeId = await Preferences.instance.getEmployeeId();
+    String userId = await Preferences.instance.getUserId() ?? "1";
+    AuthModel? authModel = await Preferences.instance.getUserModel();
+    try {
+      // Map the ProductModelData list to order_line format
+      List<Map<String, dynamic>> returnsProducts = products
+          .map((product) => {
+                "product_id": product.id,
+                "quantity": product.productUomQty,
+              })
+          .toList();
+
+      final response =
+          await dio.post(odooUrl + EndPoints.createInvoice + '$orderId/return',
+              options: Options(
+                headers: {"Cookie": "session_id=$sessionId"},
+              ),
+              body: {
+                 "return_location_id":null ,
+            "return_quantities": returnsProducts,
+            if (employeeId != null)
+              "employee_id": int.parse(employeeId.toString()),
+            "user_id": int.parse(userId)
+          });
+      return Right(ReturnOrderModel.fromJson(response));
     } on ServerException {
       return Left(ServerFailure());
     }
@@ -1216,7 +1251,8 @@ class ServiceApi {
     //     "1";
     try {
       final response = await dio.get(
-        odooUrl + '/api/product.product/?query={id,name,image_1920}&filter=[["can_be_expensed","=","True"]]',
+        odooUrl +
+            '/api/product.product/?query={id,name,image_1920}&filter=[["can_be_expensed","=","True"]]',
         options: Options(
           headers: {"Cookie": "session_id=$sessionId"},
         ),

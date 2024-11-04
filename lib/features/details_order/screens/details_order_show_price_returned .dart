@@ -2,7 +2,9 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:top_sale/core/api/end_points.dart';
 import 'package:top_sale/core/utils/get_size.dart';
+import 'package:top_sale/features/details_order/screens/pdf.dart';
 import 'package:top_sale/features/details_order/screens/widgets/card_from_details_order.dart';
 import 'package:top_sale/features/details_order/screens/widgets/product_card.dart';
 import 'package:top_sale/features/details_order/screens/widgets/rounded_button.dart';
@@ -174,30 +176,36 @@ class _DetailsOrderShowPriceReturnsState
                                               .isNotEmpty &&
                                           cubit.getDetailsOrdersModel!.payments!
                                               .isEmpty)
-                                      ? widget.isClientOrder == true
-                                          ? const Expanded(child: SizedBox())
-                                          : Expanded(
+                                      ?  Expanded(
                                               child: Padding(
                                                 padding:
                                                     const EdgeInsets.all(10.0),
                                                 child: RoundedButton(
                                                   text: 'confirm_return'.tr(),
                                                   onPressed: () {
-                                                    setState(() {
-                                                      Navigator
-                                                          .pushReplacementNamed(
-                                                              context,
-                                                              Routes
-                                                                  .detailsOrderReturns,
-                                                              arguments: {
-                                                            'isClientOrder':
-                                                                false,
-                                                            'orderModel': widget
+                                                    cubit.returnOrder(
+                                                        orderId: widget
                                                                 .orderModel
-                                                          });
-                                                      // cubit.createAndValidateInvoice(
-                                                      //     orderId: widget.orderModel.id ?? -1);
-                                                    });
+                                                                .id ??
+                                                            -1,
+                                                        orderModel:
+                                                            widget.orderModel,
+                                                        context: context);
+                                                    // setState(() {
+                                                    //   Navigator
+                                                    //       .pushReplacementNamed(
+                                                    //           context,
+                                                    //           Routes
+                                                    //               .detailsOrderReturns,
+                                                    //           arguments: {
+                                                    //         'isClientOrder':
+                                                    //             false,
+                                                    //         'orderModel': widget
+                                                    //             .orderModel
+                                                    //       });
+                                                    //   // cubit.createAndValidateInvoice(
+                                                    //   //     orderId: widget.orderModel.id ?? -1);
+                                                    // });
                                                   },
                                                   backgroundColor:
                                                       AppColors.blue,
@@ -235,13 +243,20 @@ class _DetailsOrderShowPriceReturnsState
                                                 ],
                                               ),
                                               onPressed: () {
-                                                Navigator.pushNamed(context,
-                                                    Routes.detailsOrderReturns,
-                                                    arguments: {
-                                                      'isClientOrder': false,
-                                                      'orderModel':
-                                                          widget.orderModel
-                                                    });
+                                                 cubit.returnOrder(
+                                                        orderId: widget
+                                                                .orderModel
+                                                                .id ??
+                                                            -1,
+                                                        orderModel:
+                                                            widget.orderModel,
+                                                        context: context);
+                                                
+                                               
+
+                                                // Navigator.pushNamed(context, Routes.paymentRoute);
+                                                // cubit.createAndValidateInvoice(
+                                                //     orderId: widget.orderModel.id ?? -1);
                                               },
                                             ),
                                           ),
@@ -272,22 +287,7 @@ class _DetailsOrderShowPriceReturnsState
                                                 )),
                                           ],
                                         ),
-                                        onPressed: () {
-                                          // Navigator.push(context,
-                                          //     MaterialPageRoute(
-                                          //       builder: (context) {
-                                          //         return PdfViewerPage(
-                                          //           baseUrl:
-                                          //           '/report/pdf/account.report_invoice_with_payments/${cubit.getDetailsOrdersModel!.invoices!.first.invoiceId.toString()}',
-                                          //         );
-                                          //         // return PaymentWebViewScreen(url: "",);
-                                          //       },
-                                          //     ));
-                                          //
-                                          // // Navigator.pushNamed(context, Routes.paymentRoute);
-                                          // // cubit.createAndValidateInvoice(
-                                          // //     orderId: widget.orderModel.id ?? -1);
-                                        },
+                                        onPressed: () {},
                                       ),
                                     ),
                                   ),

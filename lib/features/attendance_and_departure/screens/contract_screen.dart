@@ -53,6 +53,9 @@ class _ContractScreenState extends State<ContractScreen> {
             ? const Center(
                 child: CircularProgressIndicator(),
               )
+            :
+            cubit.contractDetails!.contractDetails == null ?
+          Text("لا يوجد معلومات")
             : Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,

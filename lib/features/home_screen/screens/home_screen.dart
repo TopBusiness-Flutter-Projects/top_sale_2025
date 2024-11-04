@@ -106,12 +106,12 @@ class _HomeScreenState extends State<HomeScreen> {
                               context, Routes.receiptVoucherRoute,
                               arguments: false);
                         }),
-                    CardHome(
-                        text: "returns".tr(),
-                        image: ImageAssets.cartIcon,
-                        onPressed: () {
-                          Navigator.pushNamed(context, Routes.returnsRoute);
-                        }),
+                    // CardHome(
+                    //     text: "returns".tr(),
+                    //     image: ImageAssets.cartIcon,
+                    //     onPressed: () {
+                    //       Navigator.pushNamed(context, Routes.returnsRoute);
+                    //     }),
                   ],
                 ),
               ]),
