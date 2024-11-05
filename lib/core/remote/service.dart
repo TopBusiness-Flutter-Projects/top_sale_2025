@@ -33,6 +33,7 @@ import 'package:top_sale/core/models/order_details_model.dart';
 import 'package:top_sale/core/models/partner_model.dart';
 import 'package:top_sale/core/models/return_model.dart';
 import 'package:top_sale/core/models/returned_order_model.dart';
+import 'package:top_sale/core/models/rigister_payment_model.dart';
 import 'package:top_sale/core/preferences/preferences.dart';
 import 'package:top_sale/core/utils/app_strings.dart';
 import '../api/base_api_consumer.dart';
@@ -600,7 +601,9 @@ class ServiceApi {
       final response = await dio.get(
         odooUrl +
             EndPoints.saleOrder +
-            '?query={id,user_id,partner_id{id,name,phone,partner_latitude,partner_longitude},currency_id{name},display_name,state,write_date,amount_total,invoice_status,delivery_status,employee_id{id,name}}&page_size=20&page=1',
+            '?query={id,user_id,partner_id{id,name,phone,partner_latitude,partner_longitude},currency_id{name},display_name,state,write_date,amount_total,invoice_status,delivery_status,employee_id{id,name}}&page_size=20&page=1&filter=[["delivery_status", "!=","returned"]]',
+            //             '?query={id,user_id,partner_id{id,name,phone,partner_latitude,partner_longitude},currency_id{name},display_name,state,write_date,amount_total,invoice_status,delivery_status,employee_id{id,name}}&page_size=20&page=1&filter=[["delivery_status", "!=","started"]]',
+
         // '?query={id,partner_id,display_name,state,write_date,amount_total}&filter=[["user_id", "=",1]]',
         options: Options(
           headers: {"Cookie": "session_id=$sessionId"},
@@ -772,6 +775,32 @@ class ServiceApi {
     }
   }
 
+  Future<Either<Failure, DefaultModel>> updateDelivery({
+    required int orderId,
+  }) async {
+    String? sessionId = await Preferences.instance.getSessionId();
+    String odooUrl =
+        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+    String userId = await Preferences.instance.getUserId() ?? "1";
+    try {
+      final response = await dio.put(odooUrl + EndPoints.resUsers,
+          options: Options(
+            headers: {"Cookie": "session_id=$sessionId"},
+          ),
+          body: {
+            "params": {
+              "filter": [
+                ["id", "=", orderId]
+              ],
+              "data": {"delivery_status": "returned"}
+            }
+          });
+      return Right(DefaultModel.fromJson(response));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
+
 // create quatation
   Future<Either<Failure, CreateOrderModel>> updateQuotation(
       {required int partnerId,
@@ -935,6 +964,42 @@ class ServiceApi {
       // Log response data for debugging
 
       return Right(ReturnedOrderModel.fromJson(response));
+    } on ServerException {
+      print("fail");
+      return Left(ServerFailure());
+    }
+  }
+
+  // registerPaymentreturn
+  Future<Either<Failure, RegisterPaymentModel>> registerPaymentReturn({
+    required int invoiceId,
+    required int journalId,
+    required String amount,
+  }) async {
+    String odooUrl =
+        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+    String? sessionId = await Preferences.instance.getSessionId();
+
+    String? employeeId = await Preferences.instance.getEmployeeId();
+    String userId = await Preferences.instance.getUserId() ?? "1";
+
+    try {
+      final response = await dio.post(
+        odooUrl + "//register_payment_credit/$invoiceId",
+        options: Options(
+          headers: {"Cookie": "session_id=$sessionId"},
+        ),
+        body: {
+          if (employeeId != null) "employee_id": int.parse(employeeId),
+          "user_id": int.parse(userId),
+          "journal_id": journalId,
+          "amount": double.parse(amount)
+        },
+      );
+
+      // Log response data for debugging
+
+      return Right(RegisterPaymentModel.fromJson(response));
     } on ServerException {
       print("fail");
       return Left(ServerFailure());
@@ -1375,7 +1440,6 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
-
   Future<Either<Failure, ApproveExpensesModel>> approveExpense({
     required int journalId,
     required int expenseId,

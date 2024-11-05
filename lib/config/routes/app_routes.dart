@@ -134,8 +134,10 @@ class AppRoutes {
           builder: (context) => const DeleveryOrderScreen(),
         );
       case Routes.paymentRoute:
+        bool isReturned = settings.arguments as bool;
+
         return MaterialPageRoute(
-          builder: (context) => const PaymentScreen(),
+          builder: (context) =>  PaymentScreen(isReturn: isReturned,),
         );
       case Routes.detailsOrder:
         final Map<String, dynamic> arguments =

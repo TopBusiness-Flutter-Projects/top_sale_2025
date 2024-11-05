@@ -456,7 +456,7 @@ class _DetailsOrderState extends State<DetailsOrder> {
                                                                     Navigator.pushNamed(
                                                                         context,
                                                                         Routes
-                                                                            .paymentRoute);
+                                                                            .paymentRoute,arguments: false);
                                                                     // cubit.createAndValidateInvoice(
                                                                     //     orderId: widget.orderModel.id ?? -1);
                                                                   });

@@ -252,9 +252,7 @@ class DirectSellCubit extends Cubit<DirectSellState> {
       updateUserOrderedQuantities(allProductsModel);
       updateUserOrderedQuantities(homeProductsModel);
       // updateUserOrderedQuantities(s);
-
-      updateUserOrderedQuantities(searchedProductsModel);
-
+      // updateUserOrderedQuantities(searchedProductsModel);
       emit(LoadedProductByCatogrey(allProductmodel: allProductsModel));
     });
   }

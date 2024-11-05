@@ -3,13 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:top_sale/features/details_order/screens/widgets/payment_option.dart';
 import 'package:top_sale/features/details_order/screens/widgets/shard_appbar_app.dart';
 
-class PaymentScreen extends StatefulWidget {
-  const PaymentScreen({super.key});
-  @override
-  State<PaymentScreen> createState() => _DetailsOrderState();
-}
-
-class _DetailsOrderState extends State<PaymentScreen> {
+class PaymentScreen extends StatelessWidget {
+  const PaymentScreen({super.key, required this.isReturn});
+  final bool isReturn;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -20,12 +16,12 @@ class _DetailsOrderState extends State<PaymentScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SharedAppBarApp(title: "payment".tr()),
-            const Padding(
+             Padding(
               padding: EdgeInsets.all(8.0),
-              child: PaymentOptions(
+              child: PaymentOptions(isReturn: isReturn),
 
               ),
-            ),
+           
           ],
         ),
 

@@ -8,6 +8,7 @@ import 'package:top_sale/core/utils/app_fonts.dart';
 import 'package:top_sale/features/returns/cubit/returns_cubit.dart';
 import 'package:top_sale/features/returns/cubit/returns_state.dart';
 import '../../../config/routes/app_routes.dart';
+import 'package:top_sale/features/home_screen/cubit/cubit.dart';
 
 class ReturnsScreen extends StatefulWidget {
   const ReturnsScreen({super.key});
@@ -19,9 +20,7 @@ class ReturnsScreen extends StatefulWidget {
 class _ReturnsScreenState extends State<ReturnsScreen> {
   @override
   void initState() {
-    context.read<ReturnsCubit>().getReturned(
-
-    );
+    context.read<ReturnsCubit>().getReturned();
     super.initState();
   }
 
@@ -70,16 +69,17 @@ class _ReturnsScreenState extends State<ReturnsScreen> {
               //     color: AppColors.gray2,
               //   ),
               // ),
+
               SizedBox(height: 20.h),
               cubit.returnOrderModel == null ||
                       cubit.returnOrderModel!.result == null
                   ? const Center(child: CircularProgressIndicator())
-                  : cubit.returnOrderModel!.result!.returnedOrders!.isEmpty
+                  : cubit.returnOrderModel!.result!.data!.isEmpty
                       ? Center(child: Text("no_data".tr()))
                       : Expanded(
                           child: ListView.builder(
                               itemCount: cubit.returnOrderModel?.result
-                                      ?.returnedOrders?.length ??
+                                      ?.data?.length ??
                                   0,
                               itemBuilder: (context, index) {
                                 return Column(
@@ -98,12 +98,12 @@ class _ReturnsScreenState extends State<ReturnsScreen> {
                                               BoxShadow(
                                                 blurStyle: BlurStyle.outer,
                                                 color: Colors.black.withOpacity(
-                                                    0.1), // لون الظل مع تقليل الشفافية
+                                                    0.1),
                                                 spreadRadius:
-                                                    1, // مدى انتشار الظل
-                                                blurRadius: 4, // مدى نعومة الظل
+                                                    1,
+                                                blurRadius: 4,
                                                 offset: const Offset(0,
-                                                    1), // الاتجاه الأفقي والرأسي للظل
+                                                    1),
                                               ),
                                             ],
                                             color: AppColors.white,
@@ -127,27 +127,21 @@ class _ReturnsScreenState extends State<ReturnsScreen> {
                                                       Icon(Icons.person, color: AppColors.gray2, size: 20.sp,),
                                                       SizedBox(width: 5.sp,),
                                                       AutoSizeText(
-                                                        cubit.returnOrderModel?.result?.returnedOrders?.elementAt(index).partnerName ?? "",
+                                                        cubit.returnOrderModel?.result?.data?.elementAt(index).employeeName ?? "",
                                                         style: getBoldStyle(
                                                             color: AppColors.black,
                                                             fontSize: 14.sp),
                                                       ),
                                                     ],
                                                   ),
-                                                  Container(
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadiusDirectional.circular(8.sp),
-                                                      color: AppColors.blue.withOpacity(0.5),
-                                                    ),
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.only(left: 5,right: 5,top: 2,bottom: 2),
-                                                      child: AutoSizeText(
-                                                          cubit.returnOrderModel?.result?.returnedOrders?.elementAt(index).state ?? "",
-                                                          style: getBoldStyle(
-                                                              color:
-                                                              AppColors.blue,
-                                                              fontSize: 14.sp)),
-                                                    ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 5,right: 5,top: 2,bottom: 2),
+                                                    child: AutoSizeText(
+                                                        cubit.returnOrderModel?.result?.data?.elementAt(index).date.toString().substring(0,10) ?? "",
+                                                        style: getBoldStyle(
+                                                            color:
+                                                            AppColors.black,
+                                                            fontSize: 14.sp)),
                                                   ),
 
                                                 ],
@@ -157,13 +151,13 @@ class _ReturnsScreenState extends State<ReturnsScreen> {
                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
                                                   AutoSizeText(
-                                                    cubit.returnOrderModel?.result?.returnedOrders?.elementAt(index).origin ?? "",
+                                                    cubit.returnOrderModel?.result?.data?.elementAt(index).name ?? "",
                                                     style: getBoldStyle(
                                                         color: AppColors.black,
                                                         fontSize: 14.sp),
                                                   ),
                                                   AutoSizeText(
-                                                    (cubit.returnOrderModel?.result?.returnedOrders?.elementAt(index).dateDone == false) ? "": cubit.returnOrderModel?.result?.returnedOrders?.elementAt(index).dateDone?.substring(0, 10),
+                                                      cubit.returnOrderModel?.result?.data?.elementAt(index).amountTotal?.toStringAsFixed(0) +"  ${context.read<HomeCubit>().currencyName}",
                                                     style: getBoldStyle(
                                                         color: AppColors.blue,
                                                         fontSize: 14.sp),
@@ -171,6 +165,8 @@ class _ReturnsScreenState extends State<ReturnsScreen> {
 
                                                 ],
                                               ),
+                                              SizedBox(height: 10.sp,),
+                                              Text(cubit.returnOrderModel?.result?.status!.toString() == "false" ? "":cubit.returnOrderModel?.result?.status.toString(),style:getMediumStyle())
                                             ],
                                           )),
                                     )

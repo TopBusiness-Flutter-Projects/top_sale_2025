@@ -170,7 +170,7 @@ class ClientsCubit extends Cubit<ClientsState> {
           newLocationData.latitude ?? 0.0,
           newLocationData.longitude ?? 0.0,
         );
-        debugPrint("Movedddd: $distance meters");
+      //  debugPrint("Movedddd: $distance meters");
         if (distance > 8) {
           currentLocation = newLocationData;
           // getAddressFromLatLng(newLocationData.latitude ?? 0.0, newLocationData.longitude ?? 0.0);
