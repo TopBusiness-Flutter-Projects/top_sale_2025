@@ -1,57 +1,87 @@
 import 'dart:convert';
 import 'dart:typed_data';
-
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../utils/app_colors.dart';
-import '../utils/app_fonts.dart';
-import '../utils/assets_manager.dart';
+import 'package:top_sale/core/utils/assets_manager.dart';
 
 class CustomDecodedImageWithText extends StatelessWidget {
-  const CustomDecodedImageWithText(
-      {super.key,
-      required this.base64String,
-      required this.context,
-      this.height,
-      this.character,
-      this.width});
-  final String? character;
+  const CustomDecodedImageWithText({
+    super.key,
+    required this.base64String,
+    this.height,
+    this.character,
+    this.width,
+  });
 
+  final String? character;
   final dynamic base64String;
-  final BuildContext context;
   final double? height;
   final double? width;
-  Widget convertImage() {
-    var image;
-    if (base64String.runtimeType == String) {
-      Uint8List bytes = base64.decode(base64String);
-      image = Image.memory(
-        Uint8List.fromList(bytes),
-        height: height,
-        width: width,
-        fit: BoxFit.cover,
-      );
-    } else {
-      image = Center(
-          child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Image.asset(
-            ImageAssets.backgroundProduct,
-            height: height,
-            width: width,
-          ),
-          Text(character ?? '',
-              style: getBoldStyle(color: AppColors.black, fontSize: 18.sp)),
-        ],
-      ));
+
+  // Static cache to store decoded images
+  static final Map<String, Uint8List> _imageCache = {};
+
+  /// Decode the image only once and cache it
+  Uint8List? _getDecodedImage() {
+    if (base64String is! String) return null;
+
+    // Return cached image if available
+    if (_imageCache.containsKey(base64String)) {
+      return _imageCache[base64String];
     }
-    return image;
+
+    // Decode and cache new image
+    try {
+      final decoded = base64.decode(base64String);
+      _imageCache[base64String] = decoded;
+      return decoded;
+    } catch (e) {
+      debugPrint('Error decoding image: $e');
+      return null;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(child: convertImage());
+    // Use const for the style to prevent rebuilds
+    const textStyle = TextStyle(
+      // fontFamily: FontFamily.bold,
+      // color: AppColors.black,
+      fontSize: 18,
+    );
+
+    // Memoize the decoded bytes
+    final decodedBytes = _getDecodedImage();
+
+    // Use const where possible to prevent rebuilds
+    return RepaintBoundary(
+      child: decodedBytes != null
+          ? Image.memory(
+              decodedBytes,
+              height: height,
+              width: width,
+              fit: BoxFit.cover,
+              // Add caching for the image widget
+              cacheWidth: width?.toInt(),
+              cacheHeight: height?.toInt(),
+              gaplessPlayback: true,
+            )
+          : Center(
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Image.asset(
+                    ImageAssets.backgroundProduct,
+                    height: height,
+                    width: width,
+                  ),
+                  Text(
+                    character ?? '',
+                    style: textStyle,
+                  ),
+                ],
+              ),
+            ),
+    );
   }
 }

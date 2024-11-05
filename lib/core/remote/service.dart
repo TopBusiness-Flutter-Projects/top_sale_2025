@@ -32,6 +32,7 @@ import 'package:top_sale/core/models/login_model.dart';
 import 'package:top_sale/core/models/order_details_model.dart';
 import 'package:top_sale/core/models/partner_model.dart';
 import 'package:top_sale/core/models/return_model.dart';
+import 'package:top_sale/core/models/returned_order_model.dart';
 import 'package:top_sale/core/preferences/preferences.dart';
 import 'package:top_sale/core/utils/app_strings.dart';
 import '../api/base_api_consumer.dart';
@@ -737,30 +738,30 @@ class ServiceApi {
   }
 
   Future<Either<Failure, ReturnOrderModel>> returnOrder(
-      {required int orderId, required List<OrderLine> products}) async {
+      {required int pickingId, required List<OrderLine> products}) async {
     String odooUrl =
         await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
     String? sessionId = await Preferences.instance.getSessionId();
     String? employeeId = await Preferences.instance.getEmployeeId();
     String userId = await Preferences.instance.getUserId() ?? "1";
-    AuthModel? authModel = await Preferences.instance.getUserModel();
+    // AuthModel? authModel = await Preferences.instance.getUserModel();
     try {
       // Map the ProductModelData list to order_line format
       List<Map<String, dynamic>> returnsProducts = products
           .map((product) => {
-                "product_id": product.id,
+                "product_id": product.productId,
                 "quantity": product.productUomQty,
               })
           .toList();
 
       final response =
-          await dio.post(odooUrl + EndPoints.createInvoice + '$orderId/return',
+          await dio.post(odooUrl + EndPoints.returnOrder + '$pickingId',
               options: Options(
                 headers: {"Cookie": "session_id=$sessionId"},
               ),
               body: {
-                 "return_location_id":null ,
-            "return_quantities": returnsProducts,
+            //  "return_location_id":null ,
+            "products": returnsProducts,
             if (employeeId != null)
               "employee_id": int.parse(employeeId.toString()),
             "user_id": int.parse(userId)
@@ -906,6 +907,36 @@ class ServiceApi {
           });
       return Right(CreateOrderModel.fromJson(response));
     } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
+
+// returned order
+  Future<Either<Failure, ReturnedOrderModel>> returnedOrder() async {
+    String odooUrl =
+        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+    String? sessionId = await Preferences.instance.getSessionId();
+
+    String? employeeId = await Preferences.instance.getEmployeeId();
+    String userId = await Preferences.instance.getUserId() ?? "1";
+
+    try {
+      final response = await dio.post(
+        odooUrl + EndPoints.returnedOrder,
+        options: Options(
+          headers: {"Cookie": "session_id=$sessionId"},
+        ),
+        body: {
+          if (employeeId != null) "employee_id": int.parse(employeeId),
+          "user_id": int.parse(userId),
+        },
+      );
+
+      // Log response data for debugging
+
+      return Right(ReturnedOrderModel.fromJson(response));
+    } on ServerException {
+      print("fail");
       return Left(ServerFailure());
     }
   }

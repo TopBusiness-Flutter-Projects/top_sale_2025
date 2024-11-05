@@ -24,27 +24,28 @@ class EndPoints {
   static String objectSaleOrder = '/object/sale.order/';
   static String picking = '/api/picking/';
   static String createInvoice = '/api/sale_order/';
+  static String returnOrder = '/return_picking/';
   static String invoice = '/api/invoice/';
+  static String returnedOrder = '/api/sale_orders/returned';
   static String createQuotation = '/api/quotation/';
   static String updateQuotation = '/api/quotation/update/';
-  static String getAllJournals = '/api/account.journal/?query={id, display_name}';
+  static String getAllJournals =
+      '/api/account.journal/?query={id, display_name}';
   static String printOrder = '/report/pdf/sale.report_saleorder/';
   static String printPicking = '/report/pdf/stock.report_picking/';
   static String printPayment = '/report/pdf/account.report_payment_receipt/';
   static String printInvoice =
       '/report/pdf/account.report_invoice_with_payments/';
-  static String printPaySlip =
-      '/report/pdf/hr_payroll.report_payslip_lang/';
+  static String printPaySlip = '/report/pdf/hr_payroll.report_payslip_lang/';
   static String wareHouse = '/api/stock.warehouse/';
-   static String createPayment = '/api/payment/create';
-   /////////// HR/////////
-  
-   static String employee = '/api/employee/';
-   static String expense = '/api/expense/products';
+  static String createPayment = '/api/payment/create';
+  /////////// HR/////////
 
+  static String employee = '/api/employee/';
+  static String expense = '/api/expense/products';
 
   ///////
-    // static String authWithSession = "$baseUrl/web/session/authenticate";
+  // static String authWithSession = "$baseUrl/web/session/authenticate";
 
   // static String authWithSession = "$baseUrl/web/session/authenticate";
   // static String allCategoryProducts = '$baseUrl/api/product.product/';

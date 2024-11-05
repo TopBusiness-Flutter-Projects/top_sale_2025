@@ -68,17 +68,17 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
   }
 
   TextEditingController moneyController = TextEditingController();
-  Future<void> getDetailsOrders({required int orderId , bool isReturned = false}) async {
+  Future<void> getDetailsOrders(
+      {required int orderId, bool isReturned = false}) async {
     emit(GetDetailsOrdersLoadingState());
     final result = await api.getOrderDetails(orderId: orderId);
     result.fold(
       (failure) =>
           emit(GetDetailsOrdersErrorState('Error loading  data: $failure')),
       (r) {
-        isReturned?
-         getDetailsOrdersModelReturned = r
-        :
-        getDetailsOrdersModel = r;
+        isReturned
+            ? getDetailsOrdersModelReturned = r
+            : getDetailsOrdersModel = r;
 
         if (r.payments!.isNotEmpty) page = 4;
         emit(GetDetailsOrdersLoadedState());
@@ -355,44 +355,36 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
       emit(LoadedUpdateQuotation());
     });
   }
+
   ReturnOrderModel? returnOrderModel;
   returnOrder({
-    required int orderId,
+    required int pickingId,
     required BuildContext context,
     required OrderModel orderModel,
   }) async {
     emit(LoadingUpdateQuotation());
     final result = await api.returnOrder(
-      orderId: orderId,
-        products: getDetailsOrdersModel!.orderLines ?? [],
-       );
+      pickingId: pickingId,
+      products: getDetailsOrdersModel!.orderLines ?? [],
+    );
     result.fold((l) {
       emit(ErrorUpdateQuotation());
     }, (r) {
-   //   listOfremovedItems.clear();
-if (r.result != null) {
-  if (r.result!.message != null) {
-    returnOrderModel = r;
-    successGetBar(r.result!.message);
-           Navigator
-                                                          .pushReplacementNamed(
-                                                              context,
-                                                              Routes
-                                                                  .detailsOrderReturns,
-                                                              arguments: {
-                                                            'isClientOrder':
-                                                                false,
-                                                            'orderModel': orderModel
-                                                          });
-  } else {
-    errorGetBar("error".tr());
-  }
-  
-}
-    //  updateOrderModel = r;
+      //   listOfremovedItems.clear();
+      if (r.result != null) {
+        if (r.result!.message != null) {
+          returnOrderModel = r;
+          successGetBar(r.result!.message.toString());
+          Navigator.pushReplacementNamed(context, Routes.detailsOrderReturns,
+              arguments: {'isClientOrder': false, 'orderModel': orderModel});
+        } else {
+          errorGetBar((r.result!.error ?? "error".tr()));
+        }
+      }
+      //  updateOrderModel = r;
       // successGetBar('Success Update Quotation');
       debugPrint("Success Update Quotation");
-  
+
       emit(LoadedUpdateQuotation());
     });
   }

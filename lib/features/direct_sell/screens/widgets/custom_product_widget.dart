@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:top_sale/core/models/all_products_model.dart';
 import 'package:top_sale/core/utils/app_colors.dart';
 import 'package:top_sale/core/utils/app_fonts.dart';
+import 'package:top_sale/core/utils/app_strings.dart';
 import 'package:top_sale/core/utils/assets_manager.dart';
 import 'package:top_sale/core/utils/dialogs.dart';
 import 'package:top_sale/core/utils/get_size.dart';
@@ -64,8 +65,10 @@ class CustomProductWidget extends StatelessWidget {
                                               fontSize: 18.sp)),
                                     ],
                                   ))
-                                : CustomDecodedImageWithText(
-                                    context: context,
+                                :
+                               // Image.network("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYHcZPvy01X61yORcPE1zIvf7xnqkxS0-b8g&s")
+                                 CustomDecodedImageWithText(
+                                   // context: context,
                                     character: product.name!
                                         .trimLeft() // Remove only leading whitespace
                                         .substring(
@@ -74,8 +77,12 @@ class CustomProductWidget extends StatelessWidget {
                                                 ? 4
                                                 : product.name!.length)
                                         .toString(),
-                                    base64String: product.image1920,
-                                  )),
+                                   // base64String: AppStrings.base64image,
+                                     base64String: product.image1920,
+                                  
+                                  )
+                                  )
+                                  ,
                       ),
                       SizedBox(
                         height: 8.h,

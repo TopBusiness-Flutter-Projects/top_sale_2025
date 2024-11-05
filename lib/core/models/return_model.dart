@@ -25,29 +25,33 @@ class ReturnOrderModel {
 }
 
 class Result {
-    dynamic saleOrderId;
+    // dynamic saleOrderId;
     dynamic returnPickingId;
     dynamic creditNoteId;
     dynamic message;
+    dynamic error;
 
     Result({
-        this.saleOrderId,
+        // this.saleOrderId,
         this.returnPickingId,
         this.creditNoteId,
         this.message,
+        this.error,
     });
 
     factory Result.fromJson(Map<String, dynamic> json) => Result(
-        saleOrderId: json["sale_order_id"],
+     //   saleOrderId: json["sale_order_id"],
         returnPickingId: json["return_picking_id"],
-        creditNoteId: json["credit_note_id"],
-        message: json["message"],
+       creditNoteId: json["credit_note_id"],
+       message: json["status"],
+       error: json["error"],
     );
 
     Map<String, dynamic> toJson() => {
-        "sale_order_id": saleOrderId,
+        // "sale_order_id": saleOrderId,
         "return_picking_id": returnPickingId,
         "credit_note_id": creditNoteId,
-        "message": message,
+        "status": message,
+        "error": error,
     };
 }

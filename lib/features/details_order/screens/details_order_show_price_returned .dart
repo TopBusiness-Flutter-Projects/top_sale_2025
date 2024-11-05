@@ -170,13 +170,13 @@ class _DetailsOrderShowPriceReturnsState
                         ? Container()
                         : widget.isClientOrder == true
                             ? const SizedBox()
-                            : Row(
-                                children: [
-                                  (cubit.getDetailsOrdersModel!.invoices!
-                                              .isNotEmpty &&
-                                          cubit.getDetailsOrdersModel!.payments!
-                                              .isEmpty)
-                                      ?  Expanded(
+                            : cubit.getDetailsOrdersModel!.pickings!.isEmpty
+                                ? const SizedBox()
+                                : Row(
+                                    children: [
+                                      (cubit.getDetailsOrdersModel!.invoices!
+                                              .isNotEmpty)
+                                          ? Expanded(
                                               child: Padding(
                                                 padding:
                                                     const EdgeInsets.all(10.0),
@@ -184,10 +184,14 @@ class _DetailsOrderShowPriceReturnsState
                                                   text: 'confirm_return'.tr(),
                                                   onPressed: () {
                                                     cubit.returnOrder(
-                                                        orderId: widget
-                                                                .orderModel
-                                                                .id ??
+                                                        pickingId: cubit
+                                                                .getDetailsOrdersModel!
+                                                                .pickings
+                                                                ?.first
+                                                                .pickingId ??
                                                             -1,
+                                                        // widget.orderModel.id ??
+                                                        //     -1,
                                                         orderModel:
                                                             widget.orderModel,
                                                         context: context);
@@ -212,87 +216,84 @@ class _DetailsOrderShowPriceReturnsState
                                                 ),
                                               ),
                                             )
-                                      : Expanded(
-                                          child: Padding(
-                                            padding: EdgeInsets.all(12.0.sp),
-                                            child: ElevatedButton(
-                                              style: ButtonStyle(
-                                                backgroundColor:
-                                                    MaterialStateProperty.all(
-                                                        AppColors.blue),
-                                              ),
-                                              child: Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Center(
-                                                    child: AutoSizeText(
-                                                        'confirm_return'.tr(),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: TextStyle(
-                                                          color:
-                                                              AppColors.white,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 20.sp,
-                                                        )),
-                                                  ),
-                                                ],
-                                              ),
-                                              onPressed: () {
-                                                 cubit.returnOrder(
-                                                        orderId: widget
-                                                                .orderModel
-                                                                .id ??
-                                                            -1,
-                                                        orderModel:
-                                                            widget.orderModel,
-                                                        context: context);
-                                                
-                                               
+                                          : SizedBox(),
+                                      // Expanded(
+                                      //     child: Padding(
+                                      //       padding: EdgeInsets.all(12.0.sp),
+                                      //       child: ElevatedButton(
+                                      //         style: ButtonStyle(
+                                      //           backgroundColor:
+                                      //               MaterialStateProperty.all(
+                                      //                   AppColors.blue),
+                                      //         ),
+                                      //         child: Row(
+                                      //           crossAxisAlignment:
+                                      //               CrossAxisAlignment.center,
+                                      //           mainAxisAlignment:
+                                      //               MainAxisAlignment.center,
+                                      //           children: [
+                                      //             Center(
+                                      //               child: AutoSizeText(
+                                      //                   'confirm_return'.tr(),
+                                      //                   textAlign:
+                                      //                       TextAlign.center,
+                                      //                   style: TextStyle(
+                                      //                     color:
+                                      //                         AppColors.white,
+                                      //                     fontWeight:
+                                      //                         FontWeight.bold,
+                                      //                     fontSize: 20.sp,
+                                      //                   )),
+                                      //             ),
+                                      //           ],
+                                      //         ),
+                                      //         onPressed: () {
+                                      //           cubit.returnOrder(
+                                      //          pickingId: cubit.getDetailsOrdersModel!.pickings?.first.pickingId ?? -1,
 
-                                                // Navigator.pushNamed(context, Routes.paymentRoute);
-                                                // cubit.createAndValidateInvoice(
-                                                //     orderId: widget.orderModel.id ?? -1);
-                                              },
-                                            ),
-                                          ),
-                                        ),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: ElevatedButton(
-                                        style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStateProperty.all(
-                                                  AppColors.orange),
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            Icon(
-                                              Icons.print,
-                                              color: AppColors.white,
-                                            ),
-                                            SizedBox(
-                                              width: 5.w,
-                                            ),
-                                            Text('invoice'.tr(),
-                                                style: TextStyle(
-                                                  color: AppColors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20.sp,
-                                                )),
-                                          ],
-                                        ),
-                                        onPressed: () {},
-                                      ),
-                                    ),
+                                      //               orderModel:
+                                      //                   widget.orderModel,
+                                      //               context: context);
+
+                                      //           // Navigator.pushNamed(context, Routes.paymentRoute);
+                                      //           // cubit.createAndValidateInvoice(
+                                      //           //     orderId: widget.orderModel.id ?? -1);
+                                      //         },
+                                      //       ),
+                                      //     ),
+                                      //   ),
+                                      // Expanded(
+                                      //   child: Padding(
+                                      //     padding: const EdgeInsets.all(10.0),
+                                      //     child: ElevatedButton(
+                                      //       style: ButtonStyle(
+                                      //         backgroundColor:
+                                      //             MaterialStateProperty.all(
+                                      //                 AppColors.orange),
+                                      //       ),
+                                      //       child: Row(
+                                      //         children: [
+                                      //           Icon(
+                                      //             Icons.print,
+                                      //             color: AppColors.white,
+                                      //           ),
+                                      //           SizedBox(
+                                      //             width: 5.w,
+                                      //           ),
+                                      //           Text('invoice'.tr(),
+                                      //               style: TextStyle(
+                                      //                 color: AppColors.white,
+                                      //                 fontWeight: FontWeight.bold,
+                                      //                 fontSize: 20.sp,
+                                      //               )),
+                                      //         ],
+                                      //       ),
+                                      //       onPressed: () {},
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                    ],
                                   ),
-                                ],
-                              ),
               ],
             ),
           ),
