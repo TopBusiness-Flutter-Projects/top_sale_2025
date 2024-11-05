@@ -26,62 +26,19 @@ class EndPoints {
   static String createInvoice = '/api/sale_order/';
   static String invoice = '/api/invoice/';
   static String createQuotation = '/api/quotation/';
+  static String returnedOrder = '/api/sale_order/returned_orders/';
   static String updateQuotation = '/api/quotation/update/';
-  static String getAllJournals = '/api/account.journal/?query={id, display_name}';
+  static String getAllJournals =
+      '/api/account.journal/?query={id, display_name}';
   static String printOrder = '/report/pdf/sale.report_saleorder/';
   static String printPicking = '/report/pdf/stock.report_picking/';
   static String printPayment = '/report/pdf/account.report_payment_receipt/';
   static String printInvoice =
       '/report/pdf/account.report_invoice_with_payments/';
-  static String printPaySlip =
-      '/report/pdf/hr_payroll.report_payslip_lang/';
+  static String printPaySlip = '/report/pdf/hr_payroll.report_payslip_lang/';
   static String wareHouse = '/api/stock.warehouse/';
-   static String createPayment = '/api/payment/create';
-   /////////// HR/////////
-  
-   static String employee = '/api/employee/';
-   static String expense = '/api/expense/products';
-
-
-  ///////
-    // static String authWithSession = "$baseUrl/web/session/authenticate";
-
-  // static String authWithSession = "$baseUrl/web/session/authenticate";
-  // static String allCategoryProducts = '$baseUrl/api/product.product/';
-  // static String getUsers =
-  //     '$baseUrl/api/res.partner?query={name,mobile,id, city,street,phone,is_company}';
-  // static String getAllPartners = '$baseUrl/api/res.partner?';
-  // // '$baseUrl/api/res.partner?query={name,id, phone,total_overdue,total_due,total_invoiced,sale_order_ids,credit_to_invoice}';
-  // static String getUserData =
-  //     '$baseUrl/api/res.users/?query={id, name,partner_id,image_1920,login}';
-  // static String getEmployeeId = '$baseUrl/api/res.users/';
-  // static String addPartner = '$baseUrl/api/res.partner/';
-  // static String newLead = '$baseUrl/api/crm.lead/';
-  // static String companyData = '$baseUrl/api/res.company/?';
-  // static String currencyName = '$baseUrl/api/res.currency/?';
-  // static String createPicking = '$baseUrl/api/stock.picking/';
-  // static String objectAccountMove = '$baseUrl/object/account.move/';
-  // static String createStokeMove = '$baseUrl/api/stock.move';
-  // static String getTaxes =
-  //     '$baseUrl/api/account.tax/?query={id, display_name}&';
-  // static String fromLocation =
-  //     '$baseUrl/api/stock.location/?query={id,name}&filter=[["usage", "=", "internal"]]';
-  // static String toLocation =
-  //     '$baseUrl//api/stock.location/?query={id,name}&filter=[["usage", "=", "internal"]]';
-
-  // static String saleOrder = '$baseUrl/api/sale.order/';
-  // static String stockPicking = '$baseUrl/api/stock.picking/';
-  // static String stockPickingObject = '$baseUrl/object/stock.picking/';
-  // static String workFlow = '$baseUrl/api/sh.auto.sale.workflow/';
-  //  static String wareHouse = '$baseUrl/api/stock.warehouse/';
-  // static String saleOrderLine = '$baseUrl/api/sale.order.line';
-  // static String getSaleOrder = '$baseUrl/api/sale.order/';
-  // static String createPayment = '$baseUrl/api/account.payment/';
-  // static String createPayment2 = '$baseUrl/api/account.move/';
-  // static String confirmPayment = '$baseUrl/object/account.payment/';
-  // static String createInvoice = '$baseUrl/api/account.move/';
-  // static String invoiceLine = '$baseUrl/api/account.move.line';
-  // static String getAllJournals =
-  //     '$baseUrl/api/account.journal/?query={id, display_name}';
-  // static String getAllJournalName = '$baseUrl/api/account.journal/';
+  static String createPayment = '/api/payment/create';
+  static String employee = '/api/employee/';
+  static String expense = '/api/expense/products';
+  static String returnPicking = '/api/return_picking/';
 }

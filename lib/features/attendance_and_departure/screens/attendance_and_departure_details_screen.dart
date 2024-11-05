@@ -1,12 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:top_sale/core/utils/app_colors.dart';
 import 'package:top_sale/core/utils/app_fonts.dart';
-import 'package:top_sale/core/utils/assets_manager.dart';
 import 'package:top_sale/features/clients/cubit/clients_cubit.dart';
 import 'package:top_sale/features/details_order/cubit/details_orders_cubit.dart';
 import '../../../core/models/get_all_attendance_model.dart';
@@ -177,7 +174,6 @@ class AttendanceCard extends StatelessWidget {
   Attendance attendance;
 
   AttendanceCard({super.key, required this.attendance});
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -199,7 +195,7 @@ class AttendanceCard extends StatelessWidget {
                   color: AppColors.primary),
             ),
             SizedBox(
-              height: 8,
+              height: 8.sp,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -342,7 +338,7 @@ class AttendanceInfoRow extends StatelessWidget {
         onTap: onTap,
         child: Column(
           children: [
-            Text(label + "\n",
+            Text("$label\n",
                 maxLines: 2,
                 style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500)),
             SizedBox(height: 4.h),

@@ -316,40 +316,55 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
 
   // List<OrderLine> basket = [];
   CreateOrderModel? updateOrderModel;
-  updateQuotation({
+
+  void updateQuotation({
     required int partnerId,
     required BuildContext context,
     required OrderModel orderModel,
   }) async {
+    // Check if `orderLines` is populated
+    if (getDetailsOrdersModel?.orderLines == null || getDetailsOrdersModel!.orderLines!.isEmpty) {
+      print("Error: No products available in order lines.");
+      emit(ErrorUpdateQuotation());
+      return;
+    }
+
     emit(LoadingUpdateQuotation());
+
     final result = await api.updateQuotation(
-        partnerId: partnerId,
-        saleOrderId: getDetailsOrdersModel!.id.toString(),
-        products: getDetailsOrdersModel!.orderLines ?? [],
-        listOfremovedItems: listOfremovedItems);
+      partnerId: partnerId,
+      saleOrderId: getDetailsOrdersModel!.id.toString(),
+      products: getDetailsOrdersModel!.orderLines ?? [],
+      listOfremovedItems: listOfremovedItems,
+    );
+
+    // Debugging prints
+    print("Product List for Update Quotation: ${getDetailsOrdersModel!.orderLines}");
+    print("Removed Items List: $listOfremovedItems");
+
     result.fold((l) {
       emit(ErrorUpdateQuotation());
     }, (r) {
       listOfremovedItems.clear();
-
       updateOrderModel = r;
-      // successGetBar('Success Update Quotation');
       debugPrint("Success Update Quotation");
-      //! Nav to
+
+      // Navigate to confirmQuotation
       confirmQuotation(
         orderId: getDetailsOrdersModel!.id!,
         context: context,
         orderModel: OrderModel(
-            amountTotal: orderModel.amountTotal,
-            deliveryStatus: 'pending',
-            displayName: orderModel.displayName,
-            employeeId: orderModel.employeeId,
-            id: orderModel.id,
-            invoiceStatus: 'to invoice',
-            partnerId: orderModel.partnerId,
-            state: 'sale',
-            userId: orderModel.userId,
-            writeDate: orderModel.writeDate),
+          amountTotal: orderModel.amountTotal,
+          deliveryStatus: 'pending',
+          displayName: orderModel.displayName,
+          employeeId: orderModel.employeeId,
+          id: orderModel.id,
+          invoiceStatus: 'to invoice',
+          partnerId: orderModel.partnerId,
+          state: 'sale',
+          userId: orderModel.userId,
+          writeDate: orderModel.writeDate,
+        ),
       );
       emit(LoadedUpdateQuotation());
     });

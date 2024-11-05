@@ -142,7 +142,6 @@ class DioConsumer implements BaseApiConsumer {
   void _handleDioError(DioError error) {
     switch (error.type) {
       case DioErrorType.connectionTimeout:
-      
       case DioErrorType.sendTimeout:
       case DioErrorType.receiveTimeout:
         throw const FetchDataException();

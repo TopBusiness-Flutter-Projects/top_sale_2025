@@ -184,6 +184,12 @@ class _DetailsOrderShowPriceReturnsState
                                                   text: 'confirm_return'.tr(),
                                                   onPressed: () {
                                                     setState(() {
+
+                                                      cubit.updateQuotation(
+                                                          partnerId: cubit.getDetailsOrdersModel?.id ?? -1,
+                                                          context: context,
+                                                          orderModel: widget
+                                                              .orderModel);
                                                       Navigator
                                                           .pushReplacementNamed(
                                                               context,
@@ -235,6 +241,12 @@ class _DetailsOrderShowPriceReturnsState
                                                 ],
                                               ),
                                               onPressed: () {
+                                                cubit.updateQuotation(
+                                                    partnerId: cubit.getDetailsOrdersModel?.id ?? -1,
+                                                    context: context,
+                                                    orderModel: widget
+                                                        .orderModel);
+
                                                 Navigator.pushNamed(context,
                                                     Routes.detailsOrderReturns,
                                                     arguments: {

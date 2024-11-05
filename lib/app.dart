@@ -27,7 +27,7 @@ import 'features/splash/cubit/cubit.dart';
 import 'features/update_profile/cubit/update_profile_cubit.dart';
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
   @override
   State<MyApp> createState() => _MyAppState();
 }

@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top_sale/core/remote/service.dart';
 import '../../../core/models/get_orders_model.dart';
-import '../../../core/models/partner_model.dart';
 import 'delevery_orders_state.dart';
 
 class DeleveryOrdersCubit extends Cubit<DeleveryOrdersState> {

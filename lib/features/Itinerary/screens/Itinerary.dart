@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -50,7 +49,7 @@ class _ItineraryScreenState extends State<ItineraryScreen> {
                         child: BlocBuilder<ClientsCubit, ClientsState>(
                             builder: (context, state) {
                           return cubit2.currentLocation == null
-                              ? SizedBox()
+                              ? const SizedBox()
                               : GoogleMap(
                                   initialCameraPosition: CameraPosition(
                                     target: LatLng(
@@ -98,7 +97,7 @@ class _ItineraryScreenState extends State<ItineraryScreen> {
                         }),
                       ),
                       if (cubit.carDetailsModel != null)
-                        ToggleSwitchWithLabel(),
+                        const ToggleSwitchWithLabel(),
                     ],
                   );
       }),
@@ -114,6 +113,8 @@ class _ItineraryScreenState extends State<ItineraryScreen> {
 }
 
 class ToggleSwitchWithLabel extends StatefulWidget {
+  const ToggleSwitchWithLabel({super.key});
+
   @override
   _ToggleSwitchWithLabelState createState() => _ToggleSwitchWithLabelState();
 }
@@ -131,7 +132,7 @@ class _ToggleSwitchWithLabelState extends State<ToggleSwitchWithLabel> {
           padding: const EdgeInsets.all(20.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Flexible(
                 child: Row(
@@ -139,8 +140,8 @@ class _ToggleSwitchWithLabelState extends State<ToggleSwitchWithLabel> {
                     CustomDecodedImage(
                       base64String: cubit.carDetailsModel!.image128,
                       // context: context,
-                      height: 50,
-                      width: 50,
+                      height: 40.h,
+                      width: 40.w,
                     ),
                     // ClipRRect(
                     //   borderRadius: BorderRadius.circular(100),
@@ -153,24 +154,15 @@ class _ToggleSwitchWithLabelState extends State<ToggleSwitchWithLabel> {
                     // ),
                     //  CircleAvatar(backgroundImage: AssetImage(ImageAssets.logo2Image),),
                     SizedBox(
-                      width: 12,
+                      width: 12.w,
                     ),
                     Flexible(
-                      child: Column(
-                        children: [
-                          Text(
-                            cubit.carDetailsModel!.name.toString(),
-                            style: TextStyle(
-                                color: AppColors.orangeThirdPrimary,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            cubit.carDetailsModel!.licensePlate.toString(),
-                            style: TextStyle(
-                                color: AppColors.black,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
+                      child: Text(
+                        cubit.carDetailsModel!.name.toString(),
+                        style: TextStyle(
+                            color: AppColors.blue,
+                            fontWeight: FontWeight.bold,
+                        fontSize: 18.sp),
                       ),
                     ),
                   ],
