@@ -209,11 +209,11 @@ class AttendanceAndDepartureCubit extends Cubit<AttendanceAndDepartureState> {
             successGetBar(r.result!.message!);
             getLastAttendance();
           } else {
-            if (r.result!.error != null) {
-              errorGetBar(r.result!.error!.message ?? "error".tr());
-            } else {
+            // if (r.result!.error != null) {
+            //   errorGetBar(r.result!.error!.message ?? "error".tr());
+            // } else {
               errorGetBar("error".tr());
-            }
+            //}
           }
         } else {
           errorGetBar("error".tr());

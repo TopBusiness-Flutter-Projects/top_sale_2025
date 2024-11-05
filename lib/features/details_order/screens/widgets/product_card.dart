@@ -37,7 +37,7 @@ class ProductCard extends StatelessWidget {
                         ? title.removeAllWhitespace.substring(0, 2).toString()
                         : title.removeAllWhitespace,
                     base64String: false,
-                    context: context,
+                  //  context: context,
                     width: getSize(context) / 6,
                     height: getSize(context) / 6,
                   ),

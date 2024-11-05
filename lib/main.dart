@@ -9,7 +9,6 @@ import 'core/utils/restart_app_class.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-
   await injector.setup();
   Bloc.observer = AppBlocObserver();
 

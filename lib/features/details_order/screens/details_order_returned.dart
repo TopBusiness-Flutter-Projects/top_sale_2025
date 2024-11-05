@@ -18,6 +18,7 @@ import '../../../core/models/get_orders_model.dart';
 import '../../../core/models/order_details_model.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_strings.dart';
+
 class DetailsOrderReturns extends StatefulWidget {
   DetailsOrderReturns(
       {super.key, required this.orderModel, required this.isClientOrder});
@@ -198,51 +199,58 @@ class _DetailsOrderReturnsState extends State<DetailsOrderReturns> {
                                       widget.orderModel.deliveryStatus == 'full'
                                   ? Row(
                                       children: [
-                                        widget.isClientOrder == true
-                                            ? const Expanded(
-                                                child: SizedBox(),
-                                              )
-                                            : Expanded(
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: ElevatedButton(
-                                              style: ButtonStyle(
-                                                backgroundColor:
-                                                MaterialStateProperty.all(
-                                                    AppColors.blue),
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                                children: [
-                                                  Icon(
-                                                    Icons.print,
-                                                    color: AppColors.white,
-                                                    size: 20.sp,
-                                                  ),
-                                                  SizedBox(
-                                                    width: 5.w,
-                                                  ),
-                                                  AutoSizeText(
-                                                    'Bill_of_exchange'.tr(),
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                        FontWeight.bold,
-                                                        fontSize: 16.sp,
-                                                        color: AppColors.white),
-                                                  ),
-                                                ],
-                                              ),
-                                              onPressed: () {
-                                                setState(() {
-
-                                                });
-                                              },
-                                            ),
-                                          ),
-                                        ),
+                                        // widget.isClientOrder == true
+                                        //     ? const Expanded(
+                                        //         child: SizedBox(),
+                                        //       )
+                                        //     :
+                                        //      Expanded(
+                                        //         child: Padding(
+                                        //           padding: const EdgeInsets.all(
+                                        //               10.0),
+                                        //           child: ElevatedButton(
+                                        //             style: ButtonStyle(
+                                        //               backgroundColor:
+                                        //                   MaterialStateProperty
+                                        //                       .all(AppColors
+                                        //                           .blue),
+                                        //             ),
+                                        //             child: Row(
+                                        //               mainAxisAlignment:
+                                        //                   MainAxisAlignment
+                                        //                       .center,
+                                        //               crossAxisAlignment:
+                                        //                   CrossAxisAlignment
+                                        //                       .center,
+                                        //               children: [
+                                        //                 Icon(
+                                        //                   Icons.print,
+                                        //                   color:
+                                        //                       AppColors.white,
+                                        //                   size: 20.sp,
+                                        //                 ),
+                                        //                 SizedBox(
+                                        //                   width: 5.w,
+                                        //                 ),
+                                        //                 AutoSizeText(
+                                        //                   'Bill_of_exchange'
+                                        //                       .tr(),
+                                        //                   style: TextStyle(
+                                        //                       fontWeight:
+                                        //                           FontWeight
+                                        //                               .bold,
+                                        //                       fontSize: 16.sp,
+                                        //                       color: AppColors
+                                        //                           .white),
+                                        //                 ),
+                                        //               ],
+                                        //             ),
+                                        //             onPressed: () {
+                                        //               setState(() {});
+                                        //             },
+                                        //           ),
+                                        //         ),
+                                        //       ),
                                         Expanded(
                                           child: Padding(
                                             padding: const EdgeInsets.all(10.0),
@@ -277,23 +285,17 @@ class _DetailsOrderReturnsState extends State<DetailsOrderReturns> {
                                                 ],
                                               ),
                                               onPressed: () {
-                                                setState(() {
-                                                  // if (cubit
-                                                  //     .getDetailsOrdersModel!
-                                                  //     .pickings!
-                                                  //     .isNotEmpty) {
-                                                  //   Navigator.push(context,
-                                                  //       MaterialPageRoute(
-                                                  //     builder: (context) {
-                                                  //       return PdfViewerPage(
-                                                  //         baseUrl:
-                                                  //             '${EndPoints.printPicking}${cubit.getDetailsOrdersModel!.pickings![0].pickingId.toString()}',
-                                                  //       );
-                                                  //       // return PaymentWebViewScreen(url: "",);
-                                                  //     },
-                                                  //   ));
-                                                  // }
-                                                });
+                                                Navigator.push(context,
+                                                    MaterialPageRoute(
+                                                  builder: (context) {
+                                                    return PdfViewerPage(
+                                                      baseUrl:
+                                                       '${EndPoints.printInvoice}${cubit.returnOrderModel?.result?.creditNoteId ?? 0}',
+                                                       //   '$EndPoints.printInvoice/${cubit.returnOrderModel?.result?.creditNoteId ?? 0}',
+                                                    );
+                                                    // return PaymentWebViewScreen(url: "",);
+                                                  },
+                                                ));
                                               },
                                             ),
                                           ),
@@ -585,7 +587,6 @@ class _DetailsOrderReturnsState extends State<DetailsOrderReturns> {
                 ],
               ),
             ),
-
           ],
         );
       }),

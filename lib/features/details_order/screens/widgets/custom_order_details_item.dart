@@ -62,7 +62,7 @@ class _CustomOrderDetailsShowPriceItemState
                         .toString()
                     : widget.item.productName.toString().removeAllWhitespace,
                 base64String: false,
-                context: context,
+                //context: context,
                 width: getSize(context) / 8,
                 height: getSize(context) / 8,
               ),

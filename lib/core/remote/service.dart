@@ -31,6 +31,8 @@ import 'package:top_sale/core/models/get_user_data_model.dart';
 import 'package:top_sale/core/models/login_model.dart';
 import 'package:top_sale/core/models/order_details_model.dart';
 import 'package:top_sale/core/models/partner_model.dart';
+import 'package:top_sale/core/models/return_model.dart';
+import 'package:top_sale/core/models/returned_order_model.dart';
 import 'package:top_sale/core/preferences/preferences.dart';
 import 'package:top_sale/core/utils/app_strings.dart';
 import '../api/base_api_consumer.dart';
@@ -39,8 +41,6 @@ import '../models/all_salary_model.dart';
 import '../models/car_details_model.dart';
 import '../models/holidays_model.dart';
 import '../models/holidays_type_model.dart';
-import '../models/return_model.dart';
-import '../models/returned_order_model.dart';
 
 class ServiceApi {
   final BaseApiConsumer dio;
@@ -160,7 +160,8 @@ class ServiceApi {
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.toString()));
     }
-  }  
+  }
+
   Future<Either<Failure, DefaultModel>> tracking({
     required double lat,
     required double long,
@@ -173,25 +174,25 @@ class ServiceApi {
         await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
     String partnerId = await Preferences.instance.getEmployeePartnerId() ?? "1";
     try {
-      final response = await dio.post(odooUrl + EndPoints.fleetLogs,//   /api/fleet.vehicle/$carId?query={id,name,license_plate,image_128}
+      final response = await dio.post(
+          odooUrl +
+              EndPoints
+                  .fleetLogs, //   /api/fleet.vehicle/$carId?query={id,name,license_plate,image_128}
           options: Options(
             headers: {"Cookie": "session_id=$sessionId"},
           ),
-          body:
-          {
-    "params": {
-        "data": {
-            "name": name,
-            "vehicle_id": carId,
-            "driver_id": int.parse(partnerId),
-            "latitude":lat,
-            "longitude":long,
-            "date":date
-        }
-    }
-}
-          
-         );
+          body: {
+            "params": {
+              "data": {
+                "name": name,
+                "vehicle_id": carId,
+                "driver_id": int.parse(partnerId),
+                "latitude": lat,
+                "longitude": long,
+                "date": date
+              }
+            }
+          });
       return Right(DefaultModel.fromJson(response));
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.toString()));
@@ -293,19 +294,16 @@ class ServiceApi {
     }
   }
 
-
   Future<Either<Failure, CarDetails>> getCarDetails(
-    {required int carId}) async {
- 
+      {required int carId}) async {
     try {
-  
       String odooUrl =
           await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
 
       String? sessionId = await Preferences.instance.getSessionId();
       final response = await dio.get(
         odooUrl +
-           '/api/fleet.vehicle/$carId?query={id,name,license_plate,image_128}' ,
+            '/api/fleet.vehicle/$carId?query={id,name,license_plate,image_128}',
         options: Options(
           headers: {"Cookie": "frontend_lang=en_US;session_id=$sessionId"},
         ),
@@ -336,11 +334,12 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
+
   Future<Either<Failure, GetCarIdsModel>> getEmployeeCarId() async {
     try {
       String employeeId = await Preferences.instance.getEmployeeId() ??
-        await Preferences.instance.getEmployeeIdNumber() ??
-        "1";
+          await Preferences.instance.getEmployeeIdNumber() ??
+          "1";
       String? sessionId = await Preferences.instance.getSessionId();
       String odooUrl =
           await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
@@ -673,140 +672,6 @@ class ServiceApi {
       return Left(ServerFailure());
     }
   }
-  // returned order
-  Future<Either<Failure, ReturnedOrderModel>> returnedOrder(
-
-  ) async {
-    String odooUrl = await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
-    String? sessionId = await Preferences.instance.getSessionId();
-
-    String employeeId = await Preferences.instance.getEmployeeId() ??
-        await Preferences.instance.getEmployeeIdNumber() ??
-        "1";
-    String userId = await Preferences.instance.getUserId() ?? "1";
-
-    try {
-      final response = await dio.post(
-        odooUrl + EndPoints.returnedOrder,
-        options: Options(
-          headers: {"Cookie": "session_id=$sessionId"},
-
-        ),
-        body: {
-          if (employeeId != null) "employee_id": int.parse(employeeId),
-          "user_id": int.parse(userId),
-        },
-      );
-
-      // Log response data for debugging
-
-      return Right(ReturnedOrderModel.fromJson(response));
-    } on ServerException {
-      print("fail");
-      return Left(ServerFailure());
-    }
-  }
-// create quatation
-  Future<Either<Failure, CreateOrderModel>> updateQuotation(
-      {required int partnerId,
-        required String saleOrderId,
-        required List<OrderLine> products,
-        required List<dynamic> listOfremovedItems}) async {
-    String odooUrl =
-        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
-    String? sessionId = await Preferences.instance.getSessionId();
-    String? employeeId = await Preferences.instance.getEmployeeId();
-    String userId = await Preferences.instance.getUserId() ?? "1";
-    try {
-      // Map the ProductModelData list to order_line format
-      List<Map<String, dynamic>> orderLine = products
-          .map((product) => product.productUomQty == 0
-          ? {
-        "line_id":
-        product.id, // ID of the existing order line to delete
-        "delete": true // Set to true to delete this line
-      }
-          : {
-        "product_id": product.productId,
-        "product_uom_qty": product.productUomQty,
-        "price_unit": product.priceUnit,
-        "line_id": product.id,
-        "discount": product.discount
-      })
-          .toList();
-      List<Map<String, dynamic>> orderLineDeleted = listOfremovedItems
-          .map((product) => {
-        "line_id": product, // ID of the existing order line to delete
-        "delete": true // Set to true to delete this line
-      })
-          .toList();
-
-      final response = await dio.post(odooUrl + EndPoints.updateQuotation,
-          options: Options(
-            headers: {"Cookie": "session_id=$sessionId"},
-          ),
-          body: {
-            "params": {
-              "data": {
-                "sale_order_id": int.parse(saleOrderId.toString()),
-                "partner_id": partnerId,
-                "sale_order_user_id": int.parse(userId),
-                if (employeeId != null)
-                  "employee_id": int.parse(employeeId.toString()),
-                "order_line": [
-                  ...orderLine,
-                  ...orderLineDeleted,
-                  //! the new item still
-                  // {
-                  //   "product_id": 6916, // New product to add to the quotation
-                  //   "product_uom_qty": 3, // Quantity of the new product
-                  //   "price_unit": 75.0, // Unit price of the new product
-                  //   "discount": 5.0 // Discount percentage
-                  // }
-                ]
-              }
-            }
-          });
-      return Right(CreateOrderModel.fromJson(response));
-    } on ServerException {
-      return Left(ServerFailure());
-    }
-  }
-
-  Future<Either<Failure, ReturnOrderModel>> returnOrder(
-      {required int orderId, required List<OrderLine> products}) async {
-    String odooUrl =
-        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
-    String? sessionId = await Preferences.instance.getSessionId();
-    String? employeeId = await Preferences.instance.getEmployeeId();
-    String userId = await Preferences.instance.getUserId() ?? "1";
-    // AuthModel? authModel = await Preferences.instance.getUserModel();
-    try {
-      // Map the ProductModelData list to order_line format
-      List<Map<String, dynamic>> returnsProducts = products
-          .map((product) => {
-        "product_id": product.id,
-        "quantity": product.productUomQty,
-      })
-          .toList();
-
-      final response =
-      await dio.post(odooUrl + EndPoints.createInvoice + '$orderId/return',
-          options: Options(
-            headers: {"Cookie": "session_id=$sessionId"},
-          ),
-          body: {
-            //  "return_location_id":null ,
-            "products": returnsProducts,
-            if (employeeId != null)
-              "employee_id": int.parse(employeeId.toString()),
-            "user_id": int.parse(userId)
-          });
-      return Right(ReturnOrderModel.fromJson(response));
-    } on ServerException {
-      return Left(ServerFailure());
-    }
-  }
 
   // cancel
   Future<Either<Failure, CreateOrderModel>> cancelOrder({
@@ -872,10 +737,107 @@ class ServiceApi {
     }
   }
 
+  Future<Either<Failure, ReturnOrderModel>> returnOrder(
+      {required int pickingId, required List<OrderLine> products}) async {
+    String odooUrl =
+        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+    String? sessionId = await Preferences.instance.getSessionId();
+    String? employeeId = await Preferences.instance.getEmployeeId();
+    String userId = await Preferences.instance.getUserId() ?? "1";
+    // AuthModel? authModel = await Preferences.instance.getUserModel();
+    try {
+      // Map the ProductModelData list to order_line format
+      List<Map<String, dynamic>> returnsProducts = products
+          .map((product) => {
+                "product_id": product.productId,
+                "quantity": product.productUomQty,
+              })
+          .toList();
 
+      final response =
+          await dio.post(odooUrl + EndPoints.returnOrder + '$pickingId',
+              options: Options(
+                headers: {"Cookie": "session_id=$sessionId"},
+              ),
+              body: {
+            //  "return_location_id":null ,
+            "products": returnsProducts,
+            if (employeeId != null)
+              "employee_id": int.parse(employeeId.toString()),
+            "user_id": int.parse(userId)
+          });
+      return Right(ReturnOrderModel.fromJson(response));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
 
+// create quatation
+  Future<Either<Failure, CreateOrderModel>> updateQuotation(
+      {required int partnerId,
+      required String saleOrderId,
+      required List<OrderLine> products,
+      required List<dynamic> listOfremovedItems}) async {
+    String odooUrl =
+        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+    String? sessionId = await Preferences.instance.getSessionId();
+    String? employeeId = await Preferences.instance.getEmployeeId();
+    String userId = await Preferences.instance.getUserId() ?? "1";
+    try {
+      // Map the ProductModelData list to order_line format
+      List<Map<String, dynamic>> orderLine = products
+          .map((product) => product.productUomQty == 0
+              ? {
+                  "line_id":
+                      product.id, // ID of the existing order line to delete
+                  "delete": true // Set to true to delete this line
+                }
+              : {
+                  "product_id": product.productId,
+                  "product_uom_qty": product.productUomQty,
+                  "price_unit": product.priceUnit,
+                  "line_id": product.id,
+                  "discount": product.discount
+                })
+          .toList();
+      List<Map<String, dynamic>> orderLineDeleted = listOfremovedItems
+          .map((product) => {
+                "line_id": product, // ID of the existing order line to delete
+                "delete": true // Set to true to delete this line
+              })
+          .toList();
 
-// تاكيد المرتجع
+      final response = await dio.post(odooUrl + EndPoints.updateQuotation,
+          options: Options(
+            headers: {"Cookie": "session_id=$sessionId"},
+          ),
+          body: {
+            "params": {
+              "data": {
+                "sale_order_id": int.parse(saleOrderId.toString()),
+                "partner_id": partnerId,
+                "sale_order_user_id": int.parse(userId),
+                if (employeeId != null)
+                  "employee_id": int.parse(employeeId.toString()),
+                "order_line": [
+                  ...orderLine,
+                  ...orderLineDeleted,
+                  //! the new item still
+                  // {
+                  //   "product_id": 6916, // New product to add to the quotation
+                  //   "product_uom_qty": 3, // Quantity of the new product
+                  //   "price_unit": 75.0, // Unit price of the new product
+                  //   "discount": 5.0 // Discount percentage
+                  // }
+                ]
+              }
+            }
+          });
+      return Right(CreateOrderModel.fromJson(response));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
 
   //confirm delivery  تاكيد الاستلام اللي جاي من جديدة
   Future<Either<Failure, CreateOrderModel>> confirmDelivery({
@@ -945,6 +907,36 @@ class ServiceApi {
           });
       return Right(CreateOrderModel.fromJson(response));
     } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
+
+// returned order
+  Future<Either<Failure, ReturnedOrderModel>> returnedOrder() async {
+    String odooUrl =
+        await Preferences.instance.getOdooUrl() ?? AppStrings.demoBaseUrl;
+    String? sessionId = await Preferences.instance.getSessionId();
+
+    String? employeeId = await Preferences.instance.getEmployeeId();
+    String userId = await Preferences.instance.getUserId() ?? "1";
+
+    try {
+      final response = await dio.post(
+        odooUrl + EndPoints.returnedOrder,
+        options: Options(
+          headers: {"Cookie": "session_id=$sessionId"},
+        ),
+        body: {
+          if (employeeId != null) "employee_id": int.parse(employeeId),
+          "user_id": int.parse(userId),
+        },
+      );
+
+      // Log response data for debugging
+
+      return Right(ReturnedOrderModel.fromJson(response));
+    } on ServerException {
+      print("fail");
       return Left(ServerFailure());
     }
   }
@@ -1290,7 +1282,8 @@ class ServiceApi {
     //     "1";
     try {
       final response = await dio.get(
-        odooUrl + '/api/product.product/?query={id,name,image_1920}&filter=[["can_be_expensed","=","True"]]',
+        odooUrl +
+            '/api/product.product/?query={id,name,image_1920}&filter=[["can_be_expensed","=","True"]]',
         options: Options(
           headers: {"Cookie": "session_id=$sessionId"},
         ),
