@@ -166,7 +166,7 @@ class _ReturnsScreenState extends State<ReturnsScreen> {
                                                 ],
                                               ),
                                               SizedBox(height: 10.sp,),
-                                              Text(cubit.returnOrderModel?.result?.status!.toString() == "false" ? "":cubit.returnOrderModel?.result?.status.toString(),style:getMediumStyle())
+                                            //  Text(cubit.returnOrderModel?.result?.status!.toString() == "false" ? "":cubit.returnOrderModel?.result?.status.toString(),style:getMediumStyle())
                                             ],
                                           )),
                                     )
