@@ -28,27 +28,24 @@ class CreateOrderModel {
 }
 
 class Result {
-  String? message;
+  dynamic message;
   
   dynamic paymentId;
-  Error? error;
+ 
 
   Result({
     this.message,
     this.paymentId,
-    this.error,
   });
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         message: json["message"],
         paymentId: json["payment_id"],
-        error: json["error"] == null ? null : Error.fromJson(json["error"]),
       );
 
   Map<String, dynamic> toJson() => {
         "message": message,
         "payment_id": paymentId,
-        "error": error?.toJson(),
       };
 }
 

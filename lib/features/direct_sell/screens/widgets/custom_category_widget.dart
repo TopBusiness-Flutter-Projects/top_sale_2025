@@ -56,7 +56,7 @@ class CustomCategoryWidget extends StatelessWidget {
                                     color: AppColors.white, fontSize: 18.sp)),
                           )
                         : CustomDecodedImageWithText(
-                            context: context,
+                           // context: context,
                             character: title.length >= 4
                                 ? title.removeAllWhitespace
                                     .substring(0, 4)

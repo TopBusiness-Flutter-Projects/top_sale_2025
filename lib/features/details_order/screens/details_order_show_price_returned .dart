@@ -2,7 +2,9 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:top_sale/core/api/end_points.dart';
 import 'package:top_sale/core/utils/get_size.dart';
+import 'package:top_sale/features/details_order/screens/pdf.dart';
 import 'package:top_sale/features/details_order/screens/widgets/card_from_details_order.dart';
 import 'package:top_sale/features/details_order/screens/widgets/product_card.dart';
 import 'package:top_sale/features/details_order/screens/widgets/rounded_button.dart';
@@ -168,131 +170,130 @@ class _DetailsOrderShowPriceReturnsState
                         ? Container()
                         : widget.isClientOrder == true
                             ? const SizedBox()
-                            : Row(
-                                children: [
-                                  (cubit.getDetailsOrdersModel!.invoices!
-                                              .isNotEmpty &&
-                                          cubit.getDetailsOrdersModel!.payments!
-                                              .isEmpty)
-                                      ? widget.isClientOrder == true
-                                          ? const Expanded(child: SizedBox())
-                                          : Expanded(
+                            : cubit.getDetailsOrdersModel!.pickings!.isEmpty
+                                ? const SizedBox()
+                                : Row(
+                                    children: [
+                                      (cubit.getDetailsOrdersModel!.invoices!
+                                              .isNotEmpty)
+                                          ? Expanded(
                                               child: Padding(
                                                 padding:
                                                     const EdgeInsets.all(10.0),
                                                 child: RoundedButton(
                                                   text: 'confirm_return'.tr(),
                                                   onPressed: () {
-                                                    setState(() {
-                                                      Navigator
-                                                          .pushReplacementNamed(
-                                                              context,
-                                                              Routes
-                                                                  .detailsOrderReturns,
-                                                              arguments: {
-                                                            'isClientOrder':
-                                                                false,
-                                                            'orderModel': widget
-                                                                .orderModel
-                                                          });
-                                                      // cubit.createAndValidateInvoice(
-                                                      //     orderId: widget.orderModel.id ?? -1);
-                                                    });
+                                                    cubit.returnOrder(
+                                                        pickingId: cubit
+                                                                .getDetailsOrdersModel!
+                                                                .pickings
+                                                                ?.first
+                                                                .pickingId ??
+                                                            -1,
+                                                        // widget.orderModel.id ??
+                                                        //     -1,
+                                                        orderModel:
+                                                            widget.orderModel,
+                                                        context: context);
+                                                    // setState(() {
+                                                    //   Navigator
+                                                    //       .pushReplacementNamed(
+                                                    //           context,
+                                                    //           Routes
+                                                    //               .detailsOrderReturns,
+                                                    //           arguments: {
+                                                    //         'isClientOrder':
+                                                    //             false,
+                                                    //         'orderModel': widget
+                                                    //             .orderModel
+                                                    //       });
+                                                    //   // cubit.createAndValidateInvoice(
+                                                    //   //     orderId: widget.orderModel.id ?? -1);
+                                                    // });
                                                   },
                                                   backgroundColor:
                                                       AppColors.blue,
                                                 ),
                                               ),
                                             )
-                                      : Expanded(
-                                          child: Padding(
-                                            padding: EdgeInsets.all(12.0.sp),
-                                            child: ElevatedButton(
-                                              style: ButtonStyle(
-                                                backgroundColor:
-                                                    MaterialStateProperty.all(
-                                                        AppColors.blue),
-                                              ),
-                                              child: Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Center(
-                                                    child: AutoSizeText(
-                                                        'confirm_return'.tr(),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: TextStyle(
-                                                          color:
-                                                              AppColors.white,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 20.sp,
-                                                        )),
-                                                  ),
-                                                ],
-                                              ),
-                                              onPressed: () {
-                                                Navigator.pushNamed(context,
-                                                    Routes.detailsOrderReturns,
-                                                    arguments: {
-                                                      'isClientOrder': false,
-                                                      'orderModel':
-                                                          widget.orderModel
-                                                    });
-                                              },
-                                            ),
-                                          ),
-                                        ),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: ElevatedButton(
-                                        style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStateProperty.all(
-                                                  AppColors.orange),
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            Icon(
-                                              Icons.print,
-                                              color: AppColors.white,
-                                            ),
-                                            SizedBox(
-                                              width: 5.w,
-                                            ),
-                                            Text('invoice'.tr(),
-                                                style: TextStyle(
-                                                  color: AppColors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20.sp,
-                                                )),
-                                          ],
-                                        ),
-                                        onPressed: () {
-                                          // Navigator.push(context,
-                                          //     MaterialPageRoute(
-                                          //       builder: (context) {
-                                          //         return PdfViewerPage(
-                                          //           baseUrl:
-                                          //           '/report/pdf/account.report_invoice_with_payments/${cubit.getDetailsOrdersModel!.invoices!.first.invoiceId.toString()}',
-                                          //         );
-                                          //         // return PaymentWebViewScreen(url: "",);
-                                          //       },
-                                          //     ));
-                                          //
-                                          // // Navigator.pushNamed(context, Routes.paymentRoute);
-                                          // // cubit.createAndValidateInvoice(
-                                          // //     orderId: widget.orderModel.id ?? -1);
-                                        },
-                                      ),
-                                    ),
+                                          : SizedBox(),
+                                      // Expanded(
+                                      //     child: Padding(
+                                      //       padding: EdgeInsets.all(12.0.sp),
+                                      //       child: ElevatedButton(
+                                      //         style: ButtonStyle(
+                                      //           backgroundColor:
+                                      //               MaterialStateProperty.all(
+                                      //                   AppColors.blue),
+                                      //         ),
+                                      //         child: Row(
+                                      //           crossAxisAlignment:
+                                      //               CrossAxisAlignment.center,
+                                      //           mainAxisAlignment:
+                                      //               MainAxisAlignment.center,
+                                      //           children: [
+                                      //             Center(
+                                      //               child: AutoSizeText(
+                                      //                   'confirm_return'.tr(),
+                                      //                   textAlign:
+                                      //                       TextAlign.center,
+                                      //                   style: TextStyle(
+                                      //                     color:
+                                      //                         AppColors.white,
+                                      //                     fontWeight:
+                                      //                         FontWeight.bold,
+                                      //                     fontSize: 20.sp,
+                                      //                   )),
+                                      //             ),
+                                      //           ],
+                                      //         ),
+                                      //         onPressed: () {
+                                      //           cubit.returnOrder(
+                                      //          pickingId: cubit.getDetailsOrdersModel!.pickings?.first.pickingId ?? -1,
+
+                                      //               orderModel:
+                                      //                   widget.orderModel,
+                                      //               context: context);
+
+                                      //           // Navigator.pushNamed(context, Routes.paymentRoute);
+                                      //           // cubit.createAndValidateInvoice(
+                                      //           //     orderId: widget.orderModel.id ?? -1);
+                                      //         },
+                                      //       ),
+                                      //     ),
+                                      //   ),
+                                      // Expanded(
+                                      //   child: Padding(
+                                      //     padding: const EdgeInsets.all(10.0),
+                                      //     child: ElevatedButton(
+                                      //       style: ButtonStyle(
+                                      //         backgroundColor:
+                                      //             MaterialStateProperty.all(
+                                      //                 AppColors.orange),
+                                      //       ),
+                                      //       child: Row(
+                                      //         children: [
+                                      //           Icon(
+                                      //             Icons.print,
+                                      //             color: AppColors.white,
+                                      //           ),
+                                      //           SizedBox(
+                                      //             width: 5.w,
+                                      //           ),
+                                      //           Text('invoice'.tr(),
+                                      //               style: TextStyle(
+                                      //                 color: AppColors.white,
+                                      //                 fontWeight: FontWeight.bold,
+                                      //                 fontSize: 20.sp,
+                                      //               )),
+                                      //         ],
+                                      //       ),
+                                      //       onPressed: () {},
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                    ],
                                   ),
-                                ],
-                              ),
               ],
             ),
           ),

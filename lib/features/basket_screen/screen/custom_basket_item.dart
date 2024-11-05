@@ -54,7 +54,7 @@ class _CustomBasketItemState extends State<CustomBasketItem> {
                         .toString()
                     : widget.item.name!.removeAllWhitespace,
                 base64String: widget.item.image1920,
-                context: context,
+                // context: context,
                 width: getSize(context) / 8,
                 height: getSize(context) / 8,
               ),
