@@ -75,7 +75,7 @@ class _ReturnsScreenState extends State<ReturnsScreen> {
                       cubit.returnOrderModel!.result == null
                   ? const Center(child: CircularProgressIndicator())
                   : cubit.returnOrderModel!.result!.returnedOrders!.isEmpty
-                      ? Center(child: Text("no_returns".tr()))
+                      ? Center(child: Text("no_data".tr()))
                       : Expanded(
                           child: ListView.builder(
                               itemCount: cubit.returnOrderModel?.result

@@ -13,6 +13,7 @@ import '../../../core/models/all_journals_model.dart';
 import '../../../core/models/create_order_model.dart';
 import '../../../core/models/get_orders_model.dart';
 import '../../../core/models/order_details_model.dart';
+import '../../../core/models/return_model.dart';
 
 class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
   DetailsOrdersCubit(this.api) : super(DetailsOrdersInitial());
@@ -315,57 +316,84 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
   }
 
   // List<OrderLine> basket = [];
+  // List<OrderLine> basket = [];
   CreateOrderModel? updateOrderModel;
-
-  void updateQuotation({
+  updateQuotation({
     required int partnerId,
     required BuildContext context,
     required OrderModel orderModel,
   }) async {
-    // Check if `orderLines` is populated
-    if (getDetailsOrdersModel?.orderLines == null || getDetailsOrdersModel!.orderLines!.isEmpty) {
-      print("Error: No products available in order lines.");
-      emit(ErrorUpdateQuotation());
-      return;
-    }
-
     emit(LoadingUpdateQuotation());
-
     final result = await api.updateQuotation(
-      partnerId: partnerId,
-      saleOrderId: getDetailsOrdersModel!.id.toString(),
-      products: getDetailsOrdersModel!.orderLines ?? [],
-      listOfremovedItems: listOfremovedItems,
-    );
-
-    // Debugging prints
-    print("Product List for Update Quotation: ${getDetailsOrdersModel!.orderLines}");
-    print("Removed Items List: $listOfremovedItems");
-
+        partnerId: partnerId,
+        saleOrderId: getDetailsOrdersModel!.id.toString(),
+        products: getDetailsOrdersModel!.orderLines ?? [],
+        listOfremovedItems: listOfremovedItems);
     result.fold((l) {
       emit(ErrorUpdateQuotation());
     }, (r) {
       listOfremovedItems.clear();
-      updateOrderModel = r;
-      debugPrint("Success Update Quotation");
 
-      // Navigate to confirmQuotation
+      updateOrderModel = r;
+      // successGetBar('Success Update Quotation');
+      debugPrint("Success Update Quotation");
+      //! Nav to
       confirmQuotation(
         orderId: getDetailsOrdersModel!.id!,
         context: context,
         orderModel: OrderModel(
-          amountTotal: orderModel.amountTotal,
-          deliveryStatus: 'pending',
-          displayName: orderModel.displayName,
-          employeeId: orderModel.employeeId,
-          id: orderModel.id,
-          invoiceStatus: 'to invoice',
-          partnerId: orderModel.partnerId,
-          state: 'sale',
-          userId: orderModel.userId,
-          writeDate: orderModel.writeDate,
-        ),
+            amountTotal: orderModel.amountTotal,
+            deliveryStatus: 'pending',
+            displayName: orderModel.displayName,
+            employeeId: orderModel.employeeId,
+            id: orderModel.id,
+            invoiceStatus: 'to invoice',
+            partnerId: orderModel.partnerId,
+            state: 'sale',
+            userId: orderModel.userId,
+            writeDate: orderModel.writeDate),
       );
+      emit(LoadedUpdateQuotation());
+    });
+  }
+  ReturnOrderModel? returnOrderModel;
+  returnOrder({
+    required int orderId,
+    required BuildContext context,
+    required OrderModel orderModel,
+  }) async {
+    emit(LoadingUpdateQuotation());
+    final result = await api.returnOrder(
+      orderId: orderId,
+      products: getDetailsOrdersModel!.orderLines ?? [],
+    );
+    result.fold((l) {
+      emit(ErrorUpdateQuotation());
+    }, (r) {
+      //   listOfremovedItems.clear();
+      if (r.result != null) {
+        if (r.result!.message != null) {
+          returnOrderModel = r;
+          successGetBar(r.result!.message);
+          Navigator
+              .pushReplacementNamed(
+              context,
+              Routes
+                  .detailsOrderReturns,
+              arguments: {
+                'isClientOrder':
+                false,
+                'orderModel': orderModel
+              });
+        } else {
+          errorGetBar("error".tr());
+        }
+
+      }
+      //  updateOrderModel = r;
+      // successGetBar('Success Update Quotation');
+      debugPrint("Success Update Quotation");
+
       emit(LoadedUpdateQuotation());
     });
   }

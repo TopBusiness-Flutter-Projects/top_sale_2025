@@ -12,13 +12,10 @@ class ReturnsCubit extends Cubit<ReturnsState> {
   ReturnsCubit(this.api) : super(ReturnsInitial());
   ServiceApi api;
   TextEditingController searchController = TextEditingController();
-  ReturnOrderModel? returnOrderModel;
+  ReturnedOrderModel? returnOrderModel;
   void getReturned() async {
     emit(GetReturnedLoadingState());
-    final result = await api.returnedOrder(
-      employeeId: 7,
-      userId: 5
-    );
+    final result = await api.returnedOrder();
     result.fold(
           (failure) =>
           emit(GetReturnedErrorState()),

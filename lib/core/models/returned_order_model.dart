@@ -4,30 +4,26 @@
 
 import 'dart:convert';
 
-ReturnOrderModel returnOrderModelFromJson(String str) => ReturnOrderModel.fromJson(json.decode(str));
+ReturnedOrderModel returnOrderModelFromJson(String str) => ReturnedOrderModel.fromJson(json.decode(str));
 
-String returnOrderModelToJson(ReturnOrderModel data) => json.encode(data.toJson());
+String returnOrderModelToJson(ReturnedOrderModel data) => json.encode(data.toJson());
 
-class ReturnOrderModel {
-  String? jsonrpc;
-  dynamic id;
+class ReturnedOrderModel {
+
   Result? result;
 
-  ReturnOrderModel({
-    this.jsonrpc,
-    this.id,
+  ReturnedOrderModel({
+
     this.result,
   });
 
-  factory ReturnOrderModel.fromJson(Map<String, dynamic> json) => ReturnOrderModel(
-    jsonrpc: json["jsonrpc"],
-    id: json["id"],
+  factory ReturnedOrderModel.fromJson(Map<String, dynamic> json) => ReturnedOrderModel(
+
     result: json["result"] == null ? null : Result.fromJson(json["result"]),
   );
 
   Map<String, dynamic> toJson() => {
-    "jsonrpc": jsonrpc,
-    "id": id,
+
     "result": result?.toJson(),
   };
 }

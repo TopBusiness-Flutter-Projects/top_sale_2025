@@ -31,7 +31,7 @@ class Result {
   String? message;
   
   dynamic paymentId;
-  Error? error;
+  dynamic? error;
 
   Result({
     this.message,
@@ -42,13 +42,13 @@ class Result {
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         message: json["message"],
         paymentId: json["payment_id"],
-        error: json["error"] == null ? null : Error.fromJson(json["error"]),
+        error: json["error"],
       );
 
   Map<String, dynamic> toJson() => {
         "message": message,
         "payment_id": paymentId,
-        "error": error?.toJson(),
+        "error": error,
       };
 }
 

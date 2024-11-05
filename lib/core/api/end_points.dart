@@ -26,7 +26,7 @@ class EndPoints {
   static String createInvoice = '/api/sale_order/';
   static String invoice = '/api/invoice/';
   static String createQuotation = '/api/quotation/';
-  static String returnedOrder = '/api/sale_order/returned_orders/';
+  static String returnedOrder = '/api/sale_orders/returned';
   static String updateQuotation = '/api/quotation/update/';
   static String getAllJournals =
       '/api/account.journal/?query={id, display_name}';
