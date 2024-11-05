@@ -14,7 +14,6 @@ import '../../../core/models/all_journals_model.dart';
 import '../../../core/models/create_order_model.dart';
 import '../../../core/models/get_orders_model.dart';
 import '../../../core/models/order_details_model.dart';
-import '../../../core/models/return_model.dart';
 
 class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
   DetailsOrdersCubit(this.api) : super(DetailsOrdersInitial());
@@ -357,47 +356,7 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
       emit(LoadedUpdateQuotation());
     });
   }
-  ReturnOrderModel? returnOrderModel;
-  returnOrder({
-    required int orderId,
-    required BuildContext context,
-    required OrderModel orderModel,
-  }) async {
-    emit(LoadingUpdateQuotation());
-    final result = await api.returnOrder(
-      orderId: orderId,
-      products: getDetailsOrdersModel!.orderLines ?? [],
-    );
-    result.fold((l) {
-      emit(ErrorUpdateQuotation());
-    }, (r) {
-      //   listOfremovedItems.clear();
-      if (r.result != null) {
-        if (r.result!.message != null) {
-          returnOrderModel = r;
-          successGetBar(r.result!.message);
-          Navigator
-              .pushReplacementNamed(
-              context,
-              Routes
-                  .detailsOrderReturns,
-              arguments: {
-                'isClientOrder':
-                false,
-                'orderModel': orderModel
-              });
-        } else {
-          errorGetBar("error".tr());
-        }
 
-      }
-      //  updateOrderModel = r;
-      // successGetBar('Success Update Quotation');
-      debugPrint("Success Update Quotation");
-
-      emit(LoadedUpdateQuotation());
-    });
-  }
 
   ReturnOrderModel? returnOrderModel;
   returnOrder({

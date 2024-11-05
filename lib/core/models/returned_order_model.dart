@@ -1,77 +1,88 @@
-// To parse this JSON data, do
-//
-//     final returnOrderModel = returnOrderModelFromJson(jsonString);
 
-import 'dart:convert';
 
-ReturnedOrderModel returnOrderModelFromJson(String str) => ReturnedOrderModel.fromJson(json.decode(str));
 
-String returnOrderModelToJson(ReturnedOrderModel data) => json.encode(data.toJson());
 
 class ReturnedOrderModel {
-
+  dynamic id;
   Result? result;
 
   ReturnedOrderModel({
-
+    this.id,
     this.result,
   });
 
   factory ReturnedOrderModel.fromJson(Map<String, dynamic> json) => ReturnedOrderModel(
-
+    id: json["id"],
     result: json["result"] == null ? null : Result.fromJson(json["result"]),
   );
 
   Map<String, dynamic> toJson() => {
 
+    "id": id,
     "result": result?.toJson(),
   };
 }
 
 class Result {
-  List<ReturnedOrder>? returnedOrders;
+  int? status;
+  List<Datum>? data;
 
   Result({
-    this.returnedOrders,
+    this.status,
+    this.data,
   });
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
-    returnedOrders: json["returned_orders"] == null ? [] : List<ReturnedOrder>.from(json["returned_orders"]!.map((x) => ReturnedOrder.fromJson(x))),
+    status: json["status"],
+    data: json["data"] == null ? [] : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
-    "returned_orders": returnedOrders == null ? [] : List<dynamic>.from(returnedOrders!.map((x) => x.toJson())),
+    "status": status,
+    "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
   };
 }
 
-class ReturnedOrder {
-  dynamic returnPickingId;
-  dynamic origin;
-  dynamic state;
-  dynamic dateDone;
-  dynamic partnerName;
+class Datum {
+  int? id;
+  dynamic name;
+  dynamic userId;
+  dynamic userName;
+  dynamic employeeId;
+  dynamic employeeName;
+  dynamic amountTotal;
+  dynamic date;
 
-  ReturnedOrder({
-    this.returnPickingId,
-    this.origin,
-    this.state,
-    this.dateDone,
-    this.partnerName,
+  Datum({
+    this.id,
+    this.name,
+    this.userId,
+    this.userName,
+    this.employeeId,
+    this.employeeName,
+    this.amountTotal,
+    this.date,
   });
 
-  factory ReturnedOrder.fromJson(Map<String, dynamic> json) => ReturnedOrder(
-    returnPickingId: json["return_picking_id"],
-    origin: json["origin"],
-    state: json["state"],
-    dateDone: json["date_done"],
-    partnerName: json["partner_name"],
+  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+    id: json["id"],
+    name: json["name"],
+    userId: json["user_id"],
+    userName: json["user_name"],
+    employeeId: json["employee_id"],
+    employeeName: json["employee_name"],
+    amountTotal: json["amount_total"],
+    date: json["date"] ,
   );
 
   Map<String, dynamic> toJson() => {
-    "return_picking_id": returnPickingId,
-    "origin": origin,
-    "state": state,
-    "date_done": dateDone,
-    "partner_name": partnerName,
+    "id": id,
+    "name": name,
+    "user_id": userId,
+    "user_name": userName,
+    "employee_id": employeeId,
+    "employee_name": employeeName,
+    "amount_total": amountTotal,
+    "date": date,
   };
 }
