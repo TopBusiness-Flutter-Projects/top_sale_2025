@@ -143,6 +143,7 @@ class _CustomOrderDetailsShowPriceItemState
                                 )),
                           ),
                           //! delete Product
+                         if (!widget.isReturned)
                           IconButton(
                               onPressed: widget.onPressed,
                               icon: Icon(
@@ -177,7 +178,7 @@ class _CustomOrderDetailsShowPriceItemState
                                           onTap: () {
                                             print("item is ${widget.item.productUomQty}");
                                             cubit2.addAndRemoveToBasket(
-                                              isReturned: true,
+                                              isReturned: widget.isReturned,
                                                 isAdd: true,
                                                 product: widget.item);
                                              if(widget.isReturned == true){

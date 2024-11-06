@@ -81,7 +81,7 @@ class _DetailsOrderShowPriceState extends State<DetailsOrderShowPrice> {
             ],
             leading: IconButton(
                 onPressed: () {
-                  // cubit.onClickBack(context);
+                   cubit.onClickBack(context);
                 },
                 icon: const Icon(Icons.arrow_back)),
             backgroundColor: AppColors.white,
@@ -164,6 +164,7 @@ class _DetailsOrderShowPriceState extends State<DetailsOrderShowPrice> {
                                               '',
                                         )
                                       : CustomOrderDetailsShowPriceItem(
+                                        isReturned: false,
                                           onPressed: () {
                                             //! on delete add item tp list to send it kat reqiesu of update
                                             setState(() {

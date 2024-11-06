@@ -174,9 +174,10 @@ class _DetailsOrderShowPriceReturnsState
                                 ? const SizedBox()
                                 : Row(
                                     children: [
-                                      (cubit.getDetailsOrdersModel!.invoices!
-                                              .isNotEmpty)
-                                          ? Expanded(
+                                      // (cubit.getDetailsOrdersModel!.invoices!
+                                      //         .isNotEmpty)
+                                      //     ?
+                                           Expanded(
                                               child: Padding(
                                                 padding:
                                                     const EdgeInsets.all(10.0),
@@ -216,7 +217,8 @@ class _DetailsOrderShowPriceReturnsState
                                                 ),
                                               ),
                                             )
-                                          : SizedBox(),
+                                          // : SizedBox()
+                                          ,
                                       // Expanded(
                                       //     child: Padding(
                                       //       padding: EdgeInsets.all(12.0.sp),
