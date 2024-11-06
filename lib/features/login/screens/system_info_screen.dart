@@ -96,7 +96,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   }),
           
            Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
+                      padding: const EdgeInsets.only(top: 20.0,bottom: 20),
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -115,10 +115,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       password: "",
                                       baseUrl: "",
                                       database: "");
-                                },
+                                },//ee https://novapolaris-stage-branche-15780489.dev.odoo.com/
                                 child: Text('try_the_app'.tr(),
                                     style: TextStyle(
-                                        color: AppColors.orangeThirdPrimary)))
+                                        color: AppColors.orangeThirdPrimary))),
+
+
                           ])),  ]),
           )));
     });

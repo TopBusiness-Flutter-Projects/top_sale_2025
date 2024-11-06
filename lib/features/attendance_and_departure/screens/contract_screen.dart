@@ -49,7 +49,7 @@ class _ContractScreenState extends State<ContractScreen> {
       body:
           BlocBuilder<AttendanceAndDepartureCubit, AttendanceAndDepartureState>(
               builder: (context, state) {
-        return (cubit.contractDetails == null)
+        return (cubit.contractDetails.contractDetails == null)
             ? const Center(
                 child: CircularProgressIndicator(),
               )
@@ -59,7 +59,7 @@ class _ContractScreenState extends State<ContractScreen> {
                 children: [
                   SizedBox(height: 20.h),
                   Text(
-                    "رقم العقد/ ${cubit.contractDetails?.contractDetails?.displayName}",
+                    "رقم العقد/ ${cubit.contractDetails.contractDetails?.displayName}",
                     style: getBoldStyle(color: AppColors.primary),
                   ),
                   SizedBox(height: 20.h),

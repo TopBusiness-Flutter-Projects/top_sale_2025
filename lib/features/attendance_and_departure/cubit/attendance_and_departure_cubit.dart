@@ -47,7 +47,7 @@ class AttendanceAndDepartureCubit extends Cubit<AttendanceAndDepartureState> {
   TextEditingController descriptionController = TextEditingController();
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  GetContractModel? contractDetails;
+  GetContractModel contractDetails =GetContractModel();
   DateTime? selectedStartDate;
   DateTime? selectedEndDate;
   String? fromDate;

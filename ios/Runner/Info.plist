@@ -29,6 +29,19 @@
 	<key>UIMainStoryboardFile</key>
 
 	<string>Main</string>
+	 <key>NSCameraUsageDescription</key>
+        <string>This app requires access to your camera to take photos for profile pictures and to select images for various features.</string>
+        <key>NSPhotoLibraryUsageDescription</key>
+        <string>This app requires access to your photo library to select images for profile pictures and other user content.</string>
+        <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+        <string>This app needs access to your location in the background to provide accurate delivery updates and ensure your orders are delivered to the correct location.</string>
+        <key>NSLocationAlwaysUsageDescription</key>
+        <string>This app needs access to your location in the background to provide accurate delivery updates and ensure your orders are delivered to the correct location.</string>
+        <key>NSLocationWhenInUseUsageDescription</key>
+        <string>This app needs access to your location to provide accurate pickup and delivery locations, and to help our delivery partners navigate to your doorstep.</string>
+        <key>NSMicrophoneUsageDescription</key>
+        <string>This app requires microphone access to enable audio features.</string>
+
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
