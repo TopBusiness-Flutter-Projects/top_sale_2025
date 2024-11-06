@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get_utils/src/extensions/string_extensions.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:top_sale/core/models/all_products_model.dart';
 import 'package:top_sale/core/utils/app_colors.dart';
 import 'package:top_sale/core/utils/app_fonts.dart';
-import 'package:top_sale/core/utils/app_strings.dart';
 import 'package:top_sale/core/utils/assets_manager.dart';
-import 'package:top_sale/core/utils/dialogs.dart';
 import 'package:top_sale/core/utils/get_size.dart';
 import 'package:top_sale/features/home_screen/cubit/cubit.dart';
-
 import '../../../../core/widgets/decode_image_with_text.dart';
 import '../../cubit/direct_sell_cubit.dart';
 import '../../cubit/direct_sell_state.dart';
@@ -155,8 +150,7 @@ class CustomProductWidget extends StatelessWidget {
                               GestureDetector(
                                 onTap: () {
                                   // Navigator.pop(context);
-
-//! add
+                                   //! add
                                   // if (product.userOrderedQuantity <
                                   //     product.stockQuantity) {
                                   cubit.addAndRemoveToBasket(

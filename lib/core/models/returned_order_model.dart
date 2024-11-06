@@ -1,7 +1,4 @@
 
-
-
-
 class ReturnedOrderModel {
   dynamic id;
   Result? result;
