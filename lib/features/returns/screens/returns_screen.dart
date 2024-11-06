@@ -174,19 +174,19 @@ class _ReturnsScreenState extends State<ReturnsScreen> {
                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween ,
                                                 children: [
                                                   Text(cubit.returnOrderModel?.result?.data?.elementAt(index).status!.toString() == "false" ? "":cubit.returnOrderModel?.result?.data?.elementAt(index).status,style:getMediumStyle()),
-                                                GestureDetector(
-                              onTap: () {
+                              //                   GestureDetector(
+                              // onTap: () {
                                
-                                Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) {
-                                    return PdfViewerPage(
-                                      baseUrl: EndPoints.printInvoice +
-                                      (cubit.returnOrderModel?.result?.data?.elementAt(index).id.toString() ?? ""),
-                                    );
-                                  },
-                                ));
-                              },
-                              child: SvgPicture.asset(ImageAssets.printIcon)),
+                              //   Navigator.push(context, MaterialPageRoute(
+                              //     builder: (context) {
+                              //       return PdfViewerPage(
+                              //         baseUrl: EndPoints.printInvoice +
+                              //         (cubit.returnOrderModel?.result?.data?.elementAt(index).id.toString() ?? ""),
+                              //       );
+                              //     },
+                              //   ));
+                              // },
+                              // child: SvgPicture.asset(ImageAssets.printIcon)),
                                                 ],
                                               )
                                             ],
