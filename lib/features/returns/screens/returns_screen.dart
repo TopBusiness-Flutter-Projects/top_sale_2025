@@ -3,8 +3,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:top_sale/core/api/end_points.dart';
 import 'package:top_sale/core/utils/app_colors.dart';
 import 'package:top_sale/core/utils/app_fonts.dart';
+import 'package:top_sale/core/utils/assets_manager.dart';
+import 'package:top_sale/features/details_order/screens/pdf.dart';
 import 'package:top_sale/features/returns/cubit/returns_cubit.dart';
 import 'package:top_sale/features/returns/cubit/returns_state.dart';
 import '../../../config/routes/app_routes.dart';
@@ -166,7 +170,25 @@ class _ReturnsScreenState extends State<ReturnsScreen> {
                                                 ],
                                               ),
                                               SizedBox(height: 10.sp,),
-                                            //  Text(cubit.returnOrderModel?.result?.status!.toString() == "false" ? "":cubit.returnOrderModel?.result?.status.toString(),style:getMediumStyle())
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween ,
+                                                children: [
+                                                  Text(cubit.returnOrderModel?.result?.data?.elementAt(index).status!.toString() == "false" ? "":cubit.returnOrderModel?.result?.data?.elementAt(index).status,style:getMediumStyle()),
+                              //                   GestureDetector(
+                              // onTap: () {
+                               
+                              //   Navigator.push(context, MaterialPageRoute(
+                              //     builder: (context) {
+                              //       return PdfViewerPage(
+                              //         baseUrl: EndPoints.printInvoice +
+                              //         (cubit.returnOrderModel?.result?.data?.elementAt(index).id.toString() ?? ""),
+                              //       );
+                              //     },
+                              //   ));
+                              // },
+                              // child: SvgPicture.asset(ImageAssets.printIcon)),
+                                                ],
+                                              )
                                             ],
                                           )),
                                     )
