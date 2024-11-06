@@ -12,8 +12,8 @@ import '../../cubit/details_orders_cubit.dart';
 import '../../cubit/details_orders_state.dart';
 
 class PaymentOptions extends StatefulWidget {
-  const PaymentOptions({super.key});
-
+  const PaymentOptions({super.key, required this.isReturn});
+  final bool isReturn;
   @override
   _PaymentOptionsState createState() => _PaymentOptionsState();
 }
@@ -64,7 +64,7 @@ class _PaymentOptionsState extends State<PaymentOptions> {
                     selectedOption = value;
                   });
                   if (selectedOption != null) {
-                    _showBottomSheet(context, cubit, value);
+                    _showBottomSheet(context, cubit, value, widget.isReturn);
                   }
                 },
               );
@@ -78,8 +78,8 @@ class _PaymentOptionsState extends State<PaymentOptions> {
   }
 }
 
-void _showBottomSheet(
-    BuildContext context, DetailsOrdersCubit cubit, String? value) {
+void _showBottomSheet(BuildContext context, DetailsOrdersCubit cubit,
+    String? value, bool isReturn) {
   showModalBottomSheet(
     isScrollControlled: true,
     context: context,
@@ -114,6 +114,9 @@ void _showBottomSheet(
                   backgroundColor: AppColors.primaryColor,
                   text: 'confirm'.tr(),
                   onPressed: () {
+                    isReturn?
+                    cubit.registerPaymentReturn(context, journalId: int.parse(value!),)
+                    :
                     cubit.registerPayment(
                       context,
                       orderId: cubit.getDetailsOrdersModel?.id ?? -1,

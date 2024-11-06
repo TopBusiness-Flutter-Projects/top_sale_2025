@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:top_sale/config/routes/app_routes.dart';
 import 'package:top_sale/core/models/return_model.dart';
+import 'package:top_sale/core/models/rigister_payment_model.dart';
 import 'package:top_sale/core/remote/service.dart';
 import 'package:top_sale/core/utils/appwidget.dart';
 import 'package:top_sale/core/utils/dialogs.dart';
@@ -142,6 +143,49 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
             emit(RegisterPaymentLoadedState());
             Navigator.pop(context);
             getDetailsOrders(orderId: orderId);
+            context.read<DeleveryOrdersCubit>().getOrders();
+          } else {
+            emit(RegisterPaymentErrorState('Error loading  data: '));
+
+            errorGetBar("error_register_payment".tr());
+          }
+        } else {
+          emit(RegisterPaymentErrorState('Error loading  data: '));
+
+          errorGetBar("error_register_payment".tr());
+        }
+
+        moneyController.clear();
+      },
+    );
+  }
+
+  // RegisterPaymentModel? registerPaymentModel;
+  void registerPaymentReturn(
+    BuildContext context, {
+    required int journalId,
+  }) async {
+    emit(RegisterPaymentLoadingState());
+    AppWidget.createProgressDialog(context, "جاري التحميل");
+    final result = await api.registerPaymentReturn(
+        invoiceId: returnOrderModel!.result!.creditNoteId,
+        journalId: journalId,
+        amount: moneyController.text);
+    result.fold(
+      (failure) {
+        Navigator.pop(context);
+        Navigator.pop(context);
+        errorGetBar("error_register_payment".tr());
+        emit(RegisterPaymentErrorState('Error loading  data: $failure'));
+      },
+      (r) {
+        Navigator.pop(context);
+        Navigator.pop(context);
+        if (r.result != null) {
+          if (r.result!.status != null) {
+            successGetBar(r.result!.status.toString());
+            emit(RegisterPaymentLoadedState());
+            Navigator.pushReplacementNamed(context, Routes.mainRoute);
             context.read<DeleveryOrdersCubit>().getOrders();
           } else {
             emit(RegisterPaymentErrorState('Error loading  data: '));
@@ -373,6 +417,7 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
       //   listOfremovedItems.clear();
       if (r.result != null) {
         if (r.result!.message != null) {
+          updateDelivery(context);
           returnOrderModel = r;
           successGetBar(r.result!.message.toString());
           Navigator.pushReplacementNamed(context, Routes.detailsOrderReturns,
@@ -387,6 +432,22 @@ class DetailsOrdersCubit extends Cubit<DetailsOrdersState> {
 
       emit(LoadedUpdateQuotation());
     });
+  }
+
+  void updateDelivery(BuildContext context) async {
+    emit(LoadingUpdateDleiery());
+    final result = await api.updateDelivery(
+      orderId: getDetailsOrdersModel!.id!,
+    );
+    result.fold((l) {
+      emit(FailureUpdateDleiery());
+    }, (r) {
+      print(r.result.toString());
+
+      emit(SuccessUpdateDleiery());
+    }
+        //!}
+        );
   }
 
   confirmQuotation({
