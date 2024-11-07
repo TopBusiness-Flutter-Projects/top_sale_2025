@@ -1,5 +1,8 @@
 // ignore_for_file: avoid_print
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,8 +11,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart' as loc;
 import 'package:permission_handler/permission_handler.dart' as perm;
+import 'package:top_sale/core/models/defaul_model.dart';
 import 'package:top_sale/core/preferences/preferences.dart';
 import 'package:top_sale/core/utils/appwidget.dart';
 import 'package:top_sale/features/Itinerary/cubit/cubit.dart';
@@ -33,7 +38,33 @@ class ClientsCubit extends Cubit<ClientsState> {
   TextEditingController addressController = TextEditingController();
   TextEditingController searchController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  TextEditingController nameController = TextEditingController();
+
+  File? profileImage;
+  String selectedBase64String = "";
   GetAllPartnersModel? allPartnersModel;
+  Future<void> pickImage(ImageSource source) async {
+    try {
+      final pickedFile = await ImagePicker().pickImage(source: source);
+      if (pickedFile != null) {
+        profileImage = File(pickedFile.path);
+        selectedBase64String = await fileToBase64String(pickedFile.path);
+        emit(UpdateProfileImagePicked()); // Emit state for image picked
+      }
+    } catch (e) {
+      // Handle any errors
+      emit(UpdateProfileError());
+    }
+  }
+
+  //photo transfer
+  Future<String> fileToBase64String(String filePath) async {
+    File file = File(filePath);
+    Uint8List bytes = await file.readAsBytes();
+    String base64String = base64Encode(bytes);
+    return base64String;
+  }
+
   List<String> Images = [
     ImageAssets.addressIcon,
     ImageAssets.invoiceIcon,
@@ -170,7 +201,7 @@ class ClientsCubit extends Cubit<ClientsState> {
           newLocationData.latitude ?? 0.0,
           newLocationData.longitude ?? 0.0,
         );
-      //  debugPrint("Movedddd: $distance meters");
+        //  debugPrint("Movedddd: $distance meters");
         if (distance > 8) {
           currentLocation = newLocationData;
           // getAddressFromLatLng(newLocationData.latitude ?? 0.0, newLocationData.longitude ?? 0.0);
@@ -367,19 +398,90 @@ class ClientsCubit extends Cubit<ClientsState> {
 
   // getPartnerDetails
   PartnerModel? partnerModel;
-  void getParent({required int id}) async {
+  void getPartenerDetails({required int id}) async {
     emit(ProfileClientLoading());
     final result = await api.getPartnerDetails(partnerId: id);
     result.fold(
       (failure) => emit(ProfileClientError()),
       (r) {
         partnerModel = r;
+        getAllPartnersForReport();
+
         debugPrint("the model : ${partnerModel?.name?.toString()}");
+        nameController.text = r.name.toString();
+        phoneController.text = r.phone.toString();
+        emit(ProfileClientLoaded());
+      },
+    );
+  }
+  DefaultModel? defaultModel;
+  void updatePartenerLocation(
+    BuildContext context, {
+    required int id,
+    required double partnerLattitude,
+    required String street,
+    required double partnerLangitude,
+  }) async {
+    emit(ProfileClientLoading());
+    final result = await api.updatePartenerLocation(
+      id: id,
+      partnerLangitude: partnerLangitude,
+      partnerLattitude: partnerLattitude,
+      street: street,
+    );
+    result.fold(
+      (failure) {
+        Navigator.pop(context);
+        emit(ProfileClientError());
+      },
+      (r) {
+        Navigator.pop(context);
+
+        if (r.result != null) {
+          if (r.result.toString() == "true") {
+            successGetBar("تم تحديث الموقع بنجاح");
+            getPartenerDetails(id: id);
+            getAllPartnersForReport();
+          }
+        }
+
         emit(ProfileClientLoaded());
       },
     );
   }
 
+  void updatePartenerDetails(
+    BuildContext context, {
+    required int id,
+  }) async {
+    emit(ProfileClientLoading());
+    final result = await api.updatePartenerDetails(
+      image1920: selectedBase64String,
+      name: nameController.text,
+      phone: phoneController.text,
+      id: id,
+    );
+    result.fold(
+      (failure) {
+        Navigator.pop(context);
+        emit(ProfileClientError());
+      },
+      (r) {
+        Navigator.pop(context);
+
+        if (r.result != null) {
+          if (r.result.toString() == "true") {
+            successGetBar("تم تحديث البيانات بنجاح");
+            getPartenerDetails(id: id);
+            nameController.clear();
+            phoneController.clear();
+          }
+        }
+
+        emit(ProfileClientLoaded());
+      },
+    );
+  }
   //location
   // double? lat;
   // double? lang;

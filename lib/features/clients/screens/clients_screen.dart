@@ -56,7 +56,8 @@ class _ClientScreenState extends State<ClientScreen> {
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
             appBar: AppBar(
-              actions: [Padding(
+              actions: [
+                Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
                     onTap: () {
@@ -82,7 +83,8 @@ class _ClientScreenState extends State<ClientScreen> {
                       ),
                     ),
                   ),
-                ),],
+                ),
+              ],
               backgroundColor: AppColors.white,
               centerTitle: false,
               //leadingWidth: 20,
@@ -119,53 +121,57 @@ class _ClientScreenState extends State<ClientScreen> {
                             ? Center(
                                 child: Text('no_data'.tr()),
                               )
-                            : ListView.builder(
-                                controller: scrollController,
-                                itemCount:
-                                    cubit.allPartnersModel!.result!.length,
-                                shrinkWrap: true,
-                                itemBuilder: (context, index) {
-                                  //! we will padd partner data
-                                  //! cubit.allPartnersModel!.result![index]
-                                  return GestureDetector(
-                                      onTap: () {
-                                        if (widget.clientsRouteEnum ==
-                                            ClientsRouteEnum.cart) {
-                                          Navigator.pushNamed(
-                                              context, Routes.basketScreenRoute,
+                            : RefreshIndicator(
+                      onRefresh: () async {
+                        cubit.getAllPartnersForReport();
+                      },
+                              child: ListView.builder(
+                                  controller: scrollController,
+                                  itemCount:
+                                      cubit.allPartnersModel!.result!.length,
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) {
+                                    //! we will padd partner data
+                                    //! cubit.allPartnersModel!.result![index]
+                                    return GestureDetector(
+                                        onTap: () {
+                                          if (widget.clientsRouteEnum ==
+                                              ClientsRouteEnum.cart) {
+                                            Navigator.pushNamed(
+                                                context, Routes.basketScreenRoute,
+                                                arguments: cubit.allPartnersModel!
+                                                    .result![index]);
+                                          }
+                                          if (widget.clientsRouteEnum ==
+                                              ClientsRouteEnum.receiptVoucher) {
+                                            Navigator.pushNamed(
+                                              context,
+                                              Routes.createReceiptVoucherRoute,
                                               arguments: cubit.allPartnersModel!
-                                                  .result![index]);
-                                        }
-                                        if (widget.clientsRouteEnum ==
-                                            ClientsRouteEnum.receiptVoucher) {
-                                          Navigator.pushNamed(
-                                            context,
-                                            Routes.createReceiptVoucherRoute,
-                                            arguments: cubit.allPartnersModel!
-                                                .result![index].id,
-                                          );
-                                        }
-                                        if (widget.clientsRouteEnum ==
-                                            ClientsRouteEnum.details) {
-
-                                          context
-                                              .read<ClientsCubit>()
-                                              .getParent(
-                                                  id: cubit.allPartnersModel!
-                                                          .result![index].id ??
-                                                      1);
-                                          Navigator.pushNamed(
-                                            context,
-                                            Routes.profileClientRoute,
-                                          );
-                                        }
-                                      },
-                                      child: CustomCardClient(
-                                        partner: cubit
-                                            .allPartnersModel!.result![index],
-                                      ));
-                                },
-                              ),
+                                                  .result![index].id,
+                                            );
+                                          }
+                                          if (widget.clientsRouteEnum ==
+                                              ClientsRouteEnum.details) {
+                                            context
+                                                .read<ClientsCubit>()
+                                                .getPartenerDetails(
+                                                    id: cubit.allPartnersModel!
+                                                            .result![index].id ??
+                                                        1);
+                                            Navigator.pushNamed(
+                                              context,
+                                              Routes.profileClientRoute,
+                                            );
+                                          }
+                                        },
+                                        child: CustomCardClient(
+                                          partner: cubit
+                                              .allPartnersModel!.result![index],
+                                        ));
+                                  },
+                                ),
+                            ),
                   ),
                 ],
               ),

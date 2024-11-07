@@ -35,4 +35,6 @@ class GetCurrentLocationAddressState extends ClientsState {}
 class UpdateProfileUserLoaded extends ClientsState {}
 class UpdateProfileUserError extends ClientsState {}
 class UpdateProfileUserLoading extends ClientsState {}
+class UpdateProfileError extends ClientsState {}
+class UpdateProfileImagePicked extends ClientsState {}
 

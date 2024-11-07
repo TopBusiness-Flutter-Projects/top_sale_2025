@@ -164,12 +164,12 @@ class _ToggleSwitchWithLabelState extends State<ToggleSwitchWithLabel> {
                                 color: AppColors.orangeThirdPrimary,
                                 fontWeight: FontWeight.bold),
                           ),
-                          Text(
-                            cubit.carDetailsModel!.licensePlate.toString(),
-                            style: TextStyle(
-                                color: AppColors.black,
-                                fontWeight: FontWeight.bold),
-                          ),
+                          // Text(
+                          //   cubit.carDetailsModel!.licensePlate.toString(),
+                          //   style: TextStyle(
+                          //       color: AppColors.black,
+                          //       fontWeight: FontWeight.bold),
+                          // ),
                         ],
                       ),
                     ),

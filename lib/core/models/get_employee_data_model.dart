@@ -14,13 +14,16 @@ class GetEmployeeDataModel {
     dynamic image1920;
    dynamic workPhone;
     dynamic workEmail;
+    dynamic wareHouseId;
+    
+    
 
     GetEmployeeDataModel({
         this.id,
         this.name,
         this.image1920,
         this.workPhone,
-        this.workEmail,
+        this.workEmail,this.wareHouseId
     });
 
     factory GetEmployeeDataModel.fromJson(Map<String, dynamic> json) => GetEmployeeDataModel(
@@ -29,6 +32,7 @@ class GetEmployeeDataModel {
         image1920: json["image_1920"],
         workPhone: json["work_phone"],
         workEmail: json["work_email"],
+        wareHouseId: json["warehouse_id"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -37,5 +41,6 @@ class GetEmployeeDataModel {
         "image_1920": image1920,
         "work_phone": workPhone,
         "work_email": workEmail,
+        "warehouse_id": wareHouseId,
     };
 }

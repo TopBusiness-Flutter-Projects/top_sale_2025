@@ -71,7 +71,7 @@ dependencies:
   http: ^1.2.2
   printing: ^5.6.0
   location: ^6.0.2
-  syncfusion_flutter_pdfviewer:
+  syncfusion_flutter_pdfviewer: ^24.2.9
   network_info_plus:
   google_maps_flutter: 
   # package_info_plus: ^8.0.3
@@ -91,7 +91,6 @@ flutter_icons:
   image_path: "assets/images/appicon.png"
   adaptive_icon_foreground: "assets/images/appicon.png"
   adaptive_icon_background: "#ffffff"
-
 flutter:
   uses-material-design: true
   assets:
