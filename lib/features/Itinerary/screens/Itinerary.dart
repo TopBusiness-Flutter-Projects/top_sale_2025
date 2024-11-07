@@ -133,48 +133,27 @@ class _ToggleSwitchWithLabelState extends State<ToggleSwitchWithLabel> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Flexible(
-                child: Row(
-                  children: [
-                    CustomDecodedImage(
-                      base64String: cubit.carDetailsModel!.image128,
-                      // context: context,
-                      height: 50,
-                      width: 50,
-                    ),
-                    // ClipRRect(
-                    //   borderRadius: BorderRadius.circular(100),
-                    //   child: CustomDecodedImage(
-                    //     base64String: cubit.carDetailsModel!.image128,
-                    //     context: context,
-                    //     height: 50,
-                    //     width: 50,
-                    //   ),
-                    // ),
-                    //  CircleAvatar(backgroundImage: AssetImage(ImageAssets.logo2Image),),
-                    SizedBox(
-                      width: 12,
-                    ),
-                    Flexible(
-                      child: Column(
-                        children: [
-                          Text(
-                            cubit.carDetailsModel!.name.toString(),
-                            style: TextStyle(
-                                color: AppColors.orangeThirdPrimary,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            cubit.carDetailsModel!.licensePlate.toString(),
-                            style: TextStyle(
-                                color: AppColors.black,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomDecodedImage(
+                    base64String: cubit.carDetailsModel!.image128,
+                    // context: context,
+                    height: 50,
+                    width: 50,
+                  ),
+                  SizedBox(
+                    width: 12,
+                  ),
+                  Text(
+                    cubit.carDetailsModel!.name.toString(),
+                    style: TextStyle(
+                        color: AppColors.orangeThirdPrimary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.sp),
+                  ),
+                ],
               ),
               SizedBox(width: 10.h), // Space between text and switch
               Column(
@@ -197,7 +176,9 @@ class _ToggleSwitchWithLabelState extends State<ToggleSwitchWithLabel> {
                             .read<ClientsCubit>()
                             .startLocationUpdates(context);
                       } else {
-                        context.read<ClientsCubit>().stopLocationUpdates(context);
+                        context
+                            .read<ClientsCubit>()
+                            .stopLocationUpdates(context);
                       }
 
                       cubit.changeTrackingState();

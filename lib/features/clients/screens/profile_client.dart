@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:top_sale/core/utils/app_colors.dart';
 import 'package:top_sale/core/utils/app_strings.dart';
 import 'package:top_sale/core/utils/assets_manager.dart';
+import 'package:top_sale/core/widgets/decode_image.dart';
 import 'package:top_sale/features/clients/screens/widgets/custom_row_profile_client.dart';
 import '../../../config/routes/app_routes.dart';
 import '../cubit/clients_cubit.dart';
@@ -81,17 +82,28 @@ class _ProfileClientState extends State<ProfileClient> {
                       ),
                     ),
                   ]),
-                  const Positioned(
+                  Positioned(
                       bottom: -20,
                       left: 50,
                       right: 50,
                       child: Center(
-                          child: CircleAvatar(
-                        radius: 40,
-                        backgroundImage: AssetImage(
-                          ImageAssets.profileIconPng,
-                        ),
-                      ))),
+                          child: cubit.partnerModel?.image != null
+                              ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(100),
+                                  child: CustomDecodedImage(
+                                    base64String:
+                                        cubit.partnerModel?.image ?? "",
+                                    // context: context,
+                                    height: 100.h,
+                                    width: 100.h,
+                                  ),
+                                )
+                              : CircleAvatar(
+                                  radius: 40,
+                                  backgroundImage: AssetImage(
+                                    ImageAssets.profileIconPng,
+                                  ),
+                                ))),
                 ],
               ),
               SizedBox(

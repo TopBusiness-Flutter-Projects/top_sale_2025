@@ -406,6 +406,9 @@ class ClientsCubit extends Cubit<ClientsState> {
       (r) {
         partnerModel = r;
         debugPrint("the model : ${partnerModel?.name?.toString()}");
+        nameController.text = r.name.toString();
+        phoneController.text = r.phone.toString();
+        selectedBase64String = r.image != null ? r.image.toString() : "";
         emit(ProfileClientLoaded());
       },
     );

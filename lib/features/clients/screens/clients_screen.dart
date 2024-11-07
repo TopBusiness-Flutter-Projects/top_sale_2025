@@ -13,6 +13,7 @@ import '../../details_order/screens/widgets/rounded_button.dart';
 import '../../login/widget/textfield_with_text.dart';
 import '../cubit/clients_cubit.dart';
 
+// ignore: must_be_immutable
 class ClientScreen extends StatefulWidget {
   ClientScreen({required this.clientsRouteEnum, super.key});
   ClientsRouteEnum clientsRouteEnum;
@@ -121,51 +122,59 @@ class _ClientScreenState extends State<ClientScreen> {
                             ? Center(
                                 child: Text('no_data'.tr()),
                               )
-                            : ListView.builder(
-                                controller: scrollController,
-                                itemCount:
-                                    cubit.allPartnersModel!.result!.length,
-                                shrinkWrap: true,
-                                itemBuilder: (context, index) {
-                                  //! we will padd partner data
-                                  //! cubit.allPartnersModel!.result![index]
-                                  return GestureDetector(
-                                      onTap: () {
-                                        if (widget.clientsRouteEnum ==
-                                            ClientsRouteEnum.cart) {
-                                          Navigator.pushNamed(
-                                              context, Routes.basketScreenRoute,
-                                              arguments: cubit.allPartnersModel!
-                                                  .result![index]);
-                                        }
-                                        if (widget.clientsRouteEnum ==
-                                            ClientsRouteEnum.receiptVoucher) {
-                                          Navigator.pushNamed(
-                                            context,
-                                            Routes.createReceiptVoucherRoute,
-                                            arguments: cubit.allPartnersModel!
-                                                .result![index].id,
-                                          );
-                                        }
-                                        if (widget.clientsRouteEnum ==
-                                            ClientsRouteEnum.details) {
-                                          context
-                                              .read<ClientsCubit>()
-                                              .getPartenerDetails(
-                                                  id: cubit.allPartnersModel!
-                                                          .result![index].id ??
-                                                      1);
-                                          Navigator.pushNamed(
-                                            context,
-                                            Routes.profileClientRoute,
-                                          );
-                                        }
-                                      },
-                                      child: CustomCardClient(
-                                        partner: cubit
-                                            .allPartnersModel!.result![index],
-                                      ));
+                            : RefreshIndicator(
+                                onRefresh: () async {
+                                  await cubit.getAllPartnersForReport();
                                 },
+                                child: ListView.builder(
+                                  controller: scrollController,
+                                  itemCount:
+                                      cubit.allPartnersModel!.result!.length,
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) {
+                                    //! we will padd partner data
+                                    //! cubit.allPartnersModel!.result![index]
+                                    return GestureDetector(
+                                        onTap: () {
+                                          if (widget.clientsRouteEnum ==
+                                              ClientsRouteEnum.cart) {
+                                            Navigator.pushNamed(context,
+                                                Routes.basketScreenRoute,
+                                                arguments: cubit
+                                                    .allPartnersModel!
+                                                    .result![index]);
+                                          }
+                                          if (widget.clientsRouteEnum ==
+                                              ClientsRouteEnum.receiptVoucher) {
+                                            Navigator.pushNamed(
+                                              context,
+                                              Routes.createReceiptVoucherRoute,
+                                              arguments: cubit.allPartnersModel!
+                                                  .result![index].id,
+                                            );
+                                          }
+                                          if (widget.clientsRouteEnum ==
+                                              ClientsRouteEnum.details) {
+                                            context
+                                                .read<ClientsCubit>()
+                                                .getPartenerDetails(
+                                                    id: cubit
+                                                            .allPartnersModel!
+                                                            .result![index]
+                                                            .id ??
+                                                        1);
+                                            Navigator.pushNamed(
+                                              context,
+                                              Routes.profileClientRoute,
+                                            );
+                                          }
+                                        },
+                                        child: CustomCardClient(
+                                          partner: cubit
+                                              .allPartnersModel!.result![index],
+                                        ));
+                                  },
+                                ),
                               ),
                   ),
                 ],
