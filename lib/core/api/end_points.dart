@@ -43,6 +43,7 @@ class EndPoints {
 
   static String employee = '/api/employee/';
   static String expense = '/api/expense/products';
+  static String updatePartnerLocation = '/api/res.partner';
 
   ///////
   // static String authWithSession = "$baseUrl/web/session/authenticate";

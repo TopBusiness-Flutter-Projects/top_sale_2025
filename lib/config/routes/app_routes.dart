@@ -4,6 +4,7 @@ import 'package:top_sale/features/attendance_and_departure/screens/holidays_scre
 import 'package:top_sale/features/attendance_and_departure/screens/holidays_type_screen.dart';
 import 'package:top_sale/features/attendance_and_departure/screens/money.dart';
 import 'package:top_sale/features/clients/cubit/clients_cubit.dart';
+import 'package:top_sale/features/clients/screens/edit_account.dart';
 import 'package:top_sale/features/contact_us/screens/contact_us_screen.dart';
 import 'package:top_sale/features/create_receipt_coucher/screens/create_receipt_coucher_screen.dart';
 import 'package:top_sale/features/details_order/screens/details_order_returned.dart';
@@ -80,6 +81,7 @@ class Routes {
   static const String moneyTypeRoute = '/moneyTypeRoute';
   static const String returnsRoute = '/returnsRoute';
   static const String itineraryRoute = '/itineraryRoute';
+  static const String editProfileRoute = '/editProfileRoute';
 
 }
 
@@ -288,6 +290,13 @@ class AppRoutes {
         );case Routes.returnsRoute:
         return MaterialPageRoute(
           builder: (context) =>   const ReturnsScreen(),
+        );
+        case Routes.editProfileRoute:
+         int id = settings.arguments as int;
+        return MaterialPageRoute(
+          builder: (context) =>    EditAccountScreen(
+            id: id,
+          ),
         );
       //
       // case Routes.resultOfLessonExam:

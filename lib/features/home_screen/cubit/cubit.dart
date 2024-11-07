@@ -59,8 +59,7 @@ class HomeCubit extends Cubit<HomeState> {
                 r.result!.first.messagePartnerIds!.first.id.toString());
           }
           if (isHR) {
-                      context.read<MainCubit>().changeNavigationBar(2);
-
+            context.read<MainCubit>().changeNavigationBar(2);
           }
           successGetBar("تم بنجاح");
           // Navigator.pushNamedAndRemoveUntil(
@@ -107,7 +106,7 @@ class HomeCubit extends Cubit<HomeState> {
     result.fold(
       (failure) =>
           emit(ProfileEmployeeError(error: 'Error loading data: $failure')),
-      (r) {
+      (r) async {
         getEmployeeDataModel = r;
         nameOfUser = r.name;
         if (r.workPhone.toString() == 'false') {
@@ -117,8 +116,12 @@ class HomeCubit extends Cubit<HomeState> {
           phoneOfUser = r.workPhone.toString();
         }
         imageOfUser = r.image1920.toString();
-        emailOfUser = r.workEmail.toString() =="false"?"":r.workEmail.toString();
-
+        emailOfUser =
+            r.workEmail.toString() == "false" ? "" : r.workEmail.toString();
+        if (r.wareHouseId.toString() != "false") {
+          await Preferences.instance.setEmployeeWareHouse(
+                r.wareHouseId);
+        }
         debugPrint("the model : emmm ${getEmployeeDataModel?.name.toString()}");
         emit(ProfileEmployeeLoaded());
       },
@@ -153,6 +156,7 @@ class HomeCubit extends Cubit<HomeState> {
         Preferences.instance.removeUserName();
         Preferences.instance.removeEmployeeId();
         Preferences.instance.removeEmployeeIdNumber();
+        Preferences.instance.removeEmployeeWareHouse();
         Preferences.instance.removeIsInTrip();
         debugPrint("user");
 
@@ -162,6 +166,8 @@ class HomeCubit extends Cubit<HomeState> {
         Preferences.instance.removeEmployeeId();
         Preferences.instance.removeEmployeeIdNumber();
         Preferences.instance.removeIsInTrip();
+        Preferences.instance.removeEmployeeWareHouse();
+
         debugPrint("employee");
         // getEmployeeData();
 

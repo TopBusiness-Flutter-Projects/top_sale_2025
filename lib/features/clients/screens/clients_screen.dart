@@ -56,7 +56,8 @@ class _ClientScreenState extends State<ClientScreen> {
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
             appBar: AppBar(
-              actions: [Padding(
+              actions: [
+                Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
                     onTap: () {
@@ -82,7 +83,8 @@ class _ClientScreenState extends State<ClientScreen> {
                       ),
                     ),
                   ),
-                ),],
+                ),
+              ],
               backgroundColor: AppColors.white,
               centerTitle: false,
               //leadingWidth: 20,
@@ -147,10 +149,9 @@ class _ClientScreenState extends State<ClientScreen> {
                                         }
                                         if (widget.clientsRouteEnum ==
                                             ClientsRouteEnum.details) {
-
                                           context
                                               .read<ClientsCubit>()
-                                              .getParent(
+                                              .getPartenerDetails(
                                                   id: cubit.allPartnersModel!
                                                           .result![index].id ??
                                                       1);

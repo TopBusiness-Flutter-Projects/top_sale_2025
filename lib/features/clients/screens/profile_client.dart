@@ -44,21 +44,38 @@ class _ProfileClientState extends State<ProfileClient> {
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              GestureDetector(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Icon(Icons.arrow_back,
+                                      color: AppColors.white)),
+                              SizedBox(width: 10.w),
+                              Text(
+                                "profile_account".tr(),
+                                style: TextStyle(
+                                    color: AppColors.white,
+                                    fontSize: 20.sp,
+                                    fontWeight: FontWeight.w700),
+                              ),
+                            ],
+                          ),
                           GestureDetector(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: Icon(Icons.arrow_back,
-                                  color: AppColors.white)),
-                          SizedBox(width: 10.w),
-                          Text(
-                            "profile_account".tr(),
-                            style: TextStyle(
-                                color: AppColors.white,
-                                fontSize: 20.sp,
-                                fontWeight: FontWeight.w700),
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, Routes.editProfileRoute,
+                                  arguments: cubit.partnerModel?.id ?? -1);
+                            },
+                            child: Icon(
+                              Icons.edit_document,
+                              color: AppColors.white,
+                              size: 30.sp,
+                            ),
                           ),
                         ],
                       ),
@@ -106,8 +123,16 @@ class _ProfileClientState extends State<ProfileClient> {
                 GestureDetector(
                   onTap: () {
                     context.read<ClientsCubit>().openGoogleMapsRoute(
-                          context.read<ClientsCubit>().currentLocation?.latitude ?? 0.0,
-                          context.read<ClientsCubit>().currentLocation?.longitude ?? 0.0,
+                          context
+                                  .read<ClientsCubit>()
+                                  .currentLocation
+                                  ?.latitude ??
+                              0.0,
+                          context
+                                  .read<ClientsCubit>()
+                                  .currentLocation
+                                  ?.longitude ??
+                              0.0,
                           context.read<ClientsCubit>().partnerModel?.latitude ??
                               0.0,
                           context
@@ -118,6 +143,8 @@ class _ProfileClientState extends State<ProfileClient> {
                         );
                   },
                   child: CustomROW(
+                    isLocation: true,
+                    id: cubit.partnerModel?.id, //required
                     image: cubit.Images[0],
                     text: cubit.Texts[0].tr(),
                     text2: cubit.partnerModel?.street.toString(),
@@ -126,7 +153,7 @@ class _ProfileClientState extends State<ProfileClient> {
                 GestureDetector(
                   onTap: () {
                     Navigator.pushNamed(context, Routes.billsRoute);
-                  },                  
+                  },
                   child: CustomROW(
                     image: cubit.Images[1],
                     text: cubit.Texts[1].tr(),
