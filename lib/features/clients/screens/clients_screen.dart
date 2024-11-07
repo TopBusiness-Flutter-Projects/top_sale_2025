@@ -134,6 +134,7 @@ class _ClientScreenState extends State<ClientScreen> {
                                     //! we will padd partner data
                                     //! cubit.allPartnersModel!.result![index]
                                     return GestureDetector(
+
                                         onTap: () {
                                           if (widget.clientsRouteEnum ==
                                               ClientsRouteEnum.cart) {
